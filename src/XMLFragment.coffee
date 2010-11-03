@@ -9,10 +9,13 @@ class XMLFragment
     
 
   # Initializes a new instance of `XMLFragment`
+  #
+  # `parent` the parnt node
   # `name` element name
   # `attributes` an object containing name/value pairs of attributes
   # `text` element text
-  constructor: (name, attributes, text) ->
+  constructor: (parent, name, attributes, text) ->
+    @parent = parent
     @name = name or ''
     @attributes = attributes or {}
     @text = text or ''
@@ -43,9 +46,9 @@ class XMLFragment
     if not name.match "^" + @val.Name + "$"
       throw new Error "Invalid element name: " + name
 
-    @children.push new XMLFragment name, attributes
-
-    return @
+    child = new XMLFragment @, name, attributes
+    @children.push child
+    return child
 
 
   # Creates a text node
@@ -57,9 +60,16 @@ class XMLFragment
     if not value.match "^" + @val.EntityValue + "$"
       throw new Error "Invalid element text: " + value
 
-    @children.push new XMLFragment '', {}, value
+    child = new XMLFragment @, '', {}, value
+    @children.push child
+    return child
 
-    return @
+
+  # Gets the parent node
+  up: () ->
+    if not @parent?
+      throw new Error "This node has no parent"
+    return @parent;
 
 
   # Adds or modifies an attribute
@@ -82,7 +92,6 @@ class XMLFragment
 
 
   # Converts the XML fragment to string
-  #
   #
   # `options.pretty` pretty prints the result
   # `options.indent` indentation for pretty print
@@ -136,7 +145,7 @@ class XMLFragment
   e: (name, attributes) -> @element name, attributes
   t: (value) -> @text value
   a: (name, value) -> @attribute name, value
- 
+  u: () -> @up
 
 # assign validation strings to the prototype
 XMLFragment::val.Space = "(?:\u0020|\u0009|\u000D|\u000A)+"
