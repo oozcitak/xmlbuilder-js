@@ -110,13 +110,14 @@ class XMLBuilder
   # `attributes` an object containing name/value pairs of attributes
   # `elements` inner elements
   element: (name, attributes, elements...) ->
+
     if not elements?
       elements = []
-
+    if typeof elements[0] == "object" #expand nested array
+      elements = elements[0]
     if attributes? and typeof attributes == "string"
       elements.unshift attributes
       attributes = undefined
-
     elements = elements.filter (element) -> element?
 
     r = ''
@@ -145,7 +146,6 @@ class XMLBuilder
       # inner tags
       for element in elements
         r += element
-
       # close tag
       r += @decorators.OpenTag + @decorators.EndTag + name + @decorators.CloseTag
 
