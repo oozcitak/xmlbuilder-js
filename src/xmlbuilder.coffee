@@ -110,7 +110,6 @@ class XMLBuilder
   # `attributes` an object containing name/value pairs of attributes
   # `elements` inner elements
   element: (name, attributes, elements...) ->
-
     if not elements?
       elements = []
 
@@ -166,8 +165,7 @@ class XMLBuilder
 
   # aliases
   pro: (xmldec, doctype) -> @prolog xmldec, doctype
-  ele: (name, attributes, elements) -> @element name, attributes, elements
+  ele: (name, attributes, elements...) -> @element name, attributes, elements
   txt: (value) -> @text value
-  end: (pretty) -> @end pretty
 
 module.exports = XMLBuilder
