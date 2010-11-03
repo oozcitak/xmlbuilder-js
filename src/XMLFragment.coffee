@@ -136,7 +136,7 @@ class XMLFragment
     newline = options? and options.newline or '\n'
     level or= 0
 
-    space = new Array(level).join(indent)
+    space = new Array(level + 1).join(indent)
 
     r = ''
     # open tag
