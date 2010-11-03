@@ -7,6 +7,11 @@ class XMLBuilder extends XMLFragment
   constructor: () -> super null, '', {}, ''
 
 
+  # Starts building an XML document
+  begin: () ->
+    @children = []
+    return @
+
   # Converts the XML document to string
   #
   # `options.pretty` pretty prints the result
