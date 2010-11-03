@@ -41,12 +41,12 @@ class XMLFragment
       throw new Error "Dcument name is required"
 
     if xmldec?
-      if not xmldec.version.match "^" + @val.VersionNum + "$"
+      if not String(xmldec.version).match "^" + @val.VersionNum + "$"
         throw new Error "Invalid version number: " + xmldec.version
       att = { version: xmldec.version }
 
       if xmldec.encoding?
-        if not xmldec.encosing.match "^" + @val.EncName + "$"
+        if not String(xmldec.encoding).match "^" + @val.EncName + "$"
           throw new Error "Invalid encoding: " + xmldec.encoding
         att.encoding = xmldec.encoding
 
@@ -57,12 +57,12 @@ class XMLFragment
       @children.push child
 
     if doctype?
-      if not doctype.name.match "^" + @val.Name + "$"
+      if not String(doctype.name).match "^" + @val.Name + "$"
         throw new Error "Invalid document name: " + doctype.name
       att = { name: doctype.name }
 
       if doctype.ext?
-        if not doctype.ext.match "^" + @val.ExternalID + "$"
+        if not String(doctype.ext).match "^" + @val.ExternalID + "$"
           throw new Error "Invalid external ID: " + doctype.ext
         att.ext = doctype.ext
 
@@ -81,7 +81,7 @@ class XMLFragment
       throw new Error "Text nodes cannot have child nodes"
     if not name?
       throw new Error "Missing element name"
-    if not name.match "^" + @val.Name + "$"
+    if not String(name).match "^" + @val.Name + "$"
       throw new Error "Invalid element name: " + name
 
     child = new XMLFragment @, name, attributes
@@ -97,7 +97,7 @@ class XMLFragment
       throw new Error "Text nodes cannot have child nodes"
     if not value?
       throw new Error "Missing element text"
-    if not value.match "^" + @val.EntityValue + "$"
+    if not String(value).match "^" + @val.EntityValue + "$"
       throw new Error "Invalid element text: " + value
 
     child = new XMLFragment @, '', {}, value
@@ -121,11 +121,11 @@ class XMLFragment
       throw new Error "Text nodes cannot have attributes"
     if not name?
       throw new Error "Missing attribute name"
-    if not name.match "^" + @val.Name + "$"
+    if not String(name).match "^" + @val.Name + "$"
       throw new Error "Invalid attribute name: " + name
     if not value?
       throw new Error "Missing attribute value"
-    if not value.match "^" + @val.AttValue + "$"
+    if not String(value).match "^" + @val.AttValue + "$"
       throw new Error "Invalid attribute value: " + value
 
     @attributes[name] = value
