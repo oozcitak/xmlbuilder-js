@@ -8,3 +8,6 @@ publish: dev
 	npm publish
 	@rm -fr lib/
 
+test: dev
+	@test `which node` || echo 'You need to have node-js installed.'
+	@node ./test/test.js
