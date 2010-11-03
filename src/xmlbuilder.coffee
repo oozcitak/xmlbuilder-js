@@ -1,20 +1,26 @@
 # xmlbuilder
-# ==========
+# ----------
 # An XML builder for node.js
 # Copyright Ozgur Ozcitak 2010
 # Licensed under the MIT license
 
+# Represents an XMl builder
 class XMLBuilder
 
   decorators:
     OpenTag: '<'
     CloseTag: '>'
-    CloseSOTag: '/>'
+    EndTag: '/'
     AttDelim: '='
     AttSep: ' '
     Quote: '"'
     Space: ' '
     Indent: '  '
+    Newline: '\n'
+
+  settings:
+    ValidateNames: true
+    ValidateValues: true
 
   # Regular expressions to validate tokens
   # See: http://www.w3.org/TR/xml/ 
@@ -38,13 +44,15 @@ class XMLBuilder
     CharData:
       "(?![^<&]*]]>[^<&]*)[^<&]*"
 
+  # Initializes a new instance of `XMLBuilder`
+  # `options.validateNames` true to validate element names
+  # `options.validateValues` true to validate element values
   constructor: (options) ->
     @reset ()
- 
-    options or= { indent: false, validate: true };
-    @settings = {}
-    @settings.indent = options.indent or false
-    @settings.validate = options.validate or true
+
+    if options?
+      @settings.ValidateNames = options.validateNames if options.validateNames?
+      @settings.ValidateValues = options.validateValues if options.validateValues?
 
     # build compound validation strings
     @validators.Name = @validators.NameStartChar + '(?:' + @validators.NameChar + ')*'
@@ -73,67 +81,111 @@ class XMLBuilder
     @validators.Comment = '<!--' + '(?:' + @validators.CommentChar + '|' + 
       '-' + @validators.CommentChar + ')*'  + '-->'
 
+  # Resets the builder and cleans all elements
   reset: () =>
     @elements = []
     @level = 0
 
-  prolog: () =>
-    # FIXME
-    @elements.push '<?xml version="1.0"?>'
+  # Creates an XML prolog with one or both of the following options
+  #
+  # `xmldec.version` A version number string, e.g. 1.0
+  # `xmldec.encoding` Encoding declaration, e.g. UTF-8
+  # `xmldec.standalone` standalone document declaration: true or false
+  #
+  # `doctype.name` name of the root element
+  # `doctype.ext` the external subset containing markup declarations
+  # `doctype.int` the internal subset containing markup declarations
+  prolog: (xmldec, doctype) =>
+    if @elements.length > 0
+      throw new Error "Prolog must be the first element"
 
-  element: (name, attributes, callback) =>
-    value = undefined
-    if typeof callback is "string"
-      value = callback
-      callback = undefined
+    # FIXME
+    @elements.push [@level, '<?xml version="1.0"?>']
+
+  # Creates a node
+  #
+  # `name` name of the node
+  # `attributes` an object containing name/value pairs of attributes
+  # `callbacks` either element texts or calls to `element` to define inner elements
+  element: (name, attributes, callbacks...) =>
+    console.log name
+    console.log attributes
+    console.log callbacks
+
+    if not callbacks?
+      callbacks = []
+
+    if attributes? and typeof attributes != "object"
+      callbacks.unshift attributes
+      attributes = undefined
 
     # open tag
     if not name?
       throw new Error "Missing element name"
-    if @settings.validate and not name.match "^" + @validators.Name + "$"
+    if @settings.ValidateNames and not name.match "^" + @validators.Name + "$"
       throw new Error "Invalid element name: " + name
-    @elements.push @decorators.OpenTag + name
+    tag = @decorators.OpenTag + name
   
     # attributes
     if attributes?
       for attName, attValue of attributes
-        if @settings.validate and not attName.match "^" + @validators.Name + "$"
+        if @settings.ValidateNames and not attName.match "^" + @validators.Name + "$"
           throw new Error "Invalid attribute name: " + attName
-        if @settings.validate and not attValue.match "^" + @validators.AttValue + "$"
+        if @settings.ValidateValues and not attValue.match "^" + @validators.AttValue + "$"
           throw new Error "Invalid attribute value: " + attValue
-        @elements.push @decorators.Space + attName + @decorators.Equals + 
+        tag += @decorators.Space + attName + @decorators.Equals + 
           @decorators.Quote + attValue + @decorators.Quote
 
-    # value or inner tags
-    if value?
-      if @settings.validate and not value.match "^" + @validators.EntityValue + "$"
-        throw new Error "Invalid element value: " + value
-      @elements.push value
-    else if callback?
-      callback
-
-    # close tag
-    if value? or callback?
-      @elements.push @decorators.CloseTag
+    #close tag
+    if callbacks.length == 0
+      tag += @decorators.EndTag + @decorators.CloseTag
+      @elements.push [@level, tag]
     else
-      @elements.push @decorators.CloseSOTag
+      tag += @decorators.CloseTag
+      @elements.push [@level, tag]
+      # value or inner tags
+      @level++
+      for callback in callbacks    
+        if typeof callback == "string"
+          value = callback
+          if @settings.ValidateValues and not value.match "^" + @validators.EntityValue + "$"
+            throw new Error "Invalid element value: " + value
+          @elements.push [@level, value]
+        else
+          callback
+      @level--
 
+      # close tag
+      @elements.push [@level, @decorators.OpenTag + @decorators.EndTag + name + @decorators.CloseTag]
+
+  # Creates a text node
+  #
+  # `value` element text
   text: (value) =>
     if not value?
-      throw new Error "Missing text value"
-    if @settings.validate and not value.match "^" + @validators.EntityValue + "$"
-      throw new Error "Invalid text value: " + value
-    @elements.push value
+      throw new Error "Missing element text"
+    if @settings.ValidateValues and not value.match "^" + @validators.EntityValue + "$"
+      throw new Error "Invalid element text: " + value
+    @elements.push [@level, value]
 
-  toString: ->
+  # Returns the XML as a string
+  # 
+  # `pretty` true to pretty print the XML
+  toString: (pretty) ->
+    pretty or= false
+
     r = ""
-    for e in @elements
-      r += e
+    for [level, element] in @elements
+      if pretty
+        r += @decorators.Newline if r
+        r += new Array(level).join @decorators.Indent
+      r += element
     return r
 
   # aliases
-  pro: () => @prolog
-  ele: (name, attributes, callback) => @element name, attributes, callback
+  pro: (xmldec, doctype) => @prolog xmldec, doctype
+  ele: (name, attributes, callbacks) => @element name, attributes, callbacks
   txt: (value) => @text value
+  end: (pretty) -> @end pretty
 
 module.exports = XMLBuilder
