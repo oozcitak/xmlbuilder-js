@@ -8,19 +8,18 @@ var xml = '<root>' +
 	    '<test>complete</test>' +
           '</root>';
 
-builder.begin()
-  .ele('root')
-    .ele('xmlbuilder')
-      .att('for', 'node-js')
-      .att('awesome', 'CoffeeScript')
-      .ele('repo')
-        .att('type', 'git')
-        .txt('git://github.com/oozcitak/xmlbuilder-js.git')	
-      .up()
+builder.begin('root')
+  .ele('xmlbuilder')
+    .att('for', 'node-js')
+    .att('awesome', 'CoffeeScript')
+    .ele('repo')
+      .att('type', 'git')
+      .txt('git://github.com/oozcitak/xmlbuilder-js.git')	
     .up()
   .up()
-  .ele('test')
-    .txt('complete');
+.up()
+.ele('test')
+  .txt('complete');
 
 var test = builder.toString();
 assert.ok(xml === test);
