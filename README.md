@@ -10,19 +10,18 @@ An XMLBuilder for [node.js](http://nodejs.org/) similar to [java-xmlbuilder](htt
 
     var builder = require('xmlbuilder').builder();
     
-    builder.begin()
-      .ele('root')
-        .ele('xmlbuilder')
-          .att('for', 'node-js')
-          .att('awesome', 'CoffeeScript')
-          .ele('repo')
-            .att('type', 'git')
-            .txt('git://github.com/oozcitak/xmlbuilder-js.git') 
-          .up()
+    builder.begin('root')
+      .ele('xmlbuilder')
+        .att('for', 'node-js')
+        .att('awesome', 'CoffeeScript')
+        .ele('repo')
+          .att('type', 'git')
+          .txt('git://github.com/oozcitak/xmlbuilder-js.git') 
         .up()
       .up()
-      .ele('test')
-        .txt('complete');
+    .up()
+    .ele('test')
+      .txt('complete');
     
     console.log(builder.toString({ pretty: true });
 
@@ -37,7 +36,7 @@ will result in:
 
 If you need to do some processing:
 
-    var root = builder.begin().ele('squares');
+    var root = builder.begin('squares');
     for(var i = 1; i <= 5; i++)
     {
       var item = root.ele('data');
