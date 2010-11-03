@@ -22,56 +22,6 @@ class XMLFragment
     @children = []
 
 
-  # Creates an XML prolog with one or both of the following options
-  #
-  # `xmldec.version` A version number string, e.g. 1.0
-  # `xmldec.encoding` Encoding declaration, e.g. UTF-8
-  # `xmldec.standalone` standalone document declaration: true or false
-  #
-  # `doctype.name` name of the root element
-  # `doctype.ext` the external subset containing markup declarations
-  prolog: (xmldec, doctype) ->
-    if @value
-      throw new Error "Text nodes cannot have child nodes"
-    if not xmldec? and not doctype?
-      throw new Error "Either xmldec or doctype is required"
-    if xmldec? and not xmldec.version?
-      throw new Error "Version number is required"
-    if doctype? and not doctype.name?
-      throw new Error "Dcument name is required"
-
-    if xmldec?
-      if not String(xmldec.version).match "^" + @val.VersionNum + "$"
-        throw new Error "Invalid version number: " + xmldec.version
-      att = { version: xmldec.version }
-
-      if xmldec.encoding?
-        if not String(xmldec.encoding).match "^" + @val.EncName + "$"
-          throw new Error "Invalid encoding: " + xmldec.encoding
-        att.encoding = xmldec.encoding
-
-      if xmldec.standalone
-        att.standalone = if xmldec.standalone then "yes" else "no"
-
-      child = new XMLFragment @, '?xml', att
-      @children.push child
-
-    if doctype?
-      if not String(doctype.name).match "^" + @val.Name + "$"
-        throw new Error "Invalid document name: " + doctype.name
-      att = { name: doctype.name }
-
-      if doctype.ext?
-        if not String(doctype.ext).match "^" + @val.ExternalID + "$"
-          throw new Error "Invalid external ID: " + doctype.ext
-        att.ext = doctype.ext
-
-      child = new XMLFragment @, '!DOCTYPE', att
-      @children.push child
-
-    return child
-
-
   # Creates a child element node
   #
   # `name` name of the node
