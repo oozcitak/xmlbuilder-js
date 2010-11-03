@@ -28,16 +28,16 @@ class XMLFragment
   # `doctype.name` name of the root element
   # `doctype.ext` the external subset containing markup declarations
   # `doctype.int` the internal subset containing markup declarations
-  prolog: (xmldec, doctype) =>
+  prolog: (xmldec, doctype) ->
     # FIXME
-    return '<?xml version="1.0"?>'
+    return @
 
 
   # Creates a child element node
   #
   # `name` name of the node
   # `attributes` an object containing name/value pairs of attributes
-  element: (name, attributes) =>
+  element: (name, attributes) ->
     if not name?
       throw new Error "Missing element name"
     if not name.match "^" + @val.Name + "$"
@@ -45,11 +45,13 @@ class XMLFragment
 
     @children.push new XMLFragment name, attributes
 
+    return @
+
 
   # Creates a text node
   #
   # `value` element text
-  text: (value) =>
+  text: (value) ->
     if not value?
       throw new Error "Missing element text"
     if not value.match "^" + @val.EntityValue + "$"
@@ -57,12 +59,14 @@ class XMLFragment
 
     @children.push new XMLFragment '', {}, value
 
+    return @
+
 
   # Adds or modifies an attribute
   #
   # `name` attribute name
   # `value` attribute value
-  attribute: (name, value) =>
+  attribute: (name, value) ->
     if not name?
       throw new Error "Missing attribute name"
     if not name.match "^" + @val.Name + "$"
@@ -73,6 +77,8 @@ class XMLFragment
       throw new Error "Invalid attribute value: " + value
 
     @attributes[name] = value
+
+    return @
 
 
   # Converts the XML fragment to string
@@ -109,14 +115,14 @@ class XMLFragment
 
 
   # aliases
-  pro: (xmldec, doctype) => @prolog xmldec, doctype
-  ele: (name, attributes) => @element name, attributes
-  txt: (value) => @text value
-  att: (name, value) => @attribute name, value
-  p: (xmldec, doctype) => @prolog xmldec, doctype
-  e: (name, attributes) => @element name, attributes
-  t: (value) => @text value
-  a: (name, value) => @attribute name, value
+  pro: (xmldec, doctype) -> @prolog xmldec, doctype
+  ele: (name, attributes) -> @element name, attributes
+  txt: (value) -> @text value
+  att: (name, value) -> @attribute name, value
+  p: (xmldec, doctype) -> @prolog xmldec, doctype
+  e: (name, attributes) -> @element name, attributes
+  t: (value) -> @text value
+  a: (name, value) -> @attribute name, value
  
 
 # assign validation strings to the prototype

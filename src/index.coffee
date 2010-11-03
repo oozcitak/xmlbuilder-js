@@ -1,7 +1,7 @@
 module.exports = 
 
-  builder: (options) ->
-    new @XMLBuilder options
+  builder: () ->
+    new @XMLBuilder
 
 module.exports.__defineGetter__ 'XMLBuilder', ->
   require './XMLBuilder'
