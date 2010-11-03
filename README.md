@@ -34,3 +34,19 @@ will result in:
       </xmlbuilder>
       <test>complete</test>
     </root>
+
+If you need to do some processing:
+
+    var root = builder.begin().ele('root');
+    for(var i = 1; i < 5; i++)
+      root.ele('item-' + i);
+
+This will result in:
+
+    <root>
+      <item-1/>
+      <item-2/>
+      <item-3/>
+      <item-4/>
+    </root>
+
