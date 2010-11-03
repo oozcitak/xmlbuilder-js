@@ -4,4 +4,4 @@ module.exports =
     new @XMLBuilder options
 
 module.exports.__defineGetter__ 'XMLBuilder', ->
-  require './xmlbuilder'
+  require './XMLBuilder'
