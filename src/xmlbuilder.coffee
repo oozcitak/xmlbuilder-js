@@ -44,11 +44,11 @@ class XMLBuilder
     CharData:
       "(?![^<&]*]]>[^<&]*)[^<&]*"
 
+
   # Initializes a new instance of `XMLBuilder`
   # `options.validateNames` true to validate element names
   # `options.validateValues` true to validate element values
   constructor: (options) ->
-    @reset ()
 
     if options?
       @settings.ValidateNames = options.validateNames if options.validateNames?
@@ -81,10 +81,14 @@ class XMLBuilder
     @validators.Comment = '<!--' + '(?:' + @validators.CommentChar + '|' + 
       '-' + @validators.CommentChar + ')*'  + '-->'
 
-  # Resets the builder and cleans all elements
-  reset: () =>
-    @elements = []
-    @level = 0
+
+  # Starts the builder
+  begin: (elements...) ->
+    r = ''
+    for element in elements
+      r += element
+    return r
+
 
   # Creates an XML prolog with one or both of the following options
   #
@@ -95,36 +99,34 @@ class XMLBuilder
   # `doctype.name` name of the root element
   # `doctype.ext` the external subset containing markup declarations
   # `doctype.int` the internal subset containing markup declarations
-  prolog: (xmldec, doctype) =>
-    if @elements.length > 0
-      throw new Error "Prolog must be the first element"
-
+  prolog: (xmldec, doctype) ->
     # FIXME
-    @elements.push [@level, '<?xml version="1.0"?>']
+    return '<?xml version="1.0"?>'
+
 
   # Creates a node
   #
   # `name` name of the node
   # `attributes` an object containing name/value pairs of attributes
-  # `callbacks` either element texts or calls to `element` to define inner elements
-  element: (name, attributes, callbacks...) =>
-    console.log name
-    console.log attributes
-    console.log callbacks
+  # `elements` inner elements
+  element: (name, attributes, elements...) ->
 
-    if not callbacks?
-      callbacks = []
+    if not elements?
+      elements = []
 
-    if attributes? and typeof attributes != "object"
-      callbacks.unshift attributes
+    if attributes? and typeof attributes == "string"
+      elements.unshift attributes
       attributes = undefined
 
+    elements = elements.filter (element) -> element?
+
+    r = ''
     # open tag
     if not name?
       throw new Error "Missing element name"
     if @settings.ValidateNames and not name.match "^" + @validators.Name + "$"
       throw new Error "Invalid element name: " + name
-    tag = @decorators.OpenTag + name
+    r += @decorators.OpenTag + name
   
     # attributes
     if attributes?
@@ -133,59 +135,39 @@ class XMLBuilder
           throw new Error "Invalid attribute name: " + attName
         if @settings.ValidateValues and not attValue.match "^" + @validators.AttValue + "$"
           throw new Error "Invalid attribute value: " + attValue
-        tag += @decorators.Space + attName + @decorators.Equals + 
+        r += @decorators.Space + attName + @decorators.Equals + 
           @decorators.Quote + attValue + @decorators.Quote
 
-    #close tag
-    if callbacks.length == 0
-      tag += @decorators.EndTag + @decorators.CloseTag
-      @elements.push [@level, tag]
+    if elements.length == 0
+      # empty element
+      r += @decorators.EndTag + @decorators.CloseTag
     else
-      tag += @decorators.CloseTag
-      @elements.push [@level, tag]
-      # value or inner tags
-      @level++
-      for callback in callbacks    
-        if typeof callback == "string"
-          value = callback
-          if @settings.ValidateValues and not value.match "^" + @validators.EntityValue + "$"
-            throw new Error "Invalid element value: " + value
-          @elements.push [@level, value]
-        else
-          callback
-      @level--
+      r += @decorators.CloseTag
+      # inner tags
+      for element in elements
+        r += element
 
       # close tag
-      @elements.push [@level, @decorators.OpenTag + @decorators.EndTag + name + @decorators.CloseTag]
+      r += @decorators.OpenTag + @decorators.EndTag + name + @decorators.CloseTag
+
+    return r
+
 
   # Creates a text node
   #
   # `value` element text
-  text: (value) =>
+  text: (value) ->
     if not value?
       throw new Error "Missing element text"
     if @settings.ValidateValues and not value.match "^" + @validators.EntityValue + "$"
       throw new Error "Invalid element text: " + value
-    @elements.push [@level, value]
+    return value
 
-  # Returns the XML as a string
-  # 
-  # `pretty` true to pretty print the XML
-  toString: (pretty) ->
-    pretty or= false
-
-    r = ""
-    for [level, element] in @elements
-      if pretty
-        r += @decorators.Newline if r
-        r += new Array(level).join @decorators.Indent
-      r += element
-    return r
 
   # aliases
-  pro: (xmldec, doctype) => @prolog xmldec, doctype
-  ele: (name, attributes, callbacks) => @element name, attributes, callbacks
-  txt: (value) => @text value
+  pro: (xmldec, doctype) -> @prolog xmldec, doctype
+  ele: (name, attributes, elements) -> @element name, attributes, elements
+  txt: (value) -> @text value
   end: (pretty) -> @end pretty
 
 module.exports = XMLBuilder
