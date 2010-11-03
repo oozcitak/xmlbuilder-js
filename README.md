@@ -37,16 +37,21 @@ will result in:
 
 If you need to do some processing:
 
-    var root = builder.begin().ele('root');
-    for(var i = 1; i < 5; i++)
-      root.ele('item-' + i);
+    var root = builder.begin().ele('squares');
+    for(var i = 1; i <= 5; i++)
+    {
+      var item = root.ele('data');
+      item.att('x', i);
+      item.att('y', i * i);
+    }
 
 This will result in:
 
-    <root>
-      <item-1/>
-      <item-2/>
-      <item-3/>
-      <item-4/>
-    </root>
+    <squares>
+      <data x="1" y="1"/>
+      <data x="2" y="4"/>
+      <data x="3" y="9"/>
+      <data x="4" y="16"/>
+      <data x="5" y="25"/>
+    </squares>
 
