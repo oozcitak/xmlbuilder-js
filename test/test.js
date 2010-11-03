@@ -1,6 +1,6 @@
 assert = require('assert');
 
-var builder = require('./lib/index.js').builder();
+var builder = require('../lib/index.js').builder();
 var xml = '<root>' +
             '<xmlbuilder for="node-js" awesome="CoffeeScript">' +
               '<repo type="git">git://github.com/oozcitak/xmlbuilder-js.git</repo>' +
