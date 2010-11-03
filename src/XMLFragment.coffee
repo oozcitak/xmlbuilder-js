@@ -18,7 +18,7 @@ class XMLFragment
     @parent = parent
     @name = name or ''
     @attributes = attributes or {}
-    @text = text or ''
+    @value = text or ''
     @children = []
 
 
@@ -31,6 +31,8 @@ class XMLFragment
   # `doctype.name` name of the root element
   # `doctype.ext` the external subset containing markup declarations
   prolog: (xmldec, doctype) ->
+    if @value
+      throw new Error "Text nodes cannot have child nodes"
     if not xmldec? and not doctype?
       throw new Error "Either xmldec or doctype is required"
     if xmldec? and not xmldec.version?
@@ -75,6 +77,8 @@ class XMLFragment
   # `name` name of the node
   # `attributes` an object containing name/value pairs of attributes
   element: (name, attributes) ->
+    if @value
+      throw new Error "Text nodes cannot have child nodes"
     if not name?
       throw new Error "Missing element name"
     if not name.match "^" + @val.Name + "$"
@@ -89,6 +93,8 @@ class XMLFragment
   #
   # `value` element text
   text: (value) ->
+    if @value
+      throw new Error "Text nodes cannot have child nodes"
     if not value?
       throw new Error "Missing element text"
     if not value.match "^" + @val.EntityValue + "$"
@@ -111,6 +117,8 @@ class XMLFragment
   # `name` attribute name
   # `value` attribute value
   attribute: (name, value) ->
+    if @value
+      throw new Error "Text nodes cannot have attributes"
     if not name?
       throw new Error "Missing attribute name"
     if not name.match "^" + @val.Name + "$"
@@ -142,7 +150,10 @@ class XMLFragment
     # open tag
     if pretty
       r += space
-    r += '<' + @name
+    if not @value
+      r += '<' + @name
+    else
+      r += @value
 
     # attributes
     for attName, attValue of @attributes
@@ -153,7 +164,8 @@ class XMLFragment
 
     if @children.length == 0
       # empty element
-      r += if @name == '?xml' then '?>' else if @name == '!DOCTYPE' then '>' else '/>'
+      if not @value
+        r += if @name == '?xml' then '?>' else if @name == '!DOCTYPE' then '>' else '/>'
       if pretty
         r += newline
     else
