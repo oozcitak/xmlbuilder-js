@@ -30,10 +30,44 @@ class XMLFragment
   #
   # `doctype.name` name of the root element
   # `doctype.ext` the external subset containing markup declarations
-  # `doctype.int` the internal subset containing markup declarations
   prolog: (xmldec, doctype) ->
-    # FIXME
-    return @
+    if not xmldec? and not doctype?
+      throw new Error "Either xmldec or doctype is required"
+    if xmldec? and not xmldec.version?
+      throw new Error "Version number is required"
+    if doctype? and not doctype.name?
+      throw new Error "Dcument name is required"
+
+    if xmldec?
+      if not xmldec.version.match "^" + @val.VersionNum + "$"
+        throw new Error "Invalid version number: " + xmldec.version
+      att = { version: xmldec.version }
+
+      if xmldec.encoding?
+        if not xmldec.encosing.match "^" + @val.EncName + "$"
+          throw new Error "Invalid encoding: " + xmldec.encoding
+        att.encoding = xmldec.encoding
+
+      if xmldec.standalone
+        att.standalone = if xmldec.standalone then "yes" else "no"
+
+      child = new XMLFragment @, '?xml', att
+      @children.push child
+
+    if doctype?
+      if not doctype.name.match "^" + @val.Name + "$"
+        throw new Error "Invalid document name: " + doctype.name
+      att = { name: doctype.name }
+
+      if doctype.ext?
+        if not doctype.ext.match "^" + @val.ExternalID + "$"
+          throw new Error "Invalid external ID: " + doctype.ext
+        att.ext = doctype.ext
+
+      child = new XMLFragment @, '!DOCTYPE', att
+      @children.push child
+
+    return child
 
 
   # Creates a child element node
@@ -112,11 +146,14 @@ class XMLFragment
 
     # attributes
     for attName, attValue of @attributes
-      r += ' ' + attName + '="' + attValue + '"'
+      if @name == '!DOCTYPE'
+        r += ' ' + attValue
+      else
+        r += ' ' + attName + '="' + attValue + '"'
 
     if @children.length == 0
       # empty element
-      r += '/>'
+      r += if @name == '?xml' then '?>' else if @name == '!DOCTYPE' then '>' else '/>'
       if pretty
         r += newline
     else
@@ -177,6 +214,12 @@ XMLFragment::val.CommentChar = '(?!-)' + '(?:' + XMLFragment::val.Char + ')'
 XMLFragment::val.Comment =
   '<!--' + '(?:' + XMLFragment::val.CommentChar + '|' + 
   '-' + XMLFragment::val.CommentChar + ')*'  + '-->'
+XMLFragment::val.VersionNum = '1\.[0-9]+'
+XMLFragment::val.EncName = '[A-Za-z](?:[A-Za-z0-9\._]|-)*'
+XMLFragment::val.ExternalID = 
+  '(?:' + 'SYSTEM' + XMLFragment::val.Space + XMLFragment::val.SystemLiteral + ')|'
+  '(?:' + 'PUBLIC' + XMLFragment::val.Space + XMLFragment::val.PubIDLateral +
+  XMLFragment::val.Space + XMLFragment::val.SystemLiteral
 
 
 module.exports = XMLFragment
