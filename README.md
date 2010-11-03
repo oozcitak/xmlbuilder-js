@@ -23,6 +23,8 @@ An XMLBuilder for [node.js](http://nodejs.org/) similar to [java-xmlbuilder](htt
       .up()
       .ele('test')
         .txt('complete');
+    
+    console.log(builder.toString({ pretty: true });
 
 will result in:
 
