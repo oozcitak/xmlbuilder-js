@@ -3,11 +3,12 @@ XMLFragment = require './XMLFragment'
 # Represents an XML builder
 class XMLBuilder extends XMLFragment
 
+
   # Initializes a new instance of `XMLBuilder`
   constructor: () -> super null, '', {}, ''
 
 
-  # creating the XML prolog
+  # Creates the XML prolog
   #
   # `name` name of the root element
   #
