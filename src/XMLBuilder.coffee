@@ -77,3 +77,4 @@ class XMLBuilder extends XMLFragment
 
 
 module.exports = XMLBuilder
+

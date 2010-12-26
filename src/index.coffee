@@ -5,3 +5,4 @@ module.exports =
 
 module.exports.__defineGetter__ 'XMLBuilder', ->
   require './XMLBuilder'
+
