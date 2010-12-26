@@ -130,11 +130,9 @@ class XMLFragment
 
 
   # aliases
-  pro: (xmldec, doctype) -> @prolog xmldec, doctype
   ele: (name, attributes) -> @element name, attributes
   txt: (value) -> @text value
   att: (name, value) -> @attribute name, value
-  p: (xmldec, doctype) -> @prolog xmldec, doctype
   e: (name, attributes) -> @element name, attributes
   t: (value) -> @text value
   a: (name, value) -> @attribute name, value
@@ -164,9 +162,9 @@ XMLFragment::val.EntityRef = '&' + XMLFragment::val.Name + ';'
 XMLFragment::val.Reference = '&' + XMLFragment::val.Name + ';' + '|' + XMLFragment::val.CharRef
 XMLFragment::val.PEReference = '%' + XMLFragment::val.Name + ';'
 XMLFragment::val.EntityValue =
-    '(?:[^%&"]|%' + XMLFragment::val.Name + ';|&' + XMLFragment::val.Name + ';)*'
+  '(?:[^%&"]|%' + XMLFragment::val.Name + ';|&' + XMLFragment::val.Name + ';)*'
 XMLFragment::val.AttValue =
-    '(?:[^<&"]|' + XMLFragment::val.Reference + ')*'
+  '(?:[^<&"]|' + XMLFragment::val.Reference + ')*'
 XMLFragment::val.SystemLiteral = '[^"]*'
 XMLFragment::val.PubIDChar = "\u0020|\u000D|\u000A|[a-zA-Z0-9]|[-'()+,./:=?;!*#@$_%]"
 XMLFragment::val.PubIDLiteral = '(?:' + XMLFragment::val.PubIDChar + ')*'
