@@ -1,8 +1,4 @@
-module.exports =
+XMLBuilder = require './XMLBuilder'
 
-  builder: () ->
-    new @XMLBuilder
-
-module.exports.__defineGetter__ 'XMLBuilder', ->
-  require './XMLBuilder'
+module.exports = new XMLBuilder()
 

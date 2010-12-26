@@ -5,7 +5,7 @@ var xml = '<root>' +
             '<test>complete</test>' +
           '</root>';
 
-var builder = require('../lib/index.js').builder();
+var builder = require('../lib/index.js');
 builder.begin('root')
   .ele('xmlbuilder')
     .att('for', 'node-js')
