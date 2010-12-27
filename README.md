@@ -8,7 +8,7 @@ An XMLBuilder for [node.js](http://nodejs.org/) similar to [java-xmlbuilder](htt
 
 ### Usage:
 
-    var builder = require('xmlbuilder').builder();
+    var builder = require('xmlbuilder');
     
     builder.begin('root')
       .ele('xmlbuilder')
@@ -17,11 +17,11 @@ An XMLBuilder for [node.js](http://nodejs.org/) similar to [java-xmlbuilder](htt
         .ele('repo')
           .att('type', 'git')
           .txt('git://github.com/oozcitak/xmlbuilder-js.git') 
+          .up()
         .up()
       .up()
-    .up()
-    .ele('test')
-      .txt('complete');
+      .ele('test')
+        .txt('complete');
     
     console.log(builder.toString({ pretty: true });
 
