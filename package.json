@@ -1,6 +1,6 @@
 {
   "name" : "xmlbuilder",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "An XML builder for node.js",
   "author": "Ozgur Ozcitak <oozcitak@gmail.com>",
   "licenses": [
