@@ -53,7 +53,7 @@ class XMLFragment
   up: () ->
     if not @parent?
       throw new Error "This node has no parent"
-    return @parent;
+    return @parent
 
 
   # Adds or modifies an attribute
