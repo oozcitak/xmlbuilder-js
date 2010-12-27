@@ -3,6 +3,7 @@ var xml = '<root>' +
               '<repo type="git">git://github.com/oozcitak/xmlbuilder-js.git</repo>' +
             '</xmlbuilder>' +
             '<test>complete</test>' +
+            '<cdata><![CDATA[<test att="val">this is a test</test>]]></cdata>' +
           '</root>';
 
 var builder = require('../lib/index.js');
@@ -13,13 +14,17 @@ builder.begin('root')
     .ele('repo')
       .att('type', 'git')
       .txt('git://github.com/oozcitak/xmlbuilder-js.git')
+      .up()
     .up()
   .up()
-.up()
-.ele('test')
-  .txt('complete');
-var test = builder.toString();
+  .ele('test')
+    .txt('complete')
+    .up()
+  .up()
+  .ele('cdata')
+    .txt('<![CDATA[<test att="val">this is a test</test>]]>');
 
 var assert = require('assert');
-assert.ok(xml === test);
+var test = builder.toString();
+assert.strictEqual(xml, test);
 

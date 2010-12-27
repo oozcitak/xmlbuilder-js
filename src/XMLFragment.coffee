@@ -41,7 +41,7 @@ class XMLFragment
       throw new Error "Text nodes cannot have child nodes"
     if not value?
       throw new Error "Missing element text"
-    if not String(value).match "^" + @val.EntityValue + "$"
+    if not String(value).match("^" + @val.EntityValue + "$") and not String(value).match(@val.CDATA)
       throw new Error "Invalid element text: " + value
 
     child = new XMLFragment @, '', {}, value
@@ -178,6 +178,7 @@ XMLFragment::val.ExternalID =
   '(?:' + 'SYSTEM' + XMLFragment::val.Space + XMLFragment::val.SystemLiteral + ')|'
   '(?:' + 'PUBLIC' + XMLFragment::val.Space + XMLFragment::val.PubIDLateral +
   XMLFragment::val.Space + XMLFragment::val.SystemLiteral
+XMLFragment::val.CDATA = /^\<!\[CDATA\[.*?\]\]\>$/
 
 
 module.exports = XMLFragment
