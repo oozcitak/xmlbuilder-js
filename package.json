@@ -1,6 +1,6 @@
 {
   "name" : "xmlbuilder",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "An XML builder for node.js",
   "author": "Ozgur Ozcitak <oozcitak@gmail.com>",
   "licenses": [
@@ -21,7 +21,7 @@
   "directories": {
     "lib": "./lib"
   },
-  "main": "./lib/akismet",
+  "main": "./lib/index",
   "engines": { 
     "node": ">=0.2.0" 
   }
