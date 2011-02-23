@@ -37,6 +37,7 @@ will result in:
 If you need to do some processing:
 
     var root = builder.begin('squares');
+    root.com('f(x) = x^2');
     for(var i = 1; i <= 5; i++)
     {
       var item = root.ele('data');
@@ -47,6 +48,7 @@ If you need to do some processing:
 This will result in:
 
     <squares>
+      <!-- f(x) = x^2 -->
       <data x="1" y="1"/>
       <data x="2" y="4"/>
       <data x="3" y="9"/>
