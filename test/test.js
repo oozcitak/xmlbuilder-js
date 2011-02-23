@@ -3,7 +3,7 @@ var xml = '<root>' +
               '<!-- CoffeeScript is awesome. -->' +
               '<repo type="git">git://github.com/oozcitak/xmlbuilder-js.git</repo>' +
             '</xmlbuilder>' +
-            '<test>complete</test>' +
+            '<test>complete 100%</test>' +
             '<cdata><![CDATA[<test att="val">this is a test</test>]]></cdata>' +
           '</root>';
 
@@ -19,7 +19,7 @@ builder.begin('root')
     .up()
   .up()
   .ele('test')
-    .txt('complete')
+    .txt('complete 100%')
     .up()
   .up()
   .ele('cdata')

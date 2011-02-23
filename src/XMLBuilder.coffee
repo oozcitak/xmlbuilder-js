@@ -18,7 +18,7 @@ class XMLBuilder extends XMLFragment
   #
   # `doctype.name` name of the root element
   # `doctype.ext` the external subset containing markup declarations
-  begin: (name, xmldec, doctype) ->
+  begin: (name, xmldec, doctype, options) ->
     if not name
       throw new Error "Root element needs a name"
     @children = []

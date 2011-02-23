@@ -4,7 +4,7 @@ class XMLFragment
 
   # Initializes a new instance of `XMLFragment`
   #
-  # `parent` the parnt node
+  # `parent` the parent node
   # `name` element name
   # `attributes` an object containing name/value pairs of attributes
   # `text` element text
@@ -41,7 +41,7 @@ class XMLFragment
       throw new Error "Text nodes cannot have child nodes"
     if not value?
       throw new Error "Missing element text"
-    if not String(value).match("^" + @val.EntityValue + "$") and not String(value).match(@val.CDATA)
+    if not String(value).match("^" + @val.CharData + "$") and not String(value).match(@val.CDATA)
       throw new Error "Invalid element text: " + value
 
     child = new XMLFragment @, '', {}, value
