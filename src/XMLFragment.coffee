@@ -49,6 +49,22 @@ class XMLFragment
     return child
 
 
+  # Creates a comment node
+  #
+  # `value` comment text
+  comment: (value) ->
+    if @value
+      throw new Error "Text nodes cannot have child nodes"
+    if not value?
+      throw new Error "Missing comment text"
+    if not String(value).match("^" + @val.CommentContent + "$")
+      throw new Error "Invalid comment text: " + value
+
+    child = new XMLFragment @, '', {}, '<!-- ' + value + ' -->'
+    @children.push child
+    return @
+
+
   # Gets the parent node
   up: () ->
     if not @parent?
@@ -133,9 +149,11 @@ class XMLFragment
   ele: (name, attributes) -> @element name, attributes
   txt: (value) -> @text value
   att: (name, value) -> @attribute name, value
+  com: (name, value) -> @comment name, value
   e: (name, attributes) -> @element name, attributes
   t: (value) -> @text value
   a: (name, value) -> @attribute name, value
+  c: (name, value) -> @comment name, value
   u: () -> @up
 
 
@@ -169,9 +187,10 @@ XMLFragment::val.SystemLiteral = '[^"]*'
 XMLFragment::val.PubIDChar = "\u0020|\u000D|\u000A|[a-zA-Z0-9]|[-'()+,./:=?;!*#@$_%]"
 XMLFragment::val.PubIDLiteral = '(?:' + XMLFragment::val.PubIDChar + ')*'
 XMLFragment::val.CommentChar = '(?!-)' + '(?:' + XMLFragment::val.Char + ')'
-XMLFragment::val.Comment =
-  '<!--' + '(?:' + XMLFragment::val.CommentChar + '|' +
-  '-' + XMLFragment::val.CommentChar + ')*'  + '-->'
+XMLFragment::val.CommentContent =
+  '(?:' + XMLFragment::val.CommentChar + '|' +
+  '-' + XMLFragment::val.CommentChar + ')*'
+XMLFragment::val.Comment = '<!--' + XMLFragment::val.CommentContent + '-->'
 XMLFragment::val.VersionNum = '1\.[0-9]+'
 XMLFragment::val.EncName = '[A-Za-z](?:[A-Za-z0-9\._]|-)*'
 XMLFragment::val.ExternalID =

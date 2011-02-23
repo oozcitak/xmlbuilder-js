@@ -1,5 +1,6 @@
 var xml = '<root>' +
-            '<xmlbuilder for="node-js" awesome="CoffeeScript">' +
+            '<xmlbuilder for="node-js">' +
+              '<!-- CoffeeScript is awesome. -->' +
               '<repo type="git">git://github.com/oozcitak/xmlbuilder-js.git</repo>' +
             '</xmlbuilder>' +
             '<test>complete</test>' +
@@ -10,7 +11,7 @@ var builder = require('../lib/index.js');
 builder.begin('root')
   .ele('xmlbuilder')
     .att('for', 'node-js')
-    .att('awesome', 'CoffeeScript')
+    .com('CoffeeScript is awesome.')
     .ele('repo')
       .att('type', 'git')
       .txt('git://github.com/oozcitak/xmlbuilder-js.git')
