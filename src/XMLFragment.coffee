@@ -9,10 +9,12 @@ class XMLFragment
   # `attributes` an object containing name/value pairs of attributes
   # `text` element text
   constructor: (parent, name, attributes, text) ->
+    name ?= ''
+    text ?= ''
     @parent = parent
-    @name = name or ''
+    @name = '' + name or ''
     @attributes = attributes or {}
-    @value = text or ''
+    @value = '' + text or ''
     @children = []
 
 
@@ -21,6 +23,7 @@ class XMLFragment
   # `name` name of the node
   # `attributes` an object containing name/value pairs of attributes
   element: (name, attributes) ->
+    name ?= ''
     if @value
       throw new Error "Text nodes cannot have child nodes"
     if not name?
@@ -37,6 +40,7 @@ class XMLFragment
   #
   # `value` element text
   text: (value) ->
+    value ?= ''
     if @value
       throw new Error "Text nodes cannot have child nodes"
     if not value?
@@ -53,6 +57,7 @@ class XMLFragment
   #
   # `value` comment text
   comment: (value) ->
+    value ?= ''
     if @value
       throw new Error "Text nodes cannot have child nodes"
     if not value?
@@ -77,6 +82,7 @@ class XMLFragment
   # `name` attribute name
   # `value` attribute value
   attribute: (name, value) ->
+    name ?= ''
     if @value
       throw new Error "Text nodes cannot have attributes"
     if not name?
@@ -113,7 +119,7 @@ class XMLFragment
     if not @value
       r += '<' + @name
     else
-      r += @value
+      r += '' + @value
 
     # attributes
     for attName, attValue of @attributes
