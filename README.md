@@ -6,6 +6,7 @@ An XMLBuilder for [node.js](http://nodejs.org/) similar to [java-xmlbuilder](htt
 
 ``` sh
     npm install xmlbuilder
+```
 
 ### Usage:
 
@@ -26,6 +27,7 @@ An XMLBuilder for [node.js](http://nodejs.org/) similar to [java-xmlbuilder](htt
         .txt('complete');
     
     console.log(builder.toString({ pretty: true });
+```
 
 will result in:
 
@@ -36,6 +38,7 @@ will result in:
       </xmlbuilder>
       <test>complete</test>
     </root>
+```
 
 If you need to do some processing:
 
@@ -48,6 +51,7 @@ If you need to do some processing:
       item.att('x', i);
       item.att('y', i * i);
     }
+```
 
 This will result in:
 
@@ -60,4 +64,4 @@ This will result in:
       <data x="4" y="16"/>
       <data x="5" y="25"/>
     </squares>
-
+```
