@@ -4,10 +4,12 @@ An XMLBuilder for [node.js](http://nodejs.org/) similar to [java-xmlbuilder](htt
 
 ### Installation:
 
+``` sh
     npm install xmlbuilder
 
 ### Usage:
 
+``` js
     var builder = require('xmlbuilder');
     
     builder.begin('root')
@@ -27,6 +29,7 @@ An XMLBuilder for [node.js](http://nodejs.org/) similar to [java-xmlbuilder](htt
 
 will result in:
 
+``` js
     <root>
       <xmlbuilder for="node-js" awesome="CoffeeScript">
         <repo type="git">git://github.com/oozcitak/xmlbuilder-js.git</repo>
@@ -36,6 +39,7 @@ will result in:
 
 If you need to do some processing:
 
+``` js
     var root = builder.begin('squares');
     root.com('f(x) = x^2');
     for(var i = 1; i <= 5; i++)
@@ -47,6 +51,7 @@ If you need to do some processing:
 
 This will result in:
 
+``` js
     <squares>
       <!-- f(x) = x^2 -->
       <data x="1" y="1"/>
