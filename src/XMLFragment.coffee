@@ -29,8 +29,6 @@ class XMLFragment
     for own key, val of attributes
       attributes[key] = @escape val
 
-    if @value
-      throw new Error "Text nodes cannot have child nodes"
     if not name.match "^" + @val.Name + "$"
       throw new Error "Invalid element name: " + name
 
@@ -43,8 +41,6 @@ class XMLFragment
   #
   # `value` element text
   text: (value) ->
-    if @value
-      throw new Error "Text nodes cannot have child nodes"
     if not value?
       throw new Error "Missing element text"
 
@@ -56,34 +52,30 @@ class XMLFragment
 
     child = new XMLFragment @, '', {}, value
     @children.push child
-    return child
+    return @
 
 
   # Creates a CDATA node
   #
   # `value` element text without CDATA delimiters
   cdata: (value) ->
-    if @value
-      throw new Error "Text nodes cannot have child nodes"
     if not value?
-      throw new Error "Missing element text"
+      throw new Error "Missing CDATA text"
 
     value = '' + value or ''
 
     if not value.match @val.CDATA
-      throw new Error "Invalid element text: " + value
+      throw new Error "Invalid CDATA text: " + value
 
     child = new XMLFragment @, '', {}, '<![CDATA[' + value + ']]>'
     @children.push child
-    return child
+    return @
 
 
   # Creates a comment node
   #
   # `value` comment text
   comment: (value) ->
-    if @value
-      throw new Error "Text nodes cannot have child nodes"
     if not value?
       throw new Error "Missing comment text"
 
@@ -110,8 +102,6 @@ class XMLFragment
   # `name` attribute name
   # `value` attribute value
   attribute: (name, value) ->
-    if @value
-      throw new Error "Text nodes cannot have attributes"
     if not name?
       throw new Error "Missing attribute name"
     if not value?
