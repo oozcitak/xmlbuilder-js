@@ -1,12 +1,18 @@
 # xmlbuilder-js
 
-An XMLBuilder for [node.js](http://nodejs.org/) similar to [java-xmlbuilder](http://code.google.com/p/java-xmlbuilder/).
+An XMLBuilder for [node.js](http://nodejs.org/) similar to 
+[java-xmlbuilder](http://code.google.com/p/java-xmlbuilder/).
 
 ### Installation:
 
 ``` sh
 npm install xmlbuilder
 ```
+
+### Important:
+
+I had to break compatibility while adding string escaping to xml-builder. 
+As a result, current version is **not** compatible with previous versions.
 
 ### Usage:
 
@@ -16,11 +22,9 @@ var builder = require('xmlbuilder');
 builder.begin('root')
   .ele('xmlbuilder')
     .att('for', 'node-js')
-    .att('awesome', 'CoffeeScript')
     .ele('repo')
       .att('type', 'git')
       .txt('git://github.com/oozcitak/xmlbuilder-js.git') 
-      .up()
     .up()
   .up()
   .ele('test')
@@ -33,7 +37,7 @@ will result in:
 
 ``` xml
 <root>
-  <xmlbuilder for="node-js" awesome="CoffeeScript">
+  <xmlbuilder for="node-js">
     <repo type="git">git://github.com/oozcitak/xmlbuilder-js.git</repo>
   </xmlbuilder>
   <test>complete</test>
