@@ -9,12 +9,10 @@ class XMLFragment
   # `attributes` an object containing name/value pairs of attributes
   # `text` element text
   constructor: (parent, name, attributes, text) ->
-    name ?= ''
-    text ?= ''
     @parent = parent
-    @name = '' + name or ''
-    @attributes = attributes or {}
-    @value = '' + text or ''
+    @name = name
+    @attributes = attributes
+    @value = text
     @children = []
 
 
@@ -23,12 +21,17 @@ class XMLFragment
   # `name` name of the node
   # `attributes` an object containing name/value pairs of attributes
   element: (name, attributes) ->
-    name ?= ''
-    if @value
-      throw new Error "Text nodes cannot have child nodes"
     if not name?
       throw new Error "Missing element name"
-    if not String(name).match "^" + @val.Name + "$"
+
+    name = '' + name or ''
+    attributes ?= {}
+    for own key, val of attributes
+      attributes[key] = @escape val
+
+    if @value
+      throw new Error "Text nodes cannot have child nodes"
+    if not name.match "^" + @val.Name + "$"
       throw new Error "Invalid element name: " + name
 
     child = new XMLFragment @, name, attributes
@@ -40,15 +43,37 @@ class XMLFragment
   #
   # `value` element text
   text: (value) ->
-    value ?= ''
     if @value
       throw new Error "Text nodes cannot have child nodes"
     if not value?
       throw new Error "Missing element text"
-    if not String(value).match("^" + @val.CharData + "$") and not String(value).match(@val.CDATA)
+
+    value = '' + value or ''
+    value = @escape value
+
+    if not value.match @val.CharData
       throw new Error "Invalid element text: " + value
 
     child = new XMLFragment @, '', {}, value
+    @children.push child
+    return child
+
+
+  # Creates a CDATA node
+  #
+  # `value` element text without CDATA delimiters
+  cdata: (value) ->
+    if @value
+      throw new Error "Text nodes cannot have child nodes"
+    if not value?
+      throw new Error "Missing element text"
+
+    value = '' + value or ''
+
+    if not value.match @val.CDATA
+      throw new Error "Invalid element text: " + value
+
+    child = new XMLFragment @, '', {}, '<![CDATA[' + value + ']]>'
     @children.push child
     return child
 
@@ -57,12 +82,15 @@ class XMLFragment
   #
   # `value` comment text
   comment: (value) ->
-    value ?= ''
     if @value
       throw new Error "Text nodes cannot have child nodes"
     if not value?
       throw new Error "Missing comment text"
-    if not String(value).match("^" + @val.CommentContent + "$")
+
+    value = '' + value or ''
+    value = @escape value
+
+    if not value.match("^" + @val.CommentContent + "$")
       throw new Error "Invalid comment text: " + value
 
     child = new XMLFragment @, '', {}, '<!-- ' + value + ' -->'
@@ -82,16 +110,20 @@ class XMLFragment
   # `name` attribute name
   # `value` attribute value
   attribute: (name, value) ->
-    name ?= ''
     if @value
       throw new Error "Text nodes cannot have attributes"
     if not name?
       throw new Error "Missing attribute name"
-    if not String(name).match "^" + @val.Name + "$"
-      throw new Error "Invalid attribute name: " + name
     if not value?
       throw new Error "Missing attribute value"
-    if not String(value).match "^" + @val.AttValue + "$"
+
+    name = '' + name or ''
+    value = '' + value or ''
+    value = @escape value
+
+    if not name.match "^" + @val.Name + "$"
+      throw new Error "Invalid attribute name: " + name
+    if not value.match "^" + @val.AttValue + "$"
       throw new Error "Invalid attribute value: " + value
 
     @attributes[name] = value
@@ -151,13 +183,24 @@ class XMLFragment
     return r
 
 
-  # aliases
+  # Escapes special characters <, >, ', ", &
+  #
+  # `str` the string to escape
+  escape: (str) ->
+    return str.replace(/&/g, '&amp;')
+              .replace(/</g,'&lt;').replace(/>/g,'&gt;')
+              .replace(/'/g, '&apos;').replace(/"/g, '&quot;')
+
+
+  # Aliases
   ele: (name, attributes) -> @element name, attributes
   txt: (value) -> @text value
+  dat: (value) -> @cdata value
   att: (name, value) -> @attribute name, value
   com: (name, value) -> @comment name, value
   e: (name, attributes) -> @element name, attributes
   t: (value) -> @text value
+  d: (value) -> @cdata value
   a: (name, value) -> @attribute name, value
   c: (name, value) -> @comment name, value
   u: () -> @up
@@ -170,20 +213,20 @@ XMLFragment::val = {}
 XMLFragment::val.Space = "(?:\u0020|\u0009|\u000D|\u000A)+"
 XMLFragment::val.Char = "\u0009|\u000A|\u000D|[\u0020-\uD7FF]|[\uE000-\uFFFD]"
 XMLFragment::val.NameStartChar =
-  ":|[A-Z]|_|[a-z]|[\u00C0-\u00D6]|[\u00D8-\u00F6]|" +
-  "[\u00F8-\u02FF]|[\u0370-\u037D]|[\u037F-\u1FFF]|[\u200C-\u200D]|[\u2070-\u218F]|" +
+  ":|[A-Z]|_|[a-z]|[\u00C0-\u00D6]|[\u00D8-\u00F6]|[\u00F8-\u02FF]|" +
+  "[\u0370-\u037D]|[\u037F-\u1FFF]|[\u200C-\u200D]|[\u2070-\u218F]|" +
   "[\u2C00-\u2FEF]|[\u3001-\uD7FF]|[\uF900-\uFDCF]|[\uFDF0-\uFFFD]"
 XMLFragment::val.NameChar =
-  ":|[A-Z]|_|[a-z]|[\u00C0-\u00D6]|[\u00D8-\u00F6]|[\u00F8-\u02FF]|" +
-  "[\u0370-\u037D]|[\u037F-\u1FFF]|[\u200C-\u200D]|[\u2070-\u218F]|[\u2C00-\u2FEF]|" +
-  "[\u3001-\uD7FF]|[\uF900-\uFDCF]|[\uFDF0-\uFFFD]" +
+  XMLFragment::val.NameStartChar + '|' +
   "-|\.|[0-9]|\u00B7|[\u0300-\u036F]|[\u203F-\u2040]"
 XMLFragment::val.CharRef = "&#[0-9]+;|&#x[0-9a-fA-F]+;"
-XMLFragment::val.CharData = "(?![^<&]*]]>[^<&]*)[^<&]*"
-XMLFragment::val.Name = XMLFragment::val.NameStartChar + '(?:' + XMLFragment::val.NameChar + ')*'
+XMLFragment::val.Name = 
+  '(?:' + XMLFragment::val.NameStartChar + ')' +
+  '(?:' + XMLFragment::val.NameChar + ')*'
 XMLFragment::val.NMToken = '(?:' + XMLFragment::val.NameChar + ')+'
 XMLFragment::val.EntityRef = '&' + XMLFragment::val.Name + ';'
-XMLFragment::val.Reference = '&' + XMLFragment::val.Name + ';' + '|' + XMLFragment::val.CharRef
+XMLFragment::val.Reference = 
+  '&' + XMLFragment::val.Name + ';' + '|' + XMLFragment::val.CharRef
 XMLFragment::val.PEReference = '%' + XMLFragment::val.Name + ';'
 XMLFragment::val.EntityValue =
   '(?:[^%&"]|%' + XMLFragment::val.Name + ';|&' + XMLFragment::val.Name + ';)*'
@@ -197,13 +240,18 @@ XMLFragment::val.CommentContent =
   '(?:' + XMLFragment::val.CommentChar + '|' +
   '-' + XMLFragment::val.CommentChar + ')*'
 XMLFragment::val.Comment = '<!--' + XMLFragment::val.CommentContent + '-->'
-XMLFragment::val.VersionNum = '1\.[0-9]+'
-XMLFragment::val.EncName = '[A-Za-z](?:[A-Za-z0-9\._]|-)*'
 XMLFragment::val.ExternalID =
   '(?:' + 'SYSTEM' + XMLFragment::val.Space + XMLFragment::val.SystemLiteral + ')|'
   '(?:' + 'PUBLIC' + XMLFragment::val.Space + XMLFragment::val.PubIDLateral +
-  XMLFragment::val.Space + XMLFragment::val.SystemLiteral
-XMLFragment::val.CDATA = /^\<!\[CDATA\[.*?\]\]\>$/
+  XMLFragment::val.Space + XMLFragment::val.SystemLiteral + ')'
+
+
+XMLFragment::val.CharData = /^(?![^<&]*]]>[^<&]*)[^<&]*$/
+XMLFragment::val.CDATA = /^(?:(?!]]>).)*$/
+
+
+XMLFragment::val.VersionNum = /^1\.[0-9]+$/
+XMLFragment::val.EncName = /^[A-Za-z](?:[A-Za-z0-9\._]|-)*$/
 
 
 module.exports = XMLFragment

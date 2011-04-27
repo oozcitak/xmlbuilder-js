@@ -19,9 +19,10 @@ class XMLBuilder extends XMLFragment
   # `doctype.name` name of the root element
   # `doctype.ext` the external subset containing markup declarations
   begin: (name, xmldec, doctype, options) ->
-    if not name
+    if not name?
       throw new Error "Root element needs a name"
     @children = []
+    name = '' + name or ''
 
     if xmldec? and not xmldec.version?
       throw new Error "Version number is required"
@@ -29,27 +30,31 @@ class XMLBuilder extends XMLFragment
       throw new Error "Document name is required"
 
     if xmldec?
-      if not String(xmldec.version).match "^" + @val.VersionNum + "$"
+      xmldec.version = '' + xmldec.version or ''
+      if not xmldec.version.match @val.VersionNum
         throw new Error "Invalid version number: " + xmldec.version
       att = { version: xmldec.version }
 
       if xmldec.encoding?
-        if not String(xmldec.encoding).match "^" + @val.EncName + "$"
+        xmldec.encoding = '' + xmldec.encoding or ''
+        if not xmldec.encoding.match @val.EncName
           throw new Error "Invalid encoding: " + xmldec.encoding
         att.encoding = xmldec.encoding
 
-      if xmldec.standalone
+      if xmldec.standalone?
         att.standalone = if xmldec.standalone then "yes" else "no"
 
       child = new XMLFragment @, '?xml', att
       @children.push child
 
     if doctype?
+      doctype.name = '' + doctype.name or ''
       if not String(doctype.name).match "^" + @val.Name + "$"
         throw new Error "Invalid document name: " + doctype.name
       att = { name: doctype.name }
       
       if doctype.ext?
+        doctype.ext = '' + doctype.ext or ''
         if not String(doctype.ext).match "^" + @val.ExternalID + "$"
           throw new Error "Invalid external ID: " + doctype.ext
         att.ext = doctype.ext

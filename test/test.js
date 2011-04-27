@@ -3,7 +3,7 @@ var xml = '<root>' +
               '<!-- CoffeeScript is awesome. -->' +
               '<repo type="git">git://github.com/oozcitak/xmlbuilder-js.git</repo>' +
             '</xmlbuilder>' +
-            '<test>complete 100%</test>' +
+            '<test escaped="chars &lt;&gt;&apos;&quot;&amp;">complete 100%</test>' +
             '<cdata><![CDATA[<test att="val">this is a test</test>]]></cdata>' +
           '</root>';
 
@@ -19,11 +19,12 @@ builder.begin('root')
     .up()
   .up()
   .ele('test')
+    .att('escaped', 'chars <>\'"&')
     .txt('complete 100%')
     .up()
   .up()
   .ele('cdata')
-    .txt('<![CDATA[<test att="val">this is a test</test>]]>');
+    .cdata('<test att="val">this is a test</test>');
 
 var assert = require('assert');
 var test = builder.toString();
