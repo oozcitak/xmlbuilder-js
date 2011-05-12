@@ -5,6 +5,7 @@ xml = '<root>' +
         '</xmlbuilder>' +
         '<test escaped="chars &lt;&gt;&apos;&quot;&amp;">complete 100%</test>' +
         '<cdata><![CDATA[<test att="val">this is a test</test>]]></cdata>' +
+        '<raw>&<>&</raw>' +
       '</root>'
 
 builder = require '../src/index.coffee'
@@ -23,6 +24,9 @@ builder.begin('root')
   .up()
   .ele('cdata')
     .cdata('<test att="val">this is a test</test>')
+  .up()
+  .ele('raw')
+    .raw('&<>&')
 
 assert = require('assert')
 test = builder.toString()

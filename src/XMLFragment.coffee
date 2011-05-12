@@ -90,6 +90,20 @@ class XMLFragment
     return @
 
 
+  # Adds unescaped raw text
+  #
+  # `value` text
+  raw: (value) ->
+    if not value?
+      throw new Error "Missing raw text"
+
+    value = '' + value or ''
+
+    child = new XMLFragment @, '', {}, value
+    @children.push child
+    return @
+
+
   # Gets the parent node
   up: () ->
     if not @parent?
@@ -187,12 +201,13 @@ class XMLFragment
   txt: (value) -> @text value
   dat: (value) -> @cdata value
   att: (name, value) -> @attribute name, value
-  com: (name, value) -> @comment name, value
+  com: (value) -> @comment value
   e: (name, attributes) -> @element name, attributes
   t: (value) -> @text value
   d: (value) -> @cdata value
   a: (name, value) -> @attribute name, value
-  c: (name, value) -> @comment name, value
+  c: (value) -> @comment value
+  r: (value) -> @raw value
   u: () -> @up
 
 

@@ -13,6 +13,3 @@ publish: release
 	npm publish
 	@rm -fr lib/
 
-test: release
-	@test `which node` || echo 'You need to have node-js installed.'
-	@node ./test/test.js
