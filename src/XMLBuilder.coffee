@@ -31,13 +31,13 @@ class XMLBuilder extends XMLFragment
 
     if xmldec?
       xmldec.version = '' + xmldec.version or ''
-      if not xmldec.version.match @val.VersionNum
+      if not xmldec.version.match /1\.[0-9]+/
         throw new Error "Invalid version number: " + xmldec.version
       att = { version: xmldec.version }
 
       if xmldec.encoding?
         xmldec.encoding = '' + xmldec.encoding or ''
-        if not xmldec.encoding.match @val.EncName
+        if not xmldec.encoding.match /[A-Za-z](?:[A-Za-z0-9._-]|-)*/
           throw new Error "Invalid encoding: " + xmldec.encoding
         att.encoding = xmldec.encoding
 
@@ -49,14 +49,10 @@ class XMLBuilder extends XMLFragment
 
     if doctype?
       doctype.name = '' + doctype.name or ''
-      if not String(doctype.name).match "^" + @val.Name + "$"
-        throw new Error "Invalid document name: " + doctype.name
       att = { name: doctype.name }
       
       if doctype.ext?
         doctype.ext = '' + doctype.ext or ''
-        if not String(doctype.ext).match "^" + @val.ExternalID + "$"
-          throw new Error "Invalid external ID: " + doctype.ext
         att.ext = doctype.ext
 
       child = new XMLFragment @, '!DOCTYPE', att

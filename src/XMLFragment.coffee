@@ -25,12 +25,12 @@ class XMLFragment
       throw new Error "Missing element name"
 
     name = '' + name or ''
+    @assertLegalChar name
     attributes ?= {}
-    for own key, val of attributes
-      attributes[key] = @escape val
 
-    if not name.match "^" + @val.Name + "$"
-      throw new Error "Invalid element name: " + name
+    for own key, val of attributes
+      val = '' + val or ''
+      attributes[key] = @escape val
 
     child = new XMLFragment @, name, attributes
     @children.push child
@@ -46,9 +46,7 @@ class XMLFragment
 
     value = '' + value or ''
     value = @escape value
-
-    if not value.match @val.CharData
-      throw new Error "Invalid element text: " + value
+    @assertLegalChar value
 
     child = new XMLFragment @, '', {}, value
     @children.push child
@@ -63,8 +61,9 @@ class XMLFragment
       throw new Error "Missing CDATA text"
 
     value = '' + value or ''
+    @assertLegalChar value
 
-    if not value.match @val.CDATA
+    if value.match /]]>/
       throw new Error "Invalid CDATA text: " + value
 
     child = new XMLFragment @, '', {}, '<![CDATA[' + value + ']]>'
@@ -81,9 +80,10 @@ class XMLFragment
 
     value = '' + value or ''
     value = @escape value
+    @assertLegalChar value
 
-    if not value.match("^" + @val.CommentContent + "$")
-      throw new Error "Invalid comment text: " + value
+    if value.match /--/
+      throw new Error "Comment text cannot contain double-hypen: " + value
 
     child = new XMLFragment @, '', {}, '<!-- ' + value + ' -->'
     @children.push child
@@ -123,14 +123,12 @@ class XMLFragment
 
     name = '' + name or ''
     value = '' + value or ''
-    value = @escape value
+    @attributes ?= {}
 
-    if not name.match "^" + @val.Name + "$"
-      throw new Error "Invalid attribute name: " + name
-    if not value.match "^" + @val.AttValue + "$"
-      throw new Error "Invalid attribute value: " + value
+    if @attributes.hasOwnProperty name
+      throw new Error "Attribute already defined: " + name
 
-    @attributes[name] = value
+    @attributes[name] = @escape value
 
     return @
 
@@ -196,6 +194,17 @@ class XMLFragment
               .replace(/'/g, '&apos;').replace(/"/g, '&quot;')
 
 
+  # Checks whether the given string contains legal characters
+  # Fails with an exception on error
+  #
+  # `str` the string to check
+  assertLegalChar: (str) ->
+    chars = /[\u0000-\u0008\u000B-\u000C\u000E-\u001F\uD800-\uDFFF\uFFFE-\uFFFF]/
+    chr = str.match chars
+    if chr
+      throw new Error "Invalid character (#{chr}) in string: #{str}"
+ 
+
   # Aliases
   ele: (name, attributes) -> @element name, attributes
   txt: (value) -> @text value
@@ -209,54 +218,6 @@ class XMLFragment
   c: (value) -> @comment value
   r: (value) -> @raw value
   u: () -> @up
-
-
-# Regular expressions to validate tokens
-# See: http://www.w3.org/TR/xml/ 
-# Supplementary Unicode code points not supported
-XMLFragment::val = {}
-XMLFragment::val.Space = "(?:\u0020|\u0009|\u000D|\u000A)+"
-XMLFragment::val.Char = "\u0009|\u000A|\u000D|[\u0020-\uD7FF]|[\uE000-\uFFFD]"
-XMLFragment::val.NameStartChar =
-  ":|[A-Z]|_|[a-z]|[\u00C0-\u00D6]|[\u00D8-\u00F6]|[\u00F8-\u02FF]|" +
-  "[\u0370-\u037D]|[\u037F-\u1FFF]|[\u200C-\u200D]|[\u2070-\u218F]|" +
-  "[\u2C00-\u2FEF]|[\u3001-\uD7FF]|[\uF900-\uFDCF]|[\uFDF0-\uFFFD]"
-XMLFragment::val.NameChar =
-  XMLFragment::val.NameStartChar + '|' +
-  "-|\.|[0-9]|\u00B7|[\u0300-\u036F]|[\u203F-\u2040]"
-XMLFragment::val.CharRef = "&#[0-9]+;|&#x[0-9a-fA-F]+;"
-XMLFragment::val.Name = 
-  '(?:' + XMLFragment::val.NameStartChar + ')' +
-  '(?:' + XMLFragment::val.NameChar + ')*'
-XMLFragment::val.NMToken = '(?:' + XMLFragment::val.NameChar + ')+'
-XMLFragment::val.EntityRef = '&' + XMLFragment::val.Name + ';'
-XMLFragment::val.Reference = 
-  '&' + XMLFragment::val.Name + ';' + '|' + XMLFragment::val.CharRef
-XMLFragment::val.PEReference = '%' + XMLFragment::val.Name + ';'
-XMLFragment::val.EntityValue =
-  '(?:[^%&"]|%' + XMLFragment::val.Name + ';|&' + XMLFragment::val.Name + ';)*'
-XMLFragment::val.AttValue =
-  '(?:[^<&"]|' + XMLFragment::val.Reference + ')*'
-XMLFragment::val.SystemLiteral = '[^"]*'
-XMLFragment::val.PubIDChar = "\u0020|\u000D|\u000A|[a-zA-Z0-9]|[-'()+,./:=?;!*#@$_%]"
-XMLFragment::val.PubIDLiteral = '(?:' + XMLFragment::val.PubIDChar + ')*'
-XMLFragment::val.CommentChar = '(?!-)' + '(?:' + XMLFragment::val.Char + ')'
-XMLFragment::val.CommentContent =
-  '(?:' + XMLFragment::val.CommentChar + '|' +
-  '-' + XMLFragment::val.CommentChar + ')*'
-XMLFragment::val.Comment = '<!--' + XMLFragment::val.CommentContent + '-->'
-XMLFragment::val.ExternalID =
-  '(?:' + 'SYSTEM' + XMLFragment::val.Space + XMLFragment::val.SystemLiteral + ')|'
-  '(?:' + 'PUBLIC' + XMLFragment::val.Space + XMLFragment::val.PubIDLateral +
-  XMLFragment::val.Space + XMLFragment::val.SystemLiteral + ')'
-
-
-XMLFragment::val.CharData = /^(?![^<&]*]]>[^<&]*)[^<&]*$/
-XMLFragment::val.CDATA = /^(?:(?!]]>).)*$/
-
-
-XMLFragment::val.VersionNum = /^1\.[0-9]+$/
-XMLFragment::val.EncName = /^[A-Za-z](?:[A-Za-z0-9\._]|-)*$/
 
 
 module.exports = XMLFragment

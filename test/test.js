@@ -6,5 +6,4 @@
   assert = require('assert');
   test = builder.toString();
   assert.strictEqual(xml, test);
-  console.log(test);
 }).call(this);
