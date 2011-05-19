@@ -11,8 +11,8 @@ npm install xmlbuilder
 
 ### Important:
 
-I had to break compatibility while adding string escaping to xml-builder. 
-As a result, current version is **not** compatible with previous versions.
+I had to break compatibility while adding string escaping to version 0.1.0. 
+As a result, version from v0.1.0 are **not** compatible with previous versions.
 
 ### Usage:
 
