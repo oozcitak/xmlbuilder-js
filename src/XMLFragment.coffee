@@ -20,7 +20,8 @@ class XMLFragment
   #
   # `name` name of the node
   # `attributes` an object containing name/value pairs of attributes
-  element: (name, attributes) ->
+  # `text` element text
+  element: (name, attributes, text) ->
     if not name?
       throw new Error "Missing element name"
 
@@ -28,11 +29,24 @@ class XMLFragment
     @assertLegalChar name
     attributes ?= {}
 
+    # swap argument order: text <-> attribute
+    if @is(attributes, 'String') and @is(text, 'Object')
+      [attributes, text] = [text, attributes]
+    else if @is(attributes, 'String')
+      [attributes, text] = [{}, attribues]
+
     for own key, val of attributes
       val = '' + val or ''
       attributes[key] = @escape val
 
     child = new XMLFragment @, name, attributes
+
+    if text?
+      text = '' + text or ''
+      text = @escape text
+      @assertLegalChar text
+      child.text text
+
     @children.push child
     return child
 
@@ -203,15 +217,24 @@ class XMLFragment
     chr = str.match chars
     if chr
       throw new Error "Invalid character (#{chr}) in string: #{str}"
- 
+
+
+  # Checks whether the given object is of the given type
+  #
+  # `obj` the object to check
+  # `type` the type to compare to. (String, Number, Object, Date, ...)
+  is: (obj, type) ->
+    clas = Object.prototype.toString.call(obj).slice(8, -1)
+    return obj? and clas is type;
+
 
   # Aliases
-  ele: (name, attributes) -> @element name, attributes
+  ele: (name, attributes, text) -> @element name, attributes, text
   txt: (value) -> @text value
   dat: (value) -> @cdata value
   att: (name, value) -> @attribute name, value
   com: (value) -> @comment value
-  e: (name, attributes) -> @element name, attributes
+  e: (name, attributes, text) -> @element name, attributes, text
   t: (value) -> @text value
   d: (value) -> @cdata value
   a: (name, value) -> @attribute name, value
