@@ -139,9 +139,6 @@ class XMLFragment
     value = '' + value or ''
     @attributes ?= {}
 
-    if @attributes.hasOwnProperty name
-      throw new Error "Attribute already defined: " + name
-
     @attributes[name] = @escape value
 
     return @
