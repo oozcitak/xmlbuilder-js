@@ -30,7 +30,7 @@ builder.begin('root')
   .ele('test')
     .txt('complete');
     
-console.log(builder.toString({ pretty: true });
+console.log(builder.toString({ pretty: true }));
 ```
 
 will result in:
