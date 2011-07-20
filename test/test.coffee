@@ -1,5 +1,5 @@
 assert = require('assert')
-builder = require '../src/index.coffee'
+builder = require('../src/index.coffee')()
 
 xml = '<root>' +
         '<xmlbuilder for="node-js">' +
