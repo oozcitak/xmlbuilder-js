@@ -1,6 +1,7 @@
 assert = require('assert')
-builder = require '../src/index.coffee'
+xmlbuilder = require '../src/index.coffee'
 
+# Test XML
 xml = '<root>' +
         '<xmlbuilder for="node-js">' +
           '<!-- CoffeeScript is awesome. -->' +
@@ -13,6 +14,8 @@ xml = '<root>' +
         '<atttest>text</atttest>' +
       '</root>'
 
+# Test long form
+builder = xmlbuilder.create()
 builder.begin('root')
   .ele('xmlbuilder')
     .att('for', 'node-js')
@@ -32,13 +35,14 @@ builder.begin('root')
   .ele('raw')
     .raw('&<>&')
     .up()
-  .ele('atttest', { att: 'val' }, 'text')
+  .ele('atttest', { 'att': 'val' }, 'text')
     .up()
   .ele('atttest', 'text')
 
 test = builder.toString()
 assert.strictEqual(xml, test)
 
+# Test long form with attributes
 builder.begin('root')
   .ele('xmlbuilder', {'for': 'node-js' })
     .com('CoffeeScript is awesome.')
@@ -53,13 +57,14 @@ builder.begin('root')
   .ele('raw')
     .raw('&<>&')
     .up()
-  .ele('atttest', { att: 'val' }, 'text')
+  .ele('atttest', { 'att': 'val' }, 'text')
     .up()
   .ele('atttest', 'text')
 
 test = builder.toString()
 assert.strictEqual(xml, test)
 
+# Test short form
 builder.begin('root')
   .e('xmlbuilder', {'for': 'node-js' })
     .c('CoffeeScript is awesome.')
@@ -74,12 +79,22 @@ builder.begin('root')
   .e('raw')
     .r('&<>&')
     .u()
-  .e('atttest', { att: 'val' }, 'text')
+  .e('atttest', { 'att': 'val' }, 'text')
     .u()
   .e('atttest', 'text')
 
 test = builder.toString()
 assert.strictEqual(xml, test)
 
-console.log builder.toString({ pretty: true })
+# Test multiple instances
+xml2 = '<test2><node>second instance</node></test2>'
+builder2 = xmlbuilder.create()
+builder2.begin('test2')
+  .ele('node', 'second instance')
+test2 = builder2.toString()
+assert.strictEqual(xml2, test2)
+
+# First instance should remain unchanged
+test1 = builder.toString()
+assert.strictEqual(xml, test1)
 
