@@ -222,7 +222,7 @@ class XMLFragment
   # `type` the type to compare to. (String, Number, Object, Date, ...)
   is: (obj, type) ->
     clas = Object.prototype.toString.call(obj).slice(8, -1)
-    return obj? and clas is type;
+    return obj? and clas is type
 
 
   # Aliases
