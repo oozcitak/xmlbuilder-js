@@ -11,15 +11,16 @@ npm install xmlbuilder
 
 ### Important:
 
-I had to break compatibility while adding string escaping to version 0.1.0. 
-As a result, version from v0.1.0 are **not** compatible with previous versions.
+I had to break compatibility while adding multiple instances in 0.1.3. 
+As a result, version from v0.1.3 are **not** compatible with previous versions.
 
 ### Usage:
 
 ``` js
 var builder = require('xmlbuilder');
-    
-builder.begin('root')
+var doc = builder.create();
+
+doc.begin('root')
   .ele('xmlbuilder')
     .att('for', 'node-js')
     .ele('repo')
@@ -30,7 +31,7 @@ builder.begin('root')
   .ele('test')
     .txt('complete');
     
-console.log(builder.toString({ pretty: true }));
+console.log(doc.toString({ pretty: true }));
 ```
 
 will result in:
@@ -47,7 +48,7 @@ will result in:
 If you need to do some processing:
 
 ``` js
-var root = builder.begin('squares');
+var root = doc.begin('squares');
 root.com('f(x) = x^2');
 for(var i = 1; i <= 5; i++)
 {
