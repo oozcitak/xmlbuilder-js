@@ -7,7 +7,7 @@ xml = '<root>' +
           '<repo type="git">git://github.com/oozcitak/xmlbuilder-js.git</repo>' +
         '</xmlbuilder>' +
         '<test escaped="chars &lt;&gt;&apos;&quot;&amp;">complete 100%</test>' +
-        '<cdata><![CDATA[<test att="val">this is a test</test>]]></cdata>' +
+        '<cdata><![CDATA[<test att="val">this is a test</test>\nSecond line]]></cdata>' +
         '<raw>&<>&</raw>' +
         '<atttest att="val">text</atttest>' +
         '<atttest>text</atttest>' +
@@ -27,7 +27,7 @@ builder.begin('root')
     .txt('complete 100%')
   .up()
   .ele('cdata')
-    .cdata('<test att="val">this is a test</test>')
+    .cdata('<test att="val">this is a test</test>\nSecond line')
   .up()
   .ele('raw')
     .raw('&<>&')
@@ -48,7 +48,7 @@ builder.begin('root')
   .ele('test', {'escaped': 'chars <>\'"&'}, 'complete 100%')
   .up()
   .ele('cdata')
-    .cdata('<test att="val">this is a test</test>')
+    .cdata('<test att="val">this is a test</test>\nSecond line')
   .up()
   .ele('raw')
     .raw('&<>&')
@@ -69,7 +69,7 @@ builder.begin('root')
   .e('test', {'escaped': 'chars <>\'"&'}, 'complete 100%')
   .u()
   .e('cdata')
-    .d('<test att="val">this is a test</test>')
+    .d('<test att="val">this is a test</test>\nSecond line')
   .u()
   .e('raw')
     .r('&<>&')
@@ -80,4 +80,6 @@ builder.begin('root')
 
 test = builder.toString()
 assert.strictEqual(xml, test)
+
+console.log builder.toString({ pretty: true })
 
