@@ -33,7 +33,7 @@ class XMLFragment
     if @is(attributes, 'String') and @is(text, 'Object')
       [attributes, text] = [text, attributes]
     else if @is(attributes, 'String')
-      [attributes, text] = [{}, attribues]
+      [attributes, text] = [{}, attributes]
 
     for own key, val of attributes
       val = '' + val or ''

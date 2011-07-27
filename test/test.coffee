@@ -9,6 +9,8 @@ xml = '<root>' +
         '<test escaped="chars &lt;&gt;&apos;&quot;&amp;">complete 100%</test>' +
         '<cdata><![CDATA[<test att="val">this is a test</test>]]></cdata>' +
         '<raw>&<>&</raw>' +
+        '<atttest att="val">text</atttest>' +
+        '<atttest>text</atttest>' +
       '</root>'
 
 builder.begin('root')
@@ -29,6 +31,10 @@ builder.begin('root')
   .up()
   .ele('raw')
     .raw('&<>&')
+    .up()
+  .ele('atttest', { att: 'val' }, 'text')
+    .up()
+  .ele('atttest', 'text')
 
 test = builder.toString()
 assert.strictEqual(xml, test)
@@ -46,6 +52,10 @@ builder.begin('root')
   .up()
   .ele('raw')
     .raw('&<>&')
+    .up()
+  .ele('atttest', { att: 'val' }, 'text')
+    .up()
+  .ele('atttest', 'text')
 
 test = builder.toString()
 assert.strictEqual(xml, test)
@@ -63,6 +73,10 @@ builder.begin('root')
   .u()
   .e('raw')
     .r('&<>&')
+    .u()
+  .e('atttest', { att: 'val' }, 'text')
+    .u()
+  .e('atttest', 'text')
 
 test = builder.toString()
 assert.strictEqual(xml, test)
