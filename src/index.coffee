@@ -1,4 +1,4 @@
 XMLBuilder = require './XMLBuilder'
 
-module.exports = new XMLBuilder()
+module.exports = -> new XMLBuilder()
 
