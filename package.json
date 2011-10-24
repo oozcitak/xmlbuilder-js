@@ -16,7 +16,7 @@
     } 
   ],
   "bugs": {
-    "web": "http://github.com/oozcitak/xmlbuilder-js/issues"
+    "url": "http://github.com/oozcitak/xmlbuilder-js/issues"
   },
   "directories": {
     "lib": "./lib"
