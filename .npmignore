@@ -1,5 +1,6 @@
 .git*
-src
-test
+.travis.yml
+src/
+test/
 Makefile
 README.*
