@@ -1,6 +1,8 @@
 {
-  "name" : "xmlbuilder",
+  "name": "xmlbuilder",
   "version": "0.1.7",
+  "keywords": "xml xmlbuilder",
+  "homepage": "http://github.com/oozcitak/xmlbuilder-js",
   "description": "An XML builder for node.js",
   "author": "Ozgur Ozcitak <oozcitak@gmail.com>",
   "licenses": [
@@ -24,7 +26,7 @@
   "main": "./lib/index",
   "engines": { 
     "node": ">=0.2.0" 
-  }
+  },
   "scripts": {
     "test": "make test"
   }
