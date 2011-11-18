@@ -1,4 +1,4 @@
-dev:
+test:
 	@test `which coffee` || echo 'You need to have CoffeeScript installed.'
 	@coffee test/test.coffee
 
