@@ -98,3 +98,49 @@ assert.strictEqual(xml2, test2)
 test1 = builder.toString()
 assert.strictEqual(xml, test1)
 
+# Remove item
+xml3 = '<test3><node>first instance</node><node>third instance</node></test3>'
+builder.begin('test3')
+  .e('node', 'first instance')
+  .u()
+  .e('node', 'second instance')
+  .remove()
+  .e('node', 'third instance')
+
+test3 = builder.toString()
+assert.strictEqual(xml3, test3)
+
+# Remove attribute
+xml4 = '<test4><node first="1" third="3">element</node></test4>'
+root = builder.begin('test4')
+ele = root.e('node', 'element', {"first":"1", "second":"2", "third":"3"})
+ele.removeAttribute("second")
+test4 = builder.toString()
+assert.strictEqual(xml4, test4)
+
+# Prev/next
+xml5 = '<test5><node prev="yes">1</node><node>element</node><node next="yes">2</node></test5>'
+builder.begin('test5')
+  .e('node','1')
+  .up()
+  .e('node','element')
+  .up()
+  .e('node','2')
+  .prev()
+  .prev()
+  .att('prev','yes')
+  .next()
+  .next()
+  .att('next','yes')
+test5 = builder.toString()
+assert.strictEqual(xml5, test5)
+
+# Insert
+xml6 = '<test6><node>1</node><node>2</node><node>last</node></test6>'
+builder.begin('test6')
+  .e('node','last')
+  .insertBefore('node','1')
+  .insertAfter('node','2')
+test6 = builder.toString()
+assert.strictEqual(xml6, test6)
+

@@ -16,7 +16,6 @@ class XMLBuilder extends XMLFragment
   # `xmldec.encoding` Encoding declaration, e.g. UTF-8
   # `xmldec.standalone` standalone document declaration: true or false
   #
-  # `doctype.name` name of the root element
   # `doctype.ext` the external subset containing markup declarations
   begin: (name, xmldec, doctype, options) ->
     if not name?
@@ -26,8 +25,6 @@ class XMLBuilder extends XMLFragment
 
     if xmldec? and not xmldec.version?
       throw new Error "Version number is required"
-    if doctype? and not doctype.name?
-      throw new Error "Document name is required"
 
     if xmldec?
       xmldec.version = '' + xmldec.version or ''
@@ -48,8 +45,7 @@ class XMLBuilder extends XMLFragment
       @children.push child
 
     if doctype?
-      doctype.name = '' + doctype.name or ''
-      att = { name: doctype.name }
+      att = { name: name }
       
       if doctype.ext?
         doctype.ext = '' + doctype.ext or ''

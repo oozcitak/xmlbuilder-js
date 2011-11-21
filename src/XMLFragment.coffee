@@ -51,6 +51,90 @@ class XMLFragment
     return child
 
 
+  # Creates a child element node before the current node
+  #
+  # `name` name of the node
+  # `attributes` an object containing name/value pairs of attributes
+  # `text` element text
+  insertBefore: (name, attributes, text) ->
+    if not name?
+      throw new Error "Missing element name"
+
+    name = '' + name or ''
+    @assertLegalChar name
+    attributes ?= {}
+
+    # swap argument order: text <-> attribute
+    if @is(attributes, 'String') and @is(text, 'Object')
+      [attributes, text] = [text, attributes]
+    else if @is(attributes, 'String')
+      [attributes, text] = [{}, attributes]
+
+    for own key, val of attributes
+      val = '' + val or ''
+      attributes[key] = @escape val
+
+    child = new XMLFragment @parent, name, attributes
+
+    if text?
+      text = '' + text or ''
+      text = @escape text
+      @assertLegalChar text
+      child.text text
+
+    i = @parent.children.indexOf @
+    @parent.children.splice i, 0, child
+    return child
+
+
+  # Creates a child element node after the current node
+  #
+  # `name` name of the node
+  # `attributes` an object containing name/value pairs of attributes
+  # `text` element text
+  insertAfter: (name, attributes, text) ->
+    if not name?
+      throw new Error "Missing element name"
+
+    name = '' + name or ''
+    @assertLegalChar name
+    attributes ?= {}
+
+    # swap argument order: text <-> attribute
+    if @is(attributes, 'String') and @is(text, 'Object')
+      [attributes, text] = [text, attributes]
+    else if @is(attributes, 'String')
+      [attributes, text] = [{}, attributes]
+
+    for own key, val of attributes
+      val = '' + val or ''
+      attributes[key] = @escape val
+
+    child = new XMLFragment @parent, name, attributes
+
+    if text?
+      text = '' + text or ''
+      text = @escape text
+      @assertLegalChar text
+      child.text text
+
+    i = @parent.children.indexOf @
+    @parent.children.splice i + 1, 0, child
+    return child
+
+
+  # Deletes a child element node
+  #
+  remove: () ->
+    if not @parent?
+      throw new Error "Cannot remove the root element"
+
+    i = @parent.children.indexOf @
+    @parent.children[i..i] = []
+
+    return @parent
+
+
   # Creates a text node
   #
   # `value` element text
@@ -124,6 +208,27 @@ class XMLFragment
       throw new Error "This node has no parent"
     return @parent
 
+  # Gets the previous node
+  prev: () ->
+    if not @parent?
+      throw new Error "This node has no parent"
+
+    i = @parent.children.indexOf @
+    if i < 1
+      throw new Error "Already at the first node"
+    @parent.children[i - 1]
+
+
+  # Gets the next node
+  next: () ->
+    if not @parent?
+      throw new Error "This node has no parent"
+
+    i = @parent.children.indexOf @
+    if i == -1 || i == @parent.children.length - 1
+      throw new Error "Already at the last node"
+    @parent.children[i + 1]
+
 
   # Adds or modifies an attribute
   #
@@ -140,6 +245,20 @@ class XMLFragment
     @attributes ?= {}
 
     @attributes[name] = @escape value
+
+    return @
+
+
+  # Removes an attribute
+  #
+  # `name` attribute name
+  removeAttribute: (name) ->
+    if not name?
+      throw new Error "Missing attribute name"
+
+    name = '' + name or ''
+
+    delete @attributes[name]
 
     return @
 
