@@ -11,12 +11,10 @@
       "url": "http://opensource.org/licenses/mit-license.php" 
     } 
   ],
-  "repositories": [
-    {
-      "type": "git",
-      "url": "git://github.com/oozcitak/xmlbuilder-js.git" 
-    } 
-  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/oozcitak/xmlbuilder-js.git"
+  },
   "bugs": {
     "url": "http://github.com/oozcitak/xmlbuilder-js/issues"
   },
