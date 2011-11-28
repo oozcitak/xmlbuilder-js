@@ -118,8 +118,8 @@ ele.removeAttribute("second")
 test4 = builder.toString()
 assert.strictEqual(xml4, test4)
 
-# Prev/next
-xml5 = '<test5><node prev="yes">1</node><node>element</node><node next="yes">2</node></test5>'
+# Prev/next/root
+xml5 = '<test5 root="yes"><node prev="yes">1</node><node>element</node><node next="yes">2</node></test5>'
 builder.begin('test5')
   .e('node','1')
   .up()
@@ -132,6 +132,8 @@ builder.begin('test5')
   .next()
   .next()
   .att('next','yes')
+  .root()
+  .att('root', 'yes')
 test5 = builder.toString()
 assert.strictEqual(xml5, test5)
 

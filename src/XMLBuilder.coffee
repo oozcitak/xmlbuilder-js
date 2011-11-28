@@ -55,6 +55,7 @@ class XMLBuilder extends XMLFragment
       @children.push child
 
     root = new XMLFragment @, name, {}
+    root.isRoot = true
     @children.push root
 
     return root
