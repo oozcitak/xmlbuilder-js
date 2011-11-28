@@ -59,7 +59,7 @@ class XMLFragment
   # `attributes` an object containing name/value pairs of attributes
   # `text` element text
   insertBefore: (name, attributes, text) ->
-    if @isRoot
+    if @isRoot || @isDoc
       throw new Error "Cannot insert elements at root level"
 
     if not name?
@@ -98,7 +98,7 @@ class XMLFragment
   # `attributes` an object containing name/value pairs of attributes
   # `text` element text
   insertAfter: (name, attributes, text) ->
-    if @isRoot
+    if @isRoot || @isDoc
       throw new Error "Cannot insert elements at root level"
 
     if not name?
@@ -134,7 +134,7 @@ class XMLFragment
   # Deletes a child element node
   #
   remove: () ->
-    if @isRoot
+    if @isRoot || @isDoc
       throw new Error "Cannot remove the root element"
 
     i = @parent.children.indexOf @
@@ -212,8 +212,8 @@ class XMLFragment
 
   # Gets the parent node
   up: () ->
-    if !@parent?
-      throw new Error "This node has no parent"
+    if @isRoot
+      throw new Error "This node has no parent. Use doc() if you need to get the document object."
     return @parent
 
 
@@ -241,7 +241,7 @@ class XMLFragment
 
   # Gets the previous node
   prev: () ->
-    if @isRoot
+    if @isRoot || @isDoc
       throw new Error "Root node has no siblings"
 
     i = @parent.children.indexOf @
@@ -252,7 +252,7 @@ class XMLFragment
 
   # Gets the next node
   next: () ->
-    if @isRoot
+    if @isRoot || @isDoc
       throw new Error "Root node has no siblings"
 
     i = @parent.children.indexOf @
