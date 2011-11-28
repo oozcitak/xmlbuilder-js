@@ -146,3 +146,13 @@ builder.begin('test6')
 test6 = builder.toString()
 assert.strictEqual(xml6, test6)
 
+# Test the doc() method
+xml7 = '<test7><nodes><node>1</node><node>2</node><node>3</node></nodes></test7>'
+test7 = builder.begin('test7')
+      .ele('nodes',)
+        .ele('node', '1').up()
+        .ele('node', '2').up()
+        .ele('node', '3')
+        .doc().toString()
+assert.strictEqual(xml7, test7)
+
