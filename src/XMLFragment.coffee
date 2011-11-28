@@ -211,7 +211,7 @@ class XMLFragment
 
   # Gets the parent node
   up: () ->
-    if @isRoot
+    if !@parent?
       throw new Error "This node has no parent"
     return @parent
 
