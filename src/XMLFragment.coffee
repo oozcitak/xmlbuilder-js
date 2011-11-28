@@ -9,6 +9,7 @@ class XMLFragment
   # `attributes` an object containing name/value pairs of attributes
   # `text` element text
   constructor: (parent, name, attributes, text) ->
+    @isDoc = false
     @isRoot = false
     @parent = parent
     @name = name
@@ -227,6 +228,17 @@ class XMLFragment
     return child
 
 
+  # Gets the node representing the XML document
+  document: () ->
+    if @isDoc
+      return @
+
+    child = @parent
+    child = child.parent while not child.isDoc
+
+    return child
+
+
   # Gets the previous node
   prev: () ->
     if @isRoot
@@ -375,6 +387,7 @@ class XMLFragment
   dat: (value) -> @cdata value
   att: (name, value) -> @attribute name, value
   com: (value) -> @comment value
+  doc: () -> @document()
   e: (name, attributes, text) -> @element name, attributes, text
   t: (value) -> @text value
   d: (value) -> @cdata value

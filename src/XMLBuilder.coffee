@@ -5,7 +5,9 @@ class XMLBuilder extends XMLFragment
 
 
   # Initializes a new instance of `XMLBuilder`
-  constructor: () -> super null, '', {}, ''
+  constructor: () ->
+    super null, '', {}, ''
+    @isDoc = true
 
 
   # Creates the XML prolog
