@@ -22,7 +22,7 @@ As a result, version from v0.1.3 are **not** compatible with previous versions.
 var builder = require('xmlbuilder');
 var doc = builder.create();
 
-doc.begin('root')
+doc.begin('root', {'version': '1.0'})
   .ele('xmlbuilder')
     .att('for', 'node-js')
     .ele('repo')
@@ -39,6 +39,7 @@ console.log(doc.toString({ pretty: true }));
 will result in:
 
 ``` xml
+<?xml version="1.0"?>
 <root>
   <xmlbuilder for="node-js">
     <repo type="git">git://github.com/oozcitak/xmlbuilder-js.git</repo>
