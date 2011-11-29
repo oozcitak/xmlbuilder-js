@@ -222,6 +222,9 @@ class XMLFragment
     if @isRoot
       return @
 
+    if @isDoc
+      return @children[@children.length - 1]
+
     child = @parent
     child = child.parent while not child.isRoot
 
