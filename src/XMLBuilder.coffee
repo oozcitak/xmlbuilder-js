@@ -1,13 +1,13 @@
 XMLFragment = require './XMLFragment'
 
 # Represents an XML builder
-class XMLBuilder extends XMLFragment
+class XMLBuilder
 
 
   # Initializes a new instance of `XMLBuilder`
   constructor: () ->
-    super null, '', {}, ''
-    @isDoc = true
+    @children = []
+    @rootObject = null
 
 
   # Creates the XML prolog
@@ -58,9 +58,16 @@ class XMLBuilder extends XMLFragment
 
     root = new XMLFragment @, name, {}
     root.isRoot = true
+    root.documentObject = @
     @children.push root
+    @rootObject = root
 
     return root
+
+
+  # Gets the root node
+  root: () ->
+    return @rootObject
 
 
   # Converts the XML document to string
