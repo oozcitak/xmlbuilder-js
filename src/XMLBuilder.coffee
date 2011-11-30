@@ -19,7 +19,7 @@ class XMLBuilder
   # `xmldec.standalone` standalone document declaration: true or false
   #
   # `doctype.ext` the external subset containing markup declarations
-  begin: (name, xmldec, doctype, options) ->
+  begin: (name, xmldec, doctype) ->
     if not name?
       throw new Error "Root element needs a name"
     @children = []
