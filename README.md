@@ -73,3 +73,5 @@ This will result in:
   <data x="5" y="25"/>
 </squares>
 ```
+
+See the [Usage](https://github.com/oozcitak/xmlbuilder-js/wiki/Usage) page in the wiki for more detailed instructions.
