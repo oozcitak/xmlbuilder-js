@@ -75,3 +75,7 @@ This will result in:
 ```
 
 See the [Usage](https://github.com/oozcitak/xmlbuilder-js/wiki/Usage) page in the wiki for more detailed instructions.
+
+### License:
+
+`xmlbuilder-js` is [MIT Licensed](http://opensource.org/licenses/mit-license.php).
