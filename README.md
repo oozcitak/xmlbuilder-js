@@ -48,6 +48,17 @@ will result in:
 </root>
 ```
 
+You can specify attributes and text at element creation so you can write the above code as:
+
+``` js
+doc.begin('root', {'version': '1.0'})
+  .ele('xmlbuilder', {'for': 'node-js'})
+    .ele('repo', {'type': 'git'}, 'git://github.com/oozcitak/xmlbuilder-js.git')
+    .up()
+  .up()
+ .ele('test', 'complete');
+```
+
 If you need to do some processing:
 
 ``` js
