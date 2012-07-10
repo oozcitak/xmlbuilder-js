@@ -23,15 +23,8 @@ var builder = require('xmlbuilder');
 var doc = builder.create();
 
 doc.begin('root', {'version': '1.0'})
-  .ele('xmlbuilder')
-    .att('for', 'node-js')
-    .ele('repo')
-      .att('type', 'git')
-      .txt('git://github.com/oozcitak/xmlbuilder-js.git') 
-    .up()
-  .up()
-  .ele('test')
-    .txt('complete');
+  .ele('xmlbuilder', {'for': 'node-js'})
+    .ele('repo', {'type': 'git'}, 'git://github.com/oozcitak/xmlbuilder-js.git')
     
 console.log(doc.toString({ pretty: true }));
 ```
@@ -44,19 +37,7 @@ will result in:
   <xmlbuilder for="node-js">
     <repo type="git">git://github.com/oozcitak/xmlbuilder-js.git</repo>
   </xmlbuilder>
-  <test>complete</test>
 </root>
-```
-
-You can specify attributes and text at element creation so you can write the above code as:
-
-``` js
-doc.begin('root', {'version': '1.0'})
-  .ele('xmlbuilder', {'for': 'node-js'})
-    .ele('repo', {'type': 'git'}, 'git://github.com/oozcitak/xmlbuilder-js.git')
-    .up()
-  .up()
- .ele('test', 'complete');
 ```
 
 If you need to do some processing:
