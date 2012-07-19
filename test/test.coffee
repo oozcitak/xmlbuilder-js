@@ -156,3 +156,8 @@ test7 = builder.begin('test7')
         .doc().toString()
 assert.strictEqual(xml7, test7)
 
+# Test text node with empty string
+xml9 = '<test9></test9>'
+test9 = builder.begin('test9').text('')
+  .doc().toString()
+assert.strictEqual(xml9, test9)

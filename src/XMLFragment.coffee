@@ -305,7 +305,7 @@ class XMLFragment
     # open tag
     if pretty
       r += space
-    if not @value
+    if not @value?
       r += '<' + @name
     else
       r += '' + @value
@@ -319,7 +319,7 @@ class XMLFragment
 
     if @children.length == 0
       # empty element
-      if not @value
+      if not @value?
         r += if @name == '?xml' then '?>' else if @name == '!DOCTYPE' then '>' else '/>'
       if pretty
         r += newline
