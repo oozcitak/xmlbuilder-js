@@ -47,7 +47,7 @@ class XMLFragment
       text = '' + text or ''
       text = @escape text
       @assertLegalChar text
-      child.text text
+      child.raw text
 
     @children.push child
     return child
