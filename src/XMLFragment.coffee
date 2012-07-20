@@ -47,7 +47,7 @@ class XMLFragment
       text = '' + text or ''
       text = @escape text
       @assertLegalChar text
-      child.text text
+      child.raw text
 
     @children.push child
     return child
@@ -85,7 +85,7 @@ class XMLFragment
       text = '' + text or ''
       text = @escape text
       @assertLegalChar text
-      child.text text
+      child.raw text
 
     i = @parent.children.indexOf @
     @parent.children.splice i, 0, child
@@ -124,7 +124,7 @@ class XMLFragment
       text = '' + text or ''
       text = @escape text
       @assertLegalChar text
-      child.text text
+      child.raw text
 
     i = @parent.children.indexOf @
     @parent.children.splice i + 1, 0, child

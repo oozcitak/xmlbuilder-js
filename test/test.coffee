@@ -156,8 +156,16 @@ test7 = builder.begin('test7')
         .doc().toString()
 assert.strictEqual(xml7, test7)
 
+# test escape of "
+xml8 = '<test8><node>&quot;</node></test8>'
+test8 = builder.begin('test8')
+      .ele('node', '"')
+      .doc().toString()
+assert.strictEqual(xml8, test8)
+
 # Test text node with empty string
 xml9 = '<test9></test9>'
 test9 = builder.begin('test9').text('')
   .doc().toString()
 assert.strictEqual(xml9, test9)
+
