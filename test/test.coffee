@@ -193,3 +193,13 @@ test11cloned = test11.root().clone(true)
 test11cloned.ele('added', '3')
 assert.strictEqual(xml11cloned, test11cloned.toString())
 assert.strictEqual(xml11, test11.doc().toString())
+
+# Test the importXMLBuilder() method
+xml12 = '<test12><test12imported><node>imported</node></test12imported></test12>'
+test12imported = xmlbuilder.create().begin('test12imported')
+      .ele('node', 'imported')
+      .doc()
+test12 = builder.begin('test12')
+      .importXMLBuilder(test12imported)
+      .doc().toString()
+assert.strictEqual(xml12, test12)
