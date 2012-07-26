@@ -268,9 +268,8 @@ class XMLFragment
 
   # Imports cloned root from another XMLBuilder
   importXMLBuilder: (xmlbuilder) ->
-    root = xmlbuilder.children[xmlbuilder.children.length - 1]
-    clonedRoot = root.clone(true)
-    clonedRoot.parent = this
+    clonedRoot = xmlbuilder.root().clone(true)
+    clonedRoot.parent = @
     @children.push clonedRoot
     clonedRoot.isRoot = false
     return @
