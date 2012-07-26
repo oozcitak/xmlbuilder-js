@@ -169,3 +169,48 @@ test9 = builder.begin('test9').text('')
   .doc().toString()
 assert.strictEqual(xml9, test9)
 
+# Test the clone() method (not deep clone)
+xml10 = '<test10><nodes><node>1</node></nodes></test10>'
+xml10cloned = '<test10><added>3</added></test10>'
+test10 = builder.begin('test10')
+      .ele('nodes',)
+        .ele('node', '1')
+        .root()
+test10cloned = test10.root().clone()
+test10cloned.ele('added', '3')
+assert.strictEqual(xml10cloned, test10cloned.toString())
+assert.strictEqual(xml10, test10.doc().toString())
+
+# Test the clone() method (deep clone)
+xml11 = '<test11><nodes><node>1</node><node>2</node></nodes></test11>'
+xml11cloned = '<test11><nodes><node>1</node><node>2</node></nodes><added>3</added></test11>'
+test11 = builder.begin('test11')
+      .ele('nodes',)
+        .ele('node', '1').up()
+        .ele('node', '2')
+        .root()
+test11cloned = test11.root().clone(true)
+test11cloned.ele('added', '3')
+assert.strictEqual(xml11cloned, test11cloned.toString())
+assert.strictEqual(xml11, test11.doc().toString())
+
+# Test the importXMLBuilder() method
+xml12 = '<test12><test12imported><node>imported</node></test12imported></test12>'
+test12imported = xmlbuilder.create().begin('test12imported')
+      .ele('node', 'imported')
+      .doc()
+test12 = builder.begin('test12')
+      .importXMLBuilder(test12imported)
+      .doc().toString()
+assert.strictEqual(xml12, test12)
+
+# Test the import() method (shorthand of importXMLBuilder)
+# This is important, because "import" can be a reserved word and
+# possibly causes syntax error in the future.
+xml13 = '<test13><test13imported/></test13>'
+test13imported = xmlbuilder.create().begin('test13imported')
+      .doc()
+test13 = builder.begin('test13')
+      .import(test13imported)
+      .doc().toString()
+assert.strictEqual(xml13, test13)
