@@ -409,6 +409,7 @@ class XMLFragment
   c: (value) -> @comment value
   r: (value) -> @raw value
   u: () -> @up()
+  import: (xmlbuilder) -> @importXMLBuilder xmlbuilder
 
 
 module.exports = XMLFragment
