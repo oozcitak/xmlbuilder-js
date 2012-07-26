@@ -205,7 +205,7 @@ test12 = builder.begin('test12')
 assert.strictEqual(xml12, test12)
 
 # Test the import() method (shorthand of importXMLBuilder)
-# This is important, because "important" can be a reserved word and
+# This is important, because "import" can be a reserved word and
 # possibly causes syntax error in the future.
 xml13 = '<test13><test13imported/></test13>'
 test13imported = xmlbuilder.create().begin('test13imported')
