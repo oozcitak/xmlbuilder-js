@@ -255,6 +255,26 @@ class XMLFragment
     @parent.children[i + 1]
 
 
+  # Clones self
+  clone: (deep) ->
+    clonedSelf = new XMLFragment @parent, @name, @attributes, @value
+    if deep
+      @children.forEach (child) ->
+        clonedChild = child.clone(deep)
+        clonedChild.parent = clonedSelf
+        clonedSelf.children.push clonedChild
+    return clonedSelf
+
+
+  # Imports cloned root from another XMLBuilder
+  importXMLBuilder: (xmlbuilder) ->
+    clonedRoot = xmlbuilder.root().clone(true)
+    clonedRoot.parent = @
+    @children.push clonedRoot
+    clonedRoot.isRoot = false
+    return @
+
+
   # Adds or modifies an attribute
   #
   # `name` attribute name
