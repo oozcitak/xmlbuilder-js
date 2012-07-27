@@ -256,6 +256,8 @@ class XMLFragment
 
 
   # Clones self
+  #
+  # `deep` true to clone child nodes as well
   clone: (deep) ->
     clonedSelf = new XMLFragment @parent, @name, @attributes, @value
     if deep
@@ -267,6 +269,8 @@ class XMLFragment
 
 
   # Imports cloned root from another XMLBuilder
+  #
+  # `xmlbuilder` the instance of XMLBuilder to insert nodes from
   importXMLBuilder: (xmlbuilder) ->
     clonedRoot = xmlbuilder.root().clone(true)
     clonedRoot.parent = @
@@ -409,8 +413,6 @@ class XMLFragment
   c: (value) -> @comment value
   r: (value) -> @raw value
   u: () -> @up()
-  import: (xmlbuilder) -> @importXMLBuilder xmlbuilder
-
 
 module.exports = XMLFragment
 

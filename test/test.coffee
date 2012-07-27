@@ -204,13 +204,3 @@ test12 = builder.begin('test12')
       .doc().toString()
 assert.strictEqual(xml12, test12)
 
-# Test the import() method (shorthand of importXMLBuilder)
-# This is important, because "import" can be a reserved word and
-# possibly causes syntax error in the future.
-xml13 = '<test13><test13imported/></test13>'
-test13imported = xmlbuilder.create().begin('test13imported')
-      .doc()
-test13 = builder.begin('test13')
-      .import(test13imported)
-      .doc().toString()
-assert.strictEqual(xml13, test13)
