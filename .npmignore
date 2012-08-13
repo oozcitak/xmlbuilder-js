@@ -1,6 +1,9 @@
-.git*
+.gitignore
 .travis.yml
+Makefile
+README.md
+.git/
 src/
 test/
-Makefile
-README.*
+node_modules/
+
