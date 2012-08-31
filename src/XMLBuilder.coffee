@@ -18,25 +18,14 @@ class XMLBuilder
     @children = []
     @rootObject = null
 
+    # shift arguments
+    if @is(name, 'Object')
+      [xmldec, doctype] = [name, xmldec]
+      name = null
+
     if name?
+      name = '' + name or ''
       xmldec ?= { 'version': '1.0' }
-      @begin name, xmldec, doctype
-
-
-  # Creates the XML prolog and the root element
-  #
-  # `name` name of the root element
-  #
-  # `xmldec.version` A version number string, e.g. 1.0
-  # `xmldec.encoding` Encoding declaration, e.g. UTF-8
-  # `xmldec.standalone` standalone document declaration: true or false
-  #
-  # `doctype.ext` the external subset containing markup declarations
-  begin: (name, xmldec, doctype) ->
-    if not name?
-      throw new Error "Root element needs a name"
-    @children = []
-    name = '' + name or ''
 
     if xmldec? and not xmldec.version?
       throw new Error "Version number is required"
@@ -60,7 +49,9 @@ class XMLBuilder
       @children.push child
 
     if doctype?
-      att = { name: name }
+      att = {}
+      if name?
+        att.name = name
       
       if doctype.ext?
         doctype.ext = '' + doctype.ext or ''
@@ -69,6 +60,29 @@ class XMLBuilder
       child = new XMLFragment @, '!DOCTYPE', att
       @children.push child
 
+    if name?
+      @begin name
+
+
+  # Creates the root element
+  #
+  # `name` name of the root element
+  begin: (name, xmldec, doctype) ->
+    if not name?
+      throw new Error "Root element needs a name"
+
+    if @rootObject
+      # Erase old instance
+      @children = []
+      @rootObject = null
+
+    if xmldec?
+      # This will be deprecated in the future. XML prolog should be 
+      #supplied to the constructor
+      doc = new XMLBuilder name, xmldec, doctype
+      return doc.root()
+
+    name = '' + name or ''
     root = new XMLFragment @, name, {}
     root.isRoot = true
     root.documentObject = @
@@ -94,6 +108,15 @@ class XMLBuilder
       r += child.toString options
 
     return r
+
+
+  # Checks whether the given object is of the given type
+  #
+  # `obj` the object to check
+  # `type` the type to compare to. (String, Number, Object, Date, ...)
+  is: (obj, type) ->
+    clas = Object.prototype.toString.call(obj).slice(8, -1)
+    return obj? and clas is type
 
 
 module.exports = XMLBuilder

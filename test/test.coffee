@@ -209,3 +209,8 @@ xml13 = '<?xml version="1.0"?><test13><node>test</node></test13>'
 test13 = xmlbuilder.create('test13').ele('node').txt('test').doc().toString()
 assert.strictEqual(xml13, test13)
 
+# Test the create() method with arguments
+xml14 = '<?xml version="1.1"?><test14><node>test</node></test14>'
+test14 = xmlbuilder.create('test14', { 'version': '1.1' } ).ele('node').txt('test').doc().toString()
+assert.strictEqual(xml14, test14)
+
