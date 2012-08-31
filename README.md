@@ -20,12 +20,12 @@ As a result, version from v0.1.3 are **not** compatible with previous versions.
 
 ``` js
 var builder = require('xmlbuilder');
-var doc = builder.create('root')
+var xml = builder.create('root')
   .ele('xmlbuilder', {'for': 'node-js'})
     .ele('repo', {'type': 'git'}, 'git://github.com/oozcitak/xmlbuilder-js.git')
-  .doc();
+  .end({ pretty: true});
     
-console.log(doc.toString({ pretty: true }));
+console.log(xml);
 ```
 
 will result in:

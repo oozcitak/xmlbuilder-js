@@ -97,6 +97,11 @@ class XMLBuilder
     return @rootObject
 
 
+  # Ends the document and converts string
+  end: (options) ->
+    return toString(options)
+
+
   # Converts the XML document to string
   #
   # `options.pretty` pretty prints the result

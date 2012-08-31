@@ -233,6 +233,10 @@ class XMLFragment
     return @root().documentObject
 
 
+  # Ends the document and converts string
+  end: (options) ->
+    return @document().toString(options)
+
   # Gets the previous node
   prev: () ->
     if @isRoot
