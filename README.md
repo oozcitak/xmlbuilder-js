@@ -20,11 +20,10 @@ As a result, version from v0.1.3 are **not** compatible with previous versions.
 
 ``` js
 var builder = require('xmlbuilder');
-var doc = builder.create();
-
-doc.begin('root', {'version': '1.0'})
+var doc = builder.create('root')
   .ele('xmlbuilder', {'for': 'node-js'})
     .ele('repo', {'type': 'git'}, 'git://github.com/oozcitak/xmlbuilder-js.git')
+  .doc();
     
 console.log(doc.toString({ pretty: true }));
 ```
@@ -43,7 +42,7 @@ will result in:
 If you need to do some processing:
 
 ``` js
-var root = doc.begin('squares');
+var root = builder.create('squares');
 root.com('f(x) = x^2');
 for(var i = 1; i <= 5; i++)
 {
@@ -56,6 +55,7 @@ for(var i = 1; i <= 5; i++)
 This will result in:
 
 ``` xml
+<?xml version="1.0"?>
 <squares>
   <!-- f(x) = x^2 -->
   <data x="1" y="1"/>
