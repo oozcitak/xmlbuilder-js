@@ -5,12 +5,25 @@ class XMLBuilder
 
 
   # Initializes a new instance of `XMLBuilder`
-  constructor: () ->
+  # and creates the XML prolog
+  #
+  # `name` name of the root element
+  #
+  # `xmldec.version` A version number string, e.g. 1.0
+  # `xmldec.encoding` Encoding declaration, e.g. UTF-8
+  # `xmldec.standalone` standalone document declaration: true or false
+  #
+  # `doctype.ext` the external subset containing markup declarations
+  constructor: (name, xmldec, doctype) ->
     @children = []
     @rootObject = null
 
+    if name?
+      xmldec ?= { 'version': '1.0' }
+      @begin name, xmldec, doctype
 
-  # Creates the XML prolog
+
+  # Creates the XML prolog and the root element
   #
   # `name` name of the root element
   #
