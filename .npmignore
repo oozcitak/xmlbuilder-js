@@ -1,7 +1,6 @@
 .gitignore
 .travis.yml
 Makefile
-README.md
 .git/
 src/
 test/
