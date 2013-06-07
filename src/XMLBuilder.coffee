@@ -14,7 +14,7 @@ class XMLBuilder
   # `xmldec.standalone` standalone document declaration: true or false
   #
   # `doctype.ext` the external subset containing markup declarations
-  constructor: (name, xmldec, doctype) ->
+  constructor: (name, xmldec, doctype, options) ->
     @children = []
     @rootObject = null
 
@@ -26,6 +26,8 @@ class XMLBuilder
     if name?
       name = '' + name or ''
       xmldec ?= { 'version': '1.0' }
+
+    @allowSurrogateChars = options?.allowSurrogateChars
 
     if xmldec? and not xmldec.version?
       throw new Error "Version number is required"
@@ -52,7 +54,7 @@ class XMLBuilder
       att = {}
       if name?
         att.name = name
-      
+
       if doctype.ext?
         doctype.ext = '' + doctype.ext or ''
         att.ext = doctype.ext
@@ -77,7 +79,7 @@ class XMLBuilder
       @rootObject = null
 
     if xmldec?
-      # This will be deprecated in the future. XML prolog should be 
+      # This will be deprecated in the future. XML prolog should be
       #supplied to the constructor
       doc = new XMLBuilder name, xmldec, doctype
       return doc.root()
@@ -122,6 +124,20 @@ class XMLBuilder
   is: (obj, type) ->
     clas = Object.prototype.toString.call(obj).slice(8, -1)
     return obj? and clas is type
+
+
+  # Checks whether the given string contains legal characters
+  # Fails with an exception on error
+  #
+  # `str` the string to check
+  assertLegalChar: (str) =>
+    if @allowSurrogateChars
+      chars = /[\u0000-\u0008\u000B-\u000C\u000E-\u001F\uFFFE-\uFFFF]/
+    else
+      chars = /[\u0000-\u0008\u000B-\u000C\u000E-\u001F\uD800-\uDFFF\uFFFE-\uFFFF]/
+    chr = str.match chars
+    if chr
+      throw new Error "Invalid character (#{chr}) in string: #{str} at index #{chr.index}"
 
 
 module.exports = XMLBuilder
