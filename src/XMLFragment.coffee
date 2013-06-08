@@ -16,7 +16,7 @@ class XMLFragment
     @attributes = attributes
     @value = text
     @children = []
-
+    @assertLegalChar = parent.assertLegalChar
 
   # Creates a child element node
   #
@@ -381,17 +381,6 @@ class XMLFragment
     return str.replace(/&/g, '&amp;')
               .replace(/</g,'&lt;').replace(/>/g,'&gt;')
               .replace(/'/g, '&apos;').replace(/"/g, '&quot;')
-
-
-  # Checks whether the given string contains legal characters
-  # Fails with an exception on error
-  #
-  # `str` the string to check
-  assertLegalChar: (str) ->
-    chars = /[\u0000-\u0008\u000B-\u000C\u000E-\u001F\uD800-\uDFFF\uFFFE-\uFFFF]/
-    chr = str.match chars
-    if chr
-      throw new Error "Invalid character (#{chr}) in string: #{str}"
 
 
   # Checks whether the given object is of the given type
