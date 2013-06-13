@@ -351,7 +351,7 @@ class XMLFragment
         r += if @name == '?xml' then '?>' else if @name == '!DOCTYPE' then '>' else '/>'
       if pretty
         r += newline
-    else if pretty and @children.length == 1 and @children[0].value
+    else if pretty and @children.length == 1 and @children[0].value?
       # do not indent text-only nodes
       r += '>'
       r += @children[0].value
