@@ -169,52 +169,58 @@ test9 = builder.begin('test9').text('')
   .doc().toString()
 assert.strictEqual(xml9, test9)
 
+# Test text node with empty string and pretty output
+xml10 = '<test10></test10>\n'
+test10 = builder.begin('test10').text('')
+  .doc().toString(pretty: true)
+assert.strictEqual(xml10, test10)
+
 # Test the clone() method (not deep clone)
-xml10 = '<test10><nodes><node>1</node></nodes></test10>'
-xml10cloned = '<test10><added>3</added></test10>'
-test10 = builder.begin('test10')
+xml11 = '<test11><nodes><node>1</node></nodes></test11>'
+xml11cloned = '<test11><added>3</added></test11>'
+test11 = builder.begin('test11')
       .ele('nodes',)
         .ele('node', '1')
         .root()
-test10cloned = test10.root().clone()
-test10cloned.ele('added', '3')
-assert.strictEqual(xml10cloned, test10cloned.toString())
-assert.strictEqual(xml10, test10.doc().toString())
-
-# Test the clone() method (deep clone)
-xml11 = '<test11><nodes><node>1</node><node>2</node></nodes></test11>'
-xml11cloned = '<test11><nodes><node>1</node><node>2</node></nodes><added>3</added></test11>'
-test11 = builder.begin('test11')
-      .ele('nodes',)
-        .ele('node', '1').up()
-        .ele('node', '2')
-        .root()
-test11cloned = test11.root().clone(true)
+test11cloned = test11.root().clone()
 test11cloned.ele('added', '3')
 assert.strictEqual(xml11cloned, test11cloned.toString())
 assert.strictEqual(xml11, test11.doc().toString())
 
+# Test the clone() method (deep clone)
+xml12 = '<test12><nodes><node>1</node><node>2</node></nodes></test12>'
+xml12cloned = '<test12><nodes><node>1</node><node>2</node></nodes><added>3</added></test12>'
+test12 = builder.begin('test12')
+      .ele('nodes',)
+        .ele('node', '1').up()
+        .ele('node', '2')
+        .root()
+test12cloned = test12.root().clone(true)
+test12cloned.ele('added', '3')
+assert.strictEqual(xml12cloned, test12cloned.toString())
+assert.strictEqual(xml12, test12.doc().toString())
+
 # Test the importXMLBuilder() method
-xml12 = '<test12><test12imported><node>imported</node></test12imported></test12>'
-test12imported = xmlbuilder.create().begin('test12imported')
+xml13 = '<test13><test13imported><node>imported</node></test13imported></test13>'
+test13imported = xmlbuilder.create().begin('test13imported')
       .ele('node', 'imported')
       .doc()
-test12 = builder.begin('test12')
-      .importXMLBuilder(test12imported)
+test13 = builder.begin('test13')
+      .importXMLBuilder(test13imported)
       .doc().toString()
-assert.strictEqual(xml12, test12)
-
-# Test the create() method with arguments
-xml13 = '<?xml version="1.0"?><test13><node>test</node></test13>'
-test13 = xmlbuilder.create('test13').ele('node').txt('test').doc().toString()
 assert.strictEqual(xml13, test13)
 
 # Test the create() method with arguments
-xml14 = '<?xml version="1.1"?><test14><node>test</node></test14>'
-test14 = xmlbuilder.create('test14', { 'version': '1.1' } ).ele('node').txt('test').doc().toString()
+xml14 = '<?xml version="1.0"?><test14><node>test</node></test14>'
+test14 = xmlbuilder.create('test14').ele('node').txt('test').doc().toString()
 assert.strictEqual(xml14, test14)
 
-# Test the end() method
-xml15 = '<?xml version="1.1"?><test14><node>test</node></test14>'
-test15 = xmlbuilder.create('test14', { 'version': '1.1' } ).ele('node').txt('test').end()
+# Test the create() method with arguments
+xml15 = '<?xml version="1.1"?><test15><node>test</node></test15>'
+test15 = xmlbuilder.create('test15', { 'version': '1.1' } ).ele('node').txt('test').doc().toString()
 assert.strictEqual(xml15, test15)
+
+# Test the end() method
+xml16 = '<?xml version="1.1"?><test16><node>test</node></test16>'
+test16 = xmlbuilder.create('test16', { 'version': '1.1' } ).ele('node').txt('test').end()
+assert.strictEqual(xml16, test16)
