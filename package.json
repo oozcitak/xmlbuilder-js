@@ -8,8 +8,8 @@
   "licenses": [
     {
       "type": "MIT",
-      "url": "http://opensource.org/licenses/mit-license.php" 
-    } 
+      "url": "http://opensource.org/licenses/mit-license.php"
+    }
   ],
   "repository": {
     "type": "git",
@@ -19,14 +19,16 @@
     "url": "http://github.com/oozcitak/xmlbuilder-js/issues"
   },
   "main": "./lib/index",
-  "engines": { 
-    "node": ">=0.2.0" 
+  "engines": {
+    "node": ">=0.2.0"
   },
   "devDependencies": {
     "coffee-script": "1.1.x"
   },
   "scripts": {
+    "prepublish": "coffee -co lib/ src/*.coffee",
+    "postpublish": "rm -rf lib",
     "test": "make test"
   }
 }
- 
+
