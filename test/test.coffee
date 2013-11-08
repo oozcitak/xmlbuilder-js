@@ -236,3 +236,11 @@ assert.throws () -> makeXml(false) Error
 # if this doesn't throw we're good
 makeXml true
 
+# Test processing instructions
+xmlpi = '<?xml version="1.1"?><?pi mypi?><test17><node>test</node></test17>'
+testpi = xmlbuilder.create('test17', { 'version': '1.1' } ).ins('pi', 'mypi').ele('node').txt('test').end()
+assert.strictEqual(xmlpi, testpi)
+xmlpi = '<?xml version="1.1"?><?renderCache.subset "Verdana" 0 0 ISO-8859-1 4 268 67 "#(),-./?><test18><?pitarget pivalue?><node>test</node></test18>'
+testpi = xmlbuilder.create('test18', { 'version': '1.1' } ).ins('renderCache.subset', '"Verdana" 0 0 ISO-8859-1 4 268 67 "#(),-./').ele('node').ins('pitarget', 'pivalue').txt('test').end()
+assert.strictEqual(xmlpi, testpi)
+

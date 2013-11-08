@@ -16,6 +16,7 @@ class XMLFragment
     @attributes = attributes
     @value = text
     @children = []
+    @instructions = []
     @assertLegalChar = parent.assertLegalChar
 
   # Creates a child element node
@@ -316,6 +317,31 @@ class XMLFragment
     return @
 
 
+  # Adds a processing instruction
+  #
+  # `target` instruction target
+  # `value` instruction value
+  instruction: (target, value) ->
+    if not target?
+      throw new Error "Missing instruction target"
+    if not value?
+      value = ''
+
+    target = '' + target or ''
+    value = '' + value or ''
+
+    if value.match /\?>/
+      throw new Error "Invalid processing instruction value: " + value
+
+    pi = target
+    pi += ' ' if value
+    pi += value
+
+    @instructions.push pi
+
+    return @
+
+
   # Converts the XML fragment to string
   #
   # `options.pretty` pretty prints the result
@@ -330,6 +356,15 @@ class XMLFragment
     space = new Array(level + 1).join(indent)
 
     r = ''
+
+    # instructions
+    for instruction in @instructions
+      if pretty
+        r += space
+      r += '<?' + instruction + '?>'
+      if pretty
+        r += newline
+
     # open tag
     if pretty
       r += space
@@ -398,12 +433,14 @@ class XMLFragment
   dat: (value) -> @cdata value
   att: (name, value) -> @attribute name, value
   com: (value) -> @comment value
+  ins: (target, value) -> @instruction target, value
   doc: () -> @document()
   e: (name, attributes, text) -> @element name, attributes, text
   t: (value) -> @text value
   d: (value) -> @cdata value
   a: (name, value) -> @attribute name, value
   c: (value) -> @comment value
+  i: (target, value) -> @instruction target, value
   r: (value) -> @raw value
   u: () -> @up()
 
