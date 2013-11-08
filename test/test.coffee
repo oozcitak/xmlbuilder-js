@@ -227,11 +227,12 @@ assert.strictEqual(xml16, test16)
 
 # Test the use of surrogate pair characters
 stringWithIssues = '𡬁𠻝𩂻耨鬲, 㑜䊑㓣䟉䋮䦓, ᡨᠥ᠙ᡰᢇ᠘ᠶ, ࿋ཇ࿂ོ༇ྒ, ꃌꈗꈉꋽ, Uighur, ᥗᥩᥬᥜᥦ '
-makeXml = (xmlbuilder) ->
-  xmlbuilder.create('test15', {'version': '1.1'}).ele('node').txt(stringWithIssues).end()
+makeXml = (opt) ->
+  xmlbuilder.create('test15', null, null, {allowSurrogateChars: opt}).ele('node').txt(stringWithIssues).end()
 
-assert.throws () -> makeXml(xmlbuilder) Error
+# this should throw
+assert.throws () -> makeXml(false) Error
 
 # if this doesn't throw we're good
-makeXml xmlbuilder.withopts({allowSurrogateChars: true})
+makeXml true
 

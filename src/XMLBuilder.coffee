@@ -14,6 +14,8 @@ class XMLBuilder
   # `xmldec.standalone` standalone document declaration: true or false
   #
   # `doctype.ext` the external subset containing markup declarations
+  #
+  # `options.allowSurrogateChars` whether surrogates will be allowed: true or false
   constructor: (name, xmldec, doctype, options) ->
     @children = []
     @rootObject = null
