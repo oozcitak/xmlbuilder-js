@@ -26,8 +26,8 @@
     "coffee-script": "1.1.x"
   },
   "scripts": {
-    "prepublish": "coffee -co lib/ src/*.coffee",
-    "postpublish": "rm -rf lib",
+    "prepublish": "make release",
+    "postpublish": "make clean",
     "test": "make test"
   }
 }

@@ -1,14 +1,15 @@
-test: release
-	@test `which coffee` || echo 'You need to have CoffeeScript installed.'
-	@coffee test/test.coffee
-
-release:
+clean:
 	@rm -fr lib/
-	@test `which coffee` || echo 'You need to have CoffeeScript installed.'
+
+release: clean
+	@test `which coffee` || { echo 'You need to have CoffeeScript installed.'; exit 1; }
 	@coffee -c -o lib src/*.coffee
 
+test: release
+	@coffee test/test.coffee
+
 publish: release
-	@test `which npm` || echo 'You need to have npm installed.'
+	@test `which npm` || { echo 'You need to have npm installed.'; exit 1; }
 	npm publish
 	@rm -fr lib/
 
