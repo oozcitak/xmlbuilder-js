@@ -11,11 +11,6 @@ An XMLBuilder for [node.js](http://nodejs.org/) similar to
 npm install xmlbuilder
 ```
 
-### Important:
-
-I had to break compatibility while adding multiple instances in 0.1.3. 
-As a result, version from v0.1.3 are **not** compatible with previous versions.
-
 ### Usage:
 
 ``` js
