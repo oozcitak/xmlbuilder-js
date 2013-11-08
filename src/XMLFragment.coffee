@@ -339,7 +339,7 @@ class XMLFragment
       r += '' + @value
 
     # attributes
-    for attName, attValue of @attributes
+    for own attName, attValue of @attributes
       if @name == '!DOCTYPE'
         r += ' ' + attValue
       else
