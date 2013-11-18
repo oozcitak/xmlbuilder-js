@@ -17,66 +17,66 @@ class XMLBuilder
   #
   # `doctype.ext` the external subset containing markup declarations
   #
+  # `options.headless` whether XML declaration and doctype will be included: true or false
   # `options.allowSurrogateChars` whether surrogates will be allowed: true or false
   # `options.stringify` a set of functions to use for converting values to strings
   constructor: (name, xmldec, doctype, options) ->
+    if not name?
+      throw new Error "Root element needs a name"
+
     @children = []
     @rootObject = null
 
-    # shift arguments
-    if XMLBuilder.is(name, 'Object')
-      [xmldec, doctype] = [name, xmldec]
-      name = null
-
-    if name?
-      name = '' + name or ''
-      xmldec ?= { 'version': '1.0' }
-
     @options = _.defaults options or {}, XMLBuilder.defaultOptions
+    @headless = @options.headless
     @allowSurrogateChars = @options.allowSurrogateChars
     @stringify = @options.stringify
 
-    if xmldec? and not xmldec.version?
-      throw new Error "Version number is required"
+    name = @stringify.eleName name
 
-    if xmldec?
+    if not @headless
+      xmldec ?= { 'version': '1.0' }
+      decatts = {}
+
+      if not xmldec.version?
+        xmldec.version = '1.0'
+
       xmldec.version = '' + xmldec.version or ''
       if not xmldec.version.match /1\.[0-9]+/
         throw new Error "Invalid version number: " + xmldec.version
-      att = { version: xmldec.version }
+      decatts.version = xmldec.version
 
       if xmldec.encoding?
         xmldec.encoding = '' + xmldec.encoding or ''
         if not xmldec.encoding.match /[A-Za-z](?:[A-Za-z0-9._-]|-)*/
           throw new Error "Invalid encoding: " + xmldec.encoding
-        att.encoding = xmldec.encoding
+        decatts.encoding = xmldec.encoding
 
       if xmldec.standalone?
-        att.standalone = if xmldec.standalone then "yes" else "no"
+        decatts.standalone = if xmldec.standalone then "yes" else "no"
 
-      child = new XMLFragment @, '?xml', att
+      child = new XMLFragment @, '?xml', decatts
       @children.push child
 
-    if doctype?
-      att = {}
-      if name?
-        att.name = name
+      if doctype?
+        docatts = {}
+        if name?
+          docatts.name = name
 
-      if doctype.ext?
-        doctype.ext = '' + doctype.ext or ''
-        att.ext = doctype.ext
+        if doctype.ext?
+          doctype.ext = '' + doctype.ext or ''
+          docatts.ext = doctype.ext
 
-      child = new XMLFragment @, '!DOCTYPE', att
-      @children.push child
+        child = new XMLFragment @, '!DOCTYPE', docatts
+        @children.push child
 
-    if name?
-      @begin name
+    @begin name
 
 
   # Creates the root element
   #
   # `name` name of the root element
-  begin: (name, xmldec, doctype) ->
+  begin: (name) ->
     if not name?
       throw new Error "Root element needs a name"
 
@@ -84,12 +84,6 @@ class XMLBuilder
       # Erase old instance
       @children = []
       @rootObject = null
-
-    if xmldec?
-      # This will be deprecated in the future. XML prolog should be
-      #supplied to the constructor
-      doc = new XMLBuilder name, xmldec, doctype
-      return doc.root()
 
     name = @stringify.eleName name
     root = new XMLFragment @, name, {}
@@ -126,6 +120,7 @@ class XMLBuilder
 
   # Default options
   @defaultOptions:
+    headless: false
     allowSurrogateChars: false
     stringify:
       eleName: (val) ->
