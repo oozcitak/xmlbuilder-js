@@ -22,8 +22,12 @@
   "engines": {
     "node": ">=0.2.0"
   },
+  "dependencies": {
+    "underscore": ">=1.5.x"
+  },
   "devDependencies": {
-    "coffee-script": "1.1.x"
+    "coffee-script": ">=1.1.x",
+    "vows": ">=0.7.x"
   },
   "scripts": {
     "prepublish": "make release",

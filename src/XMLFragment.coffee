@@ -17,7 +17,7 @@ class XMLFragment
     @value = text
     @children = []
     @instructions = []
-    @assertLegalChar = parent.assertLegalChar
+    @stringify = parent.stringify
 
   # Creates a child element node
   #
@@ -28,26 +28,26 @@ class XMLFragment
     if not name?
       throw new Error "Missing element name"
 
-    name = '' + name or ''
-    @assertLegalChar name
+    name = @stringify.eleName name
     attributes ?= {}
 
     # swap argument order: text <-> attribute
-    if @is(attributes, 'String') and @is(text, 'Object')
+    if XMLFragment.is(attributes, 'String') and XMLFragment.is(text, 'Object')
       [attributes, text] = [text, attributes]
-    else if @is(attributes, 'String')
+    else if XMLFragment.is(attributes, 'String')
       [attributes, text] = [{}, attributes]
 
+    atts = {}
     for own key, val of attributes
-      val = '' + val or ''
-      attributes[key] = @escape val
+      key = @stringify.attName key
+      val = @stringify.attValue val
+      if key? and val?
+        atts[key] = val
 
-    child = new XMLFragment @, name, attributes
+    child = new XMLFragment @, name, atts
 
     if text?
-      text = '' + text or ''
-      text = @escape text
-      @assertLegalChar text
+      text = @stringify.eleText text
       child.raw text
 
     @children.push child
@@ -66,26 +66,26 @@ class XMLFragment
     if not name?
       throw new Error "Missing element name"
 
-    name = '' + name or ''
-    @assertLegalChar name
+    name = @stringify.eleName name
     attributes ?= {}
 
     # swap argument order: text <-> attribute
-    if @is(attributes, 'String') and @is(text, 'Object')
+    if XMLFragment.is(attributes, 'String') and XMLFragment.is(text, 'Object')
       [attributes, text] = [text, attributes]
-    else if @is(attributes, 'String')
+    else if XMLFragment.is(attributes, 'String')
       [attributes, text] = [{}, attributes]
 
+    atts = {}
     for own key, val of attributes
-      val = '' + val or ''
-      attributes[key] = @escape val
+      key = @stringify.attName key
+      val = @stringify.attValue val
+      if key? and val?
+        atts[key] = val
 
-    child = new XMLFragment @parent, name, attributes
+    child = new XMLFragment @parent, name, atts
 
     if text?
-      text = '' + text or ''
-      text = @escape text
-      @assertLegalChar text
+      text = @stringify.eleText text
       child.raw text
 
     i = @parent.children.indexOf @
@@ -105,26 +105,26 @@ class XMLFragment
     if not name?
       throw new Error "Missing element name"
 
-    name = '' + name or ''
-    @assertLegalChar name
+    name = @stringify.eleName name
     attributes ?= {}
 
     # swap argument order: text <-> attribute
-    if @is(attributes, 'String') and @is(text, 'Object')
+    if XMLFragment.is(attributes, 'String') and XMLFragment.is(text, 'Object')
       [attributes, text] = [text, attributes]
-    else if @is(attributes, 'String')
+    else if XMLFragment.is(attributes, 'String')
       [attributes, text] = [{}, attributes]
 
+    atts = {}
     for own key, val of attributes
-      val = '' + val or ''
-      attributes[key] = @escape val
+      key = @stringify.attName key
+      val = @stringify.attValue val
+      if key? and val?
+        atts[key] = val
 
-    child = new XMLFragment @parent, name, attributes
+    child = new XMLFragment @parent, name, atts
 
     if text?
-      text = '' + text or ''
-      text = @escape text
-      @assertLegalChar text
+      text = @stringify.eleText text
       child.raw text
 
     i = @parent.children.indexOf @
@@ -151,9 +151,7 @@ class XMLFragment
     if not value?
       throw new Error "Missing element text"
 
-    value = '' + value or ''
-    value = @escape value
-    @assertLegalChar value
+    value = @stringify.eleText value
 
     child = new XMLFragment @, '', {}, value
     @children.push child
@@ -167,13 +165,9 @@ class XMLFragment
     if not value?
       throw new Error "Missing CDATA text"
 
-    value = '' + value or ''
-    @assertLegalChar value
+    value = @stringify.cdata value
 
-    if value.match /]]>/
-      throw new Error "Invalid CDATA text: " + value
-
-    child = new XMLFragment @, '', {}, '<![CDATA[' + value + ']]>'
+    child = new XMLFragment @, '', {}, value
     @children.push child
     return @
 
@@ -185,14 +179,9 @@ class XMLFragment
     if not value?
       throw new Error "Missing comment text"
 
-    value = '' + value or ''
-    value = @escape value
-    @assertLegalChar value
+    value = @stringify.comment value
 
-    if value.match /--/
-      throw new Error "Comment text cannot contain double-hypen: " + value
-
-    child = new XMLFragment @, '', {}, '<!-- ' + value + ' -->'
+    child = new XMLFragment @, '', {}, value
     @children.push child
     return @
 
@@ -204,7 +193,7 @@ class XMLFragment
     if not value?
       throw new Error "Missing raw text"
 
-    value = '' + value or ''
+    value = @stringify.raw value
 
     child = new XMLFragment @, '', {}, value
     @children.push child
@@ -294,11 +283,11 @@ class XMLFragment
     if not value?
       throw new Error "Missing attribute value"
 
-    name = '' + name or ''
-    value = '' + value or ''
+    name = @stringify.attName name
+    value = @stringify.attValue value
     @attributes ?= {}
 
-    @attributes[name] = @escape value
+    @attributes[name] = value
 
     return @
 
@@ -310,7 +299,7 @@ class XMLFragment
     if not name?
       throw new Error "Missing attribute name"
 
-    name = '' + name or ''
+    name = @stringify.attName name
 
     delete @attributes[name]
 
@@ -327,11 +316,9 @@ class XMLFragment
     if not value?
       value = ''
 
-    target = '' + target or ''
-    value = '' + value or ''
+    target = @stringify.insTarget target
+    value = @stringify.insValue value
 
-    if value.match /\?>/
-      throw new Error "Invalid processing instruction value: " + value
 
     pi = target
     pi += ' ' if value
@@ -409,20 +396,11 @@ class XMLFragment
     return r
 
 
-  # Escapes special characters <, >, ', ", &
-  #
-  # `str` the string to escape
-  escape: (str) ->
-    return str.replace(/&/g, '&amp;')
-              .replace(/</g,'&lt;').replace(/>/g,'&gt;')
-              .replace(/'/g, '&apos;').replace(/"/g, '&quot;')
-
-
   # Checks whether the given object is of the given type
   #
   # `obj` the object to check
   # `type` the type to compare to. (String, Number, Object, Date, ...)
-  is: (obj, type) ->
+  @is: (obj, type) ->
     clas = Object.prototype.toString.call(obj).slice(8, -1)
     return obj? and clas is type
 
@@ -443,6 +421,7 @@ class XMLFragment
   i: (target, value) -> @instruction target, value
   r: (value) -> @raw value
   u: () -> @up()
+
 
 module.exports = XMLFragment
 
