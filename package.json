@@ -30,9 +30,9 @@
     "vows": ">=0.7.x"
   },
   "scripts": {
-    "prepublish": "make release",
-    "postpublish": "make clean",
-    "test": "make test"
+    "prepublish": "coffee -co lib/ src/*.coffee",
+    "postpublish": "rm -rf lib",
+    "test": "vows test/*"
   }
 }
 
