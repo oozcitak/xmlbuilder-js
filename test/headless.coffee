@@ -11,7 +11,6 @@ vows
                 xmlbuilder.create('root', {}, {}, { headless: true })
                     .ele('xmlbuilder', { 'for': 'node-js' })
                         .ele('repo', { 'type': 'git' }, 'git://github.com/oozcitak/xmlbuilder-js.git')
-                .end()
 
             'resulting XML': (topic) ->
                 xml = '<root>' +
@@ -19,7 +18,7 @@ vows
                               '<repo type="git">git://github.com/oozcitak/xmlbuilder-js.git</repo>' +
                           '</xmlbuilder>' +
                       '</root>'
-                assert.strictEqual topic, xml
+                assert.strictEqual topic.end(), xml
 
     .export(module)
 

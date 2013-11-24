@@ -30,7 +30,6 @@ vows
                     .ele('atttest', { 'att': 'val' }, 'text')
                         .up()
                     .ele('atttest', 'text')
-                .end()
 
             'resulting XML': (topic) ->
                 xml = '<?xml version="1.0"?>' +
@@ -45,7 +44,7 @@ vows
                           '<atttest att="val">text</atttest>' +
                           '<atttest>text</atttest>' +
                       '</root>'
-                assert.strictEqual topic, xml
+                assert.strictEqual topic.end(), xml
 
         'Long form with attributes':
             topic: () ->
@@ -66,7 +65,6 @@ vows
                     .ele('atttest', { 'att': 'val' }, 'text')
                         .up()
                     .ele('atttest', 'text')
-                .end()
 
             'resulting XML': (topic) ->
                 xml = '<?xml version="1.0"?>' +
@@ -81,7 +79,7 @@ vows
                           '<atttest att="val">text</atttest>' +
                           '<atttest>text</atttest>' +
                       '</root>'
-                assert.strictEqual topic, xml
+                assert.strictEqual topic.end(), xml
 
         'Short form with attributes':
             topic: () ->
@@ -102,7 +100,6 @@ vows
                     .e('atttest', { 'att': 'val' }, 'text')
                         .u()
                     .e('atttest', 'text')
-                .end()
 
             'resulting XML': (topic) ->
                 xml = '<?xml version="1.0"?>' +
@@ -117,7 +114,24 @@ vows
                           '<atttest att="val">text</atttest>' +
                           '<atttest>text</atttest>' +
                       '</root>'
-                assert.strictEqual topic, xml
+                assert.strictEqual topic.end(), xml
+
+        'create() without with arguments':
+            topic: () ->
+                xmlbuilder.create('test14').ele('node').txt('test')
+
+            'resulting XML': (topic) ->
+                xml = '<?xml version="1.0"?><test14><node>test</node></test14>'
+                assert.strictEqual topic.end(), xml
+
+        'create() with with arguments':
+            topic: () ->
+                xmlbuilder.create('test14', { 'version': '1.1' }).ele('node').txt('test')
+
+            'resulting XML': (topic) ->
+                xml = '<?xml version="1.1"?><test14><node>test</node></test14>'
+                assert.strictEqual topic.end(), xml
+
 
     .export(module)
 
