@@ -8,21 +8,21 @@ vows
     .addBatch
         'Do not allow surrogates':
             topic: () ->
-                stringWithIssues = '𡬁𠻝𩂻耨鬲, 㑜䊑㓣䟉䋮䦓, ᡨᠥ᠙ᡰᢇ᠘ᠶ, ࿋ཇ࿂ོ༇ྒ, ꃌꈗꈉꋽ, Uighur, ᥗᥩᥬᥜᥦ '
                 xmlbuilder.create('test15', {}, {}, {allowSurrogateChars: false})
-                    .ele('node').txt(stringWithIssues)
 
-            'should throw': (topic) ->
-                assert.throws topic, Error
+            'should throw': (xml) ->
+                stringWithIssues = '𡬁𠻝𩂻耨鬲, 㑜䊑㓣䟉䋮䦓, ᡨᠥ᠙ᡰᢇ᠘ᠶ, ࿋ཇ࿂ོ༇ྒ, ꃌꈗꈉꋽ, Uighur, ᥗᥩᥬᥜᥦ '
+                assert.throws ->
+                    xml.ele('node').txt(stringWithIssues)
 
         'Allow surrogates':
             topic: () ->
-                stringWithIssues = '𡬁𠻝𩂻耨鬲, 㑜䊑㓣䟉䋮䦓, ᡨᠥ᠙ᡰᢇ᠘ᠶ, ࿋ཇ࿂ོ༇ྒ, ꃌꈗꈉꋽ, Uighur, ᥗᥩᥬᥜᥦ '
-                xmlbuilder.create('test15', {}, {}, {allowSurrogateChars: true})
-                    .ele('node').txt(stringWithIssues)
+                xmlbuilder.create('test16', {}, {}, {allowSurrogateChars: true})
 
-            'should not throw': (topic) ->
-                assert.doesNotThrow topic, Error
+            'should not throw': (xml) ->
+                stringWithIssues = '𡬁𠻝𩂻耨鬲, 㑜䊑㓣䟉䋮䦓, ᡨᠥ᠙ᡰᢇ᠘ᠶ, ࿋ཇ࿂ོ༇ྒ, ꃌꈗꈉꋽ, Uighur, ᥗᥩᥬᥜᥦ '
+                assert.doesNotThrow ->
+                    xml.ele('node').txt(stringWithIssues)
 
 
     .export(module)
