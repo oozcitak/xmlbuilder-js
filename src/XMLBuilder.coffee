@@ -68,22 +68,6 @@ class XMLBuilder
         child = new XMLFragment @, '!DOCTYPE', docatts
         @children.push child
 
-    @begin name
-
-
-  # Creates the root element
-  #
-  # `name` name of the root element
-  begin: (name) ->
-    if not name?
-      throw new Error "Root element needs a name"
-
-    if @rootObject
-      # Erase old instance
-      @children = []
-      @rootObject = null
-
-    name = @stringify.eleName name
     root = new XMLFragment @, name, {}
     root.isRoot = true
     root.documentObject = @
