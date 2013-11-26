@@ -1,6 +1,7 @@
 _ = require 'underscore'
 
 XMLFragment = require './XMLFragment'
+XMLStringifier = require './XMLStringifier'
 
 # Represents an XML builder
 class XMLBuilder
@@ -27,14 +28,11 @@ class XMLBuilder
     @children = []
     @rootObject = null
 
-    @options = _.defaults options or {}, XMLBuilder.defaultOptions
-    @headless = @options.headless
-    @allowSurrogateChars = @options.allowSurrogateChars
-    @stringify = @options.stringify
+    @stringify = new XMLStringifier options
 
     name = @stringify.eleName name
 
-    if not @headless
+    if not options?.headless
       xmldec ?= { 'version': '1.0' }
       decatts = {}
 
@@ -92,17 +90,15 @@ class XMLBuilder
     @children.push root
     @rootObject = root
 
-    return root
-
 
   # Gets the root node
   root: () ->
-    return @rootObject
+    @rootObject
 
 
   # Ends the document and converts string
   end: (options) ->
-    return toString(options)
+    toString(options)
 
 
   # Converts the XML document to string
@@ -114,80 +110,7 @@ class XMLBuilder
     r = ''
     for child in @children
       r += child.toString options
-
-    return r
-
-
-  # Default options
-  @defaultOptions:
-    headless: false
-    allowSurrogateChars: false
-    stringify:
-      eleName: (val) ->
-        val = '' + val or ''
-        XMLBuilder.assertLegalChar '' + val
-      eleText: (val) ->
-        val = '' + val or ''
-        XMLBuilder.assertLegalChar XMLBuilder.escape '' + val
-      cdata: (val) ->
-        val = '' + val or ''
-        if val.match /]]>/
-          throw new Error "Invalid CDATA text: " + val
-        val = XMLBuilder.assertLegalChar '' + val
-        '<![CDATA[' + val + ']]>'
-      comment: (val) ->
-        val = '' + val or ''
-        if val.match /--/
-          throw new Error "Comment text cannot contain double-hypen: " + val
-        val = XMLBuilder.assertLegalChar XMLBuilder.escape '' + val
-        '<!-- ' + val + ' -->'
-      raw: (val) ->
-        '' + val or ''
-      attName: (val) ->
-        '' + val or ''
-      attValue: (val) ->
-        val = '' + val or ''
-        XMLBuilder.escape '' + val
-      insTarget: (val) ->
-        '' + val or ''
-      insValue: (val) ->
-        val = '' + val or ''
-        if val.match /\?>/
-          throw new Error "Invalid processing instruction value: " + val
-        val
-
-  # Checks whether the given object is of the given type
-  #
-  # `obj` the object to check
-  # `type` the type to compare to. (String, Number, Object, Date, ...)
-  @is: (obj, type) ->
-    clas = Object.prototype.toString.call(obj).slice(8, -1)
-    return obj? and clas is type
-
-
-  # Checks whether the given string contains legal characters
-  # Fails with an exception on error
-  #
-  # `str` the string to check
-  @assertLegalChar: (str) =>
-    if @allowSurrogateChars
-      chars = /[\u0000-\u0008\u000B-\u000C\u000E-\u001F\uFFFE-\uFFFF]/
-    else
-      chars = /[\u0000-\u0008\u000B-\u000C\u000E-\u001F\uD800-\uDFFF\uFFFE-\uFFFF]/
-    chr = str.match chars
-    if chr
-      throw new Error "Invalid character (#{chr}) in string: #{str} at index #{chr.index}"
-
-    return str
-
-
-  # Escapes special characters <, >, ', ", &
-  #
-  # `str` the string to escape
-  @escape: (str) ->
-    return str.replace(/&/g, '&amp;')
-              .replace(/</g,'&lt;').replace(/>/g,'&gt;')
-              .replace(/'/g, '&apos;').replace(/"/g, '&quot;')
+    r
 
 
 module.exports = XMLBuilder

@@ -1,3 +1,5 @@
+_ = require 'underscore'
+
 # Represents a fragment of an XMl document
 class XMLFragment
 
@@ -19,6 +21,7 @@ class XMLFragment
     @instructions = []
     @stringify = parent.stringify
 
+
   # Creates a child element node
   #
   # `name` name of the node
@@ -32,9 +35,9 @@ class XMLFragment
     attributes ?= {}
 
     # swap argument order: text <-> attribute
-    if XMLFragment.is(attributes, 'String') and XMLFragment.is(text, 'Object')
+    if _.isString(attributes) and _.isObject(text)
       [attributes, text] = [text, attributes]
-    else if XMLFragment.is(attributes, 'String')
+    else if _.isString(attributes)
       [attributes, text] = [{}, attributes]
 
     atts = {}
@@ -70,9 +73,9 @@ class XMLFragment
     attributes ?= {}
 
     # swap argument order: text <-> attribute
-    if XMLFragment.is(attributes, 'String') and XMLFragment.is(text, 'Object')
+    if _.isString(attributes) and _.isObject(text)
       [attributes, text] = [text, attributes]
-    else if XMLFragment.is(attributes, 'String')
+    else if _.isString(attributes)
       [attributes, text] = [{}, attributes]
 
     atts = {}
@@ -109,9 +112,9 @@ class XMLFragment
     attributes ?= {}
 
     # swap argument order: text <-> attribute
-    if XMLFragment.is(attributes, 'String') and XMLFragment.is(text, 'Object')
+    if _.isString(attributes) and _.isObject(text)
       [attributes, text] = [text, attributes]
-    else if XMLFragment.is(attributes, 'String')
+    else if _.isString(attributes)
       [attributes, text] = [{}, attributes]
 
     atts = {}
@@ -394,15 +397,6 @@ class XMLFragment
         r += newline
 
     return r
-
-
-  # Checks whether the given object is of the given type
-  #
-  # `obj` the object to check
-  # `type` the type to compare to. (String, Number, Object, Date, ...)
-  @is: (obj, type) ->
-    clas = Object.prototype.toString.call(obj).slice(8, -1)
-    return obj? and clas is type
 
 
   # Aliases
