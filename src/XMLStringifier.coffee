@@ -9,7 +9,7 @@ class XMLStringifier
   constructor: (options) ->
     @allowSurrogateChars = options?.allowSurrogateChars
     for own key, value of options?.stringify or {}
-      XMLStringifier::[key] = value
+      @[key] = value
 
   # Defaults
   eleName: (val) ->
