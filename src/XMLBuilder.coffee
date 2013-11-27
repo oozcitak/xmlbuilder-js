@@ -28,43 +28,38 @@ class XMLBuilder
     @children = []
     @rootObject = null
 
+    options = _.extend { 'version': '1.0' }, xmldec, doctype, options
     @stringify = new XMLStringifier options
 
     name = @stringify.eleName name
 
     if not options?.headless
-      xmldec ?= { 'version': '1.0' }
       decatts = {}
 
-      if not xmldec.version?
-        xmldec.version = '1.0'
+      options.version = '' + options.version or ''
+      if not options.version.match /1\.[0-9]+/
+        throw new Error "Invalid version number: " + options.version
+      decatts.version = options.version
 
-      xmldec.version = '' + xmldec.version or ''
-      if not xmldec.version.match /1\.[0-9]+/
-        throw new Error "Invalid version number: " + xmldec.version
-      decatts.version = xmldec.version
+      if options.encoding?
+        options.encoding = '' + options.encoding or ''
+        if not options.encoding.match /[A-Za-z](?:[A-Za-z0-9._-]|-)*/
+          throw new Error "Invalid encoding: " + options.encoding
+        decatts.encoding = options.encoding
 
-      if xmldec.encoding?
-        xmldec.encoding = '' + xmldec.encoding or ''
-        if not xmldec.encoding.match /[A-Za-z](?:[A-Za-z0-9._-]|-)*/
-          throw new Error "Invalid encoding: " + xmldec.encoding
-        decatts.encoding = xmldec.encoding
-
-      if xmldec.standalone?
-        decatts.standalone = if xmldec.standalone then "yes" else "no"
+      if options.standalone?
+        decatts.standalone = if options.standalone then "yes" else "no"
 
       child = new XMLFragment @, '?xml', decatts
       @children.push child
 
-      if doctype?
-        docatts = {}
-        if name?
-          docatts.name = name
+      docatts = {}
+      if options.ext?
+        options.ext = '' + options.ext or ''
+        docatts.ext = options.ext
 
-        if doctype.ext?
-          doctype.ext = '' + doctype.ext or ''
-          docatts.ext = doctype.ext
-
+      if not _.isEmpty docatts
+        docatts.name = name
         child = new XMLFragment @, '!DOCTYPE', docatts
         @children.push child
 

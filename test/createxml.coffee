@@ -132,6 +132,23 @@ vows
                 xml = '<?xml version="1.1"?><test14><node>test</node></test14>'
                 assert.strictEqual topic.end(), xml
 
+        'create() with with merged arguments':
+            topic: () ->
+                xml1 = xmlbuilder.create('test14', { version: '1.1', encoding: 'UTF-8', standalone: true, ext: 'hello.dtd' })
+                    .ele('node').txt('test')
+                xml2 = xmlbuilder.create('test14', { headless: true, version: '1.1', encoding: 'UTF-8', standalone: true, ext: 'hello.dtd' })
+                    .ele('node').txt('test')
+                [xml1, xml2]
+
+            'resulting XML1': (topic) ->
+                xml1 = '<?xml version="1.1" encoding="UTF-8" standalone="yes"?>' +
+                       '<!DOCTYPE hello.dtd test14><test14><node>test</node></test14>'
+                assert.strictEqual topic[0].end(), xml1
+
+            'resulting XML2': (topic) ->
+                xml2 = '<test14><node>test</node></test14>'
+                assert.strictEqual topic[1].end(), xml2
+
 
     .export(module)
 
