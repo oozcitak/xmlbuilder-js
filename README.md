@@ -4,6 +4,7 @@ An XMLBuilder for [node.js](http://nodejs.org/) similar to
 [java-xmlbuilder](http://code.google.com/p/java-xmlbuilder/).
 
 [![Build Status](https://secure.travis-ci.org/oozcitak/xmlbuilder-js.png)](http://travis-ci.org/oozcitak/xmlbuilder-js)
+[![Dependency Status](https://david-dm.org/oozcitak/xmlbuilder-js.png)](https://david-dm.org/oozcitak/xmlbuilder-js)
 
 ### Installation:
 
