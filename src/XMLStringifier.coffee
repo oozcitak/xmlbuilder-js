@@ -44,6 +44,20 @@ class XMLStringifier
     if val.match /\?>/
       throw new Error "Invalid processing instruction value: " + val
     val
+  xmlVersion: (val) ->
+    val = '' + val or ''
+    if not val.match /1\.[0-9]+/
+      throw new Error "Invalid version number: " + val
+    val
+  xmlEncoding: (val) ->
+    val = '' + val or ''
+    if not val.match /[A-Za-z](?:[A-Za-z0-9._-]|-)*/
+      throw new Error "Invalid encoding: " + options.val
+    val
+  xmlStandalone: (val) ->
+    if val then "yes" else "no"
+  xmlExternalSubset: (val) ->
+    '' + val or ''
 
 
   # Checks whether the given string contains legal characters

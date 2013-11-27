@@ -36,27 +36,21 @@ class XMLBuilder
     if not options?.headless
       decatts = {}
 
-      options.version = '' + options.version or ''
-      if not options.version.match /1\.[0-9]+/
-        throw new Error "Invalid version number: " + options.version
-      decatts.version = options.version
+      if options.version?
+        decatts.version = @stringify.xmlVersion options.version
 
       if options.encoding?
-        options.encoding = '' + options.encoding or ''
-        if not options.encoding.match /[A-Za-z](?:[A-Za-z0-9._-]|-)*/
-          throw new Error "Invalid encoding: " + options.encoding
-        decatts.encoding = options.encoding
+        decatts.encoding = @stringify.xmlEncoding options.encoding
 
       if options.standalone?
-        decatts.standalone = if options.standalone then "yes" else "no"
+        decatts.standalone = @stringify.xmlStandalone options.standalone
 
       child = new XMLFragment @, '?xml', decatts
       @children.push child
 
       docatts = {}
       if options.ext?
-        options.ext = '' + options.ext or ''
-        docatts.ext = options.ext
+        docatts.ext = @stringify.xmlExternalSubset options.ext
 
       if not _.isEmpty docatts
         docatts.name = name
