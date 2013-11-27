@@ -1,4 +1,4 @@
-vows = require 'vows'
+﻿vows = require 'vows'
 assert = require 'assert'
 
 xmlbuilder = require '../src/index.coffee'
@@ -8,19 +8,19 @@ vows
     .addBatch
         'Do not allow surrogates':
             topic: () ->
-                xmlbuilder.create('test15', {}, {}, {allowSurrogateChars: false})
+                xmlbuilder.create('test15', {allowSurrogateChars: false})
 
             'should throw': (xml) ->
-                stringWithIssues = '𡬁𠻝𩂻耨鬲, 㑜䊑㓣䟉䋮䦓, ᡨᠥ᠙ᡰᢇ᠘ᠶ, ࿋ཇ࿂ོ༇ྒ, ꃌꈗꈉꋽ, Uighur, ᥗᥩᥬᥜᥦ '
+                stringWithIssues = '\uD841\uDF0E\uD841\uDF0E'
                 assert.throws ->
                     xml.ele('node').txt(stringWithIssues)
 
         'Allow surrogates':
             topic: () ->
-                xmlbuilder.create('test16', {}, {}, {allowSurrogateChars: true})
+                xmlbuilder.create('test16', {allowSurrogateChars: true})
 
             'should not throw': (xml) ->
-                stringWithIssues = '𡬁𠻝𩂻耨鬲, 㑜䊑㓣䟉䋮䦓, ᡨᠥ᠙ᡰᢇ᠘ᠶ, ࿋ཇ࿂ོ༇ྒ, ꃌꈗꈉꋽ, Uighur, ᥗᥩᥬᥜᥦ '
+                stringWithIssues = '\uD841\uDF0E\uD841\uDF0E'
                 assert.doesNotThrow ->
                     xml.ele('node').txt(stringWithIssues)
 
