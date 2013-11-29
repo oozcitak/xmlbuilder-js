@@ -3,6 +3,7 @@
 An XMLBuilder for [node.js](http://nodejs.org/) similar to 
 [java-xmlbuilder](http://code.google.com/p/java-xmlbuilder/).
 
+[![NPM version](https://badge.fury.io/js/xmlbuilder.png)](http://badge.fury.io/js/xmlbuilder)
 [![Build Status](https://secure.travis-ci.org/oozcitak/xmlbuilder-js.png)](http://travis-ci.org/oozcitak/xmlbuilder-js)
 [![Dependency Status](https://david-dm.org/oozcitak/xmlbuilder-js.png)](https://david-dm.org/oozcitak/xmlbuilder-js)
 
