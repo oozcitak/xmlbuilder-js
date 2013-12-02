@@ -28,30 +28,7 @@ class XMLFragment
   # `attributes` an object containing name/value pairs of attributes
   # `text` element text
   element: (name, attributes, text) ->
-    if not name?
-      throw new Error "Missing element name"
-
-    name = @stringify.eleName name
-    attributes ?= {}
-
-    # swap argument order: text <-> attribute
-    if _.isString(attributes) and _.isObject(text)
-      [attributes, text] = [text, attributes]
-    else if _.isString(attributes)
-      [attributes, text] = [{}, attributes]
-
-    atts = {}
-    for own key, val of attributes
-      key = @stringify.attName key
-      val = @stringify.attValue val
-      if key? and val?
-        atts[key] = val
-
-    child = new XMLFragment @, name, atts
-
-    if text?
-      text = @stringify.eleText text
-      child.raw text
+    child = @makeElement @, name, attributes, text
 
     @children.push child
     return child
@@ -66,30 +43,7 @@ class XMLFragment
     if @isRoot
       throw new Error "Cannot insert elements at root level"
 
-    if not name?
-      throw new Error "Missing element name"
-
-    name = @stringify.eleName name
-    attributes ?= {}
-
-    # swap argument order: text <-> attribute
-    if _.isString(attributes) and _.isObject(text)
-      [attributes, text] = [text, attributes]
-    else if _.isString(attributes)
-      [attributes, text] = [{}, attributes]
-
-    atts = {}
-    for own key, val of attributes
-      key = @stringify.attName key
-      val = @stringify.attValue val
-      if key? and val?
-        atts[key] = val
-
-    child = new XMLFragment @parent, name, atts
-
-    if text?
-      text = @stringify.eleText text
-      child.raw text
+    child = @makeElement @parent, name, attributes, text
 
     i = @parent.children.indexOf @
     @parent.children.splice i, 0, child
@@ -105,13 +59,27 @@ class XMLFragment
     if @isRoot
       throw new Error "Cannot insert elements at root level"
 
+    child = @makeElement @parent, name, attributes, text
+
+    i = @parent.children.indexOf @
+    @parent.children.splice i + 1, 0, child
+    return child
+
+
+  # Creates a child element node without inserting into the XML tree
+  #
+  # `parent` parent node
+  # `name` name of the node
+  # `attributes` an object containing name/value pairs of attributes
+  # `text` element text
+  makeElement: (parent, name, attributes, text) ->
     if not name?
       throw new Error "Missing element name"
 
     name = @stringify.eleName name
     attributes ?= {}
 
-    # swap argument order: text <-> attribute
+    # swap argument order: text <-> attributes
     if _.isString(attributes) and _.isObject(text)
       [attributes, text] = [text, attributes]
     else if _.isString(attributes)
@@ -124,14 +92,12 @@ class XMLFragment
       if key? and val?
         atts[key] = val
 
-    child = new XMLFragment @parent, name, atts
+    child = new XMLFragment parent, name, atts
 
     if text?
       text = @stringify.eleText text
       child.raw text
 
-    i = @parent.children.indexOf @
-    @parent.children.splice i + 1, 0, child
     return child
 
 
@@ -206,7 +172,7 @@ class XMLFragment
   # Gets the parent node
   up: () ->
     if @isRoot
-      throw new Error "This node has no parent. Use doc() if you need to get the document object."
+      throw new Error "The root node has no parent. Use doc() if you need to get the document object."
     return @parent
 
 
@@ -316,18 +282,11 @@ class XMLFragment
   instruction: (target, value) ->
     if not target?
       throw new Error "Missing instruction target"
-    if not value?
-      value = ''
 
     target = @stringify.insTarget target
     value = @stringify.insValue value
 
-
-    pi = target
-    pi += ' ' if value
-    pi += value
-
-    @instructions.push pi
+    @instructions.push target + if value then ' ' + value else ''
 
     return @
 
@@ -338,9 +297,9 @@ class XMLFragment
   # `options.indent` indentation for pretty print
   # `options.newline` newline sequence for pretty print
   toString: (options, level) ->
-    pretty = options? and options.pretty or false
-    indent = options? and options.indent or '  '
-    newline = options? and options.newline or '\n'
+    pretty = options?.pretty or false
+    indent = options?.indent or '  '
+    newline = options?.newline or '\n'
     level or= 0
 
     space = new Array(level + 1).join(indent)
