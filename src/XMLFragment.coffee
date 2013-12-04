@@ -30,8 +30,12 @@ class XMLFragment
   element: (name, attributes, text) ->
     child = @makeElement @, name, attributes, text
 
-    @children.push child
-    return child
+    if _.isArray child
+      Array.prototype.push.apply @children, child
+      return _.last child
+    else
+      @children.push child
+      return child
 
 
   # Creates a child element node before the current node
@@ -46,8 +50,14 @@ class XMLFragment
     child = @makeElement @parent, name, attributes, text
 
     i = @parent.children.indexOf @
-    @parent.children.splice i, 0, child
-    return child
+
+    if _.isArray child
+      child.unshift i, 0
+      Array.prototype.splice.apply @parent.children, child
+      return _.last child
+    else
+      @parent.children.splice i, 0, child
+      return child
 
 
   # Creates a child element node after the current node
@@ -62,8 +72,14 @@ class XMLFragment
     child = @makeElement @parent, name, attributes, text
 
     i = @parent.children.indexOf @
-    @parent.children.splice i + 1, 0, child
-    return child
+
+    if _.isArray child
+      child.unshift i + 1, 0
+      Array.prototype.splice.apply @parent.children, child
+      return _.last child
+    else
+      @parent.children.splice i + 1, 0, child
+      return child
 
 
   # Creates a child element node without inserting into the XML tree
@@ -76,29 +92,45 @@ class XMLFragment
     if not name?
       throw new Error "Missing element name"
 
-    name = @stringify.eleName name
-    attributes ?= {}
+    if _.isObject name
+      items = []
+      for own key, val of name
+        if _.isFunction val
+          val = val.apply()
+          items.push @makeElement parent, key, val
+        else if _.isArray val
+          res = for item in val
+            @makeElement parent, key, item
+          Array.prototype.push.apply items, res
+        else if _.isObject val
+          child = @makeElement parent, key
+          child.element val
+          items.push child
+        else
+          items.push @makeElement parent, key, val
+      return items
+    else
+      name = @stringify.eleName name
+      attributes ?= {}
 
-    # swap argument order: text <-> attributes
-    if _.isString(attributes) and _.isObject(text)
-      [attributes, text] = [text, attributes]
-    else if _.isString(attributes)
-      [attributes, text] = [{}, attributes]
+      # swap argument order: text <-> attributes
+      if _.isObject(text) or not _.isObject(attributes)
+        [attributes, text] = [text, attributes]
 
-    atts = {}
-    for own key, val of attributes
-      key = @stringify.attName key
-      val = @stringify.attValue val
-      if key? and val?
-        atts[key] = val
+      atts = {}
+      for own key, val of attributes
+        key = @stringify.attName key
+        val = @stringify.attValue val
+        if key? and val?
+          atts[key] = val
 
-    child = new XMLFragment parent, name, atts
+      child = new XMLFragment parent, name, atts
 
-    if text?
-      text = @stringify.eleText text
-      child.raw text
+      if text?
+        text = @stringify.eleText text
+        child.raw text
 
-    return child
+      return child
 
 
   # Deletes a child element node
