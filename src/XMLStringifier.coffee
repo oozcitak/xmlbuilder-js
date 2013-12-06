@@ -1,5 +1,5 @@
 # Converts values to strings
-class XMLStringifier
+module.exports = class XMLStringifier
 
 
   # Initializes a new instance of `XMLStringifier`
@@ -22,14 +22,12 @@ class XMLStringifier
     val = '' + val or ''
     if val.match /]]>/
       throw new Error "Invalid CDATA text: " + val
-    val = @assertLegalChar val
-    '<![CDATA[' + val + ']]>'
+    @assertLegalChar val
   comment: (val) ->
     val = '' + val or ''
     if val.match /--/
       throw new Error "Comment text cannot contain double-hypen: " + val
-    val = @assertLegalChar @escape val
-    '<!-- ' + val + ' -->'
+    @assertLegalChar @escape val
   raw: (val) ->
     '' + val or ''
   attName: (val) ->
@@ -83,7 +81,3 @@ class XMLStringifier
     str.replace(/&/g, '&amp;')
        .replace(/</g,'&lt;').replace(/>/g,'&gt;')
        .replace(/'/g, '&apos;').replace(/"/g, '&quot;')
-
-
-module.exports = XMLStringifier
-

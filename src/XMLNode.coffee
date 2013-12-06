@@ -1,25 +1,14 @@
 _ = require 'underscore'
 
-# Represents a fragment of an XMl document
-class XMLFragment
+# Represents a generic XMl element
+module.exports = class XMLNode
 
 
-  # Initializes a new instance of `XMLFragment`
+  # Initializes a new instance of `XMLNode`
   #
   # `parent` the parent node
-  # `name` element name
-  # `attributes` an object containing name/value pairs of attributes
-  # `text` element text
-  constructor: (parent, name, attributes, text) ->
-    @isRoot = false
-    @documentObject = null
-    @parent = parent
-    @name = name
-    @attributes = attributes
-    @value = text
-    @children = []
-    @instructions = []
-    @stringify = parent.stringify
+  constructor: (@parent) ->
+    @stringify = @parent.stringify
 
 
   # Creates a child element node
@@ -119,12 +108,11 @@ class XMLFragment
 
       atts = {}
       for own key, val of attributes
-        key = @stringify.attName key
-        val = @stringify.attValue val
         if key? and val?
           atts[key] = val
 
-      child = new XMLFragment parent, name, atts
+      XMLElement = require './XMLElement'
+      child = new XMLElement parent, name, atts
 
       if text?
         text = @stringify.eleText text
@@ -149,12 +137,8 @@ class XMLFragment
   #
   # `value` element text
   text: (value) ->
-    if not value?
-      throw new Error "Missing element text"
-
-    value = @stringify.eleText value
-
-    child = new XMLFragment @, '', {}, value
+    XMLText = require './XMLText'
+    child = new XMLText @, value
     @children.push child
     return @
 
@@ -163,12 +147,8 @@ class XMLFragment
   #
   # `value` element text without CDATA delimiters
   cdata: (value) ->
-    if not value?
-      throw new Error "Missing CDATA text"
-
-    value = @stringify.cdata value
-
-    child = new XMLFragment @, '', {}, value
+    XMLCData = require './XMLCData'
+    child = new XMLCData @, value
     @children.push child
     return @
 
@@ -177,12 +157,8 @@ class XMLFragment
   #
   # `value` comment text
   comment: (value) ->
-    if not value?
-      throw new Error "Missing comment text"
-
-    value = @stringify.comment value
-
-    child = new XMLFragment @, '', {}, value
+    XMLComment = require './XMLComment'
+    child = new XMLComment @, value
     @children.push child
     return @
 
@@ -191,12 +167,8 @@ class XMLFragment
   #
   # `value` text
   raw: (value) ->
-    if not value?
-      throw new Error "Missing raw text"
-
-    value = @stringify.raw value
-
-    child = new XMLFragment @, '', {}, value
+    XMLRaw = require './XMLRaw'
+    child = new XMLRaw @, value
     @children.push child
     return @
 
@@ -250,19 +222,6 @@ class XMLFragment
     @parent.children[i + 1]
 
 
-  # Clones self
-  #
-  # `deep` true to clone child nodes as well
-  clone: (deep) ->
-    clonedSelf = new XMLFragment @parent, @name, @attributes, @value
-    if deep
-      @children.forEach (child) ->
-        clonedChild = child.clone(deep)
-        clonedChild.parent = clonedSelf
-        clonedSelf.children.push clonedChild
-    return clonedSelf
-
-
   # Imports cloned root from another XMLBuilder
   #
   # `xmlbuilder` the instance of XMLBuilder to insert nodes from
@@ -274,139 +233,22 @@ class XMLFragment
     return @
 
 
-  # Adds or modifies an attribute
+  # Clones self
   #
-  # `name` attribute name
-  # `value` attribute value
-  attribute: (name, value) ->
-    if not name?
-      throw new Error "Missing attribute name"
-    if not value?
-      throw new Error "Missing attribute value"
-
-    name = @stringify.attName name
-    value = @stringify.attValue value
-    @attributes ?= {}
-
-    @attributes[name] = value
-
-    return @
-
-
-  # Removes an attribute
-  #
-  # `name` attribute name
-  removeAttribute: (name) ->
-    if not name?
-      throw new Error "Missing attribute name"
-
-    name = @stringify.attName name
-
-    delete @attributes[name]
-
-    return @
-
-
-  # Adds a processing instruction
-  #
-  # `target` instruction target
-  # `value` instruction value
-  instruction: (target, value) ->
-    if not target?
-      throw new Error "Missing instruction target"
-
-    target = @stringify.insTarget target
-    value = @stringify.insValue value
-
-    @instructions.push target + if value then ' ' + value else ''
-
-    return @
-
-
-  # Converts the XML fragment to string
-  #
-  # `options.pretty` pretty prints the result
-  # `options.indent` indentation for pretty print
-  # `options.newline` newline sequence for pretty print
-  toString: (options, level) ->
-    pretty = options?.pretty or false
-    indent = options?.indent or '  '
-    newline = options?.newline or '\n'
-    level or= 0
-
-    space = new Array(level + 1).join(indent)
-
-    r = ''
-
-    # instructions
-    for instruction in @instructions
-      if pretty
-        r += space
-      r += '<?' + instruction + '?>'
-      if pretty
-        r += newline
-
-    # open tag
-    if pretty
-      r += space
-    if not @value?
-      r += '<' + @name
-    else
-      r += '' + @value
-
-    # attributes
-    for own attName, attValue of @attributes
-      if @name == '!DOCTYPE'
-        r += ' ' + attValue
-      else
-        r += ' ' + attName + '="' + attValue + '"'
-
-    if @children.length == 0
-      # empty element
-      if not @value?
-        r += if @name == '?xml' then '?>' else if @name == '!DOCTYPE' then '>' else '/>'
-      if pretty
-        r += newline
-    else if pretty and @children.length == 1 and @children[0].value?
-      # do not indent text-only nodes
-      r += '>'
-      r += @children[0].value
-      r += '</' + @name + '>'
-      r += newline
-    else
-      r += '>'
-      if pretty
-        r += newline
-      # inner tags
-      for child in @children
-        r += child.toString options, level + 1
-      # close tag
-      if pretty
-        r += space
-      r += '</' + @name + '>'
-      if pretty
-        r += newline
-
-    return r
+  # `deep` true to clone child nodes as well
+  clone: (deep) ->
+    _.clone @
 
 
   # Aliases
   ele: (name, attributes, text) -> @element name, attributes, text
   txt: (value) -> @text value
   dat: (value) -> @cdata value
-  att: (name, value) -> @attribute name, value
   com: (value) -> @comment value
-  ins: (target, value) -> @instruction target, value
   doc: () -> @document()
   e: (name, attributes, text) -> @element name, attributes, text
   t: (value) -> @text value
   d: (value) -> @cdata value
-  a: (name, value) -> @attribute name, value
   c: (value) -> @comment value
-  i: (target, value) -> @instruction target, value
   r: (value) -> @raw value
   u: () -> @up()
-
-
-module.exports = XMLFragment
-

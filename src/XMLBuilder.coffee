@@ -1,10 +1,9 @@
 _ = require 'underscore'
 
-XMLFragment = require './XMLFragment'
 XMLStringifier = require './XMLStringifier'
 
 # Represents an XML builder
-class XMLBuilder
+module.exports = class XMLBuilder
 
 
   # Initializes a new instance of `XMLBuilder`
@@ -33,31 +32,19 @@ class XMLBuilder
 
     name = @stringify.eleName name
 
-    if not options?.headless
-      decatts = {}
-
-      if options.version?
-        decatts.version = @stringify.xmlVersion options.version
-
-      if options.encoding?
-        decatts.encoding = @stringify.xmlEncoding options.encoding
-
-      if options.standalone?
-        decatts.standalone = @stringify.xmlStandalone options.standalone
-
-      child = new XMLFragment @, '?xml', decatts
+    # prolog
+    if not options.headless
+      XMLDeclaration = require './XMLDeclaration'
+      child = new XMLDeclaration @, options
       @children.push child
 
-      docatts = {}
       if options.ext?
-        docatts.ext = @stringify.xmlExternalSubset options.ext
-
-      if not _.isEmpty docatts
-        docatts.name = name
-        child = new XMLFragment @, '!DOCTYPE', docatts
+        XMLDocType = require './XMLDocType'
+        child = new XMLDocType @, options
         @children.push child
 
-    root = new XMLFragment @, name, {}
+    XMLElement = require './XMLElement'
+    root = new XMLElement @, name, {}
     root.isRoot = true
     root.documentObject = @
     @children.push root
@@ -84,7 +71,3 @@ class XMLBuilder
     for child in @children
       r += child.toString options
     r
-
-
-module.exports = XMLBuilder
-

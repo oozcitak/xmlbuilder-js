@@ -41,7 +41,6 @@ vows
                           '<added/>' +
                       '</root>'
 
-                console.log topic.end({pretty:true})
                 assert.strictEqual topic.doc().toString(), xml
 
     .export(module)
