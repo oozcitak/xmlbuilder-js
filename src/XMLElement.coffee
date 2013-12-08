@@ -11,18 +11,19 @@ module.exports = class XMLElement extends XMLNode
   # `parent` the parent node
   # `name` element name
   # `attributes` an object containing name/value pairs of attributes
-  # `text` element text
-  constructor: (parent, name, attributes, text) ->
+  constructor: (parent, name, attributes) ->
     super parent
     
-    @name = name
+    @name = @stringify.eleName name
+    attributes ?= {}
+    @children = []
+    @instructions = []
+
     XMLAttribute = require './XMLAttribute'
     @attributes = {}
     for own attName, attValue of attributes
-      @attributes[attName] = new XMLAttribute @, attName, attValue
-    @value = text
-    @children = []
-    @instructions = []
+      if attName? and attValue?
+        @attributes[attName] = new XMLAttribute @, attName, attValue
 
 
   # Clones self
@@ -100,10 +101,7 @@ module.exports = class XMLElement extends XMLNode
     # open tag
     if pretty
       r += space
-    if not @value?
-      r += '<' + @name
-    else
-      r += '' + @value
+    r += '<' + @name
 
     # attributes
     for own name, att of @attributes
@@ -111,8 +109,7 @@ module.exports = class XMLElement extends XMLNode
 
     if @children.length == 0
       # empty element
-      if not @value?
-        r += '/>'
+      r += '/>'
       if pretty
         r += newline
     else if pretty and @children.length == 1 and @children[0].value?

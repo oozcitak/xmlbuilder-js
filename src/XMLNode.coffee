@@ -99,24 +99,16 @@ module.exports = class XMLNode
           items.push @makeElement parent, key, val
       return items
     else
-      name = @stringify.eleName name
       attributes ?= {}
-
       # swap argument order: text <-> attributes
-      if _.isObject(text) or not _.isObject(attributes)
-        [attributes, text] = [text, attributes]
-
-      atts = {}
-      for own key, val of attributes
-        if key? and val?
-          atts[key] = val
-
+      if not _.isObject attributes
+        [text, attributes] = [attributes, text]
+      
       XMLElement = require './XMLElement'
-      child = new XMLElement parent, name, atts
+      child = new XMLElement parent, name, attributes
 
       if text?
-        text = @stringify.eleText text
-        child.raw text
+        child.text text
 
       return child
 

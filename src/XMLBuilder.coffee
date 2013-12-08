@@ -30,8 +30,6 @@ module.exports = class XMLBuilder
     options = _.extend { 'version': '1.0' }, xmldec, doctype, options
     @stringify = new XMLStringifier options
 
-    name = @stringify.eleName name
-
     # prolog
     if not options.headless
       XMLDeclaration = require './XMLDeclaration'
