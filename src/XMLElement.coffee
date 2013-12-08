@@ -1,6 +1,8 @@
 _ = require 'underscore'
 
 XMLNode = require './XMLNode'
+XMLAttribute = require './XMLAttribute'
+XMLProcessingInstruction = require './XMLProcessingInstruction'
 
 # Represents an element of the XMl document
 module.exports = class XMLElement extends XMLNode
@@ -19,7 +21,6 @@ module.exports = class XMLElement extends XMLNode
     @children = []
     @instructions = []
 
-    XMLAttribute = require './XMLAttribute'
     @attributes = {}
     for own attName, attValue of attributes
       if attName? and attValue?
@@ -50,7 +51,6 @@ module.exports = class XMLElement extends XMLNode
       throw new Error "Missing attribute value"
 
     @attributes ?= {}
-    XMLAttribute = require './XMLAttribute'
     @attributes[name] = new XMLAttribute @, name, value
 
     return @
@@ -73,7 +73,6 @@ module.exports = class XMLElement extends XMLNode
   # `target` instruction target
   # `value` instruction value
   instruction: (target, value) ->
-    XMLProcessingInstruction = require './XMLProcessingInstruction'
     instruction = new XMLProcessingInstruction @, target, value
     @instructions.push instruction
     return @

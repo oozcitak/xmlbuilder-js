@@ -1,6 +1,9 @@
 _ = require 'underscore'
 
 XMLStringifier = require './XMLStringifier'
+XMLDeclaration = require './XMLDeclaration'
+XMLDocType = require './XMLDocType'
+XMLElement = require './XMLElement'
 
 # Represents an XML builder
 module.exports = class XMLBuilder
@@ -24,25 +27,20 @@ module.exports = class XMLBuilder
     if not name?
       throw new Error "Root element needs a name"
 
-    @children = []
-    @rootObject = null
-
     options = _.extend { 'version': '1.0' }, xmldec, doctype, options
     @stringify = new XMLStringifier options
 
+    @children = []
     # prolog
     if not options.headless
-      XMLDeclaration = require './XMLDeclaration'
       child = new XMLDeclaration @, options
       @children.push child
 
       if options.ext?
-        XMLDocType = require './XMLDocType'
         child = new XMLDocType @, options
         @children.push child
 
-    XMLElement = require './XMLElement'
-    root = new XMLElement @, name, {}
+    root = new XMLElement @, name
     root.isRoot = true
     root.documentObject = @
     @children.push root
