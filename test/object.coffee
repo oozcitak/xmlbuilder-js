@@ -43,5 +43,40 @@ vows
 
                 assert.strictEqual topic.doc().toString(), xml
 
+        'From JS object with root':
+            topic: () ->
+                obj =
+                    myroot:
+                        ele: "simple element"
+                        person:
+                            name: "John"
+                            age: 35
+                            address:
+                                city: "Istanbul"
+                                street: "End of long and winding road"
+                            phone: [ "555-1234", "555-1235" ]
+                            id: () -> return 42
+    
+                xmlbuilder.create(obj, { headless: true })
+                    .ele('added')
+
+            'resulting XML': (topic) ->
+                xml = '<myroot>' +
+                          '<ele>simple element</ele>' +
+                          '<person>' +
+                              '<name>John</name>' +
+                              '<age>35</age>' +
+                              '<address>' +
+                                  '<city>Istanbul</city>' +
+                                  '<street>End of long and winding road</street>' +
+                              '</address>' +
+                              '<phone>555-1234</phone>' +
+                              '<phone>555-1235</phone>' +
+                              '<id>42</id>' +
+                          '</person>' +
+                          '<added/>' +
+                      '</myroot>'
+
+                assert.strictEqual topic.doc().toString(), xml
     .export(module)
 

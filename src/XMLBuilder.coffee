@@ -3,7 +3,7 @@ _ = require 'underscore'
 XMLStringifier = require './XMLStringifier'
 XMLDeclaration = require './XMLDeclaration'
 XMLDocType = require './XMLDocType'
-XMLElement = require './XMLElement'
+XMLNode = require './XMLNode'
 
 # Represents an XML builder
 module.exports = class XMLBuilder
@@ -40,7 +40,12 @@ module.exports = class XMLBuilder
         child = new XMLDocType @, options
         @children.push child
 
-    root = new XMLElement @, name
+    root = XMLNode::makeElement @, name
+    if _.isArray root
+      if root.length > 1
+        throw new Error "Multiple root elements are not allowed"
+      else 
+        root = root[0]
     root.isRoot = true
     root.documentObject = @
     @children.push root
