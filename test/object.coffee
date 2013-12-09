@@ -6,7 +6,54 @@ xmlbuilder = require '../src/index.coffee'
 vows
     .describe('Creating XML')
     .addBatch
-        'From JS object':
+        'From JS object (simple)':
+            topic: () ->
+                obj =
+                    root:
+                      xmlbuilder:
+                        '@for': 'node-js'
+                        repo:
+                          '@type': 'git'
+                          '#text': 'git://github.com/oozcitak/xmlbuilder-js.git'
+    
+                xmlbuilder.create(obj)
+
+            'resulting XML': (topic) ->
+                xml = '<?xml version="1.0"?>' +
+                      '<root>' +
+                          '<xmlbuilder for="node-js">' +
+                            '<repo type="git">git://github.com/oozcitak/xmlbuilder-js.git</repo>' +
+                          '</xmlbuilder>' +
+                      '</root>'
+
+                assert.strictEqual topic.end(), xml
+
+        'From JS object (functions)':
+            topic: () ->
+                obj =
+                    squares:
+                      '#comment': 'f(x) = x^2'
+                      data: () ->
+                        ret = for i in [1..5]
+                          { '@x': i, '@y': i * i }
+
+    
+                xmlbuilder.create(obj)
+
+            'resulting XML': (topic) ->
+                xml = '<?xml version="1.0"?>' +
+                      '<squares>' +
+                          '<!-- f(x) = x^2 -->' +
+                          '<data x="1" y="1"/>' +
+                          '<data x="2" y="4"/>' +
+                          '<data x="3" y="9"/>' +
+                          '<data x="4" y="16"/>' +
+                          '<data x="5" y="25"/>' +
+                      '</squares>'
+
+                assert.strictEqual topic.end(), xml
+
+        'From JS object (decorators)':
             topic: () ->
                 obj =
                     ele: "simple element"
@@ -50,9 +97,48 @@ vows
                           '<added/>' +
                       '</root>'
 
-                assert.strictEqual topic.doc().toString(), xml
+                assert.strictEqual topic.end(), xml
 
-        'From JS object with root':
+        'From JS object (deep nesting)':
+            topic: () ->
+                obj =
+                    one:
+                      '@val': 1
+                      two:
+                        '@val': 2
+                        three:
+                          '@val': 3
+                          four:
+                            '@val': 4
+                            five:
+                              '@val': 5
+                              six:
+                                '@val': 6
+                                ends: 'here'
+    
+                xmlbuilder.create('root', { headless: true })
+                    .ele(obj)
+
+            'resulting XML': (topic) ->
+                xml = '<root>' +
+                          '<one val="1">' +
+                            '<two val="2">' +
+                              '<three val="3">' +
+                                '<four val="4">' +
+                                  '<five val="5">' +
+                                    '<six val="6">' +
+                                      '<ends>here</ends>' +
+                                    '</six>' +
+                                  '</five>' +
+                                '</four>' +
+                              '</three>' +
+                            '</two>' +
+                          '</one>' +
+                      '</root>'
+
+                assert.strictEqual topic.end(), xml
+
+        'From JS object (root level)':
             topic: () ->
                 obj =
                     myroot:
@@ -86,6 +172,6 @@ vows
                           '<added/>' +
                       '</myroot>'
 
-                assert.strictEqual topic.doc().toString(), xml
+                assert.strictEqual topic.end(), xml
     .export(module)
 

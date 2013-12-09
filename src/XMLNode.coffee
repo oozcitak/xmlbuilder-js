@@ -88,23 +88,26 @@ module.exports = class XMLNode
 
     # convert JS object
     if _.isObject name
+      # assign attributes to the parent node and remove from this object
+      for own attKey, attVal of name
+        attKey = '' + attKey
+        if attKey.indexOf(parent.stringify.convertAttChar) == 0
+          parent.attribute(attKey.substr(1), attVal) if not @isRoot
+          delete name[attKey]
+
       items = []
       for own key, val of name
         if _.isFunction val
-          val = val.apply()
-          items.push @makeElement parent, key, val
+          obj = {}
+          obj[key] = val.apply()
+          items.push @makeElement parent, obj
         else if _.isArray val
           res = for item in val
-            @makeElement parent, key, item
+            obj = {}
+            obj[key] = item
+            @makeElement parent, obj
           Array.prototype.push.apply items, res
         else if _.isObject val
-          # collect attributes
-          attributes = {}
-          for own attkey, attval of val
-            if attkey.indexOf(parent.stringify.convertAttChar) == 0
-              attributes[attkey.substr(1)] = attval
-              delete val[attkey]
-
           child = @makeElement parent, key, attributes
           child.element val
           items.push child
