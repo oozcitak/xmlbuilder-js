@@ -78,9 +78,6 @@ module.exports = class XMLNode
   # `attributes` an object containing name/value pairs of attributes
   # `text` element text
   makeElement: (parent, name, attributes, text) ->
-    if not name?
-      throw new Error "Missing element name"
-
     attributes ?= {}
     # swap argument order: text <-> attributes
     if not _.isObject attributes

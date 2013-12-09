@@ -16,6 +16,9 @@ module.exports = class XMLElement extends XMLNode
   constructor: (parent, name, attributes) ->
     super parent
     
+    if not name?
+      throw new Error "Missing element name"
+        
     @name = @stringify.eleName name
     attributes ?= {}
     @children = []
