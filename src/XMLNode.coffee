@@ -36,17 +36,17 @@ module.exports = class XMLNode
     if @isRoot
       throw new Error "Cannot insert elements at root level"
 
-    child = @makeElement @parent, name, attributes, text
-
+    # temporarily remove children starting *with* this
     i = @parent.children.indexOf @
+    removed = @parent.children.splice i
 
-    if _.isArray child
-      child.unshift i, 0
-      Array.prototype.splice.apply @parent.children, child
-      return _.last child
-    else
-      @parent.children.splice i, 0, child
-      return child
+    # add the new child
+    child = @parent.element name, attributes, text
+
+    # add back removed children after new child
+    Array.prototype.push.apply @parent.children, removed
+
+    return child
 
 
   # Creates a child element node after the current node
@@ -58,17 +58,17 @@ module.exports = class XMLNode
     if @isRoot
       throw new Error "Cannot insert elements at root level"
 
-    child = @makeElement @parent, name, attributes, text
-
+    # temporarily remove children starting *after* this
     i = @parent.children.indexOf @
+    removed = @parent.children.splice i + 1
 
-    if _.isArray child
-      child.unshift i + 1, 0
-      Array.prototype.splice.apply @parent.children, child
-      return _.last child
-    else
-      @parent.children.splice i + 1, 0, child
-      return child
+    # add the new child
+    child = @parent.element name, attributes, text
+
+    # add back removed children after new child
+    Array.prototype.push.apply @parent.children, removed
+
+    return child
 
 
   # Creates a child element node without inserting into the XML tree
