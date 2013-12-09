@@ -16,6 +16,8 @@ module.exports = class XMLDeclaration extends XMLNode
   constructor: (parent, options) ->
     super parent
 
+    options = _.extend { 'version': '1.0' }, options
+
     if options.version?
       @version = @stringify.xmlVersion options.version
 

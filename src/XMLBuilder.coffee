@@ -14,20 +14,20 @@ module.exports = class XMLBuilder
   #
   # `name` name of the root element
   #
-  # `xmldec.version` A version number string, e.g. 1.0
-  # `xmldec.encoding` Encoding declaration, e.g. UTF-8
-  # `xmldec.standalone` standalone document declaration: true or false
+  # `options.version` A version number string, e.g. 1.0
+  # `options.encoding` Encoding declaration, e.g. UTF-8
+  # `options.standalone` standalone document declaration: true or false
   #
-  # `doctype.ext` the external subset containing markup declarations
+  # `options.ext` the external subset containing markup declarations
   #
   # `options.headless` whether XML declaration and doctype will be included: true or false
   # `options.allowSurrogateChars` whether surrogates will be allowed: true or false
   # `options.stringify` a set of functions to use for converting values to strings
-  constructor: (name, xmldec, doctype, options) ->
+  constructor: (name, options) ->
     if not name?
       throw new Error "Root element needs a name"
 
-    options = _.extend { 'version': '1.0' }, xmldec, doctype, options
+    options ?= {}
     @stringify = new XMLStringifier options
 
     # prolog
