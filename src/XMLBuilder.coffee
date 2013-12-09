@@ -30,15 +30,12 @@ module.exports = class XMLBuilder
     options = _.extend { 'version': '1.0' }, xmldec, doctype, options
     @stringify = new XMLStringifier options
 
-    @children = []
     # prolog
     if not options.headless
-      child = new XMLDeclaration @, options
-      @children.push child
+      @xmldec = new XMLDeclaration @, options
 
       if options.ext?
-        child = new XMLDocType @, options
-        @children.push child
+        @doctype = new XMLDocType @, options
 
     root = XMLNode::makeElement @, name
     if _.isArray root
@@ -48,7 +45,6 @@ module.exports = class XMLBuilder
         root = root[0]
     root.isRoot = true
     root.documentObject = @
-    @children.push root
     @rootObject = root
 
 
@@ -69,6 +65,6 @@ module.exports = class XMLBuilder
   # `options.newline` newline sequence for pretty print
   toString: (options) ->
     r = ''
-    for child in @children
-      r += child.toString options
-    r
+    r += @xmldec.toString options if @xmldec?
+    r += @doctype.toString options if @doctype?
+    r += @rootObject.toString options
