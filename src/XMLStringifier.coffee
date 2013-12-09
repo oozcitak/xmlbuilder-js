@@ -62,7 +62,7 @@ module.exports = class XMLStringifier
   convertTextKey: '#text'
   convertCDataKey: '#cdata'
   convertCommentKey: '#comment'
-
+  convertRawKey: '#raw'
 
   # Checks whether the given string contains legal characters
   # Fails with an exception on error

@@ -15,6 +15,8 @@ vows
                         '@age': 35
                         '#comment': 'Good guy'
                         '#cdata': 'well formed!'
+                        unescaped:
+                          '#raw': '&<>&'
                         address:
                             city: "Istanbul"
                             street: "End of long and winding road"
@@ -35,6 +37,7 @@ vows
                               '<name>John</name>' +
                               '<!-- Good guy -->' +
                               '<![CDATA[well formed!]]>' +
+                              '<unescaped>&<>&</unescaped>' +
                               '<address>' +
                                   '<city>Istanbul</city>' +
                                   '<street>End of long and winding road</street>' +

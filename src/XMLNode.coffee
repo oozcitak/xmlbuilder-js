@@ -128,6 +128,11 @@ module.exports = class XMLNode
         XMLComment = require './XMLComment'
         child = new XMLComment parent, text
         return child
+      # raw text node
+      else if name.indexOf(parent.stringify.convertRawKey) == 0
+        XMLRaw = require './XMLRaw'
+        child = new XMLRaw parent, text
+        return child        
       # element node
       else      
         XMLElement = require './XMLElement'
