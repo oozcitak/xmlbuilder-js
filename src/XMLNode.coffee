@@ -81,6 +81,12 @@ module.exports = class XMLNode
     if not name?
       throw new Error "Missing element name"
 
+    attributes ?= {}
+    # swap argument order: text <-> attributes
+    if not _.isObject attributes
+      [text, attributes] = [attributes, text]
+
+    # convert JS object
     if _.isObject name
       items = []
       for own key, val of name
@@ -92,25 +98,45 @@ module.exports = class XMLNode
             @makeElement parent, key, item
           Array.prototype.push.apply items, res
         else if _.isObject val
-          child = @makeElement parent, key
+          # collect attributes
+          attributes = {}
+          for own attkey, attval of val
+            if attkey.indexOf(parent.stringify.convertAttChar) == 0
+              attributes[attkey.substr(1)] = attval
+              delete val[attkey]
+
+          child = @makeElement parent, key, attributes
           child.element val
           items.push child
         else
           items.push @makeElement parent, key, val
       return items
     else
-      attributes ?= {}
-      # swap argument order: text <-> attributes
-      if not _.isObject attributes
-        [text, attributes] = [attributes, text]
-      
-      XMLElement = require './XMLElement'
-      child = new XMLElement parent, name, attributes
+      name = '' + name
+      # text node
+      if name.indexOf(parent.stringify.convertTextKey) == 0
+        XMLText = require './XMLText'
+        child = new XMLText parent, text
+        return child
+      # CData node
+      else if name.indexOf(parent.stringify.convertCDataKey) == 0
+        XMLCData = require './XMLCData'
+        child = new XMLCData parent, text
+        return child
+      # comment node
+      else if name.indexOf(parent.stringify.convertCommentKey) == 0
+        XMLComment = require './XMLComment'
+        child = new XMLComment parent, text
+        return child
+      # element node
+      else      
+        XMLElement = require './XMLElement'
+        child = new XMLElement parent, name, attributes
 
-      if text?
-        child.text text
+        if text?
+          child.text text
 
-      return child
+        return child
 
 
   # Deletes a child element node

@@ -57,6 +57,12 @@ module.exports = class XMLStringifier
   xmlExternalSubset: (val) ->
     '' + val or ''
 
+  # strings to match while converting from JS objects
+  convertAttChar: '@'
+  convertTextKey: '#text'
+  convertCDataKey: '#cdata'
+  convertCommentKey: '#comment'
+
 
   # Checks whether the given string contains legal characters
   # Fails with an exception on error
