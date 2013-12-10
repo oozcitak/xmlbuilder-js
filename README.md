@@ -36,6 +36,22 @@ will result in:
 </root>
 ```
 
+It is also possible to convert objects into nodes:
+
+``` js
+builder.create({
+  root: {
+    xmlbuilder: {
+      '@for': 'node-js', // attributes start with @
+      repo: {
+        '@type': 'git',
+        '#text': 'git://github.com/oozcitak/xmlbuilder-js.git' // #text denotes element text
+      }
+    }
+  }
+});
+```
+
 If you need to do some processing:
 
 ``` js
