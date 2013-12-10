@@ -13,7 +13,7 @@ module.exports = class XMLNode
 
   # Creates a child element node
   #
-  # `name` name of the node
+  # `name` node name or an object describing the XML tree
   # `attributes` an object containing name/value pairs of attributes
   # `text` element text
   element: (name, attributes, text) ->
@@ -39,7 +39,7 @@ module.exports = class XMLNode
 
       # assign attributes and remove from this object
       for own attKey, attVal of name
-        if attKey.indexOf(@stringify.convertAttKey) == 0
+        if @stringify.convertAttKey and attKey.indexOf(@stringify.convertAttKey) == 0
           @attribute(attKey.substr(@stringify.convertAttKey.length), attVal)
           delete name[attKey]
 
@@ -49,7 +49,7 @@ module.exports = class XMLNode
         # expand if object (arrays are objects too)
         if _.isObject val
           # expand list without creating parent node
-          if key.indexOf(@stringify.convertListKey) == 0 and _.isArray val
+          if @stringify.convertListKey and key.indexOf(@stringify.convertListKey) == 0 and _.isArray val
             lastChild = @element val
           # expand child nodes under parent
           else
@@ -63,16 +63,16 @@ module.exports = class XMLNode
     else
       name = '' + name
       # text node
-      if name.indexOf(@stringify.convertTextKey) == 0
+      if @stringify.convertTextKey and name.indexOf(@stringify.convertTextKey) == 0
         lastChild = @text text
       # cdata node
-      else if name.indexOf(@stringify.convertCDataKey) == 0
+      else if @stringify.convertCDataKey and name.indexOf(@stringify.convertCDataKey) == 0
         lastChild = @cdata text
       # comment node
-      else if name.indexOf(@stringify.convertCommentKey) == 0
+      else if @stringify.convertCommentKey and name.indexOf(@stringify.convertCommentKey) == 0
         lastChild = @comment text
       # raw text node
-      else if name.indexOf(@stringify.convertRawKey) == 0
+      else if @stringify.convertRawKey and name.indexOf(@stringify.convertRawKey) == 0
         lastChild = @raw text
       # element node
       else
@@ -83,7 +83,7 @@ module.exports = class XMLNode
 
   # Creates a child element node before the current node
   #
-  # `name` name of the node
+  # `name` node name or an object describing the XML tree
   # `attributes` an object containing name/value pairs of attributes
   # `text` element text
   insertBefore: (name, attributes, text) ->
@@ -105,7 +105,7 @@ module.exports = class XMLNode
 
   # Creates a child element node after the current node
   #
-  # `name` name of the node
+  # `name` node name or an object describing the XML tree
   # `attributes` an object containing name/value pairs of attributes
   # `text` element text
   insertAfter: (name, attributes, text) ->
