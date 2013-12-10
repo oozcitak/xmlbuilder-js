@@ -259,11 +259,13 @@ module.exports = class XMLNode
 
   # Aliases
   ele: (name, attributes, text) -> @element name, attributes, text
+  nod: (name, attributes, text) -> @node name, attributes, text
   txt: (value) -> @text value
   dat: (value) -> @cdata value
   com: (value) -> @comment value
   doc: () -> @document()
   e: (name, attributes, text) -> @element name, attributes, text
+  n: (name, attributes, text) -> @node name, attributes, text
   t: (value) -> @text value
   d: (value) -> @cdata value
   c: (value) -> @comment value
