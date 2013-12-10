@@ -33,9 +33,9 @@ vows
                 obj =
                     squares:
                       '#comment': 'f(x) = x^2'
-                      data: () ->
+                      '#list': () ->
                         ret = for i in [1..5]
-                          { '@x': i, '@y': i * i }
+                          { data: { '@x': i, '@y': i * i } }
 
     
                 xmlbuilder.create(obj)
@@ -67,7 +67,10 @@ vows
                         address:
                             city: "Istanbul"
                             street: "End of long and winding road"
-                        phone: [ "555-1234", "555-1235" ]
+                        contact: [
+                            { phone: "555-1234" }
+                            { phone: "555-1235" }
+                        ]
                         id: () -> return 42
                         details:
                           '#text': 'classified'
@@ -89,8 +92,10 @@ vows
                                   '<city>Istanbul</city>' +
                                   '<street>End of long and winding road</street>' +
                               '</address>' +
-                              '<phone>555-1234</phone>' +
-                              '<phone>555-1235</phone>' +
+                              '<contact>' +
+                                  '<phone>555-1234</phone>' +
+                                  '<phone>555-1235</phone>' +
+                              '</contact>' +
                               '<id>42</id>' +
                               '<details>classified</details>' +
                           '</person>' +
@@ -145,11 +150,14 @@ vows
                         ele: "simple element"
                         person:
                             name: "John"
-                            age: 35
+                            '@age': 35
                             address:
                                 city: "Istanbul"
                                 street: "End of long and winding road"
-                            phone: [ "555-1234", "555-1235" ]
+                            '#list': [ 
+                                { phone: { '#text': "555-1234", '@type': 'home' } }
+                                { phone: { '#text': "555-1235", '@type': 'mobile' } }
+                            ]
                             id: () -> return 42
     
                 xmlbuilder.create(obj, { headless: true })
@@ -158,15 +166,14 @@ vows
             'resulting XML': (topic) ->
                 xml = '<myroot>' +
                           '<ele>simple element</ele>' +
-                          '<person>' +
+                          '<person age="35">' +
                               '<name>John</name>' +
-                              '<age>35</age>' +
                               '<address>' +
                                   '<city>Istanbul</city>' +
                                   '<street>End of long and winding road</street>' +
                               '</address>' +
-                              '<phone>555-1234</phone>' +
-                              '<phone>555-1235</phone>' +
+                              '<phone type="home">555-1234</phone>' +
+                              '<phone type="mobile">555-1235</phone>' +
                               '<id>42</id>' +
                           '</person>' +
                           '<added/>' +

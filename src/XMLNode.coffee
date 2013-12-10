@@ -17,14 +17,68 @@ module.exports = class XMLNode
   # `attributes` an object containing name/value pairs of attributes
   # `text` element text
   element: (name, attributes, text) ->
-    child = @makeElement @, name, attributes, text
+    lastChild = null
 
-    if _.isArray child
-      Array.prototype.push.apply @children, child
-      return _.last child
+    attributes ?= {}
+    # swap argument order: text <-> attributes
+    if not _.isObject attributes
+      [text, attributes] = [attributes, text]
+
+    # convert JS objects and arrays
+    if _.isArray name
+      for item in name
+        lastChild = @element item
+    else if _.isObject name
+      # evaluate functions
+      for own key, val of name
+        name[key] = val.apply() if _.isFunction val
+
+      # filter undefined and null
+      for own key, val of name
+        delete name[key] if not val?
+
+      # assign attributes and remove from this object
+      for own attKey, attVal of name
+        if attKey.indexOf(@stringify.convertAttChar) == 0
+          @attribute(attKey.substr(1), attVal)
+          delete name[attKey]
+
+      # insert children
+      for own key, val of name
+
+        # expand if object (arrays are objects too)
+        if _.isObject val
+          # expand list without creating parent node
+          if key.indexOf(@stringify.convertListKey) == 0 and _.isArray val
+            lastChild = @element val
+          # expand child nodes under parent
+          else
+            lastChild = @element key
+            lastChild.element val
+
+        # text node
+        else
+          lastChild = @element key, val
+
     else
-      @children.push child
-      return child
+      name = '' + name
+      # text node
+      if name.indexOf(@stringify.convertTextKey) == 0
+        lastChild = @text text
+      # cdata node
+      else if name.indexOf(@stringify.convertCDataKey) == 0
+        lastChild = @cdata text
+      # comment node
+      else if name.indexOf(@stringify.convertCommentKey) == 0
+        lastChild = @comment text
+      # raw text node
+      else if name.indexOf(@stringify.convertRawKey) == 0
+        lastChild = @raw text
+      # element node
+      else
+        lastChild = @node name, attributes, text
+
+    return lastChild
 
 
   # Creates a child element node before the current node
@@ -71,79 +125,6 @@ module.exports = class XMLNode
     return child
 
 
-  # Creates a child element node without inserting into the XML tree
-  #
-  # `parent` parent node
-  # `name` name of the node
-  # `attributes` an object containing name/value pairs of attributes
-  # `text` element text
-  makeElement: (parent, name, attributes, text) ->
-    attributes ?= {}
-    # swap argument order: text <-> attributes
-    if not _.isObject attributes
-      [text, attributes] = [attributes, text]
-
-    # convert JS object
-    if _.isObject name
-      # assign attributes to the parent node and remove from this object
-      for own attKey, attVal of name
-        attKey = '' + attKey
-        if attKey.indexOf(parent.stringify.convertAttChar) == 0
-          parent.attribute(attKey.substr(1), attVal) if not @isRoot
-          delete name[attKey]
-
-      items = []
-      for own key, val of name
-        if _.isFunction val
-          obj = {}
-          obj[key] = val.apply()
-          items.push @makeElement parent, obj
-        else if _.isArray val
-          res = for item in val
-            obj = {}
-            obj[key] = item
-            @makeElement parent, obj
-          Array.prototype.push.apply items, res
-        else if _.isObject val
-          child = @makeElement parent, key, attributes
-          child.element val
-          items.push child
-        else
-          items.push @makeElement parent, key, val
-      return items
-    else
-      name = '' + name
-      # text node
-      if name.indexOf(parent.stringify.convertTextKey) == 0
-        XMLText = require './XMLText'
-        child = new XMLText parent, text
-        return child
-      # CData node
-      else if name.indexOf(parent.stringify.convertCDataKey) == 0
-        XMLCData = require './XMLCData'
-        child = new XMLCData parent, text
-        return child
-      # comment node
-      else if name.indexOf(parent.stringify.convertCommentKey) == 0
-        XMLComment = require './XMLComment'
-        child = new XMLComment parent, text
-        return child
-      # raw text node
-      else if name.indexOf(parent.stringify.convertRawKey) == 0
-        XMLRaw = require './XMLRaw'
-        child = new XMLRaw parent, text
-        return child        
-      # element node
-      else      
-        XMLElement = require './XMLElement'
-        child = new XMLElement parent, name, attributes
-
-        if text?
-          child.text text
-
-        return child
-
-
   # Deletes a child element node
   #
   remove: () ->
@@ -154,6 +135,19 @@ module.exports = class XMLNode
     @parent.children[i..i] = []
 
     return @parent
+
+
+  # Creates a node
+  #
+  # `name` name of the node
+  # `attributes` an object containing name/value pairs of attributes
+  # `text` element text
+  node: (name, attributes, text) ->
+    XMLElement = require './XMLElement'
+    child = new XMLElement @, name, attributes
+    child.text(text) if text?
+    @children.push child
+    return child
 
 
   # Creates a text node
