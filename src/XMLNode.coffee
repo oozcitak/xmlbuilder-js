@@ -28,6 +28,9 @@ module.exports = class XMLNode
     if _.isArray name
       for item in name
         lastChild = @element item
+    else if _.isFunction name
+      name = name.apply()
+      lastChild = @element name
     else if _.isObject name
       # evaluate functions
       for own key, val of name
@@ -62,6 +65,7 @@ module.exports = class XMLNode
 
     else
       name = '' + name
+
       # text node
       if @stringify.convertTextKey and name.indexOf(@stringify.convertTextKey) == 0
         lastChild = @text text

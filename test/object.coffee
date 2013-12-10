@@ -180,5 +180,27 @@ vows
                       '</myroot>'
 
                 assert.strictEqual topic.end(), xml
+
+        'From JS object (simple array)':
+            topic: () ->
+                obj = [
+                        "one"
+                        "two"
+                        () -> return "three"
+                    ]
+    
+                xmlbuilder.create('root', { headless: true })
+                    .ele(obj)
+
+            'resulting XML': (topic) ->
+                xml = '<root>' +
+                          '<one/>' +
+                          '<two/>' +
+                          '<three/>' +
+                      '</root>'
+
+                assert.strictEqual topic.end(), xml
+ 
+
     .export(module)
 
