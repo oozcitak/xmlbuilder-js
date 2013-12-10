@@ -39,8 +39,8 @@ module.exports = class XMLNode
 
       # assign attributes and remove from this object
       for own attKey, attVal of name
-        if attKey.indexOf(@stringify.convertAttChar) == 0
-          @attribute(attKey.substr(1), attVal)
+        if attKey.indexOf(@stringify.convertAttKey) == 0
+          @attribute(attKey.substr(@stringify.convertAttKey.length), attVal)
           delete name[attKey]
 
       # insert children
