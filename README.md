@@ -79,7 +79,7 @@ This will result in:
 </squares>
 ```
 
-See the [Usage](https://github.com/oozcitak/xmlbuilder-js/wiki/Usage) page in the wiki for more detailed instructions.
+See the [wiki](https://github.com/oozcitak/xmlbuilder-js/wiki) for details.
 
 ### License:
 
