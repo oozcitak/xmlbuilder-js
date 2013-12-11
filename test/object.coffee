@@ -60,7 +60,7 @@ vows
                     person:
                         name: "John"
                         '@age': 35
-                        '!pi': 'mypi'
+                        '?pi': 'mypi'
                         '#comment': 'Good guy'
                         '#cdata': 'well formed!'
                         unescaped:
