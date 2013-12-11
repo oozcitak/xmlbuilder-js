@@ -59,6 +59,7 @@ module.exports = class XMLStringifier
 
   # strings to match while converting from JS objects
   convertAttKey: '@'
+  convertPIKey: '!'
   convertTextKey: '#text'
   convertCDataKey: '#cdata'
   convertCommentKey: '#comment'

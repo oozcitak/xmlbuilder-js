@@ -60,6 +60,7 @@ vows
                     person:
                         name: "John"
                         '@age': 35
+                        '!pi': 'mypi'
                         '#comment': 'Good guy'
                         '#cdata': 'well formed!'
                         unescaped:
@@ -83,6 +84,7 @@ vows
             'resulting XML': (topic) ->
                 xml = '<root>' +
                           '<ele>simple element</ele>' +
+                          '<?pi mypi?>' +
                           '<person age="35">' +
                               '<name>John</name>' +
                               '<!-- Good guy -->' +

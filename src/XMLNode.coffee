@@ -46,6 +46,12 @@ module.exports = class XMLNode
           @attribute(attKey.substr(@stringify.convertAttKey.length), attVal)
           delete name[attKey]
 
+      # assign processing instructions and remove from this object
+      for own piKey, piVal of name
+        if @stringify.convertPIKey and piKey.indexOf(@stringify.convertPIKey) == 0
+          @instruction(piKey.substr(@stringify.convertPIKey.length), piVal)
+          delete name[piKey]
+
       # insert children
       for own key, val of name
 
