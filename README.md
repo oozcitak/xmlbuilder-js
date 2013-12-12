@@ -80,7 +80,3 @@ This will result in:
 ```
 
 See the [wiki](https://github.com/oozcitak/xmlbuilder-js/wiki) for details.
-
-### License:
-
-`xmlbuilder-js` is [MIT Licensed](http://opensource.org/licenses/mit-license.php).
