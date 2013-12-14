@@ -24,39 +24,30 @@ module.exports = class XMLNode
     if not _.isObject attributes
       [text, attributes] = [attributes, text]
 
-    # convert JS objects and arrays
+    # expand if array
     if _.isArray name
-      for item in name
-        lastChild = @element item
+      lastChild = @element item for item in name
+
+    # evaluate if function
     else if _.isFunction name
-      name = name.apply()
-      lastChild = @element name
+      lastChild = @element name.apply()
+
+    # expand if object but skip null values
     else if _.isObject name
-      # evaluate functions
-      for own key, val of name
-        name[key] = val.apply() if _.isFunction val
+      for own key, val of name when val?
+         # evaluate if function
+        val = val.apply() if _.isFunction val
 
-      # filter undefined and null
-      for own key, val of name
-        delete name[key] if not val?
+        # assign attributes
+        if @stringify.convertAttKey and key.indexOf(@stringify.convertAttKey) == 0
+           lastChild = @attribute(key.substr(@stringify.convertAttKey.length), val)
 
-      # assign attributes and remove from this object
-      for own attKey, attVal of name
-        if @stringify.convertAttKey and attKey.indexOf(@stringify.convertAttKey) == 0
-          @attribute(attKey.substr(@stringify.convertAttKey.length), attVal)
-          delete name[attKey]
-
-      # assign processing instructions and remove from this object
-      for own piKey, piVal of name
-        if @stringify.convertPIKey and piKey.indexOf(@stringify.convertPIKey) == 0
-          @instruction(piKey.substr(@stringify.convertPIKey.length), piVal)
-          delete name[piKey]
-
-      # insert children
-      for own key, val of name
+        # assign processing instructions
+        else if @stringify.convertPIKey and key.indexOf(@stringify.convertPIKey) == 0
+          lastChild = @instruction(key.substr(@stringify.convertPIKey.length), val)
 
         # expand if object (arrays are objects too)
-        if _.isObject val
+        else if _.isObject val
           # expand list without creating parent node
           if @stringify.convertListKey and key.indexOf(@stringify.convertListKey) == 0 and _.isArray val
             lastChild = @element val
@@ -87,6 +78,9 @@ module.exports = class XMLNode
       # element node
       else
         lastChild = @node name, attributes, text
+
+    if not lastChild?
+      throw new Error "Could not create any elements with: " + name
 
     return lastChild
 
