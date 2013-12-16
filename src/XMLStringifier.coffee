@@ -54,11 +54,9 @@ module.exports = class XMLStringifier
     val
   xmlStandalone: (val) ->
     if val then "yes" else "no"
-  xmlPubId: (val) ->
-    val ?= ''
+  xmlPubID: (val) ->
     '' + val or ''
-  xmlSysId: (val) ->
-    val ?= ''
+  xmlSysID: (val) ->
     '' + val or ''
 
   # strings to match while converting from JS objects

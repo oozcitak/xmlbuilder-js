@@ -10,21 +10,19 @@ module.exports = class XMLDocType extends XMLNode
   #
   # `parent` the document object
   #
-  # `pubId` the public identifier of the DTD
-  # `sysId` the system identifier of the DTD
-  #     if sysId is omitted, pubId will be used
-  #     as sysId
-  constructor: (parent, pubId, sysId) ->
+  # `options.dtd` document type declaration with optional external subset
+  # `options.dtd.pubID` the public identifier of the external subset
+  # `options.dtd.sysID` the system identifier of the external subset
+  constructor: (parent, options) ->
     super parent
 
-    if sysId
-      @public = true
-      @pubId = @stringify.xmlPubId pubId
-      @sysId = @stringify.xmlSysId sysId
-    else
-      @public = false
-      @sysId = @stringify.xmlSysId pubId
-      @pubId = null
+    if not _.isObject options.dtd
+      sysID = options.dtd
+      options.dtd = {}
+      options.dtd.sysID = sysID if sysID
+    
+    @pubID = @stringify.xmlPubID options.dtd.pubID if options.dtd.pubID?
+    @sysID = @stringify.xmlSysID options.dtd.sysID if options.dtd.sysID?
 
 
   # Converts to string
@@ -48,11 +46,10 @@ module.exports = class XMLDocType extends XMLNode
     r += '<!DOCTYPE ' + @parent.root().name
 
     # external identifier
-    if @pubId or @sysId
-      if @public
-        r += ' PUBLIC "' + @pubId + '" "' + @sysId + '"'
-      else
-        r += ' SYSTEM "' + @sysId + '"'
+    if @pubID and @sysID
+      r += ' PUBLIC "' + @pubID + '" "' + @sysID + '"'
+    else if @sysID
+      r += ' SYSTEM "' + @sysID + '"'
 
     # close tag
     r += '>'

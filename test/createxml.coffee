@@ -134,9 +134,9 @@ vows
 
         'create() with with merged arguments':
             topic: () ->
-                xml1 = xmlbuilder.create('test14', { version: '1.1', encoding: 'UTF-8', standalone: true, ext: 'hello.dtd' })
+                xml1 = xmlbuilder.create('test14', { version: '1.1', encoding: 'UTF-8', standalone: true, dtd: { sysID: 'hello.dtd' }})
                     .ele('node').txt('test')
-                xml2 = xmlbuilder.create('test14', { headless: true, version: '1.1', encoding: 'UTF-8', standalone: true, ext: 'hello.dtd' })
+                xml2 = xmlbuilder.create('test14', { headless: true, version: '1.1', encoding: 'UTF-8', standalone: true, dtd: { sysID: 'hello.dtd' }})
                     .ele('node').txt('test')
                 [xml1, xml2]
 

@@ -18,7 +18,9 @@ module.exports = class XMLBuilder
   # `options.encoding` Encoding declaration, e.g. UTF-8
   # `options.standalone` standalone document declaration: true or false
   #
-  # `options.ext` the external subset containing markup declarations
+  # `options.dtd` document type declaration with optional external subset
+  # `options.dtd.pubID` the public identifier of the external subset
+  # `options.dtd.sysID` the system identifier of the external subset
   #
   # `options.headless` whether XML declaration and doctype will be included: true or false
   # `options.allowSurrogateChars` whether surrogates will be allowed: true or false
@@ -28,14 +30,19 @@ module.exports = class XMLBuilder
       throw new Error "Root element needs a name"
 
     options ?= {}
+
+    # support legacy ext attribute
+    if options.ext and not options.dtd
+      options.dtd = options.ext
+      
     @stringify = new XMLStringifier options
 
     # prolog
     if not options.headless
       @xmldec = new XMLDeclaration @, options
 
-      if options.ext?
-        @doctype = new XMLDocType @, options.ext
+      if options.dtd?
+        @doctype = new XMLDocType @, options
 
     root = new XMLElement @, 'doc'
     root = root.element name
