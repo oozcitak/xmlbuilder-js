@@ -10,12 +10,21 @@ module.exports = class XMLDocType extends XMLNode
   #
   # `parent` the document object
   #
-  # `options.ext` the external subset containing markup declarations
-  constructor: (parent, options) ->
+  # `pubId` the public identifier of the DTD
+  # `sysId` the system identifier of the DTD
+  #     if sysId is omitted, pubId will be used
+  #     as sysId
+  constructor: (parent, pubId, sysId) ->
     super parent
 
-    if options.ext?
-      @ext = @stringify.xmlExternalSubset options.ext
+    if sysId
+      @public = true
+      @pubId = @stringify.xmlPubId pubId
+      @sysId = @stringify.xmlSysId sysId
+    else
+      @public = false
+      @sysId = @stringify.xmlSysId pubId
+      @pubId = null
 
 
   # Converts to string
@@ -36,12 +45,14 @@ module.exports = class XMLDocType extends XMLNode
     # open tag
     if pretty
       r += space
-    r += '<!DOCTYPE'
+    r += '<!DOCTYPE ' + @parent.root().name
 
-    # attributes
-    r += ' ' + @parent.root().name
-    if @ext?
-      r += ' ' + @ext
+    # external identifier
+    if @pubId or @sysId
+      if @public
+        r += ' PUBLIC "' + @pubId + '" "' + @sysId + '"'
+      else
+        r += ' SYSTEM "' + @sysId + '"'
 
     # close tag
     r += '>'

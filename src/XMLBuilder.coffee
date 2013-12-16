@@ -35,7 +35,7 @@ module.exports = class XMLBuilder
       @xmldec = new XMLDeclaration @, options
 
       if options.ext?
-        @doctype = new XMLDocType @, options
+        @doctype = new XMLDocType @, options.ext
 
     root = new XMLElement @, 'doc'
     root = root.element name
