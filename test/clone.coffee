@@ -9,6 +9,7 @@ vows
         'Test the clone() method (not deep clone)':
             topic: () ->
                 test = xmlbuilder.create('test11', {}, {}, { headless: true})
+                    .att('att', 'val')
                     .ele('nodes')
                         .ele('node', '1')
                     .root()
@@ -20,18 +21,20 @@ vows
 
             'resulting XML':
                 'original should remain unchanged': (topic) ->
-                    xml = '<test11><nodes><node>1</node></nodes></test11>'
+                    xml = '<test11 att="val"><nodes><node>1</node></nodes></test11>'
                     assert.strictEqual topic.original.doc().toString(), xml
                 'cloned should contain added node only': (topic) ->
-                    xml = '<test11><added>3</added></test11>'
+                    xml = '<test11 att="val"><added>3</added></test11>'
                     assert.strictEqual topic.cloned.toString(), xml
 
         'Test the clone() method (deep clone)':
             topic: () ->
                 test = xmlbuilder.create('test11', {}, {}, { headless: true})
+                    .att('att', 'val')
                     .ele('nodes')
                         .ele('node', '1').up()
                         .ele('node', '2')
+                            .att('att2', 'val2')
                     .root()
 
                 testcloned = test.root().clone(true)
@@ -41,10 +44,10 @@ vows
 
             'resulting XML':
                 'original should remain unchanged': (topic) ->
-                    xml = '<test11><nodes><node>1</node><node>2</node></nodes></test11>'
+                    xml = '<test11 att="val"><nodes><node>1</node><node att2="val2">2</node></nodes></test11>'
                     assert.strictEqual topic.original.doc().toString(), xml
                 'cloned should contain all nodes including added node': (topic) ->
-                    xml = '<test11><nodes><node>1</node><node>2</node></nodes><added>3</added></test11>'
+                    xml = '<test11 att="val"><nodes><node>1</node><node att2="val2">2</node></nodes><added>3</added></test11>'
                     assert.strictEqual topic.cloned.toString(), xml
 
     .export(module)

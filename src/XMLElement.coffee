@@ -34,7 +34,21 @@ module.exports = class XMLElement extends XMLNode
   #
   # `deep` true to clone child nodes as well
   clone: (deep) ->
-    clonedSelf = new XMLElement @parent, @name, @attributes, @value
+    # shallow copy
+    clonedSelf = _.clone @
+
+    # clone attributes
+    clonedSelf.attributes = {}    
+    for own attName, att of @attributes
+      clonedSelf.attributes[attName] = _.clone att
+
+    # clone processing instructions
+    clonedSelf.instructions = []
+    for pi in @instructions
+      clonedSelf.instructions.push _.clone pi
+
+    clonedSelf.children = []
+    # clone child nodes
     if deep
       @children.forEach (child) ->
         clonedChild = child.clone(deep)
