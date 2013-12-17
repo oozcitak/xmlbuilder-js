@@ -27,7 +27,8 @@
   },
   "devDependencies": {
     "coffee-script": ">=1.1.x",
-    "vows": ">=0.7.x"
+    "vows": ">=0.7.x",
+    "memwatch": ">=0.2.x"
   },
   "scripts": {
     "prepublish": "coffee -co lib/ src/*.coffee",
