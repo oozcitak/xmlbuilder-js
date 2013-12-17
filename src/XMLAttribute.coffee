@@ -25,13 +25,4 @@ module.exports = class XMLAttribute
   # `options.indent` indentation for pretty print
   # `options.newline` newline sequence for pretty print
   toString: (options, level) ->
-    pretty = options?.pretty or false
-    indent = options?.indent or '  '
-    newline = options?.newline or '\n'
-    level or= 0
-
-    space = new Array(level).join(indent)
-
-    r = ' ' + @name + '="' + @value + '"'
-
-    return r
+    ' ' + @name + '="' + @value + '"'

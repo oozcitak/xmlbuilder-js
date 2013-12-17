@@ -43,9 +43,9 @@ module.exports = class XMLDeclaration extends XMLNode
 
     r = ''
 
+    r += space if pretty
+
     # open tag
-    if pretty
-      r += space
     r += '<?xml'
 
     # attributes
@@ -59,7 +59,6 @@ module.exports = class XMLDeclaration extends XMLNode
     # close tag
     r += '?>'
 
-    if pretty
-      r += newline
+    r += newline if pretty
 
     return r

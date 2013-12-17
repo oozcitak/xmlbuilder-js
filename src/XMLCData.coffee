@@ -33,12 +33,10 @@ module.exports = class XMLCData extends XMLNode
 
     r = ''
 
-    if pretty
-      r += space
+    r += space if pretty
 
     r += '<![CDATA[' + @text + ']]>'
 
-    if pretty
-      r += newline
+    r += newline if pretty
 
     return r

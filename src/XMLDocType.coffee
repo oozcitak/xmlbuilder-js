@@ -1,9 +1,7 @@
 _ = require 'underscore'
 
-XMLNode = require './XMLNode'
-
 # Represents doctype declaration
-module.exports = class XMLDocType extends XMLNode
+module.exports = class XMLDocType
 
 
   # Initializes a new instance of `XMLDocType`
@@ -13,8 +11,10 @@ module.exports = class XMLDocType extends XMLNode
   # `options.dtd` document type declaration with optional external subset
   # `options.dtd.pubID` the public identifier of the external subset
   # `options.dtd.sysID` the system identifier of the external subset
-  constructor: (parent, options) ->
-    super parent
+  constructor: (@parent, options) ->
+    @stringify = @parent.stringify
+
+    @children = []
 
     if not _.isObject options.dtd
       sysID = options.dtd
@@ -40,9 +40,9 @@ module.exports = class XMLDocType extends XMLNode
 
     r = ''
 
+    r += space if pretty
+
     # open tag
-    if pretty
-      r += space
     r += '<!DOCTYPE ' + @parent.root().name
 
     # external identifier
@@ -51,10 +51,14 @@ module.exports = class XMLDocType extends XMLNode
     else if @sysID
       r += ' SYSTEM "' + @sysID + '"'
 
+    # internal subset
+    if @children.length > 0
+      r += ' ['
+      r += ']'
+
     # close tag
     r += '>'
 
-    if pretty
-      r += newline
+    r += newline if pretty
 
     return r

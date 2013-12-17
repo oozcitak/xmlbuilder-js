@@ -18,9 +18,8 @@ module.exports = class XMLElement extends XMLNode
     
     if not name?
       throw new Error "Missing element name"
-        
+
     @name = @stringify.eleName name
-    attributes ?= {}
     @children = []
     @instructions = []
 
@@ -54,6 +53,7 @@ module.exports = class XMLElement extends XMLNode
         clonedChild = child.clone(deep)
         clonedChild.parent = clonedSelf
         clonedSelf.children.push clonedChild
+        
     return clonedSelf
 
 
@@ -115,8 +115,7 @@ module.exports = class XMLElement extends XMLNode
       r += instruction.toString options, level + 1
 
     # open tag
-    if pretty
-      r += space
+    r += space if pretty
     r += '<' + @name
 
     # attributes
@@ -126,8 +125,7 @@ module.exports = class XMLElement extends XMLNode
     if @children.length == 0
       # empty element
       r += '/>'
-      if pretty
-        r += newline
+      r += newline if pretty
     else if pretty and @children.length == 1 and @children[0].value?
       # do not indent text-only nodes
       r += '>'
@@ -136,17 +134,14 @@ module.exports = class XMLElement extends XMLNode
       r += newline
     else
       r += '>'
-      if pretty
-        r += newline
+      r += newline if pretty
       # inner tags
       for child in @children
         r += child.toString options, level + 1
       # close tag
-      if pretty
-        r += space
+      r += space if pretty
       r += '</' + @name + '>'
-      if pretty
-        r += newline
+      r += newline if pretty
 
     return r
 

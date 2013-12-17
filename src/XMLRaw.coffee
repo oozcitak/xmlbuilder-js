@@ -33,12 +33,10 @@ module.exports = class XMLRaw extends XMLNode
 
     r = ''
 
-    if pretty
-      r += space
+    r += space if pretty
 
     r += @value
 
-    if pretty
-      r += newline
+    r += newline if pretty
 
     return r

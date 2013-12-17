@@ -33,12 +33,10 @@ module.exports = class XMLComment extends XMLNode
 
     r = ''
 
-    if pretty
-      r += space
+    r += space if pretty
 
     r += '<!-- ' + @text + ' -->'
 
-    if pretty
-      r += newline
+    r += newline if pretty
 
     return r

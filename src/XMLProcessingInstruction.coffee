@@ -34,16 +34,13 @@ module.exports = class XMLProcessingInstruction
 
     r = ''
 
-    if pretty
-      r += space
+    r += space if pretty
 
     r += '<?'
     r += @target
-    if @value
-      r += ' ' + @value
+    r += ' ' + @value if @value
     r += '?>'
 
-    if pretty
-      r += newline
+    r += newline if pretty
 
     return r
