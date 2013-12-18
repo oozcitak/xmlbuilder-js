@@ -27,6 +27,22 @@ fmtSize = (size, delta) ->
     else
         sign + (size / (1024 * 1024 * 1024)).toFixed(2) + ' GB'
 
+arrMin = (arr) ->
+    Math.min.apply null, arr
+
+arrMax = (arr) ->
+    Math.max.apply null, arr
+
+arrAve = (arr) ->
+    sum = 0
+    sum += n for n in arr
+    sum / arr.length
+
+fmtArr = (arr, fmt) ->
+    fmt(arrMin(arr)) + ' min. ~ ' +
+    fmt(arrMax(arr)) + ' max. : ' +
+    fmt(arrAve(arr)) + ' ave.'
+
 nodeCount = (obj) ->
     total = 0
     if _.isArray obj
@@ -41,10 +57,9 @@ nodeCount = (obj) ->
 
 doTest = (file, rep) ->
     rep ?= 100
-    console.log 'Testing: ' + file
+    console.log '    XMLBuilder v' + require('../package.json').version
+    console.log '    Testing: ' + file
     console.log '    Repeats: ' + rep
-
-    hdmain = new memwatch.HeapDiff()
 
     data = fs.readFileSync file, { encoding: 'utf8' }
     obj = JSON.parse data
@@ -52,53 +67,42 @@ doTest = (file, rep) ->
     console.log '    JSON Node Count: ' + nodeCount(obj)
     console.log '    JSON String Size: ' + fmtSize(dataSize)
 
-    buildTime = 0
-    buildMem = 0
-    buildMemMax = 0
-    stringTime = 0
-    stringMem = 0
-    stringMemMax = 0
+    buildTime = []
+    buildMem = []
+    stringTime = []
+    stringMem = []
     strSize = 0
-    elapsed()
     i = rep
     while i--
+        xml = null
+        str = null
         memwatch.gc()
-        hd = new memwatch.HeapDiff()
-        xml = xmlbuilder.create(obj)
-        hde = hd.end()
-        buildTime += elapsed()
-        buildMem += hde.change.size_bytes
-        buildMemMax = Math.max buildMemMax, hde.after.size_bytes
 
         hd = new memwatch.HeapDiff()
-        str = xml.end({pretty: true})
+        elapsed()
+        xml = xmlbuilder.create(obj)
+        buildTime.push elapsed()
         hde = hd.end()
-        stringTime += elapsed()
-        stringMem += hde.change.size_bytes
-        stringMemMax = Math.max stringMemMax, hde.after.size_bytes
+        buildMem.push hde.change.size_bytes
+
+        hd = new memwatch.HeapDiff()
+        elapsed()
+        str = xml.end({pretty: true})
+        stringTime.push elapsed()
+        hde = hd.end()
+        stringMem.push hde.change.size_bytes
+
         if not strSize
             strSize = Buffer.byteLength str, 'utf8'
             console.log '    XML String Size: ' + fmtSize(strSize)
 
-        xml = null
-        str = null
 
-    buildTime /= rep
-    buildMem /= rep
-    stringTime /= rep
-    stringMem /= rep
+    console.log '    Build XML:'
+    console.log '        Time: ' + fmtArr(buildTime, fmtTime)
+    console.log '        Memory: ' + fmtArr(buildMem, fmtSize)
+    console.log '    Convert to String:'
+    console.log '        Time: ' + fmtArr(stringTime, fmtTime)
+    console.log '        Memory: ' + fmtArr(stringMem, fmtSize)
 
-    data = null
-    obj = null
-    memwatch.gc()
-    hde = hdmain.end()
-
-    console.log '    Memory Before: ' + fmtSize(hde.before.size_bytes)
-    console.log '    Build XML: ' + fmtTime(buildTime) + ' -> ' +
-        fmtSize(buildMem, true) + ' (' + fmtSize(buildMemMax) + ' max)'
-    console.log '    Convert to String: ' + fmtTime(stringTime) + ' -> ' +
-        fmtSize(stringMem, true) + ' (' + fmtSize(stringMemMax) + ' max)'
-    console.log '    Memory After: ' + fmtSize(hde.after.size_bytes)
-
-doTest __dirname + '/test.json', 10
+doTest __dirname + '/test.json', 2
 
