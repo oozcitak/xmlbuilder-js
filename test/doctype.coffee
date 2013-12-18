@@ -61,6 +61,24 @@ vows
                        '<root><node>test</node></root>'
                 assert.strictEqual topic.end(), xml
 
+        'Internal and external dtd':
+            topic: () ->
+                xmlbuilder.create('root')
+                    .dtd({ sysID: 'hello.dtd' })
+                    .ele('img', 'EMPTY')
+                    .ele('node')
+                    .root()
+                    .ele('node').txt('test')
+
+            'resulting XML': (topic) ->
+                xml = '<?xml version="1.0"?>' +
+                       '<!DOCTYPE root SYSTEM "hello.dtd" [' +
+                           '<!ELEMENT img EMPTY>' +
+                           '<!ELEMENT node (#PCDATA)>' +
+                       ']>' +
+                       '<root><node>test</node></root>'
+                assert.strictEqual topic.end(), xml
+
 
     .export(module)
 

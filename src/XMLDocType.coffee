@@ -8,21 +8,42 @@ module.exports = class XMLDocType
   #
   # `parent` the document object
   #
-  # `options.dtd` document type declaration with optional external subset
-  # `options.dtd.pubID` the public identifier of the external subset
-  # `options.dtd.sysID` the system identifier of the external subset
-  constructor: (@parent, options) ->
+  # `dtd` document type declaration with optional external subset
+  # `dtd.pubID` the public identifier of the external subset
+  # `dtd.sysID` the system identifier of the external subset
+  constructor: (@parent, dtd) ->
     @stringify = @parent.stringify
 
     @children = []
 
-    if not _.isObject options.dtd
-      sysID = options.dtd
-      options.dtd = {}
-      options.dtd.sysID = sysID if sysID
-    
-    @pubID = @stringify.xmlPubID options.dtd.pubID if options.dtd.pubID?
-    @sysID = @stringify.xmlSysID options.dtd.sysID if options.dtd.sysID?
+    if not _.isObject dtd
+      sysID = dtd
+      dtd = {}
+      dtd.sysID = sysID if sysID
+
+    @pubID = @stringify.xmlPubID dtd.pubID if dtd.pubID?
+    @sysID = @stringify.xmlSysID dtd.sysID if dtd.sysID?
+
+
+  # Creates an element type declaration
+  #
+  # `name` element name
+  # `value` element content (defaults to #PCDATA)
+  element: (name, value) ->
+    XMLDTDElement = require './XMLDTDElement'
+    child = new XMLDTDElement @, name, value
+    @children.push child
+    return @
+
+
+  # Gets the root node
+  root: () ->
+    @parent.root()
+
+
+  # Gets the node representing the XML document
+  document: () ->
+    return @parent
 
 
   # Converts to string
@@ -54,6 +75,9 @@ module.exports = class XMLDocType
     # internal subset
     if @children.length > 0
       r += ' ['
+      for child in @children
+        r += child.toString options, level + 1
+      r += newline if pretty
       r += ']'
 
     # close tag
@@ -62,3 +86,8 @@ module.exports = class XMLDocType
     r += newline if pretty
 
     return r
+
+
+  # Aliases
+  ele: (name, value) -> @element name, value
+  doc: () -> @document()

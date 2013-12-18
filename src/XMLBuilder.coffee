@@ -34,7 +34,7 @@ module.exports = class XMLBuilder
     # support legacy ext attribute
     if options.ext and not options.dtd
       options.dtd = options.ext
-      
+
     @stringify = new XMLStringifier options
 
     # prolog
@@ -42,7 +42,7 @@ module.exports = class XMLBuilder
       @xmldec = new XMLDeclaration @, options
 
       if options.dtd?
-        @doctype = new XMLDocType @, options
+        @doctype = new XMLDocType @, options.dtd
 
     root = new XMLElement @, 'doc'
     root = root.element name
