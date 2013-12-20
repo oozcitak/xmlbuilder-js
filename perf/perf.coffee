@@ -43,16 +43,27 @@ fmtArr = (arr, fmt) ->
     fmt(arrMax(arr)) + ' max. : ' +
     fmt(arrAve(arr)) + ' ave.'
 
-nodeCount = (obj) ->
+jsonNodeCount = (obj) ->
     total = 0
     if _.isArray obj
         for item in obj
-            total += nodeCount item
+            total += jsonNodeCount item
     else if _.isObject obj
         for own key, val of obj
-            total += nodeCount val
+            total += jsonNodeCount val
     else
         total += 1
+    return total
+
+xmlNodeCount = (obj) ->
+    total = 0
+    if obj.attributes
+        total += _.size obj.attributes
+    if obj.instructions
+        total += obj.instructions.length
+    if obj.children and obj.children.length > 0
+        for item in obj.children
+            total += xmlNodeCount item
     return total
 
 doTest = (file, rep) ->
@@ -64,13 +75,14 @@ doTest = (file, rep) ->
     data = fs.readFileSync file, { encoding: 'utf8' }
     obj = JSON.parse data
     dataSize = Buffer.byteLength data, 'utf8'
-    console.log '    JSON Node Count: ' + nodeCount(obj)
+    console.log '    JSON Node Count: ' + jsonNodeCount(obj)
     console.log '    JSON String Size: ' + fmtSize(dataSize)
 
     buildTime = []
     buildMem = []
     stringTime = []
     stringMem = []
+    nodeCount = 0
     strSize = 0
     i = rep
     while i--
@@ -92,6 +104,10 @@ doTest = (file, rep) ->
         hde = hd.end()
         stringMem.push hde.change.size_bytes
 
+        if not nodeCount
+            nodeCount = xmlNodeCount xml.root()
+            console.log '    XML Node Count: ' + nodeCount
+            console.log xml.root().children.length
         if not strSize
             strSize = Buffer.byteLength str, 'utf8'
             console.log '    XML String Size: ' + fmtSize(strSize)
