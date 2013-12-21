@@ -65,8 +65,10 @@ vows
             topic: () ->
                 xmlbuilder.create('root')
                     .dtd({ sysID: 'hello.dtd' })
-                    .ele('img', 'EMPTY')
-                    .ele('node')
+                        .ele('img', 'EMPTY')
+                        .att('img', 'height', 'CDATA', '#REQUIRED')
+                        .att('img', 'visible', '(yes|no)', '#DEFAULT', "yes")
+                        .ele('node')
                     .root()
                     .ele('node').txt('test')
 
@@ -74,6 +76,8 @@ vows
                 xml = '<?xml version="1.0"?>' +
                        '<!DOCTYPE root SYSTEM "hello.dtd" [' +
                            '<!ELEMENT img EMPTY>' +
+                           '<!ATTLIST img height CDATA #REQUIRED>' +
+                           '<!ATTLIST img visible (yes|no) "yes">' +
                            '<!ELEMENT node (#PCDATA)>' +
                        ']>' +
                        '<root><node>test</node></root>'

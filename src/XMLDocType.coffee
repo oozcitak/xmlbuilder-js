@@ -36,6 +36,22 @@ module.exports = class XMLDocType
     return @
 
 
+  # Creates an attribute declaration
+  #
+  # `elementName` the name of the element containing this attribute
+  # `attributeName` attribute name
+  # `attributeType` type of the attribute (defaults to CDATA)
+  # `defaultValueType` default value type (either #REQUIRED, #IMPLIED, #FIXED or
+  #                    #DEFAULT) (defaults to #IMPLIED)
+  # `defaultValue` default value of the attribute
+  #                (only used for #FIXED or #DEFAULT)
+  attList: (elementName, attributeName, attributeType, defaultValueType, defaultValue) ->
+    XMLDTDAttList = require './XMLDTDAttList'
+    child = new XMLDTDAttList @, elementName, attributeName, attributeType, defaultValueType, defaultValue
+    @children.push child
+    return @
+
+
   # Gets the root node
   root: () ->
     @parent.root()
@@ -90,4 +106,7 @@ module.exports = class XMLDocType
 
   # Aliases
   ele: (name, value) -> @element name, value
+  att: (elementName, attributeName, attributeType, defaultValueType, defaultValue) ->
+    @attList elementName, attributeName, attributeType, defaultValueType, defaultValue
+  up: () -> @root()
   doc: () -> @document()

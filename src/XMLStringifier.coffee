@@ -58,10 +58,12 @@ module.exports = class XMLStringifier
     '' + val or ''
   xmlSysID: (val) ->
     '' + val or ''
-  dtdElementName: (val) ->
-    '' + val or ''
   dtdElementValue: (val) ->
     '' + val or ''
+  dtdAttType: (val) ->
+    '' + val or ''
+  dtdAttDefault: (val) ->
+    if val? then '' + val or '' else val
 
   # strings to match while converting from JS objects
   convertAttKey: '@'

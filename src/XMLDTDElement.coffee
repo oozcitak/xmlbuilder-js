@@ -19,7 +19,7 @@ module.exports = class XMLDTDElement
     if _.isArray value
       value = '(' + value.join(',') + ')'
 
-    @name = @stringify.dtdElementName name
+    @name = @stringify.eleName name
     @value = @stringify.dtdElementValue value
 
 
@@ -37,10 +37,10 @@ module.exports = class XMLDTDElement
     space = new Array(level).join(indent)
 
     r = ''
-    
+
     r += space if pretty
 
-    r = '<!ELEMENT ' + @name + ' ' + @value + '>'
+    r += '<!ELEMENT ' + @name + ' ' + @value + '>'
 
     r += newline if pretty
 
