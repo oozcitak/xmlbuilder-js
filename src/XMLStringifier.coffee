@@ -54,9 +54,9 @@ module.exports = class XMLStringifier
     val
   xmlStandalone: (val) ->
     if val then "yes" else "no"
-  xmlPubID: (val) ->
+  dtdPubID: (val) ->
     '' + val or ''
-  xmlSysID: (val) ->
+  dtdSysID: (val) ->
     '' + val or ''
   dtdElementValue: (val) ->
     '' + val or ''

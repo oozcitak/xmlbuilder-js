@@ -8,18 +8,7 @@ vows
     .addBatch
         'SYSTEM dtd from create()':
             topic: () ->
-                xmlbuilder.create('root', { dtd: { sysID: 'hello.dtd' }})
-                    .ele('node').txt('test')
-
-            'resulting XML': (topic) ->
-                xml = '<?xml version="1.0"?>' +
-                       '<!DOCTYPE root SYSTEM "hello.dtd">' +
-                       '<root><node>test</node></root>'
-                assert.strictEqual topic.end(), xml
-
-        'SYSTEM dtd from create() with dtd as string':
-            topic: () ->
-                xmlbuilder.create('root', { dtd: 'hello.dtd' })
+                xmlbuilder.create('root', { sysID: 'hello.dtd' })
                     .ele('node').txt('test')
 
             'resulting XML': (topic) ->
@@ -30,18 +19,7 @@ vows
 
         'Empty dtd from create()':
             topic: () ->
-                xmlbuilder.create('root', { dtd: {} })
-                    .ele('node').txt('test')
-
-            'resulting XML': (topic) ->
-                xml = '<?xml version="1.0"?>' +
-                       '<!DOCTYPE root>' +
-                       '<root><node>test</node></root>'
-                assert.strictEqual topic.end(), xml
-
-        'Empty dtd from create() with dtd as string':
-            topic: () ->
-                xmlbuilder.create('root', { dtd: '' })
+                xmlbuilder.create('root', { sysID: '' })
                     .ele('node').txt('test')
 
             'resulting XML': (topic) ->
@@ -64,7 +42,7 @@ vows
         'Internal and external dtd':
             topic: () ->
                 xmlbuilder.create('root')
-                    .dtd({ sysID: 'hello.dtd' })
+                    .dtd('hello.dtd')
                         .ele('img', 'EMPTY')
                         .att('img', 'height', 'CDATA', '#REQUIRED')
                         .att('img', 'visible', '(yes|no)', '#DEFAULT', "yes")

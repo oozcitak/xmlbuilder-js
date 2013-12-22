@@ -195,12 +195,11 @@ module.exports = class XMLNode
 
   # Creates the document type declaration
   #
-  # `dtd` document type declaration with optional external subset
-  # `dtd.pubID` the public identifier of the external subset
-  # `dtd.sysID` the system identifier of the external subset
-  doctype: (dtd) ->
+  # `pubID` the public identifier of the external subset
+  # `sysID` the system identifier of the external subset
+  doctype: (pubID, sysID) ->
     XMLDocType = require './XMLDocType'
-    doctype = new XMLDocType @, dtd
+    doctype = new XMLDocType @, pubID, sysID
     @document().doctype = doctype
     return doctype
 
@@ -278,7 +277,7 @@ module.exports = class XMLNode
   dat: (value) -> @cdata value
   com: (value) -> @comment value
   doc: () -> @document()
-  dtd: (value) -> @doctype value
+  dtd: (pubID, sysID) -> @doctype pubID, sysID
   e: (name, attributes, text) -> @element name, attributes, text
   n: (name, attributes, text) -> @node name, attributes, text
   t: (value) -> @text value

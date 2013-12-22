@@ -8,21 +8,19 @@ module.exports = class XMLDocType
   #
   # `parent` the document object
   #
-  # `dtd` document type declaration with optional external subset
-  # `dtd.pubID` the public identifier of the external subset
-  # `dtd.sysID` the system identifier of the external subset
-  constructor: (@parent, dtd) ->
-    @stringify = @parent.stringify
+  # `pubID` public identifier of the external subset
+  # `sysID` system identifier of the external subset
+  constructor: (parent, pubID, sysID) ->
+    @documentObject = parent
+    @stringify = @documentObject.stringify
 
     @children = []
 
-    if not _.isObject dtd
-      sysID = dtd
-      dtd = {}
-      dtd.sysID = sysID if sysID
+    if not sysID?
+      [sysID, pubID] = [pubID, sysID]
 
-    @pubID = @stringify.xmlPubID dtd.pubID if dtd.pubID?
-    @sysID = @stringify.xmlSysID dtd.sysID if dtd.sysID?
+    @pubID = @stringify.dtdPubID pubID if pubID?
+    @sysID = @stringify.dtdSysID sysID if sysID?
 
 
   # Creates an element type declaration
@@ -54,12 +52,12 @@ module.exports = class XMLDocType
 
   # Gets the root node
   root: () ->
-    @parent.root()
+    @documentObject.root()
 
 
   # Gets the node representing the XML document
   document: () ->
-    return @parent
+    return @documentObject
 
 
   # Converts to string
@@ -80,7 +78,7 @@ module.exports = class XMLDocType
     r += space if pretty
 
     # open tag
-    r += '<!DOCTYPE ' + @parent.root().name
+    r += '<!DOCTYPE ' + @root().name
 
     # external identifier
     if @pubID and @sysID

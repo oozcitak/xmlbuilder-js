@@ -18,9 +18,8 @@ module.exports = class XMLBuilder
   # `options.encoding` Encoding declaration, e.g. UTF-8
   # `options.standalone` standalone document declaration: true or false
   #
-  # `options.dtd` document type declaration with optional external subset
-  # `options.dtd.pubID` the public identifier of the external subset
-  # `options.dtd.sysID` the system identifier of the external subset
+  # `options.pubID` public identifier of the external subset
+  # `options.sysID` system identifier of the external subset
   #
   # `options.headless` whether XML declaration and doctype will be included: true or false
   # `options.allowSurrogateChars` whether surrogates will be allowed: true or false
@@ -32,8 +31,8 @@ module.exports = class XMLBuilder
     options ?= {}
 
     # support legacy ext attribute
-    if options.ext and not options.dtd
-      options.dtd = options.ext
+    if options.ext and not options.sysID
+      options.sysID = options.ext
 
     @stringify = new XMLStringifier options
 
@@ -41,8 +40,8 @@ module.exports = class XMLBuilder
     if not options.headless
       @xmldec = new XMLDeclaration @, options
 
-      if options.dtd?
-        @doctype = new XMLDocType @, options.dtd
+      if options.pubID? or options.sysID?
+        @doctype = new XMLDocType @, options.pubID, options.sysID
 
     root = new XMLElement @, 'doc'
     root = root.element name
