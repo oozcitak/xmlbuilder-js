@@ -48,6 +48,9 @@ vows
                         .com('Image attributes follow')
                         .att('img', 'height', 'CDATA', '#REQUIRED')
                         .att('img', 'visible', '(yes|no)', '#DEFAULT', "yes")
+                        .not('fs', 'FS Reader 1.0')
+                        .not('fs-nt', 'PUBLIC', 'FS Network Reader 1.0', 'http://my.fs.com/reader')
+                        .att('img', 'src', 'NOTATION (fs|fs-nt)', '#REQUIRED')
                         .dat('<owner>John</owner>')
                         .ele('node')
                     .root()
@@ -61,6 +64,9 @@ vows
                            '<!-- Image attributes follow -->' +
                            '<!ATTLIST img height CDATA #REQUIRED>' +
                            '<!ATTLIST img visible (yes|no) "yes">' +
+                           '<!NOTATION fs SYSTEM "FS Reader 1.0">' +
+                           '<!NOTATION fs-nt PUBLIC "FS Network Reader 1.0" "http://my.fs.com/reader">' +
+                           '<!ATTLIST img src NOTATION (fs|fs-nt) #REQUIRED>' +
                            '<![CDATA[<owner>John</owner>]]>' +
                            '<!ELEMENT node (#PCDATA)>' +
                        ']>' +

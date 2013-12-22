@@ -50,6 +50,20 @@ module.exports = class XMLDocType
     return @
 
 
+  # Creates a NOTATION declaration
+  #
+  # `name` the name of the notation
+  # `identifierType` type of the identifier (either PUBLIC or SYSTEM)
+  #                  (defaults to SYSTEM)
+  # `pubID` public identifier
+  # `sysID` system identifier
+  notation: (name, identifierType, pubID, sysID) ->
+    XMLDTDNotation = require './XMLDTDNotation'
+    child = new XMLDTDNotation @, name, identifierType, pubID, sysID
+    @children.push child
+    return @
+
+
   # Creates a CDATA node
   #
   # `value` element text without CDATA delimiters
@@ -137,6 +151,8 @@ module.exports = class XMLDocType
   ele: (name, value) -> @element name, value
   att: (elementName, attributeName, attributeType, defaultValueType, defaultValue) ->
     @attList elementName, attributeName, attributeType, defaultValueType, defaultValue
+  not: (name, identifierType, pubID, sysID) ->
+    @notation name, identifierType, pubID, sysID
   dat: (value) -> @cdata value
   com: (value) -> @comment value
   ins: (target, value) -> @instruction target, value
