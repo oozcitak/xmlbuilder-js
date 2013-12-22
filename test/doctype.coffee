@@ -43,9 +43,12 @@ vows
             topic: () ->
                 xmlbuilder.create('root')
                     .dtd('hello.dtd')
+                        .ins('pub_border', 'thin')
                         .ele('img', 'EMPTY')
+                        .com('Image attributes follow')
                         .att('img', 'height', 'CDATA', '#REQUIRED')
                         .att('img', 'visible', '(yes|no)', '#DEFAULT', "yes")
+                        .dat('<owner>John</owner>')
                         .ele('node')
                     .root()
                     .ele('node').txt('test')
@@ -53,9 +56,12 @@ vows
             'resulting XML': (topic) ->
                 xml = '<?xml version="1.0"?>' +
                        '<!DOCTYPE root SYSTEM "hello.dtd" [' +
+                           '<?pub_border thin?>' +
                            '<!ELEMENT img EMPTY>' +
+                           '<!-- Image attributes follow -->' +
                            '<!ATTLIST img height CDATA #REQUIRED>' +
                            '<!ATTLIST img visible (yes|no) "yes">' +
+                           '<![CDATA[<owner>John</owner>]]>' +
                            '<!ELEMENT node (#PCDATA)>' +
                        ']>' +
                        '<root><node>test</node></root>'

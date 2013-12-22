@@ -50,6 +50,37 @@ module.exports = class XMLDocType
     return @
 
 
+  # Creates a CDATA node
+  #
+  # `value` element text without CDATA delimiters
+  cdata: (value) ->
+    XMLCData = require './XMLCData'
+    child = new XMLCData @, value
+    @children.push child
+    return @
+
+
+  # Creates a comment node
+  #
+  # `value` comment text
+  comment: (value) ->
+    XMLComment = require './XMLComment'
+    child = new XMLComment @, value
+    @children.push child
+    return @
+
+
+  # Adds a processing instruction
+  #
+  # `target` instruction target
+  # `value` instruction value
+  instruction: (target, value) ->
+    XMLProcessingInstruction = require './XMLProcessingInstruction'
+    child = new XMLProcessingInstruction @, target, value
+    @children.push child
+    return @
+
+
   # Gets the root node
   root: () ->
     @documentObject.root()
@@ -106,5 +137,8 @@ module.exports = class XMLDocType
   ele: (name, value) -> @element name, value
   att: (elementName, attributeName, attributeType, defaultValueType, defaultValue) ->
     @attList elementName, attributeName, attributeType, defaultValueType, defaultValue
+  dat: (value) -> @cdata value
+  com: (value) -> @comment value
+  ins: (target, value) -> @instruction target, value
   up: () -> @root()
   doc: () -> @document()
