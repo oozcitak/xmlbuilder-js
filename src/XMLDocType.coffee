@@ -80,13 +80,12 @@ module.exports = class XMLDocType
   # Creates a NOTATION declaration
   #
   # `name` the name of the notation
-  # `identifierType` type of the identifier (either PUBLIC or SYSTEM)
-  #                  (defaults to SYSTEM)
-  # `pubID` public identifier
-  # `sysID` system identifier
-  notation: (name, identifierType, pubID, sysID) ->
+  # `value` an object with external entity details
+  # `value.pubid` public identifier
+  # `value.sysid` system identifier
+  notation: (name, value) ->
     XMLDTDNotation = require './XMLDTDNotation'
-    child = new XMLDTDNotation @, name, identifierType, pubID, sysID
+    child = new XMLDTDNotation @, name, value
     @children.push child
     return @
 
@@ -180,8 +179,7 @@ module.exports = class XMLDocType
     @attList elementName, attributeName, attributeType, defaultValueType, defaultValue
   ent: (name, value) -> @entity name, value
   pent: (name, value) -> @pEntity name, value
-  not: (name, identifierType, pubID, sysID) ->
-    @notation name, identifierType, pubID, sysID
+  not: (name, value) -> @notation name, value
   dat: (value) -> @cdata value
   com: (value) -> @comment value
   ins: (target, value) -> @instruction target, value

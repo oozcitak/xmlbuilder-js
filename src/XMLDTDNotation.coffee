@@ -8,32 +8,20 @@ module.exports = class XMLDTDNotation
   #
   # `parent` the parent `XMLDocType` element
   # `name` the name of the notation
-  # `identifierType` type of the identifier (either PUBLIC or SYSTEM)
-  #                  (defaults to SYSTEM)
-  # `pubID` public identifier
-  # `sysID` system identifier
-  constructor: (parent, name, identifierType, pubID, sysID) ->
+  # `value` an object with external entity details
+  # `value.pubid` public identifier
+  # `value.sysid` system identifier
+  constructor: (parent, name, value) ->
     @stringify = parent.stringify
 
     if not name?
       throw new Error "Missing notation name"
-    if not identifierType?
-      throw new Error "Missing identifier"
-    if not pubID? and not sysID?
-      pubID = identifierType
-      identifierType = 'SYSTEM'
-    if not identifierType.match /^(PUBLIC|SYSTEM)$/
-      throw new Error "Invalid identifier type; expected: PUBLIC or SYSTEM"
-    if identifierType.indexOf('SYSTEM') == 0
-      sysID = pubID if not sysID
-      pubID = undefined
-    if not pubID and not sysID
-      throw new Error "Missing identifier"
+    if not value.pubid and not value.sysid
+      throw new Error "Public or system identifiers are required for an external entity"
 
     @name = @stringify.eleName name
-    @type = identifierType
-    @pubID = @stringify.dtdPubID pubID if pubID?
-    @sysID = @stringify.dtdSysID sysID if sysID?
+    @pubid = @stringify.dtdPubID value.pubid if value.pubid?
+    @sysid = @stringify.dtdSysID value.sysid if value.sysid?
 
   # Converts the XML fragment to string
   #
@@ -52,9 +40,13 @@ module.exports = class XMLDTDNotation
 
     r += space if pretty
 
-    r += '<!NOTATION ' + @name + ' ' + @type
-    r += ' "' + @pubID + '"' if @pubID
-    r += ' "' + @sysID + '"' if @sysID
+    r += '<!NOTATION ' + @name
+    if @pubid and @sysid
+      r += ' PUBLIC "' + @pubid + '" "' + @sysid + '"'
+    else if @pubid
+      r += ' PUBLIC "' + @pubid + '"'
+    else if @sysid
+      r += ' SYSTEM "' + @sysid + '"'
     r += '>'
 
     r += newline if pretty

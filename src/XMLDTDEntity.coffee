@@ -40,6 +40,7 @@ module.exports = class XMLDTDEntity
       if @pe and @ndata
         throw new Error "Notation declaration is not allowed in a parameter entity"
 
+
   # Converts the XML fragment to string
   #
   # `options.pretty` pretty prints the result
