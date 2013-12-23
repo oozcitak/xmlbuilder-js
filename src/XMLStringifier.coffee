@@ -64,6 +64,10 @@ module.exports = class XMLStringifier
     '' + val or ''
   dtdAttDefault: (val) ->
     if val? then '' + val or '' else val
+  dtdEntityValue: (val) ->
+    '' + val or ''
+  dtdNData: (val) ->
+    '' + val or ''
 
   # strings to match while converting from JS objects
   convertAttKey: '@'
@@ -73,6 +77,7 @@ module.exports = class XMLStringifier
   convertCommentKey: '#comment'
   convertRawKey: '#raw'
   convertListKey: '#list'
+
 
   # Checks whether the given string contains legal characters
   # Fails with an exception on error

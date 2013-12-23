@@ -53,6 +53,14 @@ vows
                         .att('img', 'src', 'NOTATION (fs|fs-nt)', '#REQUIRED')
                         .dat('<owner>John</owner>')
                         .ele('node')
+                        .ent('ent', 'my val')
+                        .ent('ent', { sysid: 'http://www.myspec.com/ent' })
+                        .ent('ent', { pubid: '-//MY//SPEC ENT//EN', sysid: 'http://www.myspec.com/ent' })
+                        .ent('ent', { sysid: 'http://www.myspec.com/ent', ndata: 'entprg' })
+                        .ent('ent', { pubid: '-//MY//SPEC ENT//EN', sysid: 'http://www.myspec.com/ent', ndata: 'entprg' })
+                        .pent('ent', 'my val')
+                        .pent('ent', { sysid: 'http://www.myspec.com/ent' })
+                        .pent('ent', { pubid: '-//MY//SPEC ENT//EN', sysid: 'http://www.myspec.com/ent' })
                     .root()
                     .ele('node').txt('test')
 
@@ -69,6 +77,14 @@ vows
                            '<!ATTLIST img src NOTATION (fs|fs-nt) #REQUIRED>' +
                            '<![CDATA[<owner>John</owner>]]>' +
                            '<!ELEMENT node (#PCDATA)>' +
+                           '<!ENTITY ent "my val">' +
+                           '<!ENTITY ent SYSTEM "http://www.myspec.com/ent">' +
+                           '<!ENTITY ent PUBLIC "-//MY//SPEC ENT//EN" "http://www.myspec.com/ent">' +
+                           '<!ENTITY ent SYSTEM "http://www.myspec.com/ent" NDATA entprg>' +
+                           '<!ENTITY ent PUBLIC "-//MY//SPEC ENT//EN" "http://www.myspec.com/ent" NDATA entprg>' +
+                           '<!ENTITY % ent "my val">' +
+                           '<!ENTITY % ent SYSTEM "http://www.myspec.com/ent">' +
+                           '<!ENTITY % ent PUBLIC "-//MY//SPEC ENT//EN" "http://www.myspec.com/ent">' +
                        ']>' +
                        '<root><node>test</node></root>'
                 assert.strictEqual topic.end(), xml

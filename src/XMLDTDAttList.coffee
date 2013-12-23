@@ -38,6 +38,7 @@ module.exports = class XMLDTDAttList
     @defaultValue = @stringify.dtdAttDefault defaultValue
     @defaultValueType = defaultValueType
 
+
   # Converts the XML fragment to string
   #
   # `options.pretty` pretty prints the result

@@ -50,6 +50,33 @@ module.exports = class XMLDocType
     return @
 
 
+  # Creates a general entity declaration
+  #
+  # `name` the name of the entity
+  # `value` internal entity value or an object with external entity details
+  # `value.pubid` public identifier
+  # `value.sysid` system identifier
+  # `value.ndata` notation declaration
+  entity: (name, value) ->
+    XMLDTDEntity = require './XMLDTDEntity'
+    child = new XMLDTDEntity @, false, name, value
+    @children.push child
+    return @
+
+
+  # Creates a parameter entity declaration
+  #
+  # `name` the name of the entity
+  # `value` internal entity value or an object with external entity details
+  # `value.pubid` public identifier
+  # `value.sysid` system identifier
+  pEntity: (name, value) ->
+    XMLDTDEntity = require './XMLDTDEntity'
+    child = new XMLDTDEntity @, true, name, value
+    @children.push child
+    return @
+
+
   # Creates a NOTATION declaration
   #
   # `name` the name of the notation
@@ -151,6 +178,8 @@ module.exports = class XMLDocType
   ele: (name, value) -> @element name, value
   att: (elementName, attributeName, attributeType, defaultValueType, defaultValue) ->
     @attList elementName, attributeName, attributeType, defaultValueType, defaultValue
+  ent: (name, value) -> @entity name, value
+  pent: (name, value) -> @pEntity name, value
   not: (name, identifierType, pubID, sysID) ->
     @notation name, identifierType, pubID, sysID
   dat: (value) -> @cdata value
