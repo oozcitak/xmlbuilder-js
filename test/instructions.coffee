@@ -22,7 +22,7 @@ vows
                 xmlbuilder.create('test18', { 'version': '1.1' } )
                     .ins('renderCache.subset', '"Verdana" 0 0 ISO-8859-1 4 268 67 "#(),-./')
                     .ele('node')
-                    .ins('pitarget', 'pivalue')
+                    .ins('pitarget', () -> 'pivalue')
                     .txt('test')
 
             'resulting XML': (topic) ->
