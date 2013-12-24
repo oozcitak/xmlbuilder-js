@@ -65,6 +65,7 @@ vows
                     .ele('atttest', { 'att': 'val' }, 'text')
                         .up()
                     .ele('atttest', 'text')
+                        .att('att', () -> 'val')
 
             'resulting XML': (topic) ->
                 xml = '<?xml version="1.0"?>' +
@@ -77,7 +78,7 @@ vows
                           '<cdata><![CDATA[<test att="val">this is a test</test>\nSecond line]]></cdata>' +
                           '<raw>&<>&</raw>' +
                           '<atttest att="val">text</atttest>' +
-                          '<atttest>text</atttest>' +
+                          '<atttest att="val">text</atttest>' +
                       '</root>'
                 assert.strictEqual topic.end(), xml
 

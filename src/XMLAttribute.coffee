@@ -15,6 +15,9 @@ module.exports = class XMLAttribute
     if not name?
       throw new Error "Missing attribute name"
 
+    # evaluate if function
+    value = value.apply() if _.isFunction value
+
     @name = @stringify.attName name
     @value = @stringify.attValue value
 
