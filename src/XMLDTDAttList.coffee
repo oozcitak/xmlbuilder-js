@@ -9,9 +9,9 @@ module.exports = class XMLDTDAttList
   # `parent` the parent `XMLDocType` element
   # `elementName` the name of the element containing this attribute
   # `attributeName` attribute name
-  # `attributeType` type of the attribute (defaults to CDATA)
-  # `defaultValueType` default value type (either #REQUIRED, #IMPLIED, #FIXED or
-  #                    #DEFAULT) (defaults to #IMPLIED)
+  # `attributeType` type of the attribute
+  # `defaultValueType` default value type (either #REQUIRED, #IMPLIED,
+  #                    #FIXED or #DEFAULT)
   # `defaultValue` default value of the attribute
   #                (only used for #FIXED or #DEFAULT)
   constructor: (parent, elementName, attributeName, attributeType, defaultValueType, defaultValue) ->
@@ -22,9 +22,9 @@ module.exports = class XMLDTDAttList
     if not attributeName?
       throw new Error "Missing DTD attribute name"
     if not attributeType
-      attributeType = 'CDATA'
+      throw new Error "Missing DTD attribute type"
     if not defaultValueType
-      defaultValueType = '#IMPLIED'
+      throw new Error "Missing DTD attribute default"
     if defaultValueType.indexOf('#') != 0
       defaultValueType = '#' + defaultValueType
     if not defaultValueType.match /^(#REQUIRED|#IMPLIED|#FIXED|#DEFAULT)$/
