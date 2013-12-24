@@ -130,7 +130,6 @@ vows
                         <node>test</node>
                       </root>
                       """
-
                 assert.strictEqual topic.end({ pretty: true }), xml
 
 
