@@ -61,7 +61,17 @@ module.exports = class XMLBuilder
   # `options.indent` indentation for pretty print
   # `options.newline` newline sequence for pretty print
   toString: (options) ->
+    pretty = options?.pretty or false
+    indent = options?.indent or '  '
+    newline = options?.newline or '\n'
+
     r = ''
     r += @xmldec.toString options if @xmldec?
     r += @doctype.toString options if @doctype?
     r += @rootObject.toString options
+
+    # remove trailing newline
+    if pretty and r.slice(-newline.length) == newline
+      r = r.slice(0, -newline.length)
+
+    return r

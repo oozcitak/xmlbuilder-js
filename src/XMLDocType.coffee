@@ -160,9 +160,9 @@ module.exports = class XMLDocType
     # internal subset
     if @children.length > 0
       r += ' ['
+      r += newline if pretty
       for child in @children
         r += child.toString options, level + 1
-      r += newline if pretty
       r += ']'
 
     # close tag

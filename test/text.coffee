@@ -30,7 +30,7 @@ vows
                     .text('')
 
             'resulting XML': (topic) ->
-                xml = '<test10></test10>\n'
+                xml = '<test10></test10>'
                 assert.strictEqual topic.doc().toString({ pretty: true }), xml
 
     .export(module)
