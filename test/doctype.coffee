@@ -28,17 +28,6 @@ vows
                        '<root><node>test</node></root>'
                 assert.strictEqual topic.end(), xml
 
-        'SYSTEM dtd from create() with legacy ext attribute':
-            topic: () ->
-                xmlbuilder.create('root', { ext: 'hello.dtd' })
-                    .ele('node').txt('test')
-
-            'resulting XML': (topic) ->
-                xml = '<?xml version="1.0"?>' +
-                       '<!DOCTYPE root SYSTEM "hello.dtd">' +
-                       '<root><node>test</node></root>'
-                assert.strictEqual topic.end(), xml
-
         'Internal and external dtd':
             topic: () ->
                 xmlbuilder.create('root')
@@ -48,19 +37,19 @@ vows
                         .com('Image attributes follow')
                         .att('img', 'height', 'CDATA', '#REQUIRED')
                         .att('img', 'visible', '(yes|no)', '#DEFAULT', "yes")
-                        .not('fs', { sysid: 'http://my.fs.com/reader' })
-                        .not('fs-nt', { pubid: 'FS Network Reader 1.0', sysid: 'http://my.fs.com/reader' })
+                        .not('fs', { sysID: 'http://my.fs.com/reader' })
+                        .not('fs-nt', { pubID: 'FS Network Reader 1.0', sysID: 'http://my.fs.com/reader' })
                         .att('img', 'src', 'NOTATION (fs|fs-nt)', '#REQUIRED')
                         .dat('<owner>John</owner>')
                         .ele('node')
                         .ent('ent', 'my val')
-                        .ent('ent', { sysid: 'http://www.myspec.com/ent' })
-                        .ent('ent', { pubid: '-//MY//SPEC ENT//EN', sysid: 'http://www.myspec.com/ent' })
-                        .ent('ent', { sysid: 'http://www.myspec.com/ent', ndata: 'entprg' })
-                        .ent('ent', { pubid: '-//MY//SPEC ENT//EN', sysid: 'http://www.myspec.com/ent', ndata: 'entprg' })
+                        .ent('ent', { sysID: 'http://www.myspec.com/ent' })
+                        .ent('ent', { pubID: '-//MY//SPEC ENT//EN', sysID: 'http://www.myspec.com/ent' })
+                        .ent('ent', { sysID: 'http://www.myspec.com/ent', nData: 'entprg' })
+                        .ent('ent', { pubID: '-//MY//SPEC ENT//EN', sysID: 'http://www.myspec.com/ent', nData: 'entprg' })
                         .pent('ent', 'my val')
-                        .pent('ent', { sysid: 'http://www.myspec.com/ent' })
-                        .pent('ent', { pubid: '-//MY//SPEC ENT//EN', sysid: 'http://www.myspec.com/ent' })
+                        .pent('ent', { sysID: 'http://www.myspec.com/ent' })
+                        .pent('ent', { pubID: '-//MY//SPEC ENT//EN', sysID: 'http://www.myspec.com/ent' })
                     .root()
                     .ele('node').txt('test')
 

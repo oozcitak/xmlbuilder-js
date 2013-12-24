@@ -54,9 +54,9 @@ module.exports = class XMLDocType
   #
   # `name` the name of the entity
   # `value` internal entity value or an object with external entity details
-  # `value.pubid` public identifier
-  # `value.sysid` system identifier
-  # `value.ndata` notation declaration
+  # `value.pubID` public identifier
+  # `value.sysID` system identifier
+  # `value.nData` notation declaration
   entity: (name, value) ->
     XMLDTDEntity = require './XMLDTDEntity'
     child = new XMLDTDEntity @, false, name, value
@@ -68,8 +68,8 @@ module.exports = class XMLDocType
   #
   # `name` the name of the entity
   # `value` internal entity value or an object with external entity details
-  # `value.pubid` public identifier
-  # `value.sysid` system identifier
+  # `value.pubID` public identifier
+  # `value.sysID` system identifier
   pEntity: (name, value) ->
     XMLDTDEntity = require './XMLDTDEntity'
     child = new XMLDTDEntity @, true, name, value
@@ -81,8 +81,8 @@ module.exports = class XMLDocType
   #
   # `name` the name of the notation
   # `value` an object with external entity details
-  # `value.pubid` public identifier
-  # `value.sysid` system identifier
+  # `value.pubID` public identifier
+  # `value.sysID` system identifier
   notation: (name, value) ->
     XMLDTDNotation = require './XMLDTDNotation'
     child = new XMLDTDNotation @, name, value

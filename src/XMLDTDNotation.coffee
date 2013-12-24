@@ -9,19 +9,19 @@ module.exports = class XMLDTDNotation
   # `parent` the parent `XMLDocType` element
   # `name` the name of the notation
   # `value` an object with external entity details
-  # `value.pubid` public identifier
-  # `value.sysid` system identifier
+  # `value.pubID` public identifier
+  # `value.sysID` system identifier
   constructor: (parent, name, value) ->
     @stringify = parent.stringify
 
     if not name?
       throw new Error "Missing notation name"
-    if not value.pubid and not value.sysid
+    if not value.pubID and not value.sysID
       throw new Error "Public or system identifiers are required for an external entity"
 
     @name = @stringify.eleName name
-    @pubid = @stringify.dtdPubID value.pubid if value.pubid?
-    @sysid = @stringify.dtdSysID value.sysid if value.sysid?
+    @pubID = @stringify.dtdPubID value.pubID if value.pubID?
+    @sysID = @stringify.dtdSysID value.sysID if value.sysID?
 
   # Converts the XML fragment to string
   #
@@ -41,12 +41,12 @@ module.exports = class XMLDTDNotation
     r += space if pretty
 
     r += '<!NOTATION ' + @name
-    if @pubid and @sysid
-      r += ' PUBLIC "' + @pubid + '" "' + @sysid + '"'
-    else if @pubid
-      r += ' PUBLIC "' + @pubid + '"'
-    else if @sysid
-      r += ' SYSTEM "' + @sysid + '"'
+    if @pubID and @sysID
+      r += ' PUBLIC "' + @pubID + '" "' + @sysID + '"'
+    else if @pubID
+      r += ' PUBLIC "' + @pubID + '"'
+    else if @sysID
+      r += ' SYSTEM "' + @sysID + '"'
     r += '>'
 
     r += newline if pretty
