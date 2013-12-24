@@ -10,22 +10,26 @@ module.exports = class XMLDeclaration extends XMLNode
   #
   # `parent` the document object
   #
-  # `options.version` A version number string, e.g. 1.0
-  # `options.encoding` Encoding declaration, e.g. UTF-8
-  # `options.standalone` standalone document declaration: true or false
-  constructor: (parent, options) ->
+  # `version` A version number string, e.g. 1.0
+  # `encoding` Encoding declaration, e.g. UTF-8
+  # `standalone` standalone document declaration: true or false
+  constructor: (parent, version, encoding, standalone) ->
     super parent
 
-    options = _.extend { 'version': '1.0' }, options
+    # arguments may also be passed as an object
+    if _.isObject version
+      { version, encoding, standalone } = version
 
-    if options.version?
-      @version = @stringify.xmlVersion options.version
+    version = '1.0' if not version
 
-    if options.encoding?
-      @encoding = @stringify.xmlEncoding options.encoding
+    if version?
+      @version = @stringify.xmlVersion version
 
-    if options.standalone?
-      @standalone = @stringify.xmlStandalone options.standalone
+    if encoding?
+      @encoding = @stringify.xmlEncoding encoding
+
+    if standalone?
+      @standalone = @stringify.xmlStandalone standalone
 
 
   # Converts to string

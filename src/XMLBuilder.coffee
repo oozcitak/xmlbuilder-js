@@ -31,18 +31,18 @@ module.exports = class XMLBuilder
     options ?= {}
     @stringify = new XMLStringifier options
 
-    # prolog
-    if not options.headless
-      @xmldec = new XMLDeclaration @, options
-
-      if options.pubID? or options.sysID?
-        @doctype = new XMLDocType @, options.pubID, options.sysID
-
-    root = new XMLElement @, 'doc'
-    root = root.element name
+    temp = new XMLElement @, 'doc' # temporary node so that we can call element()
+    root = temp.element name
     root.isRoot = true
     root.documentObject = @
     @rootObject = root
+
+    # prolog
+    if not options.headless
+      root.declaration options
+
+      if options.pubID? or options.sysID?
+        root.doctype options.pubID, options.sysID
 
 
   # Gets the root node

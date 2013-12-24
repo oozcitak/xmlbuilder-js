@@ -16,6 +16,10 @@ module.exports = class XMLDocType
 
     @children = []
 
+    # arguments may also be passed as an object
+    if _.isObject pubID
+      { pubID, sysID } = pubID
+
     if not sysID?
       [sysID, pubID] = [pubID, sysID]
 

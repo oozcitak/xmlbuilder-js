@@ -158,7 +158,7 @@ vows
                       '</root>'
                 assert.strictEqual topic.end(), xml
 
-        'create() without with arguments':
+        'create() without arguments':
             topic: () ->
                 xmlbuilder.create('test14').ele('node').txt('test')
 

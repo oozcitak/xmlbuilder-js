@@ -193,15 +193,31 @@ module.exports = class XMLNode
     @children.push child
     return @
 
+
+  # Creates the xml declaration
+  #
+  # `version` A version number string, e.g. 1.0
+  # `encoding` Encoding declaration, e.g. UTF-8
+  # `standalone` standalone document declaration: true or false
+  declaration: (version, encoding, standalone) ->
+    doc = @document()
+    XMLDeclaration = require './XMLDeclaration'
+    xmldec = new XMLDeclaration doc, version, encoding, standalone
+    doc.xmldec = xmldec
+    return doc.root()
+
+
   # Creates the document type declaration
   #
   # `pubID` the public identifier of the external subset
   # `sysID` the system identifier of the external subset
   doctype: (pubID, sysID) ->
+    doc = @document()
     XMLDocType = require './XMLDocType'
-    doctype = new XMLDocType @, pubID, sysID
-    @document().doctype = doctype
+    doctype = new XMLDocType doc, pubID, sysID
+    doc.doctype = doctype
     return doctype
+
 
   # Gets the parent node
   up: () ->
@@ -277,6 +293,7 @@ module.exports = class XMLNode
   dat: (value) -> @cdata value
   com: (value) -> @comment value
   doc: () -> @document()
+  dec: (version, encoding, standalone) -> @declaration version, encoding, standalone
   dtd: (pubID, sysID) -> @doctype pubID, sysID
   e: (name, attributes, text) -> @element name, attributes, text
   n: (name, attributes, text) -> @node name, attributes, text
