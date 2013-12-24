@@ -1,6 +1,6 @@
 {
   "name": "xmlbuilder",
-  "version": "1.1.2",
+  "version": "2.0.0",
   "keywords": [ "xml",  "xmlbuilder" ],
   "homepage": "http://github.com/oozcitak/xmlbuilder-js",
   "description": "An XML builder for node.js",
