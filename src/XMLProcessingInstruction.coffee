@@ -15,9 +15,6 @@ module.exports = class XMLProcessingInstruction
     if not target?
       throw new Error "Missing instruction target"
 
-    # evaluate if function
-    value = value.apply() if _.isFunction value
-
     @target = @stringify.insTarget target
     @value = @stringify.insValue value if value
 

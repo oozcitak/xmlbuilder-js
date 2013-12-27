@@ -37,7 +37,7 @@ module.exports = class XMLElement extends XMLNode
     clonedSelf = _.clone @
 
     # clone attributes
-    clonedSelf.attributes = {}    
+    clonedSelf.attributes = {}
     for own attName, att of @attributes
       clonedSelf.attributes[attName] = _.clone att
 
@@ -62,14 +62,8 @@ module.exports = class XMLElement extends XMLNode
   # `name` attribute name
   # `value` attribute value
   attribute: (name, value) ->
-    if not name?
-      throw new Error "Missing attribute name"
-    if not value?
-      throw new Error "Missing attribute value"
-
-    @attributes ?= {}
+    value = value.apply() if _.isFunction value
     @attributes[name] = new XMLAttribute @, name, value
-
     return @
 
 
@@ -90,6 +84,7 @@ module.exports = class XMLElement extends XMLNode
   # `target` instruction target
   # `value` instruction value
   instruction: (target, value) ->
+    value = value.apply() if _.isFunction value
     instruction = new XMLProcessingInstruction @, target, value
     @instructions.push instruction
     return @
