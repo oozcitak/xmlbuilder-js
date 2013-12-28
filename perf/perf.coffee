@@ -49,6 +49,7 @@ jsonNodeCount = (obj) ->
         for item in obj
             total += jsonNodeCount item
     else if _.isObject obj
+        total += _.size obj
         for own key, val of obj
             total += jsonNodeCount val
     else
@@ -56,12 +57,12 @@ jsonNodeCount = (obj) ->
     return total
 
 xmlNodeCount = (obj) ->
-    total = 0
+    total = 1
     if obj.attributes
         total += _.size obj.attributes
     if obj.instructions
         total += obj.instructions.length
-    if obj.children and obj.children.length > 0
+    if obj.children
         for item in obj.children
             total += xmlNodeCount item
     return total
@@ -107,7 +108,6 @@ doTest = (file, rep) ->
         if not nodeCount
             nodeCount = xmlNodeCount xml.root()
             console.log '    XML Node Count: ' + nodeCount
-            console.log xml.root().children.length
         if not strSize
             strSize = Buffer.byteLength str, 'utf8'
             console.log '    XML String Size: ' + fmtSize(strSize)
