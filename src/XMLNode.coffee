@@ -61,8 +61,6 @@ module.exports = class XMLNode
           lastChild = @element key, val
 
     else
-      name = '' + name
-
       # text node
       if @stringify.convertTextKey and name.indexOf(@stringify.convertTextKey) == 0
         lastChild = @text text
@@ -147,6 +145,11 @@ module.exports = class XMLNode
   # `attributes` an object containing name/value pairs of attributes
   # `text` element text
   node: (name, attributes, text) ->
+    attributes ?= {}
+    # swap argument order: text <-> attributes
+    if not _.isObject attributes
+      [text, attributes] = [attributes, text]
+
     XMLElement = require './XMLElement'
     child = new XMLElement @, name, attributes
     child.text(text) if text?
