@@ -22,10 +22,9 @@ module.exports = class XMLElement extends XMLNode
     @name = @stringify.eleName name
     @children = []
     @instructions = []
-
     @attributes = {}
-    for own attName, attValue of attributes
-      @attribute attName, attValue
+
+    @attribute attributes if attributes?
 
 
   # Clones self
@@ -76,13 +75,13 @@ module.exports = class XMLElement extends XMLNode
   #
   # `name` attribute name
   removeAttribute: (name) ->
+    if not name?
+      throw new Error "Missing attribute name"
+
     if _.isArray name # expand if array
       for attName in name
         delete @attributes[attName]
     else
-      if not name?
-        throw new Error "Missing attribute name"
-
       delete @attributes[name]
 
     return @
