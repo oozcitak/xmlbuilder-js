@@ -15,7 +15,7 @@ module.exports = class XMLElement extends XMLNode
   # `attributes` an object containing name/value pairs of attributes
   constructor: (parent, name, attributes) ->
     super parent
-    
+
     if not name?
       throw new Error "Missing element name"
 
@@ -25,8 +25,7 @@ module.exports = class XMLElement extends XMLNode
 
     @attributes = {}
     for own attName, attValue of attributes
-      if attName? and attValue?
-        @attributes[attName] = new XMLAttribute @, attName, attValue
+      @attribute attName, attValue
 
 
   # Clones self
@@ -53,7 +52,7 @@ module.exports = class XMLElement extends XMLNode
         clonedChild = child.clone(deep)
         clonedChild.parent = clonedSelf
         clonedSelf.children.push clonedChild
-        
+
     return clonedSelf
 
 
@@ -63,7 +62,8 @@ module.exports = class XMLElement extends XMLNode
   # `value` attribute value
   attribute: (name, value) ->
     value = value.apply() if _.isFunction value
-    @attributes[name] = new XMLAttribute @, name, value
+    if not @options.skipNullAttributes or value?
+      @attributes[name] = new XMLAttribute @, name, value
     return @
 
 

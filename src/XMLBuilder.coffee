@@ -23,12 +23,14 @@ module.exports = class XMLBuilder
   #
   # `options.headless` whether XML declaration and doctype will be included: true or false
   # `options.allowSurrogateChars` whether surrogates will be allowed: true or false
+  # `options.skipNullAttributes` whether attributes with null values will be ignored: true or false
   # `options.stringify` a set of functions to use for converting values to strings
   constructor: (name, options) ->
     if not name?
       throw new Error "Root element needs a name"
 
     options ?= {}
+    @options = options
     @stringify = new XMLStringifier options
 
     temp = new XMLElement @, 'doc' # temporary node so that we can call element()
@@ -42,7 +44,7 @@ module.exports = class XMLBuilder
       root.declaration options
 
       if options.pubID? or options.sysID?
-        root.doctype options.pubID, options.sysID
+        root.doctype options
 
 
   # Gets the root node

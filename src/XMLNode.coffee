@@ -8,6 +8,7 @@ module.exports = class XMLNode
   #
   # `parent` the parent node
   constructor: (@parent) ->
+    @options = @parent.options
     @stringify = @parent.stringify
 
 
