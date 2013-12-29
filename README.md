@@ -1,6 +1,6 @@
 # xmlbuilder-js
 
-An XMLBuilder for [node.js](http://nodejs.org/) similar to 
+An XML builder for [node.js](http://nodejs.org/) similar to 
 [java-xmlbuilder](http://code.google.com/p/java-xmlbuilder/).
 
 [![NPM version](https://badge.fury.io/js/xmlbuilder.png)](http://badge.fury.io/js/xmlbuilder)
