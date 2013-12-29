@@ -67,11 +67,11 @@ xmlNodeCount = (obj) ->
             total += xmlNodeCount item
     return total
 
-doTest = (file, rep) ->
-    rep ?= 100
+doTest = (file, options) ->
+    options = _.extend { repeat: 10, time: true, mem: true }, options
     console.log '    XMLBuilder v' + require('../package.json').version
     console.log '    Testing: ' + file
-    console.log '    Repeats: ' + rep
+    console.log '    Repeats: ' + options.repeat
 
     data = fs.readFileSync file, { encoding: 'utf8' }
     obj = JSON.parse data
@@ -85,25 +85,25 @@ doTest = (file, rep) ->
     stringMem = []
     nodeCount = 0
     strSize = 0
-    i = rep
+    i = options.repeat
     while i--
         xml = null
         str = null
-        memwatch.gc()
+        memwatch.gc() if options.mem
 
-        hd = new memwatch.HeapDiff()
-        elapsed()
+        hd = new memwatch.HeapDiff() if options.mem
+        elapsed() if options.time
         xml = xmlbuilder.create(obj)
-        buildTime.push elapsed()
-        hde = hd.end()
-        buildMem.push hde.change.size_bytes
+        buildTime.push elapsed() if options.time
+        hde = hd.end() if options.mem
+        buildMem.push hde.change.size_bytes if options.mem
 
-        hd = new memwatch.HeapDiff()
-        elapsed()
+        hd = new memwatch.HeapDiff() if options.mem
+        elapsed() if options.time
         str = xml.end({pretty: true})
-        stringTime.push elapsed()
-        hde = hd.end()
-        stringMem.push hde.change.size_bytes
+        stringTime.push elapsed() if options.time
+        hde = hd.end() if options.mem
+        stringMem.push hde.change.size_bytes if options.mem
 
         if not nodeCount
             nodeCount = xmlNodeCount xml.root()
@@ -112,13 +112,12 @@ doTest = (file, rep) ->
             strSize = Buffer.byteLength str, 'utf8'
             console.log '    XML String Size: ' + fmtSize(strSize)
 
+    console.log '    Build XML:' if options.time or options.mem
+    console.log '        Time: ' + fmtArr(buildTime, fmtTime) if options.time
+    console.log '        Memory: ' + fmtArr(buildMem, fmtSize)if options.mem
+    console.log '    Convert to String:' if options.time or options.mem
+    console.log '        Time: ' + fmtArr(stringTime, fmtTime) if options.time
+    console.log '        Memory: ' + fmtArr(stringMem, fmtSize) if options.mem
 
-    console.log '    Build XML:'
-    console.log '        Time: ' + fmtArr(buildTime, fmtTime)
-    console.log '        Memory: ' + fmtArr(buildMem, fmtSize)
-    console.log '    Convert to String:'
-    console.log '        Time: ' + fmtArr(stringTime, fmtTime)
-    console.log '        Memory: ' + fmtArr(stringMem, fmtSize)
-
-doTest __dirname + '/test.json', 2
+doTest __dirname + '/test.json', { repeat: 2 }
 
