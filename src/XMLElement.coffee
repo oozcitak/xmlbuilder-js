@@ -61,9 +61,14 @@ module.exports = class XMLElement extends XMLNode
   # `name` attribute name
   # `value` attribute value
   attribute: (name, value) ->
-    value = value.apply() if _.isFunction value
-    if not @options.skipNullAttributes or value?
-      @attributes[name] = new XMLAttribute @, name, value
+    if _.isObject name # expand if object
+      for own attName, attValue of name
+        @attribute attName, attValue
+    else
+      value = value.apply() if _.isFunction value
+      if not @options.skipNullAttributes or value?
+        @attributes[name] = new XMLAttribute @, name, value
+
     return @
 
 
@@ -71,10 +76,14 @@ module.exports = class XMLElement extends XMLNode
   #
   # `name` attribute name
   removeAttribute: (name) ->
-    if not name?
-      throw new Error "Missing attribute name"
+    if _.isArray name # expand if array
+      for attName in name
+        delete @attributes[attName]
+    else
+      if not name?
+        throw new Error "Missing attribute name"
 
-    delete @attributes[name]
+      delete @attributes[name]
 
     return @
 
@@ -84,9 +93,16 @@ module.exports = class XMLElement extends XMLNode
   # `target` instruction target
   # `value` instruction value
   instruction: (target, value) ->
-    value = value.apply() if _.isFunction value
-    instruction = new XMLProcessingInstruction @, target, value
-    @instructions.push instruction
+    if _.isArray target # expand if array
+      for insTarget in target
+        @instruction insTarget
+    else if _.isObject target # expand if object
+      for own insTarget, insValue of target
+        @instruction insTarget, insValue
+    else
+      value = value.apply() if _.isFunction value
+      instruction = new XMLProcessingInstruction @, target, value
+      @instructions.push instruction
     return @
 
 

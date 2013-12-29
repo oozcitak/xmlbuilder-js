@@ -16,15 +16,33 @@ vows
                 xml = '<test4><node first="1" second="2" third="3">element</node></test4>'
                 assert.strictEqual doc.end(), xml
 
+        'Add attribute (multiple with object argument)':
+            topic: () ->
+                xmlbuilder.create('test4', { headless: true })
+                    .ele('node').att({"first":"1", "second":"2"})
+
+            'resulting XML': (doc) ->
+                xml = '<test4><node first="1" second="2"/></test4>'
+                assert.strictEqual doc.end(), xml
+
         'Remove attribute':
             topic: () ->
-                root = xmlbuilder.create('test4', { headless: true })
-                ele = root.ele('node', 'element', {"first":"1", "second":"2", "third":"3"})
-                ele.removeAttribute("second")
-                root
+                xmlbuilder.create('test4', { headless: true })
+                    .ele('node', 'element', {"first":"1", "second":"2", "third":"3"})
+                        .removeAttribute("second")
 
             'resulting XML': (doc) ->
                 xml = '<test4><node first="1" third="3">element</node></test4>'
+                assert.strictEqual doc.end(), xml
+
+        'Remove multiple attributes':
+            topic: () ->
+                xmlbuilder.create('test4', { headless: true })
+                    .ele('node', 'element', {"first":"1", "second":"2", "third":"3"})
+                        .removeAttribute(["second", "third"])
+
+            'resulting XML': (doc) ->
+                xml = '<test4><node first="1">element</node></test4>'
                 assert.strictEqual doc.end(), xml
 
         'Throw if null attribute (ele)':
