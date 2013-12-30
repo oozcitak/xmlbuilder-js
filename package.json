@@ -20,15 +20,15 @@
   },
   "main": "./lib/index",
   "engines": {
-    "node": ">=0.2.0"
+    "node": ">=0.8.0"
   },
   "dependencies": {
-    "underscore": ">=1.5.x"
+    "underscore": "1.5.x"
   },
   "devDependencies": {
-    "coffee-script": ">=1.1.x",
-    "vows": ">=0.7.x",
-    "memwatch": ">=0.2.x"
+    "coffee-script": "*",
+    "vows": "*",
+    "memwatch": "*"
   },
   "scripts": {
     "prepublish": "coffee -co lib/ src/*.coffee",
