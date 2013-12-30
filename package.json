@@ -20,7 +20,7 @@
   },
   "main": "./lib/index",
   "engines": {
-    "node": ">=0.8.0"
+    "node": "0.8.x || 0.10.x"
   },
   "dependencies": {
     "underscore": "1.5.x"
