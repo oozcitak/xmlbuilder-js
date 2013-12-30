@@ -16,6 +16,7 @@ XMLBuilder = require './XMLBuilder'
 # `options.headless` whether XML declaration and doctype will be included: true or false
 # `options.allowSurrogateChars` whether surrogates will be allowed: true or false
 # `options.skipNullAttributes` whether attributes with null values will be ignored: true or false
+# `options.ignoreDecorators` whether decorator strings will be ignored when converting JS objects: true or false
 # `options.stringify` a set of functions to use for converting values to strings
 module.exports.create = (name, xmldec, doctype, options) ->
   options = _.extend { }, xmldec, doctype, options

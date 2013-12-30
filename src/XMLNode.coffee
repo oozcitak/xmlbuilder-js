@@ -40,17 +40,17 @@ module.exports = class XMLNode
         val = val.apply() if _.isFunction val
 
         # assign attributes
-        if @stringify.convertAttKey and key.indexOf(@stringify.convertAttKey) == 0
+        if not @options.ignoreDecorators and @stringify.convertAttKey and key.indexOf(@stringify.convertAttKey) == 0
            lastChild = @attribute(key.substr(@stringify.convertAttKey.length), val)
 
         # assign processing instructions
-        else if @stringify.convertPIKey and key.indexOf(@stringify.convertPIKey) == 0
+        else if not @options.ignoreDecorators and @stringify.convertPIKey and key.indexOf(@stringify.convertPIKey) == 0
           lastChild = @instruction(key.substr(@stringify.convertPIKey.length), val)
 
         # expand if object (arrays are objects too)
         else if _.isObject val
           # expand list without creating parent node
-          if @stringify.convertListKey and key.indexOf(@stringify.convertListKey) == 0 and _.isArray val
+          if not @options.ignoreDecorators and @stringify.convertListKey and key.indexOf(@stringify.convertListKey) == 0 and _.isArray val
             lastChild = @element val
           # expand child nodes under parent
           else
@@ -63,16 +63,16 @@ module.exports = class XMLNode
 
     else
       # text node
-      if @stringify.convertTextKey and name.indexOf(@stringify.convertTextKey) == 0
+      if not @options.ignoreDecorators and @stringify.convertTextKey and name.indexOf(@stringify.convertTextKey) == 0
         lastChild = @text text
       # cdata node
-      else if @stringify.convertCDataKey and name.indexOf(@stringify.convertCDataKey) == 0
+      else if not @options.ignoreDecorators and @stringify.convertCDataKey and name.indexOf(@stringify.convertCDataKey) == 0
         lastChild = @cdata text
       # comment node
-      else if @stringify.convertCommentKey and name.indexOf(@stringify.convertCommentKey) == 0
+      else if not @options.ignoreDecorators and @stringify.convertCommentKey and name.indexOf(@stringify.convertCommentKey) == 0
         lastChild = @comment text
       # raw text node
-      else if @stringify.convertRawKey and name.indexOf(@stringify.convertRawKey) == 0
+      else if not @options.ignoreDecorators and @stringify.convertRawKey and name.indexOf(@stringify.convertRawKey) == 0
         lastChild = @raw text
       # element node
       else

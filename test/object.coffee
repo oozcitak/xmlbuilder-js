@@ -106,6 +106,60 @@ vows
 
                 assert.strictEqual topic.end(), xml
 
+        'From JS object (ignore decorators)':
+            topic: () ->
+                obj =
+                    ele: "simple element"
+                    person:
+                        name: "John"
+                        '@age': 35
+                        '?pi': 'mypi'
+                        '#comment': 'Good guy'
+                        '#cdata': 'well formed!'
+                        unescaped:
+                          '#raw': '&<>&'
+                        address:
+                            city: "Istanbul"
+                            street: "End of long and winding road"
+                        '#list': [
+                            { phone: "555-1234" }
+                            { phone: "555-1235" }
+                        ]
+                        id: () -> return 42
+                        details:
+                          '#text': 'classified'
+    
+                xmlbuilder.create('root', { headless: true, ignoreDecorators: true })
+                    .ele(obj)
+                        .up()
+                    .ele('added')
+
+            'resulting XML': (topic) ->
+                xml = '<root>' +
+                          '<ele>simple element</ele>' +
+                          '<person>' +
+                              '<name>John</name>' +
+                              '<@age>35</@age>' +
+                              '<?pi>mypi</?pi>' +
+                              '<#comment>Good guy</#comment>' +
+                              '<#cdata>well formed!</#cdata>' +
+                              '<unescaped><#raw>&amp;&lt;&gt;&amp;</#raw></unescaped>' +
+                              '<address>' +
+                                  '<city>Istanbul</city>' +
+                                  '<street>End of long and winding road</street>' +
+                              '</address>' +
+                              '<#list>' +
+                                  '<phone>555-1234</phone>' +
+                                  '<phone>555-1235</phone>' +
+                              '</#list>' +
+                              '<id>42</id>' +
+                              '<details><#text>classified</#text></details>' +
+                          '</person>' +
+                          '<added/>' +
+                      '</root>'
+
+                assert.strictEqual topic.end(), xml
+
         'From JS object (deep nesting)':
             topic: () ->
                 obj =
