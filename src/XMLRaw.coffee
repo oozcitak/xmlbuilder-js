@@ -1,4 +1,4 @@
-_ = require 'underscore'
+_ = require 'lodash/dist/lodash.underscore'
 
 XMLNode = require './XMLNode'
 

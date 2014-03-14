@@ -1,4 +1,4 @@
-_ = require 'underscore'
+_ = require 'lodash/dist/lodash.underscore'
 
 # Represents doctype declaration
 module.exports = class XMLDocType

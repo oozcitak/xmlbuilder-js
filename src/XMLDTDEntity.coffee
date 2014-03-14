@@ -1,4 +1,4 @@
-_ = require 'underscore'
+_ = require 'lodash/dist/lodash.underscore'
 
 # Represents an entity declaration in the DTD
 module.exports = class XMLDTDEntity

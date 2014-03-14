@@ -1,4 +1,4 @@
-_ = require 'underscore'
+_ = require 'lodash/dist/lodash.underscore'
 
 # Represents an attribute
 module.exports = class XMLDTDElement
