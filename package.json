@@ -23,10 +23,10 @@
     "node": "0.8.x || 0.10.x"
   },
   "dependencies": {
-    "underscore": "1.5.x"
+    "lodash-node": "~2.4.1"
   },
   "devDependencies": {
-    "coffee-script": "*",
+    "coffee-script": "~1.6.3",
     "vows": "*",
     "memwatch": "*"
   },

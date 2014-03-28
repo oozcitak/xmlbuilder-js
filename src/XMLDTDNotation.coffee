@@ -1,4 +1,4 @@
-_ = require 'underscore'
+_ = require 'lodash-node'
 
 # Represents a NOTATION entry in the DTD
 module.exports = class XMLDTDNotation

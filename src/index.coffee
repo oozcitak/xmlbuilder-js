@@ -1,4 +1,4 @@
-_ = require 'underscore'
+_ = require 'lodash-node'
 
 XMLBuilder = require './XMLBuilder'
 

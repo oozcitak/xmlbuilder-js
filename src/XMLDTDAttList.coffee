@@ -1,4 +1,4 @@
-_ = require 'underscore'
+_ = require 'lodash-node'
 
 # Represents an attribute list
 module.exports = class XMLDTDAttList

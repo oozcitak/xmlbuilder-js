@@ -1,4 +1,4 @@
-_ = require 'underscore'
+_ = require 'lodash-node'
 
 XMLStringifier = require './XMLStringifier'
 XMLDeclaration = require './XMLDeclaration'
