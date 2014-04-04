@@ -1,7 +1,10 @@
 {
   "name": "xmlbuilder",
-  "version": "2.2.0",
-  "keywords": [ "xml",  "xmlbuilder" ],
+  "version": "2.2.1",
+  "keywords": [
+    "xml",
+    "xmlbuilder"
+  ],
   "homepage": "http://github.com/oozcitak/xmlbuilder-js",
   "description": "An XML builder for node.js",
   "author": "Ozgur Ozcitak <oozcitak@gmail.com>",
@@ -36,4 +39,3 @@
     "test": "vows test/*"
   }
 }
-
