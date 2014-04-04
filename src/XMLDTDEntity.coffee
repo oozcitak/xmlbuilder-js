@@ -41,6 +41,11 @@ module.exports = class XMLDTDEntity
         throw new Error "Notation declaration is not allowed in a parameter entity"
 
 
+  # Creates and returns a deep clone of `this`
+  clone: () ->
+    _.create XMLDTDEntity.prototype, @
+
+
   # Converts the XML fragment to string
   #
   # `options.pretty` pretty prints the result

@@ -18,6 +18,11 @@ module.exports = class XMLText extends XMLNode
     @value = @stringify.eleText text
 
 
+  # Creates and returns a deep clone of `this`
+  clone: () ->
+    _.create XMLText.prototype, @
+
+
   # Converts the XML fragment to string
   #
   # `options.pretty` pretty prints the result

@@ -19,6 +19,11 @@ module.exports = class XMLProcessingInstruction
     @value = @stringify.insValue value if value
 
 
+  # Creates and returns a deep clone of `this`
+  clone: () ->
+    _.create XMLProcessingInstruction.prototype, @
+
+
   # Converts the XML fragment to string
   #
   # `options.pretty` pretty prints the result

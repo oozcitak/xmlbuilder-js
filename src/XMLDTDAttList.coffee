@@ -39,6 +39,11 @@ module.exports = class XMLDTDAttList
     @defaultValueType = defaultValueType
 
 
+  # Creates and returns a deep clone of `this`
+  clone: () ->
+    _.create XMLDTDAttList.prototype, @
+
+
   # Converts the XML fragment to string
   #
   # `options.pretty` pretty prints the result

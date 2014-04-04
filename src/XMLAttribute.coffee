@@ -21,6 +21,11 @@ module.exports = class XMLAttribute
     @value = @stringify.attValue value
 
 
+  # Creates and returns a deep clone of `this`
+  clone: () ->
+    _.create XMLAttribute.prototype, @
+
+
   # Converts the XML fragment to string
   #
   # `options.pretty` pretty prints the result

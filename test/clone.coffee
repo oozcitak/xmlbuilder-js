@@ -6,28 +6,7 @@ xmlbuilder = require '../src/index.coffee'
 vows
     .describe('Clone')
     .addBatch
-        'Test the clone() method (not deep clone)':
-            topic: () ->
-                test = xmlbuilder.create('test11', {}, {}, { headless: true})
-                    .att('att', 'val')
-                    .ele('nodes')
-                        .ele('node', '1')
-                    .root()
-
-                testcloned = test.root().clone()
-                testcloned.ele('added', '3')
-
-                { original: test, cloned: testcloned }
-
-            'resulting XML':
-                'original should remain unchanged': (topic) ->
-                    xml = '<test11 att="val"><nodes><node>1</node></nodes></test11>'
-                    assert.strictEqual topic.original.doc().toString(), xml
-                'cloned should contain added node only': (topic) ->
-                    xml = '<test11 att="val"><added>3</added></test11>'
-                    assert.strictEqual topic.cloned.toString(), xml
-
-        'Test the clone() method (deep clone)':
+        'Test the clone() method':
             topic: () ->
                 test = xmlbuilder.create('test11', {}, {}, { headless: true})
                     .att('att', 'val')
@@ -37,7 +16,7 @@ vows
                             .att('att2', 'val2')
                     .root()
 
-                testcloned = test.root().clone(true)
+                testcloned = test.root().clone()
                 testcloned.ele('added', '3')
 
                 { original: test, cloned: testcloned }

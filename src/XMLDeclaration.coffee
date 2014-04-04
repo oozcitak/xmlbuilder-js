@@ -32,6 +32,11 @@ module.exports = class XMLDeclaration extends XMLNode
       @standalone = @stringify.xmlStandalone standalone
 
 
+  # Creates and returns a deep clone of `this`
+  clone: () ->
+    _.create XMLDeclaration.prototype, @
+
+
   # Converts to string
   #
   # `options.pretty` pretty prints the result

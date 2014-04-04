@@ -27,6 +27,11 @@ module.exports = class XMLDocType
     @sysID = @stringify.dtdSysID sysID if sysID?
 
 
+  # Creates and returns a deep clone of `this`
+  clone: () ->
+    _.create XMLDocType.prototype, @
+
+
   # Creates an element type declaration
   #
   # `name` element name

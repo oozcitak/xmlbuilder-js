@@ -12,6 +12,11 @@ module.exports = class XMLNode
     @stringify = @parent.stringify
 
 
+  # Creates and returns a deep clone of `this`
+  clone: () ->
+    throw new Error "Cannot clone generic XMLNode"
+
+
   # Creates a child element node
   #
   # `name` node name or an object describing the XML tree
@@ -277,18 +282,11 @@ module.exports = class XMLNode
   #
   # `xmlbuilder` the instance of XMLBuilder to insert nodes from
   importXMLBuilder: (xmlbuilder) ->
-    clonedRoot = xmlbuilder.root().clone(true)
+    clonedRoot = xmlbuilder.root().clone()
     clonedRoot.parent = @
-    @children.push clonedRoot
     clonedRoot.isRoot = false
+    @children.push clonedRoot
     return @
-
-
-  # Clones self
-  #
-  # `deep` true to clone child nodes as well
-  clone: (deep) ->
-    _.clone @
 
 
   # Aliases

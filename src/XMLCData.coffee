@@ -18,6 +18,11 @@ module.exports = class XMLCData extends XMLNode
     @text = @stringify.cdata text
 
 
+  # Creates and returns a deep clone of `this`
+  clone: () ->
+    _.create XMLCData.prototype, @
+
+
   # Converts the XML fragment to string
   #
   # `options.pretty` pretty prints the result
