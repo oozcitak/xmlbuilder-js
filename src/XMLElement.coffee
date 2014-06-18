@@ -57,6 +57,8 @@ module.exports = class XMLElement extends XMLNode
   # `name` attribute name
   # `value` attribute value
   attribute: (name, value) ->
+    name = name.valueOf() if name?
+
     if _.isObject name # expand if object
       for own attName, attValue of name
         @attribute attName, attValue
@@ -74,6 +76,7 @@ module.exports = class XMLElement extends XMLNode
   removeAttribute: (name) ->
     if not name?
       throw new Error "Missing attribute name"
+    name = name.valueOf()
 
     if _.isArray name # expand if array
       for attName in name
@@ -89,6 +92,9 @@ module.exports = class XMLElement extends XMLNode
   # `target` instruction target
   # `value` instruction value
   instruction: (target, value) ->
+    target = target.valueOf() if target?
+    value = value.valueOf() if value?
+
     if _.isArray target # expand if array
       for insTarget in target
         @instruction insTarget

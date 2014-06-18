@@ -26,10 +26,12 @@ module.exports = class XMLNode
     lastChild = null
 
     attributes ?= {}
+    attributes = attributes.valueOf()
     # swap argument order: text <-> attributes
     if not _.isObject attributes
       [text, attributes] = [attributes, text]
 
+    name = name.valueOf() if name?
     # expand if array
     if _.isArray name
       lastChild = @element item for item in name
@@ -151,7 +153,10 @@ module.exports = class XMLNode
   # `attributes` an object containing name/value pairs of attributes
   # `text` element text
   node: (name, attributes, text) ->
+    name = name.valueOf() if name?
+
     attributes ?= {}
+    attributes = attributes.valueOf()
     # swap argument order: text <-> attributes
     if not _.isObject attributes
       [text, attributes] = [attributes, text]
