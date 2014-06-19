@@ -40,9 +40,9 @@ module.exports = class XMLNode
     else if _.isFunction name
       lastChild = @element name.apply()
 
-    # expand if object but skip null values
+    # expand if object
     else if _.isObject name
-      for own key, val of name when val?
+      for own key, val of name
          # evaluate if function
         val = val.apply() if _.isFunction val
 
