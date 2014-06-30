@@ -1,6 +1,7 @@
 isObject = require 'lodash.isobject'
 isArray = require 'lodash.isarray'
 isFunction = require 'lodash.isfunction'
+isEmpty = require 'lodash.isempty'
 
 # Represents a generic XMl element
 module.exports = class XMLNode
@@ -45,8 +46,11 @@ module.exports = class XMLNode
     # expand if object
     else if isObject name
       for own key, val of name
-         # evaluate if function
+        # evaluate if function
         val = val.apply() if isFunction val
+
+        # convert empty objects (and arrays) to empty nodes
+        val = null if (isObject val) and (isEmpty val)
 
         # assign attributes
         if not @options.ignoreDecorators and @stringify.convertAttKey and key.indexOf(@stringify.convertAttKey) == 0

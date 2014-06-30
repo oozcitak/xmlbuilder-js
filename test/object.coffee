@@ -256,7 +256,35 @@ vows
                       '</root>'
 
                 assert.strictEqual topic.end(), xml
- 
+
+        'From JS object (empty array)':
+            topic: () ->
+                obj =
+                    root: []
+    
+                xmlbuilder.create(obj)
+
+            'resulting XML': (topic) ->
+                xml = '<?xml version="1.0"?>' +
+                      '<root/>'
+
+                assert.strictEqual topic.end(), xml
+
+        'From JS object (empty object)':
+            topic: () ->
+                obj =
+                    root: {}
+    
+                xmlbuilder.create(obj)
+
+            'resulting XML': (topic) ->
+                xml = '<?xml version="1.0"?>' +
+                      '<root/>'
+
+                assert.strictEqual topic.end(), xml
+
+
+
 
     .export(module)
 
