@@ -1,4 +1,5 @@
-_ = require 'lodash-node'
+create = require 'lodash.create'
+isArray = require 'lodash.isarray'
 
 # Represents an attribute
 module.exports = class XMLDTDElement
@@ -16,7 +17,7 @@ module.exports = class XMLDTDElement
       throw new Error "Missing DTD element name"
     if not value
       value = '(#PCDATA)'
-    if _.isArray value
+    if isArray value
       value = '(' + value.join(',') + ')'
 
     @name = @stringify.eleName name
@@ -25,7 +26,7 @@ module.exports = class XMLDTDElement
 
   # Creates and returns a deep clone of `this`
   clone: () ->
-    _.create XMLDTDElement.prototype, @
+    create XMLDTDElement.prototype, @
 
 
   # Converts the XML fragment to string

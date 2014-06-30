@@ -1,4 +1,5 @@
-_ = require 'lodash-node'
+create = require 'lodash.create'
+isObject = require 'lodash.isobject'
 
 # Represents an entity declaration in the DTD
 module.exports = class XMLDTDEntity
@@ -25,7 +26,7 @@ module.exports = class XMLDTDEntity
     @pe = !!pe
     @name = @stringify.eleName name
 
-    if not _.isObject value
+    if not isObject value
       @value =  @stringify.dtdEntityValue value
     else
       if not value.pubID and not value.sysID
@@ -43,7 +44,7 @@ module.exports = class XMLDTDEntity
 
   # Creates and returns a deep clone of `this`
   clone: () ->
-    _.create XMLDTDEntity.prototype, @
+    create XMLDTDEntity.prototype, @
 
 
   # Converts the XML fragment to string

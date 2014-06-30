@@ -1,4 +1,6 @@
-_ = require 'lodash-node'
+isObject = require 'lodash.isobject'
+isArray = require 'lodash.isarray'
+isFunction = require 'lodash.isfunction'
 
 # Represents a generic XMl element
 module.exports = class XMLNode
@@ -28,23 +30,23 @@ module.exports = class XMLNode
     attributes ?= {}
     attributes = attributes.valueOf()
     # swap argument order: text <-> attributes
-    if not _.isObject attributes
+    if not isObject attributes
       [text, attributes] = [attributes, text]
 
     name = name.valueOf() if name?
     # expand if array
-    if _.isArray name
+    if isArray name
       lastChild = @element item for item in name
 
     # evaluate if function
-    else if _.isFunction name
+    else if isFunction name
       lastChild = @element name.apply()
 
     # expand if object
-    else if _.isObject name
+    else if isObject name
       for own key, val of name
          # evaluate if function
-        val = val.apply() if _.isFunction val
+        val = val.apply() if isFunction val
 
         # assign attributes
         if not @options.ignoreDecorators and @stringify.convertAttKey and key.indexOf(@stringify.convertAttKey) == 0
@@ -55,9 +57,9 @@ module.exports = class XMLNode
           lastChild = @instruction(key.substr(@stringify.convertPIKey.length), val)
 
         # expand if object (arrays are objects too)
-        else if _.isObject val
+        else if isObject val
           # expand list without creating parent node
-          if not @options.ignoreDecorators and @stringify.convertListKey and key.indexOf(@stringify.convertListKey) == 0 and _.isArray val
+          if not @options.ignoreDecorators and @stringify.convertListKey and key.indexOf(@stringify.convertListKey) == 0 and isArray val
             lastChild = @element val
           # expand child nodes under parent
           else
@@ -158,7 +160,7 @@ module.exports = class XMLNode
     attributes ?= {}
     attributes = attributes.valueOf()
     # swap argument order: text <-> attributes
-    if not _.isObject attributes
+    if not isObject attributes
       [text, attributes] = [attributes, text]
 
     XMLElement = require './XMLElement'

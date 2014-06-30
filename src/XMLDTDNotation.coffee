@@ -1,4 +1,4 @@
-_ = require 'lodash-node'
+create = require 'lodash.create'
 
 # Represents a NOTATION entry in the DTD
 module.exports = class XMLDTDNotation
@@ -26,7 +26,7 @@ module.exports = class XMLDTDNotation
 
   # Creates and returns a deep clone of `this`
   clone: () ->
-    _.create XMLDTDNotation.prototype, @
+    create XMLDTDNotation.prototype, @
 
 
   # Converts the XML fragment to string

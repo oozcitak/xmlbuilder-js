@@ -1,4 +1,4 @@
-_ = require 'lodash-node'
+create = require 'lodash.create'
 
 # Represents a processing instruction
 module.exports = class XMLProcessingInstruction
@@ -21,7 +21,7 @@ module.exports = class XMLProcessingInstruction
 
   # Creates and returns a deep clone of `this`
   clone: () ->
-    _.create XMLProcessingInstruction.prototype, @
+    create XMLProcessingInstruction.prototype, @
 
 
   # Converts the XML fragment to string

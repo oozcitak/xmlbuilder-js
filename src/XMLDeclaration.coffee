@@ -1,4 +1,5 @@
-_ = require 'lodash-node'
+create = require 'lodash.create'
+isObject = require 'lodash.isobject'
 
 XMLNode = require './XMLNode'
 
@@ -17,7 +18,7 @@ module.exports = class XMLDeclaration extends XMLNode
     super parent
 
     # arguments may also be passed as an object
-    if _.isObject version
+    if isObject version
       { version, encoding, standalone } = version
 
     version = '1.0' if not version
@@ -34,7 +35,7 @@ module.exports = class XMLDeclaration extends XMLNode
 
   # Creates and returns a deep clone of `this`
   clone: () ->
-    _.create XMLDeclaration.prototype, @
+    create XMLDeclaration.prototype, @
 
 
   # Converts to string

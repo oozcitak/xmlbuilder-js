@@ -1,5 +1,3 @@
-_ = require 'lodash-node'
-
 XMLStringifier = require './XMLStringifier'
 XMLDeclaration = require './XMLDeclaration'
 XMLDocType = require './XMLDocType'

@@ -1,4 +1,4 @@
-_ = require 'lodash-node'
+create = require 'lodash.create'
 
 # Represents an attribute list
 module.exports = class XMLDTDAttList
@@ -41,7 +41,7 @@ module.exports = class XMLDTDAttList
 
   # Creates and returns a deep clone of `this`
   clone: () ->
-    _.create XMLDTDAttList.prototype, @
+    create XMLDTDAttList.prototype, @
 
 
   # Converts the XML fragment to string

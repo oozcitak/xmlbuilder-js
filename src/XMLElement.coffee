@@ -1,4 +1,7 @@
-_ = require 'lodash-node'
+create = require 'lodash.create'
+isObject = require 'lodash.isobject'
+isArray = require 'lodash.isarray'
+isFunction = require 'lodash.isfunction'
 
 XMLNode = require './XMLNode'
 XMLAttribute = require './XMLAttribute'
@@ -30,7 +33,7 @@ module.exports = class XMLElement extends XMLNode
   # Creates and returns a deep clone of `this`
   #
   clone: () ->
-    clonedSelf = _.create XMLElement.prototype, @
+    clonedSelf = create XMLElement.prototype, @
 
     # clone attributes
     clonedSelf.attributes = {}
@@ -59,11 +62,11 @@ module.exports = class XMLElement extends XMLNode
   attribute: (name, value) ->
     name = name.valueOf() if name?
 
-    if _.isObject name # expand if object
+    if isObject name # expand if object
       for own attName, attValue of name
         @attribute attName, attValue
     else
-      value = value.apply() if _.isFunction value
+      value = value.apply() if isFunction value
       if not @options.skipNullAttributes or value?
         @attributes[name] = new XMLAttribute @, name, value
 
@@ -78,7 +81,7 @@ module.exports = class XMLElement extends XMLNode
       throw new Error "Missing attribute name"
     name = name.valueOf()
 
-    if _.isArray name # expand if array
+    if isArray name # expand if array
       for attName in name
         delete @attributes[attName]
     else
@@ -95,14 +98,14 @@ module.exports = class XMLElement extends XMLNode
     target = target.valueOf() if target?
     value = value.valueOf() if value?
 
-    if _.isArray target # expand if array
+    if isArray target # expand if array
       for insTarget in target
         @instruction insTarget
-    else if _.isObject target # expand if object
+    else if isObject target # expand if object
       for own insTarget, insValue of target
         @instruction insTarget, insValue
     else
-      value = value.apply() if _.isFunction value
+      value = value.apply() if isFunction value
       instruction = new XMLProcessingInstruction @, target, value
       @instructions.push instruction
     return @

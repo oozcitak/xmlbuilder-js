@@ -1,4 +1,4 @@
-_ = require 'lodash-node'
+assign = require 'lodash.assign'
 
 XMLBuilder = require './XMLBuilder'
 
@@ -20,5 +20,5 @@ XMLBuilder = require './XMLBuilder'
 # `options.ignoreDecorators` whether decorator strings will be ignored when converting JS objects: true or false
 # `options.stringify` a set of functions to use for converting values to strings
 module.exports.create = (name, xmldec, doctype, options) ->
-  options = _.extend { }, xmldec, doctype, options
+  options = assign { }, xmldec, doctype, options
   new XMLBuilder(name, options).root()

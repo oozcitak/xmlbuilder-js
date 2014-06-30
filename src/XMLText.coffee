@@ -1,4 +1,4 @@
-_ = require 'lodash-node'
+create = require 'lodash.create'
 
 XMLNode = require './XMLNode'
 
@@ -20,7 +20,7 @@ module.exports = class XMLText extends XMLNode
 
   # Creates and returns a deep clone of `this`
   clone: () ->
-    _.create XMLText.prototype, @
+    create XMLText.prototype, @
 
 
   # Converts the XML fragment to string

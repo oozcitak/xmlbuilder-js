@@ -1,4 +1,5 @@
-_ = require 'lodash-node'
+create = require 'lodash.create'
+isObject = require 'lodash.isobject'
 
 # Represents doctype declaration
 module.exports = class XMLDocType
@@ -17,7 +18,7 @@ module.exports = class XMLDocType
     @children = []
 
     # arguments may also be passed as an object
-    if _.isObject pubID
+    if isObject pubID
       { pubID, sysID } = pubID
 
     if not sysID?
@@ -29,7 +30,7 @@ module.exports = class XMLDocType
 
   # Creates and returns a deep clone of `this`
   clone: () ->
-    _.create XMLDocType.prototype, @
+    create XMLDocType.prototype, @
 
 
   # Creates an element type declaration
