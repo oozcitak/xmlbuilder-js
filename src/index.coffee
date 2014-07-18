@@ -11,8 +11,8 @@ XMLBuilder = require './XMLBuilder'
 # `xmldec.encoding` Encoding declaration, e.g. UTF-8
 # `xmldec.standalone` standalone document declaration: true or false
 #
-# `doctype.pubid` public identifier of the external subset
-# `doctype.sysid` system identifier of the external subset
+# `doctype.pubID` public identifier of the external subset
+# `doctype.sysID` system identifier of the external subset
 #
 # `options.headless` whether XML declaration and doctype will be included: true or false
 # `options.allowSurrogateChars` whether surrogates will be allowed: true or false
