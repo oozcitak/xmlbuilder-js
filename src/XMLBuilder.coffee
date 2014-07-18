@@ -16,8 +16,8 @@ module.exports = class XMLBuilder
   # `options.encoding` Encoding declaration, e.g. UTF-8
   # `options.standalone` standalone document declaration: true or false
   #
-  # `options.pubid` public identifier of the external subset
-  # `options.sysid` system identifier of the external subset
+  # `options.pubID` public identifier of the external subset
+  # `options.sysID` system identifier of the external subset
   #
   # `options.headless` whether XML declaration and doctype will be included: true or false
   # `options.allowSurrogateChars` whether surrogates will be allowed: true or false
