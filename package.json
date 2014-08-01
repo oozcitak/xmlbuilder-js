@@ -26,12 +26,7 @@
     "node": "0.8.x || 0.10.x || 0.11.x"
   },
   "dependencies": {
-    "lodash.assign": "~2.4.1",
-    "lodash.create": "~2.4.1",
-    "lodash.isobject": "~2.4.1",
-    "lodash.isarray": "~2.4.1",
-    "lodash.isfunction": "~2.4.1",
-    "lodash.isempty": "~2.4.1"
+    "lodash": "~2.4.1",
   },
   "devDependencies": {
     "coffee-script": "~1.6.3",

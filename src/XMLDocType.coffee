@@ -1,5 +1,5 @@
-create = require 'lodash.create'
-isObject = require 'lodash.isobject'
+create = require('lodash').create
+isObject = require('lodash').isobject
 
 # Represents doctype declaration
 module.exports = class XMLDocType

@@ -1,4 +1,4 @@
-create = require 'lodash.create'
+create = require('lodash').create
 
 # Represents an attribute list
 module.exports = class XMLDTDAttList
