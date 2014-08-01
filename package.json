@@ -26,7 +26,7 @@
     "node": "0.8.x || 0.10.x || 0.11.x"
   },
   "dependencies": {
-    "lodash": "~2.4.1",
+    "lodash": "~2.4.1"
   },
   "devDependencies": {
     "coffee-script": "~1.6.3",
@@ -34,7 +34,7 @@
     "memwatch": "*"
   },
   "scripts": {
-    "prepublish": "coffee -co lib/ src/*.coffee",
+    "prepublish": "coffee -co lib src",
     "postpublish": "rm -rf lib",
     "test": "vows test/*"
   }
