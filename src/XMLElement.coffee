@@ -1,7 +1,7 @@
-create = require 'lodash.create'
-isObject = require 'lodash.isobject'
-isArray = require 'lodash.isarray'
-isFunction = require 'lodash.isfunction'
+create = require('lodash').create
+isObject = require('lodash').isobject
+isArray = require('lodash').isarray
+isFunction = require('lodash').isfunction
 
 XMLNode = require './XMLNode'
 XMLAttribute = require './XMLAttribute'

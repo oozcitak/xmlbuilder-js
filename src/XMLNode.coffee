@@ -1,7 +1,7 @@
-isObject = require 'lodash.isobject'
-isArray = require 'lodash.isarray'
-isFunction = require 'lodash.isfunction'
-isEmpty = require 'lodash.isempty'
+isObject = require('lodash').isobject
+isArray = require('lodash').isarray
+isFunction = require('lodash').isfunction
+isEmpty = require('lodash').isempty
 
 # Represents a generic XMl element
 module.exports = class XMLNode

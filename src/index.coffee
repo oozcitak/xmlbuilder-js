@@ -1,4 +1,4 @@
-assign = require 'lodash.assign'
+assign = require('lodash').assign
 
 XMLBuilder = require './XMLBuilder'
 

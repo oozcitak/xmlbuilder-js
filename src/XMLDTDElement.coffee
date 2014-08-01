@@ -1,5 +1,5 @@
-create = require 'lodash.create'
-isArray = require 'lodash.isarray'
+create = require('lodash').create
+isArray = require('lodash').isarray
 
 # Represents an attribute
 module.exports = class XMLDTDElement

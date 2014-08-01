@@ -1,5 +1,5 @@
-create = require 'lodash.create'
-isObject = require 'lodash.isobject'
+create = require('lodash').create
+isObject = require('lodash').isobject
 
 # Represents an entity declaration in the DTD
 module.exports = class XMLDTDEntity

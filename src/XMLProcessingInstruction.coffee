@@ -1,4 +1,4 @@
-create = require 'lodash.create'
+create = require('lodash').create
 
 # Represents a processing instruction
 module.exports = class XMLProcessingInstruction
