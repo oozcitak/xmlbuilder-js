@@ -1,5 +1,5 @@
-create = require 'lodash.create'
-isArray = require 'lodash.isarray'
+create = require 'lodash-node/modern/objects/create'
+isArray = require 'lodash-node/modern/objects/isArray'
 
 # Represents an attribute
 module.exports = class XMLDTDElement

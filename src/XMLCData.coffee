@@ -1,4 +1,4 @@
-create = require 'lodash.create'
+create = require 'lodash-node/modern/objects/create'
 
 XMLNode = require './XMLNode'
 
