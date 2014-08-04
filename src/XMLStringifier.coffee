@@ -17,7 +17,7 @@ module.exports = class XMLStringifier
     @assertLegalChar val
   eleText: (val) ->
     val = '' + val or ''
-    @assertLegalChar @escape val
+    @assertLegalChar @elEscape val
   cdata: (val) ->
     val = '' + val or ''
     if val.match /]]>/
@@ -27,14 +27,14 @@ module.exports = class XMLStringifier
     val = '' + val or ''
     if val.match /--/
       throw new Error "Comment text cannot contain double-hypen: " + val
-    @assertLegalChar @escape val
+    @assertLegalChar val
   raw: (val) ->
     '' + val or ''
   attName: (val) ->
     '' + val or ''
   attValue: (val) ->
     val = '' + val or ''
-    @escape val
+    @attEscape val
   insTarget: (val) ->
     '' + val or ''
   insValue: (val) ->
@@ -95,10 +95,26 @@ module.exports = class XMLStringifier
     str
 
 
-  # Escapes special characters <, >, ', ", &
+  # Escapes special characters in element values
+  #
+  # See http://www.w3.org/TR/2000/WD-xml-c14n-20000119.html#charescaping
   #
   # `str` the string to escape
-  escape: (str) ->
+  elEscape: (str) ->
     str.replace(/&/g, '&amp;')
-       .replace(/</g,'&lt;').replace(/>/g,'&gt;')
-       .replace(/'/g, '&apos;').replace(/"/g, '&quot;')
+       .replace(/</g, '&lt;')
+       .replace(/>/g, '&gt;')
+       .replace(/\r/g, '&#xD;')
+
+  # Escapes special characters in attribute values
+  #
+  # See http://www.w3.org/TR/2000/WD-xml-c14n-20000119.html#charescaping
+  #
+  # `str` the string to escape
+  attEscape: (str) ->
+    str.replace(/&/g, '&amp;')
+       .replace(/</g, '&lt;')
+       .replace(/"/g, '&quot;')
+       .replace(/\t/g, '&#x9;')
+       .replace(/\n/g, '&#xA;')
+       .replace(/\r/g, '&#xD;')

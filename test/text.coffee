@@ -12,7 +12,7 @@ vows
                     .ele('node', '"')
 
             'resulting XML': (topic) ->
-                xml = '<test8><node>&quot;</node></test8>'
+                xml = '<test8><node>"</node></test8>'
                 assert.strictEqual topic.doc().toString(), xml
 
         'Text node with empty string':

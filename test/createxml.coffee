@@ -18,8 +18,8 @@ vows
                         .up()
                     .up()
                     .ele('test')
-                        .att('escaped', 'chars <>\'"&')
-                        .txt('complete 100%')
+                        .att('escaped', 'chars <>\'"&\t\n\r')
+                        .txt('complete 100%<>\'"&\t\n\r')
                     .up()
                     .ele('cdata')
                         .cdata('<test att="val">this is a test</test>\nSecond line')
@@ -38,7 +38,7 @@ vows
                               '<!-- CoffeeScript is awesome. -->' +
                               '<repo type="git">git://github.com/oozcitak/xmlbuilder-js.git</repo>' +
                           '</xmlbuilder>' +
-                          '<test escaped="chars &lt;&gt;&apos;&quot;&amp;">complete 100%</test>' +
+                          '<test escaped="chars &lt;>\'&quot;&amp;&#x9;&#xA;&#xD;">complete 100%&lt;&gt;\'"&amp;\t\n&#xD;</test>' +
                           '<cdata><![CDATA[<test att="val">this is a test</test>\nSecond line]]></cdata>' +
                           '<raw>&<>&</raw>' +
                           '<atttest att="val">text</atttest>' +
@@ -54,7 +54,7 @@ vows
                         .nod('repo', {'type': 'git'}, 'git://github.com/oozcitak/xmlbuilder-js.git')
                         .up()
                     .up()
-                    .ele('test', {'escaped': 'chars <>\'"&'}, 'complete 100%')
+                    .ele('test', {'escaped': 'chars <>\'"&\t\n\r'}, 'complete 100%<>\'"&\t\n\r')
                     .up()
                     .ele('cdata')
                         .cdata('<test att="val">this is a test</test>\nSecond line')
@@ -74,7 +74,7 @@ vows
                               '<!-- CoffeeScript is awesome. -->' +
                               '<repo type="git">git://github.com/oozcitak/xmlbuilder-js.git</repo>' +
                           '</xmlbuilder>' +
-                          '<test escaped="chars &lt;&gt;&apos;&quot;&amp;">complete 100%</test>' +
+                          '<test escaped="chars &lt;>\'&quot;&amp;&#x9;&#xA;&#xD;">complete 100%&lt;&gt;\'"&amp;\t\n&#xD;</test>' +
                           '<cdata><![CDATA[<test att="val">this is a test</test>\nSecond line]]></cdata>' +
                           '<raw>&<>&</raw>' +
                           '<atttest att="val">text</atttest>' +
@@ -90,7 +90,7 @@ vows
                         .nod('repo', {'type': 'git'}, 'git://github.com/oozcitak/xmlbuilder-js.git')
                         .up()
                     .up()
-                    .ele('test', {'escaped': 'chars <>\'"&'}, 'complete 100%')
+                    .ele('test', {'escaped': 'chars <>\'"&\t\n\r'}, 'complete 100%<>\'"&\t\n\r')
                     .up()
                     .ele('cdata')
                         .cdata('<test att="val">this is a test</test>\nSecond line')
@@ -111,7 +111,7 @@ vows
                               <!-- CoffeeScript is awesome. -->
                               <repo type="git">git://github.com/oozcitak/xmlbuilder-js.git</repo>
                           </xmlbuilder>
-                          <test escaped="chars &lt;&gt;&apos;&quot;&amp;">complete 100%</test>
+                          <test escaped="chars &lt;>\'&quot;&amp;&#x9;&#xA;&#xD;">complete 100%&lt;&gt;\'"&amp;\t\n&#xD;</test>
                           <cdata>
                               <![CDATA[<test att="val">this is a test</test>
                       Second line]]>
@@ -131,7 +131,7 @@ vows
                         .n('repo', {'type': 'git'}, 'git://github.com/oozcitak/xmlbuilder-js.git')
                         .u()
                     .u()
-                    .e('test', {'escaped': 'chars <>\'"&'}, 'complete 100%')
+                    .e('test', {'escaped': 'chars <>\'"&\t\n\r'}, 'complete 100%<>\'"&\t\n\r')
                     .u()
                     .e('cdata')
                         .d('<test att="val">this is a test</test>\nSecond line')
@@ -150,7 +150,7 @@ vows
                               '<!-- CoffeeScript is awesome. -->' +
                               '<repo type="git">git://github.com/oozcitak/xmlbuilder-js.git</repo>' +
                           '</xmlbuilder>' +
-                          '<test escaped="chars &lt;&gt;&apos;&quot;&amp;">complete 100%</test>' +
+                          '<test escaped="chars &lt;>\'&quot;&amp;&#x9;&#xA;&#xD;">complete 100%&lt;&gt;\'"&amp;\t\n&#xD;</test>' +
                           '<cdata><![CDATA[<test att="val">this is a test</test>\nSecond line]]></cdata>' +
                           '<raw>&<>&</raw>' +
                           '<atttest att="val">text</atttest>' +
