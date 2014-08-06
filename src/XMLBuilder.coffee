@@ -53,7 +53,7 @@ module.exports = class XMLBuilder
 
   # Ends the document and converts string
   end: (options) ->
-    toString(options)
+    @toString(options)
 
 
   # Converts the XML document to string
