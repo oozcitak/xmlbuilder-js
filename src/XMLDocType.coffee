@@ -148,8 +148,8 @@ module.exports = class XMLDocType
   # `options.newline` newline sequence for pretty print
   toString: (options, level) ->
     pretty = options?.pretty or false
-    indent = options?.indent or '  '
-    newline = options?.newline or '\n'
+    indent = options?.indent ? '  '
+    newline = options?.newline ? '\n'
     level or= 0
 
     space = new Array(level + 1).join(indent)

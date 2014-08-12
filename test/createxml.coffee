@@ -123,6 +123,47 @@ vows
                       """
                 assert.strictEqual topic.end({ pretty: true, indent: '    ' }), xml
 
+        'Pretty printing with empty indent':
+            topic: () ->
+                xmlbuilder.create('root')
+                    .ele('xmlbuilder', {'for': 'node-js' })
+                        .com('CoffeeScript is awesome.')
+                        .nod('repo', {'type': 'git'}, 'git://github.com/oozcitak/xmlbuilder-js.git')
+                        .up()
+                    .up()
+                    .ele('test', {'escaped': 'chars <>\'"&\t\n\r'}, 'complete 100%<>\'"&\t\n\r')
+                    .up()
+                    .ele('cdata')
+                        .cdata('<test att="val">this is a test</test>\nSecond line')
+                    .up()
+                    .ele('raw')
+                        .raw('&<>&')
+                        .up()
+                    .ele('atttest', { 'att': 'val' }, 'text')
+                        .up()
+                    .ele('atttest', 'text')
+                        .att('att', () -> 'val')
+
+            'resulting XML': (topic) ->
+                xml = """
+                      <?xml version="1.0"?>
+                      <root>
+                      <xmlbuilder for="node-js">
+                      <!-- CoffeeScript is awesome. -->
+                      <repo type="git">git://github.com/oozcitak/xmlbuilder-js.git</repo>
+                      </xmlbuilder>
+                      <test escaped="chars &lt;>\'&quot;&amp;&#x9;&#xA;&#xD;">complete 100%&lt;&gt;\'"&amp;\t\n&#xD;</test>
+                      <cdata>
+                      <![CDATA[<test att="val">this is a test</test>
+                      Second line]]>
+                      </cdata>
+                      <raw>&<>&</raw>
+                      <atttest att="val">text</atttest>
+                      <atttest att="val">text</atttest>
+                      </root>
+                      """
+                assert.strictEqual topic.end({ pretty: true, indent: '' }), xml
+
         'Short form with attributes':
             topic: () ->
                 xmlbuilder.create('root')

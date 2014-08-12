@@ -63,8 +63,8 @@ module.exports = class XMLBuilder
   # `options.newline` newline sequence for pretty print
   toString: (options) ->
     pretty = options?.pretty or false
-    indent = options?.indent or '  '
-    newline = options?.newline or '\n'
+    indent = options?.indent ? '  '
+    newline = options?.newline ? '\n'
 
     r = ''
     r += @xmldec.toString options if @xmldec?
