@@ -8,6 +8,7 @@
   "homepage": "http://github.com/oozcitak/xmlbuilder-js",
   "description": "An XML builder for node.js",
   "author": "Ozgur Ozcitak <oozcitak@gmail.com>",
+  "contributors" : [],
   "license": "MIT",
   "repository": {
     "type": "git",
