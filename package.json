@@ -30,8 +30,7 @@
   },
   "devDependencies": {
     "coffee-script": "~1.6.3",
-    "vows": "*",
-    "memwatch": "*"
+    "vows": "*"
   },
   "scripts": {
     "prepublish": "coffee -co lib/ src/*.coffee",
