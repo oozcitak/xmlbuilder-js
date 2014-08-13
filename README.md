@@ -3,9 +3,9 @@
 An XML builder for [node.js](http://nodejs.org/) similar to 
 [java-xmlbuilder](https://github.com/jmurty/java-xmlbuilder).
 
-[![NPM version](https://badge.fury.io/js/xmlbuilder.png)](http://badge.fury.io/js/xmlbuilder)
-[![Build Status](https://secure.travis-ci.org/oozcitak/xmlbuilder-js.png)](http://travis-ci.org/oozcitak/xmlbuilder-js)
-[![Dependency Status](https://david-dm.org/oozcitak/xmlbuilder-js.png)](https://david-dm.org/oozcitak/xmlbuilder-js)
+[![NPM version](http://img.shields.io/npm/v/xmlbuilder.svg)](https://npmjs.org/package/xmlbuilder)
+[![Build Status](http://img.shields.io/travis/oozcitak/xmlbuilder-js.svg)](http://travis-ci.org/oozcitak/xmlbuilder-js)
+[![Dependency Status](http://img.shields.io/david/oozcitak/xmlbuilder-js.png)](https://david-dm.org/oozcitak/xmlbuilder-js)
 
 ### Installation:
 
