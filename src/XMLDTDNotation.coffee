@@ -37,10 +37,11 @@ module.exports = class XMLDTDNotation
   toString: (options, level) ->
     pretty = options?.pretty or false
     indent = options?.indent ? '  '
+    offset = options?.offset ? 0
     newline = options?.newline ? '\n'
     level or= 0
 
-    space = new Array(level + 1).join(indent)
+    space = new Array(level + offset + 1).join(indent)
 
     r = ''
 

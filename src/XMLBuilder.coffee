@@ -64,6 +64,7 @@ module.exports = class XMLBuilder
   toString: (options) ->
     pretty = options?.pretty or false
     indent = options?.indent ? '  '
+    offset = options?.offset ? 0
     newline = options?.newline ? '\n'
 
     r = ''
