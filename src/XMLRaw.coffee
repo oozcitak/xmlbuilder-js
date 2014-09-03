@@ -27,6 +27,7 @@ module.exports = class XMLRaw extends XMLNode
   #
   # `options.pretty` pretty prints the result
   # `options.indent` indentation for pretty print
+  # `options.offset` how many indentations to add to every line for pretty print
   # `options.newline` newline sequence for pretty print
   toString: (options, level) ->
     pretty = options?.pretty or false
