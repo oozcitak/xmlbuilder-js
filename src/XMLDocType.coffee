@@ -1,6 +1,14 @@
 create = require 'lodash-node/modern/objects/create'
 isObject = require 'lodash-node/modern/objects/isObject'
 
+XMLCData = require './XMLCData'
+XMLComment = require './XMLComment'
+XMLDTDAttList = require './XMLDTDAttList'
+XMLDTDEntity = require './XMLDTDEntity'
+XMLDTDElement = require './XMLDTDElement'
+XMLDTDNotation = require './XMLDTDNotation'
+XMLProcessingInstruction = require './XMLProcessingInstruction'
+
 # Represents doctype declaration
 module.exports = class XMLDocType
 
@@ -38,7 +46,6 @@ module.exports = class XMLDocType
   # `name` element name
   # `value` element content (defaults to #PCDATA)
   element: (name, value) ->
-    XMLDTDElement = require './XMLDTDElement'
     child = new XMLDTDElement @, name, value
     @children.push child
     return @
@@ -54,7 +61,6 @@ module.exports = class XMLDocType
   # `defaultValue` default value of the attribute
   #                (only used for #FIXED or #DEFAULT)
   attList: (elementName, attributeName, attributeType, defaultValueType, defaultValue) ->
-    XMLDTDAttList = require './XMLDTDAttList'
     child = new XMLDTDAttList @, elementName, attributeName, attributeType, defaultValueType, defaultValue
     @children.push child
     return @
@@ -68,7 +74,6 @@ module.exports = class XMLDocType
   # `value.sysID` system identifier
   # `value.nData` notation declaration
   entity: (name, value) ->
-    XMLDTDEntity = require './XMLDTDEntity'
     child = new XMLDTDEntity @, false, name, value
     @children.push child
     return @
@@ -81,7 +86,6 @@ module.exports = class XMLDocType
   # `value.pubID` public identifier
   # `value.sysID` system identifier
   pEntity: (name, value) ->
-    XMLDTDEntity = require './XMLDTDEntity'
     child = new XMLDTDEntity @, true, name, value
     @children.push child
     return @
@@ -94,7 +98,6 @@ module.exports = class XMLDocType
   # `value.pubID` public identifier
   # `value.sysID` system identifier
   notation: (name, value) ->
-    XMLDTDNotation = require './XMLDTDNotation'
     child = new XMLDTDNotation @, name, value
     @children.push child
     return @
@@ -104,7 +107,6 @@ module.exports = class XMLDocType
   #
   # `value` element text without CDATA delimiters
   cdata: (value) ->
-    XMLCData = require './XMLCData'
     child = new XMLCData @, value
     @children.push child
     return @
@@ -114,7 +116,6 @@ module.exports = class XMLDocType
   #
   # `value` comment text
   comment: (value) ->
-    XMLComment = require './XMLComment'
     child = new XMLComment @, value
     @children.push child
     return @
@@ -125,7 +126,6 @@ module.exports = class XMLDocType
   # `target` instruction target
   # `value` instruction value
   instruction: (target, value) ->
-    XMLProcessingInstruction = require './XMLProcessingInstruction'
     child = new XMLProcessingInstruction @, target, value
     @children.push child
     return @

@@ -3,6 +3,14 @@ isArray = require 'lodash-node/modern/objects/isArray'
 isFunction = require 'lodash-node/modern/objects/isFunction'
 isEmpty = require 'lodash-node/modern/objects/isEmpty'
 
+XMLElement = null
+XMLCData = null
+XMLComment = null
+XMLDeclaration = null
+XMLDocType = null
+XMLRaw = null
+XMLText = null
+
 # Represents a generic XMl element
 module.exports = class XMLNode
 
@@ -13,6 +21,17 @@ module.exports = class XMLNode
   constructor: (@parent) ->
     @options = @parent.options
     @stringify = @parent.stringify
+
+    # first execution, load dependencies that are otherwise
+    # circular (so we can't load them at the top)
+    if XMLElement is null
+      XMLElement = require './XMLElement'
+      XMLCData = require './XMLCData'
+      XMLComment = require './XMLComment'
+      XMLDeclaration = require './XMLDeclaration'
+      XMLDocType = require './XMLDocType'
+      XMLRaw = require './XMLRaw'
+      XMLText = require './XMLText'
 
 
   # Creates and returns a deep clone of `this`
@@ -167,7 +186,6 @@ module.exports = class XMLNode
     if not isObject attributes
       [text, attributes] = [attributes, text]
 
-    XMLElement = require './XMLElement'
     child = new XMLElement @, name, attributes
     child.text(text) if text?
     @children.push child
@@ -178,7 +196,6 @@ module.exports = class XMLNode
   #
   # `value` element text
   text: (value) ->
-    XMLText = require './XMLText'
     child = new XMLText @, value
     @children.push child
     return @
@@ -188,7 +205,6 @@ module.exports = class XMLNode
   #
   # `value` element text without CDATA delimiters
   cdata: (value) ->
-    XMLCData = require './XMLCData'
     child = new XMLCData @, value
     @children.push child
     return @
@@ -198,7 +214,6 @@ module.exports = class XMLNode
   #
   # `value` comment text
   comment: (value) ->
-    XMLComment = require './XMLComment'
     child = new XMLComment @, value
     @children.push child
     return @
@@ -208,7 +223,6 @@ module.exports = class XMLNode
   #
   # `value` text
   raw: (value) ->
-    XMLRaw = require './XMLRaw'
     child = new XMLRaw @, value
     @children.push child
     return @
@@ -221,7 +235,6 @@ module.exports = class XMLNode
   # `standalone` standalone document declaration: true or false
   declaration: (version, encoding, standalone) ->
     doc = @document()
-    XMLDeclaration = require './XMLDeclaration'
     xmldec = new XMLDeclaration doc, version, encoding, standalone
     doc.xmldec = xmldec
     return doc.root()
@@ -233,7 +246,6 @@ module.exports = class XMLNode
   # `sysID` the system identifier of the external subset
   doctype: (pubID, sysID) ->
     doc = @document()
-    XMLDocType = require './XMLDocType'
     doctype = new XMLDocType doc, pubID, sysID
     doc.doctype = doctype
     return doctype
