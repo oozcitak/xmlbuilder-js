@@ -29,7 +29,7 @@
     "vows": "*"
   },
   "scripts": {
-    "prepublish": "coffee -co lib/ src/*.coffee",
+    "prepublish": "coffee -co lib src",
     "postpublish": "rm -rf lib",
     "test": "vows test/*"
   }
