@@ -50,7 +50,7 @@ module.exports = class XMLStringifier
   xmlEncoding: (val) ->
     val = '' + val or ''
     if not val.match /[A-Za-z](?:[A-Za-z0-9._-]|-)*/
-      throw new Error "Invalid encoding: " + options.val
+      throw new Error "Invalid encoding: " + val
     val
   xmlStandalone: (val) ->
     if val then "yes" else "no"
