@@ -61,6 +61,26 @@ vows
                 assert.throws ->
                     root.ele('node').att("first")
 
+        'Throw if null attribute name (att)':
+            topic: () ->
+                xmlbuilder.create('test4', { headless: true })
+
+            'resulting XML': (root) ->
+                assert.throws(
+                    () -> root.ele('node').att(null, "first")
+                    (err) -> err.message == "Missing attribute name of element node"
+                )
+
+        'Throw if null attribute value (att)':
+            topic: () ->
+                xmlbuilder.create('test4', { headless: true })
+
+            'resulting XML': (root) ->
+                assert.throws(
+                    () -> root.ele('node').att("first", null)
+                    (err) -> err.message == "Missing attribute value for attribute first of element node"
+                )
+
         'Throw if null attribute (JSON)':
             topic: () ->
                 xmlbuilder.create('test4', { headless: true })

@@ -13,9 +13,9 @@ module.exports = class XMLAttribute
     @stringify = parent.stringify
 
     if not name?
-      throw new Error "Missing attribute name"
+      throw new Error "Missing attribute name of element " + parent.name
     if not value?
-      throw new Error "Missing attribute value"
+      throw new Error "Missing attribute value for attribute " + name + " of element " + parent.name
 
     @name = @stringify.attName name
     @value = @stringify.attValue value
