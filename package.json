@@ -19,7 +19,7 @@
   },
   "main": "./lib/index",
   "engines": {
-    "node": "0.8.x || 0.10.x || 0.11.x"
+    "node": "0.8.x || 0.10.x || 0.11.x  || 1.0.x"
   },
   "dependencies": {
     "lodash-node": "~2.4.1"
