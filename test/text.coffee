@@ -21,7 +21,7 @@ vows
                     .text('')
 
             'resulting XML': (topic) ->
-                xml = '<test9></test9>'
+                xml = '<test9/>'
                 assert.strictEqual topic.doc().toString(), xml
 
         'Text node with empty string (pretty print)':
@@ -30,7 +30,7 @@ vows
                     .text('')
 
             'resulting XML': (topic) ->
-                xml = '<test10></test10>'
+                xml = '<test10/>'
                 assert.strictEqual topic.doc().toString({ pretty: true }), xml
 
     .export(module)

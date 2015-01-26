@@ -2,6 +2,7 @@ create = require 'lodash-node/modern/objects/create'
 isObject = require 'lodash-node/modern/objects/isObject'
 isArray = require 'lodash-node/modern/objects/isArray'
 isFunction = require 'lodash-node/modern/objects/isFunction'
+every = require 'lodash-node/modern/collections/every'
 
 XMLNode = require './XMLNode'
 XMLAttribute = require './XMLAttribute'
@@ -140,7 +141,7 @@ module.exports = class XMLElement extends XMLNode
     for own name, att of @attributes
       r += att.toString options
 
-    if @children.length == 0
+    if @children.length == 0 or every(@children, (e) -> e.value == '')
       # empty element
       r += '/>'
       r += newline if pretty
