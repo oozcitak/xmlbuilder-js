@@ -1,4 +1,4 @@
-create = require 'lodash-node/modern/objects/create'
+create = require 'lodash/object/create'
 
 # Represents an attribute list
 module.exports = class XMLDTDAttList

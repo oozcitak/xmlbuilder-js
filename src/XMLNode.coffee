@@ -1,7 +1,7 @@
-isObject = require 'lodash-node/modern/objects/isObject'
-isArray = require 'lodash-node/modern/objects/isArray'
-isFunction = require 'lodash-node/modern/objects/isFunction'
-isEmpty = require 'lodash-node/modern/objects/isEmpty'
+isObject = require 'lodash/lang/isObject'
+isArray = require 'lodash/lang/isArray'
+isFunction = require 'lodash/lang/isFunction'
+isEmpty = require 'lodash/lang/isEmpty'
 
 XMLElement = null
 XMLCData = null

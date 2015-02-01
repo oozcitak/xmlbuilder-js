@@ -1,8 +1,8 @@
-create = require 'lodash-node/modern/objects/create'
-isObject = require 'lodash-node/modern/objects/isObject'
-isArray = require 'lodash-node/modern/objects/isArray'
-isFunction = require 'lodash-node/modern/objects/isFunction'
-every = require 'lodash-node/modern/collections/every'
+create = require 'lodash/object/create'
+isObject = require 'lodash/lang/isObject'
+isArray = require 'lodash/lang/isArray'
+isFunction = require 'lodash/lang/isFunction'
+every = require 'lodash/collection/every'
 
 XMLNode = require './XMLNode'
 XMLAttribute = require './XMLAttribute'
