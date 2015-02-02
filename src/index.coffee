@@ -1,4 +1,4 @@
-assign = require 'lodash-node/modern/objects/assign'
+assign = require 'lodash/object/assign'
 
 XMLBuilder = require './XMLBuilder'
 

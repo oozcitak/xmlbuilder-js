@@ -1,4 +1,4 @@
-create = require 'lodash-node/modern/objects/create'
+create = require 'lodash/object/create'
 
 XMLNode = require './XMLNode'
 
@@ -14,7 +14,7 @@ module.exports = class XMLText extends XMLNode
 
     if not text?
       throw new Error "Missing element text"
-          
+
     @value = @stringify.eleText text
 
 

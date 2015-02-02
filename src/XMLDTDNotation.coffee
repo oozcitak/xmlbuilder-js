@@ -1,4 +1,4 @@
-create = require 'lodash-node/modern/objects/create'
+create = require 'lodash/object/create'
 
 # Represents a NOTATION entry in the DTD
 module.exports = class XMLDTDNotation
