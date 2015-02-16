@@ -22,7 +22,7 @@
     "node": ">=0.8.0"
   },
   "dependencies": {
-    "lodash": "~3.1.0"
+    "lodash": "~3.2.0"
   },
   "devDependencies": {
     "coffee-script": "~1.6.3",
