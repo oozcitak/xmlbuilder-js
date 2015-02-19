@@ -9,7 +9,7 @@ module.exports = class XMLText extends XMLNode
   # Initializes a new instance of `XMLText`
   #
   # `text` element text
-  constructor: (@parent, text) ->
+  constructor: (parent, text) ->
     super parent
 
     if not text?
