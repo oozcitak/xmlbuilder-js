@@ -3,10 +3,11 @@
 An XML builder for [node.js](http://nodejs.org/) similar to 
 [java-xmlbuilder](https://github.com/jmurty/java-xmlbuilder).
 
-[![NPM version](http://img.shields.io/npm/v/xmlbuilder.svg?style=flat-square)](https://npmjs.com/package/xmlbuilder)
+[![NPM Version](http://img.shields.io/npm/v/xmlbuilder.svg?style=flat-square)](https://npmjs.com/package/xmlbuilder)
 [![License](http://img.shields.io/npm/l/xmlbuilder.svg?style=flat-square)](http://opensource.org/licenses/MIT)
 [![Build Status](http://img.shields.io/travis/oozcitak/xmlbuilder-js.svg?style=flat-square)](http://travis-ci.org/oozcitak/xmlbuilder-js)
 [![Dependency Status](http://img.shields.io/david/oozcitak/xmlbuilder-js.svg?style=flat-square)](https://david-dm.org/oozcitak/xmlbuilder-js)
+[![Dev Dependency Status](http://img.shields.io/david/dev/oozcitak/xmlbuilder-js.svg?style=flat-square)](https://david-dm.org/oozcitak/xmlbuilder-js)
 
 ### Installation:
 
