@@ -8,11 +8,11 @@ XMLNode = require './XMLNode'
 XMLAttribute = require './XMLAttribute'
 XMLProcessingInstruction = require './XMLProcessingInstruction'
 
-# Represents an element of the XMl document
+# Represents an element of the XML document
 module.exports = class XMLElement extends XMLNode
 
 
-  # Initializes a new instance of `XMLFragment`
+  # Initializes a new instance of `XMLElement`
   #
   # `parent` the parent node
   # `name` element name
