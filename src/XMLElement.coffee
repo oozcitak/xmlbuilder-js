@@ -36,6 +36,10 @@ module.exports = class XMLElement extends XMLNode
   clone: () ->
     clonedSelf = create XMLElement.prototype, @
 
+    # remove document element
+    if clonedSelf.isRoot
+      clonedSelf.documentObject = null
+
     # clone attributes
     clonedSelf.attributes = {}
     for own attName, att of @attributes
