@@ -26,11 +26,11 @@
   },
   "devDependencies": {
     "coffee-script": "*",
-    "vows": "*"
+    "mocha": "*"
   },
   "scripts": {
     "prepublish": "coffee -co lib src",
     "postpublish": "rm -rf lib",
-    "test": "vows test/*"
+    "test": "mocha --ui tdd --reporter dot --compilers coffee:coffee-script/register --require test/common/common"
   }
 }

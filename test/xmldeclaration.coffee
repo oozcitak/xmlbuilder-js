@@ -1,42 +1,25 @@
-vows = require 'vows'
-assert = require 'assert'
+suite 'XML Declaration:', ->
+  test 'From create() without arguments', ->
+    eq(
+      xml('test').end()
+      '<?xml version="1.0"?><test/>'
+    )
 
-xmlbuilder = require '../src/index.coffee'
+  test 'From create() with arguments', ->
+    eq(
+      xml('test', { version: '1.1', encoding: 'UTF-8', standalone: true }).end()
+      '<?xml version="1.1" encoding="UTF-8" standalone="yes"?><test/>'
+    )
+    
+  test 'From dec() without arguments', ->
+    eq(
+      xml('test', { headless: true }).dec().ele('node').end()
+      '<?xml version="1.0"?><test><node/></test>'
+    )
 
-vows
-    .describe('XML Declaration')
-    .addBatch
-        'From create() without arguments':
-            topic: () ->
-                xmlbuilder.create('test')
-
-            'resulting XML': (topic) ->
-                xml = '<?xml version="1.0"?><test/>'
-                assert.strictEqual topic.end(), xml
-
-        'From create() with arguments':
-            topic: () ->
-                xmlbuilder.create('test', { version: '1.1', encoding: 'UTF-8', standalone: true })
-
-            'resulting XML': (topic) ->
-                xml = '<?xml version="1.1" encoding="UTF-8" standalone="yes"?><test/>'
-                assert.strictEqual topic.end(), xml
-
-        'From dec() without arguments':
-            topic: () ->
-                xmlbuilder.create('test', { headless: true }).dec().ele('node')
-
-            'resulting XML': (topic) ->
-                xml = '<?xml version="1.0"?><test><node/></test>'
-                assert.strictEqual topic.end(), xml
-
-        'From dec() with arguments':
-            topic: () ->
-                xmlbuilder.create('test').dec({ version: '1.1', encoding: 'UTF-8', standalone: true }).ele('node')
-
-            'resulting XML': (topic) ->
-                xml = '<?xml version="1.1" encoding="UTF-8" standalone="yes"?><test><node/></test>'
-                assert.strictEqual topic.end(), xml
-
-    .export(module)
+  test 'From dec() with arguments', ->
+    eq(
+      xml('test').dec({ version: '1.1', encoding: 'UTF-8', standalone: true }).ele('node').end()
+      '<?xml version="1.1" encoding="UTF-8" standalone="yes"?><test><node/></test>'
+    )
 

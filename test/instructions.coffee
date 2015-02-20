@@ -1,48 +1,28 @@
-vows = require 'vows'
-assert = require 'assert'
+suite 'Processing Instructions:', ->
+  test 'Simple', ->
+    eq(
+      xml('test17', { headless: true }).ins('pi', 'mypi').end()
+      '<?pi mypi?><test17/>'
+    )
 
-xmlbuilder = require '../src/index.coffee'
+  test 'From object', ->
+    eq(
+      xml('test17', { headless: true }).ins({'pi': 'mypi', 'pi2': 'mypi2', 'pi3': null}).end()
+      '<?pi mypi?><?pi2 mypi2?><?pi3?><test17/>'
+    )
 
-vows
-    .describe('Processing Instructions')
-    .addBatch
-        'Simple':
-            topic: () ->
-                xmlbuilder.create('test17', { headless: true })
-                    .ins('pi', 'mypi')
+  test 'From array', ->
+    eq(
+      xml('test17', { headless: true }).ins(['pi', 'pi2']).end()
+      '<?pi?><?pi2?><test17/>'
+    )
 
-            'resulting XML': (doc) ->
-                xml = '<?pi mypi?><test17/>'
-                assert.strictEqual doc.end(), xml
-
-        'From object':
-            topic: () ->
-                xmlbuilder.create('test17', { headless: true })
-                    .ins({'pi': 'mypi', 'pi2': 'mypi2', 'pi3': null})
-
-            'resulting XML': (doc) ->
-                xml = '<?pi mypi?><?pi2 mypi2?><?pi3?><test17/>'
-                assert.strictEqual doc.end(), xml
-
-        'From array':
-            topic: () ->
-                xmlbuilder.create('test17', { headless: true })
-                    .ins(['pi', 'pi2'])
-
-            'resulting XML': (doc) ->
-                xml = '<?pi?><?pi2?><test17/>'
-                assert.strictEqual doc.end(), xml
-
-        'Complex':
-            topic: () ->
-                xmlbuilder.create('test18', { headless: true })
-                    .ins('renderCache.subset', '"Verdana" 0 0 ISO-8859-1 4 268 67 "#(),-./')
-                    .ins('pitarget', () -> 'pivalue')
-
-            'resulting XML': (doc) ->
-                xml = '<?renderCache.subset "Verdana" 0 0 ISO-8859-1 4 268 67 "#(),-./?><?pitarget pivalue?><test18/>'
-                assert.strictEqual doc.end(), xml
-
-
-    .export(module)
+  test 'Complex', ->
+    eq(
+      xml('test18', { headless: true })
+        .ins('renderCache.subset', '"Verdana" 0 0 ISO-8859-1 4 268 67 "#(),-./')
+        .ins('pitarget', () -> 'pivalue')
+        .end()
+      '<?renderCache.subset "Verdana" 0 0 ISO-8859-1 4 268 67 "#(),-./?><?pitarget pivalue?><test18/>'
+    )
 

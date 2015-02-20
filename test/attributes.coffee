@@ -1,120 +1,87 @@
-vows = require 'vows'
-assert = require 'assert'
+suite 'Attributes:', ->
+  test 'Add attribute (single with object argument)', ->
+    eq(
+      xml('test4', { headless: true })
+        .ele('node', 'element', {"first":"1", "second":"2"})
+          .att("third", "3")
+        .end()
+      '<test4><node first="1" second="2" third="3">element</node></test4>'
+    )
 
-xmlbuilder = require '../src/index.coffee'
+  test 'Add attribute (multiple with object argument)', ->
+    eq(
+      xml('test4', { headless: true })
+        .ele('node').att({"first":"1", "second":"2"})
+        .end()
+      '<test4><node first="1" second="2"/></test4>'
+    )
 
-vows
-    .describe('Editing')
-    .addBatch
-        'Add attribute':
-            topic: () ->
-                xmlbuilder.create('test4', { headless: true })
-                    .ele('node', 'element', {"first":"1", "second":"2"})
-                        .att("third", "3")
+  test 'Remove attribute', ->
+    eq(
+      xml('test4', { headless: true })
+        .ele('node', 'element', {"first":"1", "second":"2", "third":"3"})
+          .removeAttribute("second")
+        .end()
+      '<test4><node first="1" third="3">element</node></test4>'
+    )
 
-            'resulting XML': (doc) ->
-                xml = '<test4><node first="1" second="2" third="3">element</node></test4>'
-                assert.strictEqual doc.end(), xml
+  test 'Remove multiple attributes', ->
+    eq(
+      xml('test4', { headless: true })
+        .ele('node', 'element', {"first":"1", "second":"2", "third":"3"})
+          .removeAttribute(["second", "third"])
+        .end()
+      '<test4><node first="1">element</node></test4>'
+    )
 
-        'Add attribute (multiple with object argument)':
-            topic: () ->
-                xmlbuilder.create('test4', { headless: true })
-                    .ele('node').att({"first":"1", "second":"2"})
+  test 'Throw if null attribute (ele)', ->
+    err(
+      () -> xml('test4', { headless: true }).ele('node', 'element', {"first":null, "second":"2"})
+    )
 
-            'resulting XML': (doc) ->
-                xml = '<test4><node first="1" second="2"/></test4>'
-                assert.strictEqual doc.end(), xml
+  test 'Throw if null attribute (att)', ->
+    err(
+      () -> xml('test4', { headless: true }).ele('node').att("first")
+    )
 
-        'Remove attribute':
-            topic: () ->
-                xmlbuilder.create('test4', { headless: true })
-                    .ele('node', 'element', {"first":"1", "second":"2", "third":"3"})
-                        .removeAttribute("second")
+  test 'Throw if null attribute name (att)', ->
+    err(
+      () -> xml('test4', { headless: true }).ele('node').att(null, "first")
+      /Missing attribute name of element node/
+    )
 
-            'resulting XML': (doc) ->
-                xml = '<test4><node first="1" third="3">element</node></test4>'
-                assert.strictEqual doc.end(), xml
+  test 'Throw if null attribute value (att)', ->
+    err(
+      () -> xml('test4', { headless: true }).ele('node').att("first", null)
+      /Missing attribute value for attribute first of element node/
+    )
 
-        'Remove multiple attributes':
-            topic: () ->
-                xmlbuilder.create('test4', { headless: true })
-                    .ele('node', 'element', {"first":"1", "second":"2", "third":"3"})
-                        .removeAttribute(["second", "third"])
+  test 'Throw if null attribute (JSON)', ->
+    err(
+      () -> xml('test4', { headless: true }).ele({'@first': null})
+    )
 
-            'resulting XML': (doc) ->
-                xml = '<test4><node first="1">element</node></test4>'
-                assert.strictEqual doc.end(), xml
+  test 'Skip if null attribute (ele)', ->
+    eq(
+      xml('test4', { headless: true, skipNullAttributes: true })
+        .ele('node', 'element', {"first":null, 'second': '2'})
+        .end()
+      '<test4><node second="2">element</node></test4>'
+    )
 
-        'Throw if null attribute (ele)':
-            topic: () ->
-                xmlbuilder.create('test4', { headless: true })
+  test 'Skip if null attribute (att)', ->
+    eq(
+      xml('test4', { headless: true, skipNullAttributes: true })
+        .ele('node').att("first")
+        .end()
+      '<test4><node/></test4>'
+    )
 
-            'resulting XML': (root) ->
-                assert.throws ->
-                    root.ele('node', 'element', {"first":null, "second":"2"})
-
-        'Throw if null attribute (att)':
-            topic: () ->
-                xmlbuilder.create('test4', { headless: true })
-
-            'resulting XML': (root) ->
-                assert.throws ->
-                    root.ele('node').att("first")
-
-        'Throw if null attribute name (att)':
-            topic: () ->
-                xmlbuilder.create('test4', { headless: true })
-
-            'resulting XML': (root) ->
-                assert.throws(
-                    () -> root.ele('node').att(null, "first")
-                    (err) -> err.message == "Missing attribute name of element node"
-                )
-
-        'Throw if null attribute value (att)':
-            topic: () ->
-                xmlbuilder.create('test4', { headless: true })
-
-            'resulting XML': (root) ->
-                assert.throws(
-                    () -> root.ele('node').att("first", null)
-                    (err) -> err.message == "Missing attribute value for attribute first of element node"
-                )
-
-        'Throw if null attribute (JSON)':
-            topic: () ->
-                xmlbuilder.create('test4', { headless: true })
-
-            'resulting XML': (root) ->
-                assert.throws ->
-                    root.ele({'@first': null})
-
-        'Skip if null attribute (ele)':
-            topic: () ->
-                xmlbuilder.create('test4', { headless: true, skipNullAttributes: true })
-                    .ele('node', 'element', {"first":null, 'second': '2'})
-
-            'resulting XML': (doc) ->
-                xml = '<test4><node second="2">element</node></test4>'
-                assert.strictEqual doc.end(), xml
-
-        'Skip if null attribute (att)':
-            topic: () ->
-                xmlbuilder.create('test4', { headless: true, skipNullAttributes: true })
-                    .ele('node').att("first")
-
-            'resulting XML': (doc) ->
-                xml = '<test4><node/></test4>'
-                assert.strictEqual doc.end(), xml
-
-        'Skip if null attribute (JSON)':
-            topic: () ->
-                xmlbuilder.create('test4', { headless: true, skipNullAttributes: true })
-                    .ele({'@first': null, '@second': '2'})
-
-            'resulting XML': (doc) ->
-                xml = '<test4 second="2"/>'
-                assert.strictEqual doc.end(), xml
-
-    .export(module)
-
+  test 'Skip if null attribute (JSON)', ->
+    eq(
+      xml('test4', { headless: true, skipNullAttributes: true })
+        .ele({'@first': null, '@second': '2'})
+        .end()
+      '<test4 second="2"/>'
+    )
+    
