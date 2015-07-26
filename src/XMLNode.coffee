@@ -1,5 +1,4 @@
 isObject = require 'lodash/lang/isObject'
-isArray = require 'lodash/lang/isArray'
 isFunction = require 'lodash/lang/isFunction'
 isEmpty = require 'lodash/lang/isEmpty'
 
@@ -55,7 +54,7 @@ module.exports = class XMLNode
 
     name = name.valueOf() if name?
     # expand if array
-    if isArray name
+    if Array.isArray name
       lastChild = @element item for item in name
 
     # evaluate if function
@@ -82,7 +81,7 @@ module.exports = class XMLNode
         # expand if object (arrays are objects too)
         else if isObject val
           # expand list without creating parent node
-          if not @options.ignoreDecorators and @stringify.convertListKey and key.indexOf(@stringify.convertListKey) == 0 and isArray val
+          if not @options.ignoreDecorators and @stringify.convertListKey and key.indexOf(@stringify.convertListKey) == 0 and Array.isArray val
             lastChild = @element val
           # expand child nodes under parent
           else
