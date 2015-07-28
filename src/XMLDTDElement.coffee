@@ -1,5 +1,4 @@
 create = require 'lodash/object/create'
-isArray = require 'lodash/lang/isArray'
 
 # Represents an attribute
 module.exports = class XMLDTDElement
@@ -17,7 +16,7 @@ module.exports = class XMLDTDElement
       throw new Error "Missing DTD element name"
     if not value
       value = '(#PCDATA)'
-    if isArray value
+    if Array.isArray value
       value = '(' + value.join(',') + ')'
 
     @name = @stringify.eleName name
