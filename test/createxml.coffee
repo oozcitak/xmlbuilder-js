@@ -31,7 +31,7 @@ suite 'Creating XML:', ->
               '<!-- CoffeeScript is awesome. -->' +
               '<repo type="git">git://github.com/oozcitak/xmlbuilder-js.git</repo>' +
           '</xmlbuilder>' +
-          '<test escaped="chars &lt;>\'&quot;&amp;&#x9;&#xA;&#xD;">complete 100%&lt;&gt;\'"&amp;\t\n&#xD;</test>' +
+          '<test escaped="chars &lt;>\'&quot;&amp;\t\n\r">complete 100%&lt;&gt;\'"&amp;\t\n&#xD;</test>' +
           '<cdata><![CDATA[<test att="val">this is a test</test>\nSecond line]]></cdata>' +
           '<raw>&<>&</raw>' +
           '<atttest att="val">text</atttest>' +
@@ -67,7 +67,7 @@ suite 'Creating XML:', ->
               '<!-- CoffeeScript is awesome. -->' +
               '<repo type="git">git://github.com/oozcitak/xmlbuilder-js.git</repo>' +
           '</xmlbuilder>' +
-          '<test escaped="chars &lt;>\'&quot;&amp;&#x9;&#xA;&#xD;">complete 100%&lt;&gt;\'"&amp;\t\n&#xD;</test>' +
+          '<test escaped="chars &lt;>\'&quot;&amp;\t\n\r">complete 100%&lt;&gt;\'"&amp;\t\n&#xD;</test>' +
           '<cdata><![CDATA[<test att="val">this is a test</test>\nSecond line]]></cdata>' +
           '<raw>&<>&</raw>' +
           '<atttest att="val">text</atttest>' +
@@ -104,7 +104,7 @@ suite 'Creating XML:', ->
               <!-- CoffeeScript is awesome. -->
               <repo type="git">git://github.com/oozcitak/xmlbuilder-js.git</repo>
           </xmlbuilder>
-          <test escaped="chars &lt;>\'&quot;&amp;&#x9;&#xA;&#xD;">complete 100%&lt;&gt;\'"&amp;\t\n&#xD;</test>
+          <test escaped="chars &lt;>\'&quot;&amp;\t\n\r">complete 100%&lt;&gt;\'"&amp;\t\n&#xD;</test>
           <cdata>
               <![CDATA[<test att="val">this is a test</test>
       Second line]]>
@@ -146,7 +146,7 @@ suite 'Creating XML:', ->
                     <!-- CoffeeScript is awesome. -->
                     <repo type="git">git://github.com/oozcitak/xmlbuilder-js.git</repo>
                 </xmlbuilder>
-                <test escaped="chars &lt;>\'&quot;&amp;&#x9;&#xA;&#xD;">complete 100%&lt;&gt;\'"&amp;\t\n&#xD;</test>
+                <test escaped="chars &lt;>\'&quot;&amp;\t\n\r">complete 100%&lt;&gt;\'"&amp;\t\n&#xD;</test>
                 <cdata>
                     <![CDATA[<test att="val">this is a test</test>
         Second line]]>
@@ -192,7 +192,7 @@ suite 'Creating XML:', ->
       <!-- CoffeeScript is awesome. -->
       <repo type="git">git://github.com/oozcitak/xmlbuilder-js.git</repo>
       </xmlbuilder>
-      <test escaped="chars &lt;>\'&quot;&amp;&#x9;&#xA;&#xD;">complete 100%&lt;&gt;\'"&amp;\t\n&#xD;</test>
+      <test escaped="chars &lt;>\'&quot;&amp;\t\n\r">complete 100%&lt;&gt;\'"&amp;\t\n&#xD;</test>
       <cdata>
       <![CDATA[<test att="val">this is a test</test>
       Second line]]>
@@ -231,7 +231,7 @@ suite 'Creating XML:', ->
               '<!-- CoffeeScript is awesome. -->' +
               '<repo type="git">git://github.com/oozcitak/xmlbuilder-js.git</repo>' +
           '</xmlbuilder>' +
-          '<test escaped="chars &lt;>\'&quot;&amp;&#x9;&#xA;&#xD;">complete 100%&lt;&gt;\'"&amp;\t\n&#xD;</test>' +
+          '<test escaped="chars &lt;>\'&quot;&amp;\t\n\r">complete 100%&lt;&gt;\'"&amp;\t\n&#xD;</test>' +
           '<cdata><![CDATA[<test att="val">this is a test</test>\nSecond line]]></cdata>' +
           '<raw>&<>&</raw>' +
           '<atttest att="val">text</atttest>' +
