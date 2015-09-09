@@ -135,7 +135,7 @@ module.exports = class XMLElement extends XMLNode
 
     # instructions
     for instruction in @instructions
-      r += instruction.toString options, level + 1
+      r += instruction.toString options, level
 
     # open tag
     r += space if pretty
