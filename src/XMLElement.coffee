@@ -1,7 +1,7 @@
-create = require 'lodash/object/create'
-isObject = require 'lodash/lang/isObject'
-isFunction = require 'lodash/lang/isFunction'
-every = require 'lodash/collection/every'
+{create} = require 'lodash/object/create'
+{isObject} = require 'lodash/lang/isObject'
+{isFunction} = require 'lodash/lang/isFunction'
+{every} = require 'lodash/collection/every'
 
 XMLNode = require './XMLNode'
 XMLAttribute = require './XMLAttribute'

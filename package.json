@@ -18,19 +18,21 @@
     "url": "http://github.com/oozcitak/xmlbuilder-js/issues"
   },
   "main": "./lib/index",
+  "files": [ "lib/*" ],
   "engines": {
     "node": ">=0.8.0"
   },
-  "dependencies": {
-    "lodash": "^3.5.0"
-  },
+  "dependencies": {},
   "devDependencies": {
     "coffee-script": "*",
+    "lodash-cli": "^3.10.1",
     "mocha": "*"
   },
   "scripts": {
     "prepublish": "coffee -co lib src",
     "postpublish": "rm -rf lib",
-    "test": "mocha --ui tdd --reporter dot --compilers coffee:coffee-script/register --require test/common/common"
+    "lodash:install": "lodash compat modularize category=collection,lang,object exports=commonjs --output node_modules/lodash",
+    "test": "mocha --ui tdd --reporter dot --compilers coffee:coffee-script/register --require test/common/common",
+    "pretest": "make lodash-install"
   }
 }
