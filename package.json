@@ -31,6 +31,7 @@
     "prepublish": "coffee -co lib src",
     "postpublish": "rm -rf lib",
     "lodash:install": "lodash compat modularize category=collection,lang,object exports=commonjs --output node_modules/lodash",
-    "test": "mocha --ui tdd --reporter dot --compilers coffee:coffee-script/register --require test/common/common"
+    "test": "mocha --ui tdd --reporter dot --compilers coffee:coffee-script/register --require test/common/common",
+    "pretest": "make lodash-install"
   }
 }
