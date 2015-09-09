@@ -1,4 +1,4 @@
-create = require 'lodash/object/create'
+{create} = require 'lodash/object/create'
 
 # Represents a processing instruction
 module.exports = class XMLProcessingInstruction

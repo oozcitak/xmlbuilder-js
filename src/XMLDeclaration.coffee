@@ -1,5 +1,5 @@
-create = require 'lodash/object/create'
-isObject = require 'lodash/lang/isObject'
+{create} = require 'lodash/object/create'
+{isObject} = require 'lodash/lang/isObject'
 
 XMLNode = require './XMLNode'
 
