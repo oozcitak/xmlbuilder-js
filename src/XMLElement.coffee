@@ -1,6 +1,5 @@
 create = require 'lodash/object/create'
 isObject = require 'lodash/lang/isObject'
-isArray = require 'lodash/lang/isArray'
 isFunction = require 'lodash/lang/isFunction'
 every = require 'lodash/collection/every'
 
@@ -86,7 +85,7 @@ module.exports = class XMLElement extends XMLNode
       throw new Error "Missing attribute name"
     name = name.valueOf()
 
-    if isArray name # expand if array
+    if Array.isArray name # expand if array
       for attName in name
         delete @attributes[attName]
     else
@@ -103,7 +102,7 @@ module.exports = class XMLElement extends XMLNode
     target = target.valueOf() if target?
     value = value.valueOf() if value?
 
-    if isArray target # expand if array
+    if Array.isArray target # expand if array
       for insTarget in target
         @instruction insTarget
     else if isObject target # expand if object
