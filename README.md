@@ -47,7 +47,7 @@ builder.create({
       '@for': 'node-js', // attributes start with @
       repo: {
         '@type': 'git',
-        '#text': 'git://github.com/oozcitak/xmlbuilder-js.git' // #text denotes element text
+        '#text': 'git://github.com/oozcitak/xmlbuilder-js.git' // text node
       }
     }
   }
