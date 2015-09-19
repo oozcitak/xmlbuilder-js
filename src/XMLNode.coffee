@@ -70,9 +70,14 @@ module.exports = class XMLNode
         # convert empty objects (and arrays) to empty nodes
         val = null if (isObject val) and (isEmpty val)
 
+        # skip list decorators with empty or null values
+        if not val and not @options.ignoreDecorators and @stringify.convertListKey and key.indexOf(@stringify.convertListKey) == 0
+          lastChild = @
+          continue
+
         # assign attributes
         if not @options.ignoreDecorators and @stringify.convertAttKey and key.indexOf(@stringify.convertAttKey) == 0
-           lastChild = @attribute(key.substr(@stringify.convertAttKey.length), val)
+          lastChild = @attribute(key.substr(@stringify.convertAttKey.length), val)
 
         # assign processing instructions
         else if not @options.ignoreDecorators and @stringify.convertPIKey and key.indexOf(@stringify.convertPIKey) == 0
