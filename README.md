@@ -1,6 +1,6 @@
 # xmlbuilder-js
 
-An XML builder for [node.js](http://nodejs.org/) similar to 
+An XML builder for [io.js](https://iojs.org/) similar to 
 [java-xmlbuilder](https://github.com/jmurty/java-xmlbuilder).
 
 [![NPM Version](http://img.shields.io/npm/v/xmlbuilder.svg?style=flat-square)](https://npmjs.com/package/xmlbuilder)
