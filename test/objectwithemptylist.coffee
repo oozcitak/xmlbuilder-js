@@ -1,24 +1,30 @@
 suite 'Creating XML:', ->
   test 'From JS object (empty #list decorator should be ignored)', ->
     testCases = [
-      { 'root': '#list': [] }
       { 'root':
-        'node': 'val'
-        '#list': [] }
+          '#list': []
+      }
       { 'root':
-        '#list': []
-        'node': 'val' }
+          'node': 'val'
+          '#list': []
+      }
       { 'root':
-        'node1': 'val1'
-        '#list': []
-        'node2': 'val2' }
-       { 'root':
-        '#list': []
-        'node1': 'val1'
-        '#list': []
-        'empty': []
-        'node2': 'val2'
-        '#list': [] }
+          '#list': []
+          'node': 'val'
+      }
+      { 'root':
+          'node1': 'val1'
+          '#list': []
+          'node2': 'val2'
+      }
+      { 'root':
+          '#list': []
+          'node1': 'val1'
+          '#list': []
+          'empty': []
+          'node2': 'val2'
+          '#list': []
+      }
     ]
     results = [
       '<root/>'
