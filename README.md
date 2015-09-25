@@ -20,7 +20,7 @@ npm install xmlbuilder
 ``` js
 var builder = require('xmlbuilder');
 var xml = builder.create('root')
-  .ele('xmlbuilder', {'for': 'node-js'})
+  .ele('xmlbuilder')
     .ele('repo', {'type': 'git'}, 'git://github.com/oozcitak/xmlbuilder-js.git')
   .end({ pretty: true});
     
@@ -32,7 +32,7 @@ will result in:
 ``` xml
 <?xml version="1.0"?>
 <root>
-  <xmlbuilder for="node-js">
+  <xmlbuilder>
     <repo type="git">git://github.com/oozcitak/xmlbuilder-js.git</repo>
   </xmlbuilder>
 </root>
@@ -44,9 +44,8 @@ It is also possible to convert objects into nodes:
 builder.create({
   root: {
     xmlbuilder: {
-      '@for': 'node-js', // attributes start with @
       repo: {
-        '@type': 'git',
+        '@type': 'git', // attributes start with @
         '#text': 'git://github.com/oozcitak/xmlbuilder-js.git' // text node
       }
     }
