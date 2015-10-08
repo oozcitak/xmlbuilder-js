@@ -5,6 +5,7 @@ suite 'Stringify Guards:', ->
       () -> xml('test', { headless: true}).com('--')
       () -> xml('test', { headless: true}).ins('pi', '?>')
       () -> xml('test', { encoding: "A#" })
+      () -> xml('test', { version: "A.B" })
     ]
 
     results = [
@@ -12,6 +13,7 @@ suite 'Stringify Guards:', ->
       /Comment text cannot contain double-hypen: --/
       /Invalid processing instruction value: \?>/
       /Invalid encoding: A#/
+      /Invalid version number: A.B/
     ]
 
     err(
