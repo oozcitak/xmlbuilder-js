@@ -222,9 +222,10 @@ suite 'Creating XML:', ->
             .u()
         .e('atttest', { 'att': 'val' }, 'text')
             .u()
-        .e('atttest', 'text')
+        .e('atttest')
           .a('att2', 'val2')
           .i('pi', 'pival')
+          .t('text2')
         .end()
 
       '<?xml version="1.0"?>' +
@@ -238,7 +239,7 @@ suite 'Creating XML:', ->
           '<raw>&<>&</raw>' +
           '<atttest att="val">text</atttest>' +
           '<?pi pival?>' +
-          '<atttest att2="val2">text</atttest>' +
+          '<atttest att2="val2">text2</atttest>' +
       '</root>'
     )
 
