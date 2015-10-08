@@ -21,6 +21,7 @@ suite 'Document Type Declaration:', ->
               .att('img', 'height', 'CDATA', '#REQUIRED')
               .att('img', 'visible', '(yes|no)', '#DEFAULT', "yes")
               .not('fs', { sysID: 'http://my.fs.com/reader' })
+              .not('fs-nt', { pubID: 'FS Network Reader 1.0' })
               .not('fs-nt', { pubID: 'FS Network Reader 1.0', sysID: 'http://my.fs.com/reader' })
               .att('img', 'src', 'NOTATION (fs|fs-nt)', '#REQUIRED')
               .dat('<owner>John</owner>')
@@ -33,6 +34,7 @@ suite 'Document Type Declaration:', ->
               .pent('ent', 'my val')
               .pent('ent', { sysID: 'http://www.myspec.com/ent' })
               .pent('ent', { pubID: '-//MY//SPEC ENT//EN', sysID: 'http://www.myspec.com/ent' })
+              .ele('nodearr', ['a', 'b'])
           .root()
           .ele('node').txt('test')
           .end()
@@ -45,6 +47,7 @@ suite 'Document Type Declaration:', ->
           '<!ATTLIST img height CDATA #REQUIRED>' +
           '<!ATTLIST img visible (yes|no) "yes">' +
           '<!NOTATION fs SYSTEM "http://my.fs.com/reader">' +
+          '<!NOTATION fs-nt PUBLIC "FS Network Reader 1.0">' +
           '<!NOTATION fs-nt PUBLIC "FS Network Reader 1.0" "http://my.fs.com/reader">' +
           '<!ATTLIST img src NOTATION (fs|fs-nt) #REQUIRED>' +
           '<![CDATA[<owner>John</owner>]]>' +
@@ -57,6 +60,7 @@ suite 'Document Type Declaration:', ->
           '<!ENTITY % ent "my val">' +
           '<!ENTITY % ent SYSTEM "http://www.myspec.com/ent">' +
           '<!ENTITY % ent PUBLIC "-//MY//SPEC ENT//EN" "http://www.myspec.com/ent">' +
+          '<!ELEMENT nodearr (a,b)>' +
       ']>' +
       '<root><node>test</node></root>'
     )

@@ -5,3 +5,8 @@ suite 'Convert to String:', ->
       '<?xml version="1.1"?><test16><node>test</node></test16>'
     )
 
+  test 'end() method of builder', ->
+    eq(
+      xml('test').doc().end()
+      '<?xml version="1.0"?><test/>'
+    )

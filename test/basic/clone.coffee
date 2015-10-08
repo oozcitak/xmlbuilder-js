@@ -1,4 +1,4 @@
-xmloriginal = xml('test', {}, {}, { headless: true})
+xmloriginal = xml('test', { headless: true})
   .att('att', 'val')
   .ele('nodes')
     .ele('node', '1').up()
@@ -21,3 +21,16 @@ suite 'Clone:', ->
       xmlcloned.toString()
       '<test att="val"><nodes><node>1</node><node att2="val2">2</node></nodes><added>3</added></test>'
     )
+
+  test 'Clone each node type', ->
+    org = xml('test', { headless: true})
+      .cdata('val1')
+      .raw('val2')
+      .ele('node')
+        .ins('pi', 'target')
+        .com('comment')
+    eq(
+      org.root().clone().toString()
+      '<test><![CDATA[val1]]>val2<?pi target?><node><!-- comment --></node></test>'
+    )
+
