@@ -26,9 +26,15 @@ suite 'Navigation:', ->
       '<test><node/></test>'
     )
 
+  test 'doc() in element', ->
+    isan(
+      xml('test').ele('node').doc()
+      'XMLBuilder'
+    )
+
   test 'doc() in dtd', ->
     isan(
-      xml('test', { headless: true }).dtd().doc()
+      xml('test').dtd().doc()
       'XMLBuilder'
     )
 
