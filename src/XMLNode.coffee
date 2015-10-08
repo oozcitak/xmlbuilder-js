@@ -33,11 +33,6 @@ module.exports = class XMLNode
       XMLText = require './XMLText'
 
 
-  # Creates and returns a deep clone of `this`
-  clone: () ->
-    throw new Error "Cannot clone generic XMLNode"
-
-
   # Creates a child element node
   #
   # `name` node name or an object describing the XML tree
