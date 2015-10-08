@@ -26,11 +26,14 @@
   },
   "devDependencies": {
     "coffee-script": "*",
-    "mocha": "*"
+    "mocha": "*",
+    "coffee-coverage": "*",
+    "istanbul": "*",
+    "coveralls": "*"
   },
   "scripts": {
     "prepublish": "coffee -co lib src",
     "postpublish": "rm -rf lib",
-    "test": "mocha --ui tdd --reporter dot --compilers coffee:coffee-script/register --require test/common/common"
+    "test": "mocha && istanbul report text-summary lcov"
   }
 }
