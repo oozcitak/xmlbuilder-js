@@ -223,6 +223,8 @@ suite 'Creating XML:', ->
         .e('atttest', { 'att': 'val' }, 'text')
             .u()
         .e('atttest', 'text')
+          .a('att2', 'val2')
+          .i('pi', 'pival')
         .end()
 
       '<?xml version="1.0"?>' +
@@ -235,7 +237,8 @@ suite 'Creating XML:', ->
           '<cdata><![CDATA[<test att="val">this is a test</test>\nSecond line]]></cdata>' +
           '<raw>&<>&</raw>' +
           '<atttest att="val">text</atttest>' +
-          '<atttest>text</atttest>' +
+          '<?pi pival?>' +
+          '<atttest att2="val2">text</atttest>' +
       '</root>'
     )
 
