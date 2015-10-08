@@ -5,6 +5,18 @@ suite 'Document Type Declaration:', ->
       '<?xml version="1.0"?><!DOCTYPE root SYSTEM "hello.dtd"><root><node>test</node></root>'
     )
 
+  test 'Public dtd from create()', ->
+    eq(
+      xml('HTML', {
+        pubID: '-//W3C//DTD HTML 4.01//EN'
+        sysID: 'http://www.w3.org/TR/html4/strict.dtd'
+      }).end()
+      '<?xml version="1.0"?>' +
+      '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" ' +
+                            '"http://www.w3.org/TR/html4/strict.dtd">' +
+      '<HTML/>'
+    )
+
   test 'Empty dtd from create()', ->
     eq(
       xml('root', { sysID: '' }).ele('node').txt('test').end()
