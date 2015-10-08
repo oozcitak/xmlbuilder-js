@@ -24,11 +24,6 @@ module.exports = class XMLDTDNotation
     @sysID = @stringify.dtdSysID value.sysID if value.sysID?
 
 
-  # Creates and returns a deep clone of `this`
-  clone: () ->
-    create XMLDTDNotation.prototype, @
-
-
   # Converts the XML fragment to string
   #
   # `options.pretty` pretty prints the result

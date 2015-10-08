@@ -23,11 +23,6 @@ module.exports = class XMLDTDElement
     @value = @stringify.dtdElementValue value
 
 
-  # Creates and returns a deep clone of `this`
-  clone: () ->
-    create XMLDTDElement.prototype, @
-
-
   # Converts the XML fragment to string
   #
   # `options.pretty` pretty prints the result
