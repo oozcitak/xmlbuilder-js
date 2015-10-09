@@ -1,8 +1,8 @@
 suite 'XMLElement Guards:', ->
   test 'constructor and removeAttribute', ->
     testCases = [
-      () -> xml('test', { headless: true}).nod()
-      () -> xml('test', { headless: true}).ele('node').removeAttribute()
+      () -> xml('test').nod()
+      () -> xml('test').ele('node').removeAttribute()
     ]
 
     results = [

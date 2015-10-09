@@ -1,12 +1,12 @@
 suite 'DTDAttList Guards:', ->
   test 'constructor', ->
     testCases = [
-      () -> xml('test', { headless: true}).dtd().att()
-      () -> xml('test', { headless: true}).dtd().att('ele')
-      () -> xml('test', { headless: true}).dtd().att('ele', 'att')
-      () -> xml('test', { headless: true}).dtd().att('ele', 'att', 'type')
-      () -> xml('test', { headless: true}).dtd().att('ele', 'att', 'type', 'INVALID')
-      () -> xml('test', { headless: true}).dtd().att('ele', 'att', 'type', 'REQUIRED', 'def')
+      () -> xml('test').dtd().att()
+      () -> xml('test').dtd().att('ele')
+      () -> xml('test').dtd().att('ele', 'att')
+      () -> xml('test').dtd().att('ele', 'att', 'type')
+      () -> xml('test').dtd().att('ele', 'att', 'type', 'INVALID')
+      () -> xml('test').dtd().att('ele', 'att', 'type', 'REQUIRED', 'def')
     ]
 
     results = [

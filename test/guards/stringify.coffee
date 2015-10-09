@@ -1,9 +1,9 @@
 suite 'Stringify Guards:', ->
   test 'defaults', ->
     testCases = [
-      () -> xml('test', { headless: true}).dat(']]>')
-      () -> xml('test', { headless: true}).com('--')
-      () -> xml('test', { headless: true}).ins('pi', '?>')
+      () -> xml('test').dat(']]>')
+      () -> xml('test').com('--')
+      () -> xml('test').ins('pi', '?>')
       () -> xml('test', { encoding: "A#" })
       () -> xml('test', { version: "A.B" })
     ]

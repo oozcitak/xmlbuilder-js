@@ -1,11 +1,11 @@
 suite 'DTDEntity Guards:', ->
   test 'constructor', ->
     testCases = [
-      () -> xml('test', { headless: true}).dtd().ent()
-      () -> xml('test', { headless: true}).dtd().ent('name')
-      () -> xml('test', { headless: true}).dtd().ent('name', { invalid: "obj" })
-      () -> xml('test', { headless: true}).dtd().ent('name', { pubID: "obj" })
-      () -> xml('test', { headless: true}).dtd().pent('name', { sysID: "obj", nData: "val" })
+      () -> xml('test').dtd().ent()
+      () -> xml('test').dtd().ent('name')
+      () -> xml('test').dtd().ent('name', { invalid: "obj" })
+      () -> xml('test').dtd().ent('name', { pubID: "obj" })
+      () -> xml('test').dtd().pent('name', { sysID: "obj", nData: "val" })
     ]
 
     results = [

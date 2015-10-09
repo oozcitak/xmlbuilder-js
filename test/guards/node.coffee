@@ -1,14 +1,14 @@
 suite 'Node Guards:', ->
   test 'Invalid operations', ->
     testCases = [
-      () -> xml('test', { headless: true}).insertBefore()
-      () -> xml('test', { headless: true}).insertAfter()
-      () -> xml('test', { headless: true}).remove()
-      () -> xml('test', { headless: true}).up()
-      () -> xml('test', { headless: true}).prev()
-      () -> xml('test', { headless: true}).next()
-      () -> xml('test', { headless: true}).ele('first').prev()
-      () -> xml('test', { headless: true}).ele('first').up().ele('last').next()
+      () -> xml('test').insertBefore()
+      () -> xml('test').insertAfter()
+      () -> xml('test').remove()
+      () -> xml('test').up()
+      () -> xml('test').prev()
+      () -> xml('test').next()
+      () -> xml('test').ele('first').prev()
+      () -> xml('test').ele('first').up().ele('last').next()
       () -> xml('root').ele([])
     ]
 

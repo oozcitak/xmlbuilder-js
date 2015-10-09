@@ -1,8 +1,8 @@
 suite 'DTDNotation Guards:', ->
   test 'constructor', ->
     testCases = [
-      () -> xml('test', { headless: true}).dtd().not()
-      () -> xml('test', { headless: true}).dtd().not('name', { invalid: "obj" })
+      () -> xml('test').dtd().not()
+      () -> xml('test').dtd().not('name', { invalid: "obj" })
     ]
 
     results = [
