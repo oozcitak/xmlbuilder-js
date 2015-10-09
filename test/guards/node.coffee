@@ -1,5 +1,5 @@
 suite 'Node Guards:', ->
-  test 'Invalid operations on root', ->
+  test 'Invalid operations', ->
     testCases = [
       () -> xml('test', { headless: true}).insertBefore()
       () -> xml('test', { headless: true}).insertAfter()
@@ -9,6 +9,7 @@ suite 'Node Guards:', ->
       () -> xml('test', { headless: true}).next()
       () -> xml('test', { headless: true}).ele('first').prev()
       () -> xml('test', { headless: true}).ele('first').up().ele('last').next()
+      () -> xml('root').ele([])
     ]
 
     results = [
@@ -20,6 +21,7 @@ suite 'Node Guards:', ->
       /Root node has no siblings/
       /Already at the first node/
       /Already at the last node/
+      /Could not create any elements with: /
     ]
 
     err(
