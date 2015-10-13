@@ -23,14 +23,9 @@ module.exports = class XMLDeclaration extends XMLNode
 
     version = '1.0' if not version
 
-    if version?
-      @version = @stringify.xmlVersion version
-
-    if encoding?
-      @encoding = @stringify.xmlEncoding encoding
-
-    if standalone?
-      @standalone = @stringify.xmlStandalone standalone
+    @version = @stringify.xmlVersion version
+    @encoding = @stringify.xmlEncoding encoding if encoding?
+    @standalone = @stringify.xmlStandalone standalone if standalone?
 
 
   # Converts to string
@@ -56,12 +51,9 @@ module.exports = class XMLDeclaration extends XMLNode
     r += '<?xml'
 
     # attributes
-    if @version?
-      r += ' version="' + @version + '"'
-    if @encoding?
-      r += ' encoding="' + @encoding + '"'
-    if @standalone?
-      r += ' standalone="' + @standalone + '"'
+    r += ' version="' + @version + '"'
+    r += ' encoding="' + @encoding + '"' if @encoding?
+    r += ' standalone="' + @standalone + '"' if @standalone?
 
     # close tag
     r += '?>'
