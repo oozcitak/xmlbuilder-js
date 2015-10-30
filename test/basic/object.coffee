@@ -22,9 +22,9 @@ suite 'Creating XML:', ->
     obj =
         squares:
           '#comment': 'f(x) = x^2'
-          '#list': () ->
+          'data': () ->
             ret = for i in [1..5]
-              { data: { '@x': i, '@y': i * i } }
+              { '@x': i, '@y': i * i }
 
     eq(
       xml(obj).end()
@@ -53,10 +53,8 @@ suite 'Creating XML:', ->
             address:
                 city: "Istanbul"
                 street: "End of long and winding road"
-            contact: [
-                { phone: "555-1234" }
-                { phone: "555-1235" }
-            ]
+            contact:
+                phone: [ "555-1234", "555-1235" ]
             id: () -> return 42
             details:
               '#text': 'classified'
@@ -104,9 +102,9 @@ suite 'Creating XML:', ->
             address:
                 city: "Istanbul"
                 street: "End of long and winding road"
-            '#list': [
-                { phone: "555-1234" }
-                { phone: "555-1235" }
+            phone: [
+                "555-1234"
+                "555-1235"
             ]
             id: () -> return 42
             details:
@@ -131,10 +129,8 @@ suite 'Creating XML:', ->
                   '<city>Istanbul</city>' +
                   '<street>End of long and winding road</street>' +
               '</address>' +
-              '<#list>' +
-                  '<phone>555-1234</phone>' +
-                  '<phone>555-1235</phone>' +
-              '</#list>' +
+              '<phone>555-1234</phone>' +
+              '<phone>555-1235</phone>' +
               '<id>42</id>' +
               '<details><#text>classified</#text></details>' +
           '</person>' +
@@ -187,9 +183,9 @@ suite 'Creating XML:', ->
                 address:
                     city: "Istanbul"
                     street: "End of long and winding road"
-                '#list': [ 
-                    { phone: { '#text': "555-1234", '@type': 'home' } }
-                    { phone: { '#text': "555-1235", '@type': 'mobile' } }
+                phone: [
+                    { '#text': "555-1234", '@type': 'home' }
+                    { '#text': "555-1235", '@type': 'mobile' }
                 ]
                 id: () -> return 42
 

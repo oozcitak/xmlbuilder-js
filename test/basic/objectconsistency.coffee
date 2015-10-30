@@ -13,10 +13,11 @@ suite 'Creating XML:', ->
             address:
                 city: "Istanbul"
                 street: "End of long and winding road"
-            contact: [
-                { phone: "555-1234" }
-                { phone: "555-1235" }
-            ]
+            contact:
+                phone: [
+                    "555-1234"
+                    "555-1235"
+                ]
             id: () -> return 42
             details:
               '#text': 'classified'

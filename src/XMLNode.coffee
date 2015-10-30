@@ -62,13 +62,8 @@ module.exports = class XMLNode
         # evaluate if function
         val = val.apply() if isFunction val
 
-        # convert empty objects (and arrays) to empty nodes
+        # skip empty or null objects and arrays
         val = null if (isObject val) and (isEmpty val)
-
-        # skip list decorators with empty or null values
-        if not val and not @options.ignoreDecorators and @stringify.convertListKey and key.indexOf(@stringify.convertListKey) == 0
-          lastChild = @
-          continue
 
         # assign attributes
         if not @options.ignoreDecorators and @stringify.convertAttKey and key.indexOf(@stringify.convertAttKey) == 0
@@ -80,9 +75,12 @@ module.exports = class XMLNode
 
         # expand if object (arrays are objects too)
         else if isObject val
-          # expand list without creating parent node
-          if not @options.ignoreDecorators and @stringify.convertListKey and key.indexOf(@stringify.convertListKey) == 0 and Array.isArray val
-            lastChild = @element val
+          # expand list by creating repeated child nodes
+          if Array.isArray val
+            for item in val
+              childNode = {}
+              childNode[key] = item
+              lastChild = @element childNode
           # expand child nodes under parent
           else
             lastChild = @element key
