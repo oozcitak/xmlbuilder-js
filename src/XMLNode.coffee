@@ -73,8 +73,8 @@ module.exports = class XMLNode
         else if not @options.ignoreDecorators and @stringify.convertPIKey and key.indexOf(@stringify.convertPIKey) == 0
           lastChild = @instruction(key.substr(@stringify.convertPIKey.length), val)
 
-        # expand list by creating repeated child nodes
-        else if Array.isArray val
+        # expand list by creating child nodes
+        else if not @options.separateArrayItems and Array.isArray val
           for item in val
             childNode = {}
             childNode[key] = item
