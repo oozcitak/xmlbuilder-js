@@ -5,9 +5,11 @@ module.exports = class XMLStringifier
   # Initializes a new instance of `XMLStringifier`
   #
   # `options.allowSurrogateChars` whether surrogates will be allowed: true or false
+  # `options.noDoubleEncoding` whether existing html entities are encoded: true or false
   # `options.stringify` a set of functions to use for converting values to strings
   constructor: (options) ->
     @allowSurrogateChars = options?.allowSurrogateChars
+    @noDoubleEncoding = options?.noDoubleEncoding
     for own key, value of options?.stringify or {}
       @[key] = value
 
@@ -100,7 +102,8 @@ module.exports = class XMLStringifier
   #
   # `str` the string to escape
   elEscape: (str) ->
-    str.replace(/&/g, '&amp;')
+    ampregex = if @noDoubleEncoding then /(?!&\S+;)&/g else /&/g
+    str.replace(ampregex, '&amp;')
        .replace(/</g, '&lt;')
        .replace(/>/g, '&gt;')
        .replace(/\r/g, '&#xD;')
@@ -111,6 +114,8 @@ module.exports = class XMLStringifier
   #
   # `str` the string to escape
   attEscape: (str) ->
-    str.replace(/&/g, '&amp;')
+    ampregex = if @noDoubleEncoding then /(?!&\S+;)&/g else /&/g
+    str.replace(ampregex, '&amp;')
        .replace(/</g, '&lt;')
        .replace(/"/g, '&quot;')
+
