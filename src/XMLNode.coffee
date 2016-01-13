@@ -1,6 +1,6 @@
-isObject = require 'lodash/lang/isObject'
-isFunction = require 'lodash/lang/isFunction'
-isEmpty = require 'lodash/lang/isEmpty'
+isObject = require 'lodash/isObject'
+isFunction = require 'lodash/isFunction'
+isEmpty = require 'lodash/isEmpty'
 
 XMLElement = null
 XMLCData = null
