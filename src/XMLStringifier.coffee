@@ -1,3 +1,17 @@
+camelCase = require 'lodash/camelCase';
+kebabCase = require 'lodash/kebabCase';
+lowerCase = require 'lodash/lowerCase';
+upperCase = require 'lodash/upperCase';
+snakeCase = require 'lodash/snakeCase';
+
+cases = {
+    camel: camelCase,
+    kebab: kebabCase,
+    lower: lowerCase,
+    upper: upperCase,
+    snake: snakeCase
+}
+
 # Converts values to strings
 module.exports = class XMLStringifier
 
@@ -10,12 +24,14 @@ module.exports = class XMLStringifier
   constructor: (options) ->
     @allowSurrogateChars = options?.allowSurrogateChars
     @noDoubleEncoding = options?.noDoubleEncoding
+    @textCase = options?.textCase
     for own key, value of options?.stringify or {}
       @[key] = value
 
   # Defaults
   eleName: (val) ->
     val = '' + val or ''
+    val = @applyCase val
     @assertLegalChar val
   eleText: (val) ->
     val = '' + val or ''
@@ -34,6 +50,7 @@ module.exports = class XMLStringifier
     '' + val or ''
   attName: (val) ->
     '' + val or ''
+    val = @applyCase val
   attValue: (val) ->
     val = '' + val or ''
     @attEscape val
@@ -95,6 +112,10 @@ module.exports = class XMLStringifier
 
     str
 
+  #
+  #
+  applyCase: (str) ->
+    cases[@textCase]?(str) || str
 
   # Escapes special characters in element values
   #
@@ -118,4 +139,3 @@ module.exports = class XMLStringifier
     str.replace(ampregex, '&amp;')
        .replace(/</g, '&lt;')
        .replace(/"/g, '&quot;')
-
