@@ -10,10 +10,6 @@ suite 'Creating XML:', ->
             .txt('git://github.com/oozcitak/xmlbuilder-js.git')
             .up()
         .up()
-        .ele('test')
-            .att('escaped', 'chars <>\'"&\t\n\r')
-            .txt('complete 100%<>\'"&\t\n\r')
-        .up()
         .ele('cdata')
             .cdata('<test att="val">this is a test</test>\nSecond line')
         .up()
@@ -31,7 +27,6 @@ suite 'Creating XML:', ->
               '<!-- CoffeeScript is awesome. -->' +
               '<repo type="git">git://github.com/oozcitak/xmlbuilder-js.git</repo>' +
           '</xmlbuilder>' +
-          '<test escaped="chars &lt;>\'&quot;&amp;\t\n\r">complete 100%&lt;&gt;\'"&amp;\t\n&#xD;</test>' +
           '<cdata><![CDATA[<test att="val">this is a test</test>\nSecond line]]></cdata>' +
           '<raw>&<>&</raw>' +
           '<atttest att="val">text</atttest>' +
@@ -46,8 +41,6 @@ suite 'Creating XML:', ->
             .com('CoffeeScript is awesome.')
             .nod('repo', {'type': 'git'}, 'git://github.com/oozcitak/xmlbuilder-js.git')
             .up()
-        .up()
-        .ele('test', {'escaped': 'chars <>\'"&\t\n\r'}, 'complete 100%<>\'"&\t\n\r')
         .up()
         .ele('cdata')
             .cdata('<test att="val">this is a test</test>\nSecond line')
@@ -67,7 +60,6 @@ suite 'Creating XML:', ->
               '<!-- CoffeeScript is awesome. -->' +
               '<repo type="git">git://github.com/oozcitak/xmlbuilder-js.git</repo>' +
           '</xmlbuilder>' +
-          '<test escaped="chars &lt;>\'&quot;&amp;\t\n\r">complete 100%&lt;&gt;\'"&amp;\t\n&#xD;</test>' +
           '<cdata><![CDATA[<test att="val">this is a test</test>\nSecond line]]></cdata>' +
           '<raw>&<>&</raw>' +
           '<atttest att="val">text</atttest>' +
@@ -82,8 +74,6 @@ suite 'Creating XML:', ->
             .com('CoffeeScript is awesome.')
             .nod('repo', {'type': 'git'}, 'git://github.com/oozcitak/xmlbuilder-js.git')
             .up()
-        .up()
-        .ele('test', {'escaped': 'chars <>\'"&\t\n\r'}, 'complete 100%<>\'"&\t\n\r')
         .up()
         .ele('cdata')
             .cdata('<test att="val">this is a test</test>\nSecond line')
@@ -104,7 +94,6 @@ suite 'Creating XML:', ->
               <!-- CoffeeScript is awesome. -->
               <repo type="git">git://github.com/oozcitak/xmlbuilder-js.git</repo>
           </xmlbuilder>
-          <test escaped="chars &lt;>\'&quot;&amp;\t\n\r">complete 100%&lt;&gt;\'"&amp;\t\n&#xD;</test>
           <cdata>
               <![CDATA[<test att="val">this is a test</test>
       Second line]]>
@@ -123,8 +112,6 @@ suite 'Creating XML:', ->
             .com('CoffeeScript is awesome.')
             .nod('repo', {'type': 'git'}, 'git://github.com/oozcitak/xmlbuilder-js.git')
             .up()
-        .up()
-        .ele('test', {'escaped': 'chars <>\'"&\t\n\r'}, 'complete 100%<>\'"&\t\n\r')
         .up()
         .ele('cdata')
             .cdata('<test att="val">this is a test</test>\nSecond line')
@@ -146,7 +133,6 @@ suite 'Creating XML:', ->
                     <!-- CoffeeScript is awesome. -->
                     <repo type="git">git://github.com/oozcitak/xmlbuilder-js.git</repo>
                 </xmlbuilder>
-                <test escaped="chars &lt;>\'&quot;&amp;\t\n\r">complete 100%&lt;&gt;\'"&amp;\t\n&#xD;</test>
                 <cdata>
                     <![CDATA[<test att="val">this is a test</test>
         Second line]]>
@@ -171,8 +157,6 @@ suite 'Creating XML:', ->
             .nod('repo', {'type': 'git'}, 'git://github.com/oozcitak/xmlbuilder-js.git')
             .up()
         .up()
-        .ele('test', {'escaped': 'chars <>\'"&\t\n\r'}, 'complete 100%<>\'"&\t\n\r')
-        .up()
         .ele('cdata')
             .cdata('<test att="val">this is a test</test>\nSecond line')
         .up()
@@ -192,7 +176,6 @@ suite 'Creating XML:', ->
       <!-- CoffeeScript is awesome. -->
       <repo type="git">git://github.com/oozcitak/xmlbuilder-js.git</repo>
       </xmlbuilder>
-      <test escaped="chars &lt;>\'&quot;&amp;\t\n\r">complete 100%&lt;&gt;\'"&amp;\t\n&#xD;</test>
       <cdata>
       <![CDATA[<test att="val">this is a test</test>
       Second line]]>
@@ -211,8 +194,6 @@ suite 'Creating XML:', ->
             .c('CoffeeScript is awesome.')
             .n('repo', {'type': 'git'}, 'git://github.com/oozcitak/xmlbuilder-js.git')
             .u()
-        .u()
-        .e('test', {'escaped': 'chars <>\'"&\t\n\r'}, 'complete 100%<>\'"&\t\n\r')
         .u()
         .e('cdata')
             .d('<test att="val">this is a test</test>\nSecond line')
@@ -234,7 +215,6 @@ suite 'Creating XML:', ->
               '<!-- CoffeeScript is awesome. -->' +
               '<repo type="git">git://github.com/oozcitak/xmlbuilder-js.git</repo>' +
           '</xmlbuilder>' +
-          '<test escaped="chars &lt;>\'&quot;&amp;\t\n\r">complete 100%&lt;&gt;\'"&amp;\t\n&#xD;</test>' +
           '<cdata><![CDATA[<test att="val">this is a test</test>\nSecond line]]></cdata>' +
           '<raw>&<>&</raw>' +
           '<atttest att="val">text</atttest>' +
