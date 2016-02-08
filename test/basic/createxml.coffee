@@ -269,3 +269,11 @@ suite 'Creating XML:', ->
       '<test14><node>test</node></test14>'
     )
 
+
+  test 'create() allowing empty elements', ->
+    eq(
+      xml('test15', { version: '1.0', encoding: 'UTF-8'})
+        .ele('node').end({allowEmpty: true})
+      '<?xml version="1.0" encoding="UTF-8"?>' +
+      '<test15><node></node></test15>'
+    )

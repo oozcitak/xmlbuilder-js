@@ -126,6 +126,7 @@ module.exports = class XMLElement extends XMLNode
     indent = options?.indent ? '  '
     offset = options?.offset ? 0
     newline = options?.newline ? '\n'
+    allowEmpty = options?.allowEmpty ? false
     level or= 0
 
     space = new Array(level + offset + 1).join(indent)
@@ -146,7 +147,11 @@ module.exports = class XMLElement extends XMLNode
 
     if @children.length == 0 or every(@children, (e) -> e.value == '')
       # empty element
-      r += '/>'
+      if allowEmpty
+        r += '></' + @name + '>'
+      else
+        r += '/>'
+
       r += newline if pretty
     else if pretty and @children.length == 1 and @children[0].value?
       # do not indent text-only nodes
