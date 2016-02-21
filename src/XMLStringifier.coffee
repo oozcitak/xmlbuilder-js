@@ -1,14 +1,14 @@
-camelCase = require 'lodash/camelCase';
-kebabCase = require 'lodash/kebabCase';
-lowerCase = require 'lodash/lowerCase';
-upperCase = require 'lodash/upperCase';
-snakeCase = require 'lodash/snakeCase';
+camelCase = require 'lodash/camelCase'
+kebabCase = require 'lodash/kebabCase'
+toLower = require 'lodash/toLower'
+toUpper = require 'lodash/toUpper'
+snakeCase = require 'lodash/snakeCase'
 
 cases = {
     camel: camelCase,
     kebab: kebabCase,
-    lower: lowerCase,
-    upper: upperCase,
+    lower: toLower,
+    upper: toUpper,
     snake: snakeCase
 }
 
@@ -49,7 +49,7 @@ module.exports = class XMLStringifier
   raw: (val) ->
     '' + val or ''
   attName: (val) ->
-    '' + val or ''
+    val = '' + val or ''
     val = @applyCase val
   attValue: (val) ->
     val = '' + val or ''
