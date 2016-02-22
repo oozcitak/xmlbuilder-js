@@ -23,11 +23,11 @@ suite 'Stringify:', ->
     )
     eq(
       xml(obj, { headless: true, textCase: 'lower' }).end()
-      '<-ele-name --att-name="val"/>'
+      '<ele-name att-name="val"/>'
     )
     eq(
       xml(obj, { headless: true, textCase: 'upper' }).end()
-      '<-ELE-NAME --ATT-NAME="val"/>'
+      '<ELE-NAME ATT-NAME="val"/>'
     )
     eq(
       xml(obj, { headless: true, textCase: 'snake' }).end()
