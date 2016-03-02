@@ -22,8 +22,7 @@ module.exports = class XMLStringifier
     @assertLegalChar @elEscape val
   cdata: (val) ->
     val = '' + val or ''
-    if val.match /]]>/
-      throw new Error "Invalid CDATA text: " + val
+    val = val.replace(']]>', ']]]]><![CDATA[>')
     @assertLegalChar val
   comment: (val) ->
     val = '' + val or ''
