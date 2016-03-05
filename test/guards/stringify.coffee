@@ -1,7 +1,6 @@
 suite 'Stringify Guards:', ->
   test 'defaults', ->
     testCases = [
-      () -> xml('test').dat(']]>')
       () -> xml('test').com('--')
       () -> xml('test').ins('pi', '?>')
       () -> xml('test', { encoding: "A#" })
@@ -9,7 +8,6 @@ suite 'Stringify Guards:', ->
     ]
 
     results = [
-      /Invalid CDATA text: ]]>/
       /Comment text cannot contain double-hypen: --/
       /Invalid processing instruction value: \?>/
       /Invalid encoding: A#/
