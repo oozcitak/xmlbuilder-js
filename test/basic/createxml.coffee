@@ -272,7 +272,7 @@ suite 'Creating XML:', ->
 
   test 'create() allowing empty elements', ->
     eq(
-      xml('test15', { headless: true, allowEmpty: true })
-        .ele('node').end()
+      xml('test15', { headless: true })
+        .ele('node').end({ allowEmpty: true })
       '<test15><node></node></test15>'
     )
