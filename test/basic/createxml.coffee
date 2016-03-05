@@ -272,8 +272,7 @@ suite 'Creating XML:', ->
 
   test 'create() allowing empty elements', ->
     eq(
-      xml('test15', { version: '1.0', encoding: 'UTF-8'})
-        .ele('node').end({allowEmpty: true})
-      '<?xml version="1.0" encoding="UTF-8"?>' +
+      xml('test15', { headless: true, allowEmpty: true })
+        .ele('node').end()
       '<test15><node></node></test15>'
     )

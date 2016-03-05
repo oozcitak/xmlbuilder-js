@@ -126,7 +126,7 @@ module.exports = class XMLElement extends XMLNode
     indent = options?.indent ? '  '
     offset = options?.offset ? 0
     newline = options?.newline ? '\n'
-    allowEmpty = options?.allowEmpty ? false
+    allowEmpty = @options?.allowEmpty ? false
     level or= 0
 
     space = new Array(level + offset + 1).join(indent)
