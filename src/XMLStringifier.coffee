@@ -10,12 +10,14 @@ module.exports = class XMLStringifier
   constructor: (options) ->
     @allowSurrogateChars = options?.allowSurrogateChars
     @noDoubleEncoding = options?.noDoubleEncoding
+    @textCase = options?.textCase
     for own key, value of options?.stringify or {}
       @[key] = value
 
   # Defaults
   eleName: (val) ->
     val = '' + val or ''
+    val = @applyCase val
     @assertLegalChar val
   eleText: (val) ->
     val = '' + val or ''
@@ -33,7 +35,8 @@ module.exports = class XMLStringifier
   raw: (val) ->
     '' + val or ''
   attName: (val) ->
-    '' + val or ''
+    val = '' + val or ''
+    val = @applyCase val
   attValue: (val) ->
     val = '' + val or ''
     @attEscape val
@@ -95,6 +98,16 @@ module.exports = class XMLStringifier
 
     str
 
+  # Converts element and attribute names to the given case
+  #
+  # `str` the string to convert
+  applyCase: (str) ->
+    switch @textCase
+      when "camel" then require('lodash/camelCase')(str)
+      when "kebab", "lower" then require('lodash/kebabCase')(str)
+      when "snake" then require('lodash/snakeCase')(str)
+      when "upper" then require('lodash/kebabCase')(str).toUpperCase()
+      else str
 
   # Escapes special characters in element values
   #
@@ -118,4 +131,3 @@ module.exports = class XMLStringifier
     str.replace(ampregex, '&amp;')
        .replace(/</g, '&lt;')
        .replace(/"/g, '&quot;')
-
