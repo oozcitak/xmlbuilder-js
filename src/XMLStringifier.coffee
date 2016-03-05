@@ -119,7 +119,6 @@ module.exports = class XMLStringifier
        .replace(/</g, '&lt;')
        .replace(/"/g, '&quot;')
        .replace(/\t/g, '&#x9;')
-       .replace(/\r\n/g, '\n')
-       .replace(/\r/g, '\n')
        .replace(/\n/g, '&#xA;')
+       .replace(/\r/g, '&#xD;')
 
