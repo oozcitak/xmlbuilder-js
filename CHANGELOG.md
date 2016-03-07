@@ -129,11 +129,32 @@ root.ele({ number: [ "one", "two"  ]});
 - Evaluate instruction value if function.
 
 ## [1.1.2] - 2013-12-11
+- 	Changed processing instruction decorator to `?`.
+
 ## [1.1.1] - 2013-12-11
+- 	Added processing instructions to JS object conversion.
+
 ## [1.1.0] - 2013-12-10
+- Added license to package.
+- `create()` and `element()` accept JS object to fully build the document.
+- Added `nod()` and `n()` aliases for `node()`.
+- Renamed `convertAttChar` decorator to `convertAttKey`.
+- Ignore empty decorator strings when converting JS objects.
+
 ## [1.0.2] - 2013-11-27
+- Removed temp file which was accidentally included in the package.
+
 ## [1.0.1] - 2013-11-27
+- Custom stingify functions affect current instance only.
+
 ## [1.0.0] - 2013-11-27
+- Added processing instructions.
+- Added stringify functions to sanitize and convert input values.
+- Added option for headless XML documents.
+- Added vows tests.
+- Removed Makefile. Using npm publish scripts instead.
+- Removed the `begin()` function. `create()` begins the document by creating the root node.
+
 ## [0.4.3] - 2013-11-08
 ## [0.4.2] - 2012-09-14
 ## [0.4.1] - 2012-08-31
