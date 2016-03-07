@@ -116,7 +116,7 @@ root.ele({ number: [ "one", "two"  ]});
 - Allow multiple values in `att()` and `ins()`.
 - Added ability to run individual performance tests.
 - Added flag for ignoring decorator strings.
-- 
+
 ## [2.0.1] - 2013-12-24
 - Removed performance tests from npm package.
 
