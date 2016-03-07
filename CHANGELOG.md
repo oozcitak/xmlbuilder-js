@@ -1,5 +1,8 @@
 # Change Log
 
+## [5.0.1] - 2016-03-08
+- Moved require statements for text case conversion to the top of files to reduce lazy requires.
+
 ## [5.0.0] - 2016-03-05
 - Added text case option for element names and attribute names. Valid cases are `lower`, `upper`, `camel`, `kebab` and `snake`.
 - Attribute and element values are escaped according to the [Canonical XML 1.0 specification](http://www.w3.org/TR/2000/WD-xml-c14n-20000119.html#charescaping). See [#54](https://github.com/oozcitak/xmlbuilder-js/issues/54) and [#86](https://github.com/oozcitak/xmlbuilder-js/issues/86).
@@ -76,7 +79,7 @@ root.ele({ number: [ "one", "two"  ]});
 ## [2.4.5] - 2014-11-15
 - Fixed prepublish script to run on windows.
 - Fixed  bug in XMLStringifier where an undefined value was used while reporting an invalid encoding value.
-- Moved require statements to the top of files to reduce CPU usage from lazy requires. See [#62](https://github.com/oozcitak/xmlbuilder-js/issues/62).
+- Moved require statements to the top of files to reduce lazy requires. See [#62](https://github.com/oozcitak/xmlbuilder-js/issues/62).
 
 ## [2.4.4] - 2014-09-08
 - Added the `offset` option to `toSTring()` for use in XML fragments.
