@@ -1,3 +1,7 @@
+camelCase = require 'lodash/camelCase'
+kebabCase = require 'lodash/kebabCase'
+snakeCase = require 'lodash/snakeCase'
+
 # Converts values to strings
 module.exports = class XMLStringifier
 
@@ -102,10 +106,10 @@ module.exports = class XMLStringifier
   # `str` the string to convert
   applyCase: (str) ->
     switch @textCase
-      when "camel" then require('lodash/camelCase')(str)
-      when "kebab", "lower" then require('lodash/kebabCase')(str)
-      when "snake" then require('lodash/snakeCase')(str)
-      when "upper" then require('lodash/kebabCase')(str).toUpperCase()
+      when "camel" then camelCase(str)
+      when "kebab", "lower" then kebabCase(str)
+      when "snake" then snakeCase(str)
+      when "upper" then kebabCase(str).toUpperCase()
       else str
 
   # Escapes special characters in element values
