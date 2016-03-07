@@ -267,6 +267,8 @@ root.ele({ number: [ "one", "two"  ]});
 ## 0.0.1 - 2010-11-02
 - Initial release
 
+
+[5.0.1]: https://github.com/oozcitak/xmlbuilder-js/compare/v5.0.0...v5.0.1
 [5.0.0]: https://github.com/oozcitak/xmlbuilder-js/compare/v4.2.1...v5.0.0
 [4.2.1]: https://github.com/oozcitak/xmlbuilder-js/compare/v4.2.0...v4.2.1
 [4.2.0]: https://github.com/oozcitak/xmlbuilder-js/compare/v4.1.0...v4.2.0
