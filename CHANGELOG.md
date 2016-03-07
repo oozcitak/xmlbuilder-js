@@ -32,7 +32,11 @@ root.ele({ number: [ "one", "two"  ]});
 - Fixed a bug where the XML encoding string was checked partially.
 
 ## [3.1.0] - 2015-09-19
+- `#list` decorator ignores empty arrays.
+
 ## [3.0.0] - 2015-09-10
+- Allow `\r`, `\n` and `\t` in attribute values without escaping. See [#86](https://github.com/oozcitak/xmlbuilder-js/issues/86).
+
 ## [2.6.5] - 2015-09-09
 ## [2.6.4] - 2015-05-27
 ## [2.6.3] - 2015-05-27
