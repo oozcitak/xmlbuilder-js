@@ -205,13 +205,35 @@ root.ele({ number: [ "one", "two"  ]});
 - Added insert, traversal and delete functions.
 
 ## [0.1.7] - 2011-10-25
+- No changes. Accidental release.
+
 ## [0.1.6] - 2011-10-25
+- Corrected `package.json` bugs link to `url` from `web`.
+
 ## [0.1.5] - 2011-08-08
+- Added missing npm package contents.
+
 ## [0.1.4] - 2011-07-29
+- Text-only nodes are no longer indented.
+- Added documentation for multiple instances.
+
 ## [0.1.3] - 2011-07-27
+- Exported the `create()` function to return a new instance. This allows multiple builder instances to be constructed.
+- Fixed `u()` function so that it now correctly calls `up()`.
+- Fixed typo in `element()` so that `attributes` and `text` van be passes interchangeably.
+
 ## [0.1.2] - 2011-06-03
+- `ele()` accepts element text.
+- `attributes()` now overrides existing attributes if passed the same attribute name.
+
 ## [0.1.1] - 2011-05-19
+- Added the raw output option.
+- Removed most validity checks.
+
 ## [0.1.0] - 2011-04-27
+- `text()` and `cdata()` now return parent element.
+- Attribute values are escaped.
+
 ## [0.0.7] - 2011-04-23
 ## [0.0.6] - 2011-02-23
 ## [0.0.5] - 2010-12-31
