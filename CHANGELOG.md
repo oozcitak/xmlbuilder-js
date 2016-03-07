@@ -194,8 +194,16 @@ root.ele({ number: [ "one", "two"  ]});
 - Added `doc()` to return the document element.
 
 ## [0.2.2] - 2011-11-28
+- Prevent code relying on `up()`'s older behavior to break.
+
 ## [0.2.1] - 2011-11-28
+- Added the `root()` function.
+
 ## [0.2.0] - 2011-11-21
+- Added Travis-CI integration.
+- Added coffee-script dependency.
+- Added insert, traversal and delete functions.
+
 ## [0.1.7] - 2011-10-25
 ## [0.1.6] - 2011-10-25
 ## [0.1.5] - 2011-08-08
