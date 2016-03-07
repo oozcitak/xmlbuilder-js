@@ -174,10 +174,10 @@ root.ele({ number: [ "one", "two"  ]});
 - Soft deprecated `begin()`.
 - Brought back npm package contents which were lost due to incorrect configuration of `package.json` in previous releases.
 
-## [0.3.3] - 2012-08-13
-## [0.3.2] - 2012-08-13
-## [0.3.11] - 2012-07-27
-## [0.3.10] - 2012-07-20
+## [0.3.11] - 2012-08-13
+## [0.3.10] - 2012-08-13
+## [0.3.3] - 2012-07-27
+## [0.3.2] - 2012-07-20
 ## [0.3.1] - 2011-11-28
 ## [0.3.0] - 2011-11-28
 ## [0.2.2] - 2011-11-28
@@ -238,11 +238,11 @@ root.ele({ number: [ "one", "two"  ]});
 [0.4.3]: https://github.com/oozcitak/xmlbuilder-js/compare/v0.4.2...v0.4.3
 [0.4.2]: https://github.com/oozcitak/xmlbuilder-js/compare/v0.4.1...v0.4.2
 [0.4.1]: https://github.com/oozcitak/xmlbuilder-js/compare/v0.4.0...v0.4.1
-[0.4.0]: https://github.com/oozcitak/xmlbuilder-js/compare/v0.3.3...v0.4.0
-[0.3.3]: https://github.com/oozcitak/xmlbuilder-js/compare/v0.3.2...v0.3.3
-[0.3.2]: https://github.com/oozcitak/xmlbuilder-js/compare/v0.3.11...v0.3.2
+[0.4.0]: https://github.com/oozcitak/xmlbuilder-js/compare/v0.3.11...v0.4.0
 [0.3.11]: https://github.com/oozcitak/xmlbuilder-js/compare/v0.3.10...v0.3.11
-[0.3.10]: https://github.com/oozcitak/xmlbuilder-js/compare/v0.3.1...v0.3.10
+[0.3.10]: https://github.com/oozcitak/xmlbuilder-js/compare/v0.3.3...v0.3.10
+[0.3.3]: https://github.com/oozcitak/xmlbuilder-js/compare/v0.3.2...v0.3.3
+[0.3.2]: https://github.com/oozcitak/xmlbuilder-js/compare/v0.3.1...v0.3.2
 [0.3.1]: https://github.com/oozcitak/xmlbuilder-js/compare/v0.3.0...v0.3.1
 [0.3.0]: https://github.com/oozcitak/xmlbuilder-js/compare/v0.2.2...v0.3.0
 [0.2.2]: https://github.com/oozcitak/xmlbuilder-js/compare/v0.2.1...v0.2.2
