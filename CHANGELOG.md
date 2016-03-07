@@ -145,7 +145,7 @@ root.ele({ number: [ "one", "two"  ]});
 - Removed temp file which was accidentally included in the package.
 
 ## [1.0.1] - 2013-11-27
-- Custom stingify functions affect current instance only.
+- Custom stringify functions affect current instance only.
 
 ## [1.0.0] - 2013-11-27
 - Added processing instructions.
@@ -156,9 +156,24 @@ root.ele({ number: [ "one", "two"  ]});
 - Removed the `begin()` function. `create()` begins the document by creating the root node.
 
 ## [0.4.3] - 2013-11-08
+- Added option to include surrogate pairs in XML content. See [#29](https://github.com/oozcitak/xmlbuilder-js/issues/29).
+- Fixed empty value string representation in pretty mode.
+- Added pre and postpublish scripts to package.json.
+- Filtered out prototype properties when appending attributes. See [#31](https://github.com/oozcitak/xmlbuilder-js/issues/31).
+
 ## [0.4.2] - 2012-09-14
+- Removed README.md from `.npmignore`.
+
 ## [0.4.1] - 2012-08-31
+- Removed `begin()` calls in favor of `XMLBuilder` constructor.
+- Added the `end()` function. `end()` is a convenience over `doc().toString()`.
+
 ## [0.4.0] - 2012-08-31
+- Added arguments to `XMLBuilder` constructor to allow the name of the root element and XML prolog to be defined in one line.
+- Package keywords are fixed to be an array of values.
+- Soft deprecated `begin()`.
+- Brought back npm package contents which were lost due to incorrect configuration of `package.json` in previous releases.
+
 ## [0.3.3] - 2012-08-13
 ## [0.3.2] - 2012-08-13
 ## [0.3.11] - 2012-07-27
