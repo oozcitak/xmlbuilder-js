@@ -235,11 +235,32 @@ root.ele({ number: [ "one", "two"  ]});
 - Attribute values are escaped.
 
 ## [0.0.7] - 2011-04-23
+-	Coerced text values to string.
+
 ## [0.0.6] - 2011-02-23
+- Added support for XML comments.
+- Text nodes are checked against CharData.
+
 ## [0.0.5] - 2010-12-31
+- Corrected the name of the main npm module in `package.json`.
+
 ## [0.0.4] - 2010-12-28
+- Added `.npmignore`.
+
 ## [0.0.3] - 2010-12-27
+- root element is now constructed in `begin()`.
+- moved prolog to `begin()`.
+- Added the ability to have CDATA in element text.
+- Removed unused prolog aliases.
+- Removed `builder()` function from main module.
+- Added the name of the main npm module in `package.json`.
+
 ## [0.0.2] - 2010-11-03
+- `element()` expands nested arrays.
+- Added pretty printing.
+- Added the `up()`, `build()` and `prolog()` functions.
+- Added readme.
+
 ## 0.0.1 - 2010-11-02
 - Initial release
 
