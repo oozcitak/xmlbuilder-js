@@ -170,16 +170,29 @@ root.ele({ number: [ "one", "two"  ]});
 
 ## [0.4.0] - 2012-08-31
 - Added arguments to `XMLBuilder` constructor to allow the name of the root element and XML prolog to be defined in one line.
-- Package keywords are fixed to be an array of values.
 - Soft deprecated `begin()`.
-- Brought back npm package contents which were lost due to incorrect configuration of `package.json` in previous releases.
 
 ## [0.3.11] - 2012-08-13
+- Package keywords are fixed to be an array of values.
+
 ## [0.3.10] - 2012-08-13
+- Brought back npm package contents which were lost due to incorrect configuration of `package.json` in previous releases.
+
 ## [0.3.3] - 2012-07-27
+- Implemented `importXMLBuilder()`.
+
 ## [0.3.2] - 2012-07-20
+- Fixed a duplicated escaping problem on `element()`.
+- Fixed a problem with text node creation from empty string.
+- Calling `root()` on the document element returns the root element.
+- `XMLBuilder` no longer extends `XMLFragment`.
+
 ## [0.3.1] - 2011-11-28
+- Added guards for document element so that nodes cannot be inserted at document level.
+
 ## [0.3.0] - 2011-11-28
+- Added `doc()` to return the document element.
+
 ## [0.2.2] - 2011-11-28
 ## [0.2.1] - 2011-11-28
 ## [0.2.0] - 2011-11-21
