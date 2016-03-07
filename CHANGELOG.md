@@ -38,27 +38,96 @@ root.ele({ number: [ "one", "two"  ]});
 - Allow `\r`, `\n` and `\t` in attribute values without escaping. See [#86](https://github.com/oozcitak/xmlbuilder-js/issues/86).
 
 ## [2.6.5] - 2015-09-09
+- Use native `isArray` instead of lodash.
+- Indentation of processing intructions are set to the parent element's.
+
 ## [2.6.4] - 2015-05-27
+- Updated lodash dependency to 3.5.0.
+
 ## [2.6.3] - 2015-05-27
+- Bumped version because previous release was not published on npm.
+
 ## [2.6.2] - 2015-03-10
+- Updated lodash dependency to 3.5.0.
+
 ## [2.6.1] - 2015-02-20
+- Updated lodash dependency to 3.3.0.
+
 ## [2.6.0] - 2015-02-20
+- Fixed a bug where the `XMLNode` constructor overwrote the super class parent.
+- Removed document property from cloned nodes.
+- Switched to mocha.js for testing.
+
 ## [2.5.2] - 2015-02-16
+- Updated lodash dependency to 3.2.0.
+
 ## [2.5.1] - 2015-02-09
-## [2.5.0] - 2015-02-03
+- Updated lodash dependency to 3.1.0.
+- Support all node >= 0.8.
+
+## [2.5.0] - 2015-00-03
+- Updated lodash dependency to 3.0.0.
+
 ## [2.4.6] - 2015-01-26
+-	Show more information from attribute creation with null values.
+-	Added iojs as an engine.
+-	Self close elements with empty text.
+
 ## [2.4.5] - 2014-11-15
+- Fixed prepublish script to run on windows.
+- Fixed  bug in XMLStringifier where an undefined value was used while reporting an invalid encoding value.
+- Moved require statements to the top of files to reduce CPU usage from lazy requires. See [#62](https://github.com/oozcitak/xmlbuilder-js/issues/62).
+
 ## [2.4.4] - 2014-09-08
+- Added the `offset` option to `toSTring()` for use in XML fragments.
+
 ## [2.4.3] - 2014-08-13
+- Corrected license in package description.
+
 ## [2.4.2] - 2014-08-13
+- Dropped performance test and memwatch dependency.
+
 ## [2.4.1] - 2014-08-12
+- Fixed a bug where empty indent string was omitted when pretty printing. See [#59](https://github.com/oozcitak/xmlbuilder-js/issues/59).
+
 ## [2.4.0] - 2014-08-04
+- Correct cases of pubID and sysID.
+- Use single lodash instead of seperate npm modules. See [#53](https://github.com/oozcitak/xmlbuilder-js/issues/53).
+- Escape according to Canonical XML 1.0. See [#54](https://github.com/oozcitak/xmlbuilder-js/issues/54).
+
 ## [2.3.0] - 2014-07-17
+- Convert objects to JS primitives while sanitizing user input.
+- Object builder preserves items with null values. See [#44](https://github.com/oozcitak/xmlbuilder-js/issues/44).
+- Use modularized lodash functions to cut down dependencies.
+- Process empty objects when converting from objects so that we don't throw on empty child objects.
+
 ## [2.2.1] - 2014-04-04
+- Bumped version because previous release was not published on npm.
+
 ## [2.2.0] - 2014-04-04
+- Switch to lodash from underscore.
+- Removed legacy `ext` option from `create()`.
+- Drop old node versions: 0.4, 0.5, 0.6. 0.8 is the minimum requirement from now on.
+
 ## [2.1.0] - 2013-12-30
+- Removed duplicate null checks from constructors.
+- Fixed node count in performance test.
+- Added option for skipping null attribute values. See [#26](https://github.com/oozcitak/xmlbuilder-js/issues/26).
+- Allow multiple values in `att()` and `ins()`.
+- Added ability to run individual performance tests.
+- Added flag for ignoring decorator strings.
+- 
 ## [2.0.1] - 2013-12-24
+- Removed performance tests from npm package.
+
 ## [2.0.0] - 2013-12-24
+- Combined loops for speed up.
+- Added support for the DTD and XML declaration.
+- `clone` includes attributes.
+- Added performance tests.
+- Evaluate attribute value if function.
+- Evaluate instruction value if function.
+
 ## [1.1.2] - 2013-12-11
 ## [1.1.1] - 2013-12-11
 ## [1.1.0] - 2013-12-10
