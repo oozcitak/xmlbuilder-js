@@ -44,7 +44,7 @@ root.ele({ number: [ "one", "two"  ]});
 
 ## [2.6.5] - 2015-09-09
 - Use native `isArray` instead of lodash.
-- Indentation of processing intructions are set to the parent element's.
+- Indentation of processing instructions are set to the parent element's.
 
 ## [2.6.4] - 2015-05-27
 - Updated lodash dependency to 3.5.0.
@@ -84,7 +84,7 @@ root.ele({ number: [ "one", "two"  ]});
 - Moved require statements to the top of files to reduce lazy requires. See [#62](https://github.com/oozcitak/xmlbuilder-js/issues/62).
 
 ## [2.4.4] - 2014-09-08
-- Added the `offset` option to `toSTring()` for use in XML fragments.
+- Added the `offset` option to `toString()` for use in XML fragments.
 
 ## [2.4.3] - 2014-08-13
 - Corrected license in package description.
@@ -97,7 +97,7 @@ root.ele({ number: [ "one", "two"  ]});
 
 ## [2.4.0] - 2014-08-04
 - Correct cases of pubID and sysID.
-- Use single lodash instead of seperate npm modules. See [#53](https://github.com/oozcitak/xmlbuilder-js/issues/53).
+- Use single lodash instead of separate npm modules. See [#53](https://github.com/oozcitak/xmlbuilder-js/issues/53).
 - Escape according to Canonical XML 1.0. See [#54](https://github.com/oozcitak/xmlbuilder-js/issues/54).
 
 ## [2.3.0] - 2014-07-17
@@ -225,7 +225,7 @@ root.ele({ number: [ "one", "two"  ]});
 ## [0.1.3] - 2011-07-27
 - Exported the `create()` function to return a new instance. This allows multiple builder instances to be constructed.
 - Fixed `u()` function so that it now correctly calls `up()`.
-- Fixed typo in `element()` so that `attributes` and `text` van be passes interchangeably.
+- Fixed typo in `element()` so that `attributes` and `text` can be passed interchangeably.
 
 ## [0.1.2] - 2011-06-03
 - `ele()` accepts element text.
