@@ -123,55 +123,58 @@ module.exports = class XMLElement extends XMLNode
   # `options.newline` newline sequence for pretty print
   # `options.allowEmpty` do not self close empty element tags
   toString: (options, level) ->
-    pretty = options?.pretty or false
-    indent = options?.indent ? '  '
-    offset = options?.offset ? 0
-    newline = options?.newline ? '\n'
-    allowEmpty = options?.allowEmpty ? false
-    level or= 0
-
-    space = new Array(level + offset + 1).join(indent)
-
-    r = ''
-
-    # instructions
-    for instruction in @instructions
-      r += instruction.toString options, level
-
-    # open tag
-    r += space if pretty
-    r += '<' + @name
-
-    # attributes
-    for own name, att of @attributes
-      r += att.toString options
-
-    if @children.length == 0 or every(@children, (e) -> e.value == '')
-      # empty element
-      if allowEmpty
-        r += '></' + @name + '>'
-      else
-        r += '/>'
-
-      r += newline if pretty
-    else if pretty and @children.length == 1 and @children[0].value?
-      # do not indent text-only nodes
-      r += '>'
-      r += @children[0].value
-      r += '</' + @name + '>'
-      r += newline
+    if options?.writer
+      options.writer.element @, level
     else
-      r += '>'
-      r += newline if pretty
-      # inner tags
-      for child in @children
-        r += child.toString options, level + 1
-      # close tag
-      r += space if pretty
-      r += '</' + @name + '>'
-      r += newline if pretty
+      pretty = options?.pretty or false
+      indent = options?.indent ? '  '
+      offset = options?.offset ? 0
+      newline = options?.newline ? '\n'
+      allowEmpty = options?.allowEmpty ? false
+      level or= 0
 
-    return r
+      space = new Array(level + offset + 1).join(indent)
+
+      r = ''
+
+      # instructions
+      for instruction in @instructions
+        r += instruction.toString options, level
+
+      # open tag
+      r += space if pretty
+      r += '<' + @name
+
+      # attributes
+      for own name, att of @attributes
+        r += att.toString options
+
+      if @children.length == 0 or every(@children, (e) -> e.value == '')
+        # empty element
+        if allowEmpty
+          r += '></' + @name + '>'
+        else
+          r += '/>'
+
+        r += newline if pretty
+      else if pretty and @children.length == 1 and @children[0].value?
+        # do not indent text-only nodes
+        r += '>'
+        r += @children[0].value
+        r += '</' + @name + '>'
+        r += newline
+      else
+        r += '>'
+        r += newline if pretty
+        # inner tags
+        for child in @children
+          r += child.toString options, level + 1
+        # close tag
+        r += space if pretty
+        r += '</' + @name + '>'
+        r += newline if pretty
+
+      return r
 
 
   # Aliases

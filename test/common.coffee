@@ -1,4 +1,5 @@
-global.xml = require('../src/index.coffee').create
+global.builder = require('../src/index.coffee')
+global.xml = builder.create
 global.eq = require('assert').strictEqual
 global.err = require('assert').throws
 global.noterr = require('assert').doesNotThrow

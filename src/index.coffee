@@ -1,6 +1,8 @@
 assign = require 'lodash/assign'
 
 XMLBuilder = require './XMLBuilder'
+XMLWriter = require './XMLWriter'
+XMLFormattedWriter = require './XMLFormattedWriter'
 
 # Creates a new document and returns the root node for
 # chain-building the document tree
@@ -24,3 +26,8 @@ XMLBuilder = require './XMLBuilder'
 module.exports.create = (name, xmldec, doctype, options) ->
   options = assign { }, xmldec, doctype, options
   new XMLBuilder(name, options).root()
+
+module.exports.writers =
+  text: () -> new XMLWriter()
+  formatted: (options) -> new XMLFormattedWriter(options)
+

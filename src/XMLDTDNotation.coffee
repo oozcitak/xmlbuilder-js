@@ -31,27 +31,30 @@ module.exports = class XMLDTDNotation
   # `options.offset` how many indentations to add to every line for pretty print
   # `options.newline` newline sequence for pretty print
   toString: (options, level) ->
-    pretty = options?.pretty or false
-    indent = options?.indent ? '  '
-    offset = options?.offset ? 0
-    newline = options?.newline ? '\n'
-    level or= 0
+    if options?.writer
+      options.writer.dtdNotation @, level
+    else
+      pretty = options?.pretty or false
+      indent = options?.indent ? '  '
+      offset = options?.offset ? 0
+      newline = options?.newline ? '\n'
+      level or= 0
 
-    space = new Array(level + offset + 1).join(indent)
+      space = new Array(level + offset + 1).join(indent)
 
-    r = ''
+      r = ''
 
-    r += space if pretty
+      r += space if pretty
 
-    r += '<!NOTATION ' + @name
-    if @pubID and @sysID
-      r += ' PUBLIC "' + @pubID + '" "' + @sysID + '"'
-    else if @pubID
-      r += ' PUBLIC "' + @pubID + '"'
-    else if @sysID
-      r += ' SYSTEM "' + @sysID + '"'
-    r += '>'
+      r += '<!NOTATION ' + @name
+      if @pubID and @sysID
+        r += ' PUBLIC "' + @pubID + '" "' + @sysID + '"'
+      else if @pubID
+        r += ' PUBLIC "' + @pubID + '"'
+      else if @sysID
+        r += ' SYSTEM "' + @sysID + '"'
+      r += '>'
 
-    r += newline if pretty
+      r += newline if pretty
 
-    return r
+      return r

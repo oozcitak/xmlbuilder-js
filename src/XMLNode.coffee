@@ -272,7 +272,7 @@ module.exports = class XMLNode
 
   # Ends the document and converts string
   end: (options) ->
-    return @document().toString(options)
+    return @document().end(options)
 
 
   # Gets the previous node

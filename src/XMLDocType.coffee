@@ -143,41 +143,44 @@ module.exports = class XMLDocType
   # `options.offset` how many indentations to add to every line for pretty print
   # `options.newline` newline sequence for pretty print
   toString: (options, level) ->
-    pretty = options?.pretty or false
-    indent = options?.indent ? '  '
-    offset = options?.offset ? 0
-    newline = options?.newline ? '\n'
-    level or= 0
+    if options?.writer
+      options.writer.docType @, level
+    else
+      pretty = options?.pretty or false
+      indent = options?.indent ? '  '
+      offset = options?.offset ? 0
+      newline = options?.newline ? '\n'
+      level or= 0
 
-    space = new Array(level + offset + 1).join(indent)
+      space = new Array(level + offset + 1).join(indent)
 
-    r = ''
+      r = ''
 
-    r += space if pretty
+      r += space if pretty
 
-    # open tag
-    r += '<!DOCTYPE ' + @root().name
+      # open tag
+      r += '<!DOCTYPE ' + @root().name
 
-    # external identifier
-    if @pubID and @sysID
-      r += ' PUBLIC "' + @pubID + '" "' + @sysID + '"'
-    else if @sysID
-      r += ' SYSTEM "' + @sysID + '"'
+      # external identifier
+      if @pubID and @sysID
+        r += ' PUBLIC "' + @pubID + '" "' + @sysID + '"'
+      else if @sysID
+        r += ' SYSTEM "' + @sysID + '"'
 
-    # internal subset
-    if @children.length > 0
-      r += ' ['
+      # internal subset
+      if @children.length > 0
+        r += ' ['
+        r += newline if pretty
+        for child in @children
+          r += child.toString options, level + 1
+        r += ']'
+
+      # close tag
+      r += '>'
+
       r += newline if pretty
-      for child in @children
-        r += child.toString options, level + 1
-      r += ']'
 
-    # close tag
-    r += '>'
-
-    r += newline if pretty
-
-    return r
+      return r
 
 
   # Aliases

@@ -2,6 +2,7 @@ XMLStringifier = require './XMLStringifier'
 XMLDeclaration = require './XMLDeclaration'
 XMLDocType = require './XMLDocType'
 XMLElement = require './XMLElement'
+XMLWriter = require './XMLWriter'
 
 # Represents an XML builder
 module.exports = class XMLBuilder
@@ -55,6 +56,9 @@ module.exports = class XMLBuilder
 
   # Ends the document and converts string
   end: (options) ->
+    if options instanceof XMLWriter
+      options.writer = options
+
     @toString(options)
 
 
@@ -65,18 +69,21 @@ module.exports = class XMLBuilder
   # `options.offset` how many indentations to add to every line for pretty print
   # `options.newline` newline sequence for pretty print
   toString: (options) ->
-    pretty = options?.pretty or false
-    indent = options?.indent ? '  '
-    offset = options?.offset ? 0
-    newline = options?.newline ? '\n'
+    if options?.writer
+      options.writer.document @
+    else
+      pretty = options?.pretty or false
+      indent = options?.indent ? '  '
+      offset = options?.offset ? 0
+      newline = options?.newline ? '\n'
 
-    r = ''
-    r += @xmldec.toString options if @xmldec?
-    r += @doctype.toString options if @doctype?
-    r += @rootObject.toString options
+      r = ''
+      r += @xmldec.toString options if @xmldec?
+      r += @doctype.toString options if @doctype?
+      r += @rootObject.toString options
 
-    # remove trailing newline
-    if pretty and r.slice(-newline.length) == newline
-      r = r.slice(0, -newline.length)
+      # remove trailing newline
+      if pretty and r.slice(-newline.length) == newline
+        r = r.slice(0, -newline.length)
 
-    return r
+      return r

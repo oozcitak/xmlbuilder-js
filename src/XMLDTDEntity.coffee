@@ -49,31 +49,34 @@ module.exports = class XMLDTDEntity
   # `options.offset` how many indentations to add to every line for pretty print
   # `options.newline` newline sequence for pretty print
   toString: (options, level) ->
-    pretty = options?.pretty or false
-    indent = options?.indent ? '  '
-    offset = options?.offset ? 0
-    newline = options?.newline ? '\n'
-    level or= 0
-
-    space = new Array(level + offset + 1).join(indent)
-
-    r = ''
-
-    r += space if pretty
-
-    r += '<!ENTITY'
-    r += ' %' if @pe
-    r += ' ' + @name
-    if @value
-      r += ' "' + @value + '"'
+    if options?.writer
+      options.writer.dtdEntity @, level
     else
-      if @pubID and @sysID
-        r += ' PUBLIC "' + @pubID + '" "' + @sysID + '"'
-      else if @sysID
-        r += ' SYSTEM "' + @sysID + '"'
-      r += ' NDATA ' + @nData if @nData
-    r += '>'
+      pretty = options?.pretty or false
+      indent = options?.indent ? '  '
+      offset = options?.offset ? 0
+      newline = options?.newline ? '\n'
+      level or= 0
 
-    r += newline if pretty
+      space = new Array(level + offset + 1).join(indent)
 
-    return r
+      r = ''
+
+      r += space if pretty
+
+      r += '<!ENTITY'
+      r += ' %' if @pe
+      r += ' ' + @name
+      if @value
+        r += ' "' + @value + '"'
+      else
+        if @pubID and @sysID
+          r += ' PUBLIC "' + @pubID + '" "' + @sysID + '"'
+        else if @sysID
+          r += ' SYSTEM "' + @sysID + '"'
+        r += ' NDATA ' + @nData if @nData
+      r += '>'
+
+      r += newline if pretty
+
+      return r
