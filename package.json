@@ -22,7 +22,6 @@
     "node": ">=0.10"
   },
   "dependencies": {
-    "libxmljs": "^0.17.0",
     "lodash": "^4.0.0"
   },
   "devDependencies": {
