@@ -39,7 +39,7 @@ suite 'Creating XML with Writers:', ->
             .up()
         .ele('atttest', 'text')
             .att('att', () -> 'val')
-        .end(builder.writers.text())
+        .end(builder.stringWriter())
 
       '<?xml version="1.0"?>' +
       '<!DOCTYPE root SYSTEM "hello.dtd" [' +
@@ -116,7 +116,7 @@ suite 'Creating XML with Writers:', ->
             .up()
         .ele('atttest', 'text')
             .att('att', () -> 'val')
-        .end(builder.writers.formatted( { indent: '    ' } ))
+        .end(builder.stringWriter( { pretty: true, indent: '    ' } ))
 
       """
       <?xml version="1.0"?>
@@ -176,7 +176,7 @@ suite 'Creating XML with Writers:', ->
             .up()
         .ele('atttest', 'text')
             .att('att', () -> 'val')
-        .end(builder.writers.formatted( { indent: '    ', offset : 1 } ))
+        .end(builder.stringWriter( { pretty: true, indent: '    ', offset : 1 } ))
 
       """
         TEMPORARY_INDENT
@@ -220,7 +220,7 @@ suite 'Creating XML with Writers:', ->
             .up()
         .ele('atttest', 'text')
             .att('att', () -> 'val')
-        .end(builder.writers.formatted( { indent: '' } ))
+        .end(builder.stringWriter( { pretty: true, indent: '' } ))
 
       """
       <?xml version="1.0"?>
@@ -238,4 +238,20 @@ suite 'Creating XML with Writers:', ->
       <atttest att="val">text</atttest>
       </root>
       """
+    )
+
+  test 'Throw with unknown node types', ->
+    err(
+      () ->
+        root = xml('test4')
+        root.children.push(new String("Invalid node"))
+        root.end()
+      /Unknown XML node type: String/
+    )
+    err(
+      () ->
+        dtd = xml('test4').dtd()
+        dtd.children.push(new String("Invalid DTD node"))
+        dtd.end()
+      /Unknown DTD node type: String/
     )

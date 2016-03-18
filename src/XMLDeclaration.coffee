@@ -34,33 +34,6 @@ module.exports = class XMLDeclaration extends XMLNode
   # `options.indent` indentation for pretty print
   # `options.offset` how many indentations to add to every line for pretty print
   # `options.newline` newline sequence for pretty print
-  toString: (options, level) ->
-    if options?.writer
-      options.writer.declaration @, level
-    else
-      pretty = options?.pretty or false
-      indent = options?.indent ? '  '
-      offset = options?.offset ? 0
-      newline = options?.newline ? '\n'
-      level or= 0
+  toString: (options) ->
+    @options.writer.set(options).declaration @
 
-      space = new Array(level + offset + 1).join(indent)
-
-      r = ''
-
-      r += space if pretty
-
-      # open tag
-      r += '<?xml'
-
-      # attributes
-      r += ' version="' + @version + '"'
-      r += ' encoding="' + @encoding + '"' if @encoding?
-      r += ' standalone="' + @standalone + '"' if @standalone?
-
-      # close tag
-      r += '?>'
-
-      r += newline if pretty
-
-      return r

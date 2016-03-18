@@ -10,6 +10,7 @@ module.exports = class XMLAttribute
   # `name` attribute target
   # `value` attribute value
   constructor: (parent, name, value) ->
+    @options = parent.options
     @stringify = parent.stringify
 
     if not name?
@@ -32,8 +33,6 @@ module.exports = class XMLAttribute
   # `options.indent` indentation for pretty print
   # `options.offset` how many indentations to add to every line for pretty print
   # `options.newline` newline sequence for pretty print
-  toString: (options, level) ->
-    if options?.writer
-      options.writer.attribute @
-    else
-      ' ' + @name + '="' + @value + '"'
+  toString: (options) ->
+    @options.writer.set(options).attribute @
+

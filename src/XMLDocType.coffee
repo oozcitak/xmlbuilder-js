@@ -21,7 +21,8 @@ module.exports = class XMLDocType
   # `sysID` system identifier of the external subset
   constructor: (parent, pubID, sysID) ->
     @documentObject = parent
-    @stringify = @documentObject.stringify
+    @options = parent.options
+    @stringify = parent.stringify
 
     @children = []
 
@@ -136,51 +137,19 @@ module.exports = class XMLDocType
     return @documentObject
 
 
+  # Ends the document and converts string
+  end: (options) ->
+    return @document().end(options)
+
+
   # Converts to string
   #
   # `options.pretty` pretty prints the result
   # `options.indent` indentation for pretty print
   # `options.offset` how many indentations to add to every line for pretty print
   # `options.newline` newline sequence for pretty print
-  toString: (options, level) ->
-    if options?.writer
-      options.writer.docType @, level
-    else
-      pretty = options?.pretty or false
-      indent = options?.indent ? '  '
-      offset = options?.offset ? 0
-      newline = options?.newline ? '\n'
-      level or= 0
-
-      space = new Array(level + offset + 1).join(indent)
-
-      r = ''
-
-      r += space if pretty
-
-      # open tag
-      r += '<!DOCTYPE ' + @root().name
-
-      # external identifier
-      if @pubID and @sysID
-        r += ' PUBLIC "' + @pubID + '" "' + @sysID + '"'
-      else if @sysID
-        r += ' SYSTEM "' + @sysID + '"'
-
-      # internal subset
-      if @children.length > 0
-        r += ' ['
-        r += newline if pretty
-        for child in @children
-          r += child.toString options, level + 1
-        r += ']'
-
-      # close tag
-      r += '>'
-
-      r += newline if pretty
-
-      return r
+  toString: (options) ->
+    @options.writer.set(options).docType @
 
 
   # Aliases

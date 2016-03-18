@@ -1,37 +1,72 @@
 every = require 'lodash/every'
 
-XMLWriter = require './XMLWriter'
+XMLProcessingInstruction = require './XMLProcessingInstruction'
 
-# Prints formatted XML nodes as string
-module.exports = class XMLFormattedWriter extends XMLWriter
+XMLCData = require './XMLCData'
+XMLComment = require './XMLComment'
+XMLElement = require './XMLElement'
+XMLRaw = require './XMLRaw'
+XMLText = require './XMLText'
+
+XMLDTDAttList = require './XMLDTDAttList'
+XMLDTDElement = require './XMLDTDElement'
+XMLDTDEntity = require './XMLDTDEntity'
+XMLDTDNotation = require './XMLDTDNotation'
+
+# Prints XML nodes as plain text
+module.exports = class XMLStringWriter
 
 
-  # Initializes a new instance of `XMLWriter`
+  # Initializes a new instance of `XMLStringWriter`
   #
+  # `options.pretty` pretty prints the result
   # `options.indent` indentation string
-  # `options.offset` a fixed number of indentations to add to every line
   # `options.newline` newline sequence
+  # `options.offset` a fixed number of indentations to add to every line
+  # `options.allowEmpty` do not self close empty element tags
   constructor: (options) ->
-    super options
+    @pretty = options?.pretty or false
+    @allowEmpty = options?.allowEmpty ? false
+    if @pretty
+      @indent = options?.indent ? '  '
+      @newline = options?.newline ? '\n'
+      @offset = options?.offset ? 0
+    else
+      @indent = ''
+      @newline = ''
+      @offset = 0
 
+  # Modifies writer options
+  set: (options) ->
     options ?= {}
-    @indent = options?.indent ? '  '
-    @offset = options?.offset ? 0
-    @newline = options?.newline ? '\n'
+    @pretty = options.pretty if "pretty" of options
+    @allowEmpty = options.allowEmpty  if "allowEmpty" of options
+    if @pretty
+      @indent = if "indent" of options then options.indent else '  '
+      @newline = if "newline" of options then options.newline else '\n'
+      @offset = if "offset" of options then options.offset else 0
+    else
+      @indent = ''
+      @newline = ''
+      @offset = 0
+
+    return @
 
   # returns the indentation string for the current level
   space: (level) ->
-    level or= 0
-    new Array(level + @offset + 1).join(@indent)
+    if @pretty
+      new Array((level or 0) + @offset + 1).join(@indent)
+    else
+      ''
 
   document: (doc) ->
     r = ''
-    r += doc.xmldec.toString @options if doc.xmldec?
-    r += doc.doctype.toString @options if doc.doctype?
-    r += doc.rootObject.toString @options
+    r += @declaration doc.xmldec if doc.xmldec?
+    r += @docType doc.doctype if doc.doctype?
+    r += @element doc.root()
 
     # remove trailing newline
-    if r.slice(-@newline.length) == @newline
+    if @pretty and r.slice(-@newline.length) == @newline
       r = r.slice(0, -@newline.length)
 
     return r
@@ -72,7 +107,15 @@ module.exports = class XMLFormattedWriter extends XMLWriter
       r += ' ['
       r += @newline
       for child in node.children
-        r += child.toString @options, level + 1
+        r += switch
+          when child instanceof XMLDTDAttList  then @dtdAttList  child, level + 1
+          when child instanceof XMLDTDElement  then @dtdElement  child, level + 1
+          when child instanceof XMLDTDEntity   then @dtdEntity   child, level + 1
+          when child instanceof XMLDTDNotation then @dtdNotation child, level + 1
+          when child instanceof XMLCData       then @cdata       child, level + 1
+          when child instanceof XMLComment     then @comment     child, level + 1
+          when child instanceof XMLProcessingInstruction then @processingInstruction child, level + 1
+          else throw new Error "Unknown DTD node type: " + child.constructor.name
       r += ']'
 
     # close tag
@@ -89,15 +132,15 @@ module.exports = class XMLFormattedWriter extends XMLWriter
     r = ''
 
     # instructions
-    for instruction in node.instructions
-      r += instruction.toString @options, level
+    for ins in node.instructions
+      r += @processingInstruction ins, level
 
     # open tag
     r += space + '<' + node.name
 
     # attributes
     for own name, att of node.attributes
-      r += att.toString @options
+      r += @attribute att
 
     if node.children.length == 0 or every(node.children, (e) -> e.value == '')
       # empty element
@@ -105,7 +148,7 @@ module.exports = class XMLFormattedWriter extends XMLWriter
         r += '></' + node.name + '>' + @newline
       else
         r += '/>' + @newline
-    else if node.children.length == 1 and node.children[0].value?
+    else if @pretty and node.children.length == 1 and node.children[0].value?
       # do not indent text-only nodes
       r += '>'
       r += node.children[0].value
@@ -114,7 +157,13 @@ module.exports = class XMLFormattedWriter extends XMLWriter
       r += '>' + @newline
       # inner tags
       for child in node.children
-        r += child.toString @options, level + 1
+        r += switch
+          when child instanceof XMLCData   then @cdata   child, level + 1
+          when child instanceof XMLComment then @comment child, level + 1
+          when child instanceof XMLElement then @element child, level + 1
+          when child instanceof XMLRaw     then @raw     child, level + 1
+          when child instanceof XMLText    then @text    child, level + 1
+          else throw new Error "Unknown XML node type: " + child.constructor.name
       # close tag
       r += space + '</' + node.name + '>' + @newline
 
@@ -171,4 +220,3 @@ module.exports = class XMLFormattedWriter extends XMLWriter
     r += '>' + @newline
 
     return r
-

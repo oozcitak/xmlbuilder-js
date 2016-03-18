@@ -29,24 +29,5 @@ module.exports = class XMLComment extends XMLNode
   # `options.indent` indentation for pretty print
   # `options.offset` how many indentations to add to every line for pretty print
   # `options.newline` newline sequence for pretty print
-  toString: (options, level) ->
-    if options?.writer
-      options.writer.comment @, level
-    else
-      pretty = options?.pretty or false
-      indent = options?.indent ? '  '
-      offset = options?.offset ? 0
-      newline = options?.newline ? '\n'
-      level or= 0
-
-      space = new Array(level + offset + 1).join(indent)
-
-      r = ''
-
-      r += space if pretty
-
-      r += '<!-- ' + @text + ' -->'
-
-      r += newline if pretty
-
-      return r
+  toString: (options) ->
+    @options.writer.set(options).comment @

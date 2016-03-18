@@ -16,6 +16,7 @@ module.exports = class XMLDTDEntity
   # `value.sysID` system identifier
   # `value.nData` notation declaration
   constructor: (parent, pe, name, value) ->
+    @options = parent.options
     @stringify = parent.stringify
 
     if not name?
@@ -48,35 +49,5 @@ module.exports = class XMLDTDEntity
   # `options.indent` indentation for pretty print
   # `options.offset` how many indentations to add to every line for pretty print
   # `options.newline` newline sequence for pretty print
-  toString: (options, level) ->
-    if options?.writer
-      options.writer.dtdEntity @, level
-    else
-      pretty = options?.pretty or false
-      indent = options?.indent ? '  '
-      offset = options?.offset ? 0
-      newline = options?.newline ? '\n'
-      level or= 0
-
-      space = new Array(level + offset + 1).join(indent)
-
-      r = ''
-
-      r += space if pretty
-
-      r += '<!ENTITY'
-      r += ' %' if @pe
-      r += ' ' + @name
-      if @value
-        r += ' "' + @value + '"'
-      else
-        if @pubID and @sysID
-          r += ' PUBLIC "' + @pubID + '" "' + @sysID + '"'
-        else if @sysID
-          r += ' SYSTEM "' + @sysID + '"'
-        r += ' NDATA ' + @nData if @nData
-      r += '>'
-
-      r += newline if pretty
-
-      return r
+  toString: (options) ->
+    @options.writer.set(options).dtdEntity @

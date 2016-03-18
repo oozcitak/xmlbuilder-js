@@ -1,8 +1,7 @@
 assign = require 'lodash/assign'
 
 XMLBuilder = require './XMLBuilder'
-XMLWriter = require './XMLWriter'
-XMLFormattedWriter = require './XMLFormattedWriter'
+XMLStringWriter = require './XMLStringWriter'
 
 # Creates a new document and returns the root node for
 # chain-building the document tree
@@ -16,18 +15,29 @@ XMLFormattedWriter = require './XMLFormattedWriter'
 # `doctype.pubID` public identifier of the external subset
 # `doctype.sysID` system identifier of the external subset
 #
-# `options.headless` whether XML declaration and doctype will be included: true or false
-# `options.allowSurrogateChars` whether surrogates will be allowed: true or false
-# `options.skipNullAttributes` whether attributes with null values will be ignored: true or false
-# `options.ignoreDecorators` whether decorator strings will be ignored when converting JS objects: true or false
-# `options.separateArrayItems` whether array items are created as separate nodes when passed as an object value: true or false
-# `options.noDoubleEncoding` whether existing html entities are encoded: true or false
-# `options.stringify` a set of functions to use for converting values to strings
+# `options.headless` whether XML declaration and doctype will be included:
+#     true or false
+# `options.allowSurrogateChars` whether surrogates will be allowed: true or
+#     false
+# `options.skipNullAttributes` whether attributes with null values will be
+#     ignored: true or false
+# `options.ignoreDecorators` whether decorator strings will be ignored when
+#     converting JS objects: true or false
+# `options.separateArrayItems` whether array items are created as separate
+#     nodes when passed as an object value: true or false
+# `options.noDoubleEncoding` whether existing html entities are encoded:
+#     true or false
+# `options.stringify` a set of functions to use for converting values to
+#     strings
+#
+# `options.writer` the default XML writer to use for converting nodes to
+#     string. If the default writer is not set, the built-in XMLStringWriter
+#     will be used instead.
 module.exports.create = (name, xmldec, doctype, options) ->
   options = assign { }, xmldec, doctype, options
   new XMLBuilder(name, options).root()
 
-module.exports.writers =
-  text: () -> new XMLWriter()
-  formatted: (options) -> new XMLFormattedWriter(options)
+module.exports.stringWriter = (options) ->
+  new XMLStringWriter(options)
+
 

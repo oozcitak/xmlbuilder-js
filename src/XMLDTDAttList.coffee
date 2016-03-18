@@ -15,6 +15,7 @@ module.exports = class XMLDTDAttList
   # `defaultValue` default value of the attribute
   #                (only used for #FIXED or #DEFAULT)
   constructor: (parent, elementName, attributeName, attributeType, defaultValueType, defaultValue) ->
+    @options = parent.options
     @stringify = parent.stringify
 
     if not elementName?
@@ -45,27 +46,5 @@ module.exports = class XMLDTDAttList
   # `options.indent` indentation for pretty print
   # `options.offset` how many indentations to add to every line for pretty print
   # `options.newline` newline sequence for pretty print
-  toString: (options, level) ->
-    if options?.writer
-      options.writer.dtdAttList @, level
-    else
-      pretty = options?.pretty or false
-      indent = options?.indent ? '  '
-      offset = options?.offset ? 0
-      newline = options?.newline ? '\n'
-      level or= 0
-
-      space = new Array(level + offset + 1).join(indent)
-
-      r = ''
-
-      r += space if pretty
-
-      r += '<!ATTLIST ' + @elementName + ' ' + @attributeName + ' ' + @attributeType
-      r += ' ' + @defaultValueType if @defaultValueType != '#DEFAULT'
-      r += ' "' + @defaultValue + '"' if @defaultValue
-      r += '>'
-
-      r += newline if pretty
-
-      return r
+  toString: (options) ->
+    @options.writer.set(options).dtdAttList @
