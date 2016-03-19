@@ -2,8 +2,9 @@
 
 All notable changes to this project are documented in this file. This project adheres to [Semantic Versioning](http://semver.org/#semantic-versioning-200).
 
-## [5.0.1] - 2016-03-08
-- Moved require statements for text case conversion to the top of files to reduce lazy requires.
+## [6.0.0] - 2016-03-20
+- Added custom XML writers. The default string conversion functions are now collected under the `XMLStringWriter` class which can be accessed by the `stringWriter(options)` function exported by the module. An `XMLStreamWriter` is also added which outputs the XML document to a writable stream. A stream writer can be created by calling the `streamWriter(stream, options)` function exported by the module. Both classes are heavily customizable and the details are added to the wiki. It is also possible to write an XML writer from scratch and use it when calling `end()` on the XML document.
+
 ## [5.0.1] - 2016-03-08
 - Moved require statements for text case conversion to the top of files to reduce lazy requires.
 
