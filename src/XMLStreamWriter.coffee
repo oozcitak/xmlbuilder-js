@@ -29,8 +29,8 @@ module.exports = class XMLStreamWriter extends XMLWriterBase
     super options
 
   document: (doc) ->
-    @declaration doc.xmldec if doc.xmldec?
-    @docType doc.doctype if doc.doctype?
+    @declaration doc.dec() if doc.dec()?
+    @docType doc.dtd() if doc.dtd()?
     @element doc.root()
 
   attribute: (att) ->

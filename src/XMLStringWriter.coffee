@@ -28,8 +28,8 @@ module.exports = class XMLStringWriter extends XMLWriterBase
 
   document: (doc) ->
     r = ''
-    r += @declaration doc.xmldec if doc.xmldec?
-    r += @docType doc.doctype if doc.doctype?
+    r += @declaration doc.dec() if doc.dec()?
+    r += @docType doc.dtd() if doc.dtd()?
     r += @element doc.root()
 
     # remove trailing newline

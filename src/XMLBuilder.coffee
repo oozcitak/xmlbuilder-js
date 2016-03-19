@@ -62,9 +62,16 @@ module.exports = class XMLBuilder
         root.doctype options
 
 
+  # Gets the xml declaration
+  dec: () -> @xmldec
+
+
+  # Gets the document type declaration
+  dtd: () -> @doctype
+
+
   # Gets the root node
-  root: () ->
-    @rootObject
+  root: () -> @rootObject
 
 
   # Ends the document and passes it to the given XML writer
