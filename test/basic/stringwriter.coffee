@@ -1,4 +1,4 @@
-suite 'Creating XML with Writers:', ->
+suite 'Creating XML with string writer:', ->
   test 'Plain text writer', ->
     eq(
       xml('root')

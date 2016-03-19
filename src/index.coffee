@@ -2,6 +2,7 @@ assign = require 'lodash/assign'
 
 XMLBuilder = require './XMLBuilder'
 XMLStringWriter = require './XMLStringWriter'
+XMLStreamWriter = require './XMLStreamWriter'
 
 # Creates a new document and returns the root node for
 # chain-building the document tree
@@ -40,4 +41,5 @@ module.exports.create = (name, xmldec, doctype, options) ->
 module.exports.stringWriter = (options) ->
   new XMLStringWriter(options)
 
-
+module.exports.streamWriter = (stream, options) ->
+  new XMLStreamWriter(stream, options)
