@@ -1,7 +1,6 @@
 create = require 'lodash/create'
 isObject = require 'lodash/isObject'
 isFunction = require 'lodash/isFunction'
-every = require 'lodash/every'
 
 XMLNode = require './XMLNode'
 XMLAttribute = require './XMLAttribute'
