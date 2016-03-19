@@ -1,20 +1,21 @@
 every = require 'lodash/every'
 
-XMLProcessingInstruction = require './XMLProcessingInstruction'
-
 XMLCData = require './XMLCData'
 XMLComment = require './XMLComment'
 XMLElement = require './XMLElement'
 XMLRaw = require './XMLRaw'
 XMLText = require './XMLText'
+XMLProcessingInstruction = require './XMLProcessingInstruction'
 
 XMLDTDAttList = require './XMLDTDAttList'
 XMLDTDElement = require './XMLDTDElement'
 XMLDTDEntity = require './XMLDTDEntity'
 XMLDTDNotation = require './XMLDTDNotation'
 
+XMLWriterBase = require './XMLWriterBase'
+
 # Prints XML nodes to a stream
-module.exports = class XMLStreamWriter
+module.exports = class XMLStreamWriter extends XMLWriterBase
 
 
   # Initializes a new instance of `XMLStreamWriter`
@@ -27,39 +28,7 @@ module.exports = class XMLStreamWriter
   # `options.allowEmpty` do not self close empty element tags
   constructor: (stream, options) ->
     @stream = stream
-    @pretty = options?.pretty or false
-    @allowEmpty = options?.allowEmpty ? false
-    if @pretty
-      @indent = options?.indent ? '  '
-      @newline = options?.newline ? '\n'
-      @offset = options?.offset ? 0
-    else
-      @indent = ''
-      @newline = ''
-      @offset = 0
-
-  # Modifies writer options
-  set: (options) ->
-    options ?= {}
-    @pretty = options.pretty if "pretty" of options
-    @allowEmpty = options.allowEmpty  if "allowEmpty" of options
-    if @pretty
-      @indent = if "indent" of options then options.indent else '  '
-      @newline = if "newline" of options then options.newline else '\n'
-      @offset = if "offset" of options then options.offset else 0
-    else
-      @indent = ''
-      @newline = ''
-      @offset = 0
-
-    return @
-
-  # returns the indentation string for the current level
-  space: (level) ->
-    if @pretty
-      new Array((level or 0) + @offset + 1).join(@indent)
-    else
-      ''
+    super options
 
   document: (doc) ->
     @declaration doc.xmldec if doc.xmldec?
