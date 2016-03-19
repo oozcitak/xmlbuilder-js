@@ -4,6 +4,8 @@ All notable changes to this project are documented in this file. This project ad
 
 ## [5.0.1] - 2016-03-08
 - Moved require statements for text case conversion to the top of files to reduce lazy requires.
+## [5.0.1] - 2016-03-08
+- Moved require statements for text case conversion to the top of files to reduce lazy requires.
 
 ## [5.0.0] - 2016-03-05
 - Added text case option for element names and attribute names. Valid cases are `lower`, `upper`, `camel`, `kebab` and `snake`.
