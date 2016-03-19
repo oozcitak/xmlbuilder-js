@@ -1,5 +1,3 @@
-every = require 'lodash/every'
-
 XMLCData = require './XMLCData'
 XMLComment = require './XMLComment'
 XMLElement = require './XMLElement'
@@ -100,7 +98,7 @@ module.exports = class XMLStreamWriter extends XMLWriterBase
     for own name, att of node.attributes
       @attribute att
 
-    if node.children.length == 0 or every(node.children, (e) -> e.value == '')
+    if node.children.length == 0 or node.children.every((e) -> e.value == '')
       # empty element
       if @allowEmpty
         @stream.write '></' + node.name + '>' + (if node.isRoot then '' else @newline)
