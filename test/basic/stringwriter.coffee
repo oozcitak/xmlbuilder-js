@@ -255,3 +255,15 @@ suite 'Creating XML with string writer:', ->
         dtd.end()
       /Unknown DTD node type: String/
     )
+
+  test 'Overwrite writer properties', ->
+    eq(
+      xml('test').cdata('data').end({ writer: { cdata: () -> '' } })
+      '<?xml version="1.0"?><test></test>'
+    )
+    doc = xml('test').cdata('data')
+    xmlwriter = writer({ writer: { cdata: () -> '' } })
+    eq(
+      doc.end(xmlwriter)
+      '<?xml version="1.0"?><test></test>'
+    )

@@ -11,16 +11,21 @@ module.exports = class XMLWriterBase
   # `options.offset` a fixed number of indentations to add to every line
   # `options.allowEmpty` do not self close empty element tags
   constructor: (options) ->
-    @pretty = options?.pretty or false
-    @allowEmpty = options?.allowEmpty ? false
+    options ?= {}
+    @pretty = options.pretty or false
+    @allowEmpty = options.allowEmpty ? false
     if @pretty
-      @indent = options?.indent ? '  '
-      @newline = options?.newline ? '\n'
-      @offset = options?.offset ? 0
+      @indent = options.indent ? '  '
+      @newline = options.newline ? '\n'
+      @offset = options.offset ? 0
     else
       @indent = ''
       @newline = ''
       @offset = 0
+
+    # overwrite default properties
+    for own key, value of options.writer or {}
+      @[key] = value
 
   # Modifies writer options
   set: (options) ->
@@ -35,6 +40,10 @@ module.exports = class XMLWriterBase
       @indent = ''
       @newline = ''
       @offset = 0
+
+    # overwrite default properties
+    for own key, value of options.writer or {}
+      @[key] = value
 
     return @
 
