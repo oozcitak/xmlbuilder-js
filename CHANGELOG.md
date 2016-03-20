@@ -2,6 +2,16 @@
 
 All notable changes to this project are documented in this file. This project adheres to [Semantic Versioning](http://semver.org/#semantic-versioning-200).
 
+## [7.0.0] - 2016-03-21
+- Processing instructions are now created as regular nodes. This is a major breaking change if you are using processing instructions. Previously processing instructions were inserted before their parent node. After this change processing instructions are appended to the children of the parent node. Note that it is not currently possible to insert a processing instructions before the root element.
+```js
+root.ele('node').ins('pi');
+// pre-v7
+<?pi?><node/>
+// v7
+<node><?pi?></node>
+```
+
 ## [6.0.0] - 2016-03-20
 - Added custom XML writers. The default string conversion functions are now collected under the `XMLStringWriter` class which can be accessed by the `stringWriter(options)` function exported by the module. An `XMLStreamWriter` is also added which outputs the XML document to a writable stream. A stream writer can be created by calling the `streamWriter(stream, options)` function exported by the module. Both classes are heavily customizable and the details are added to the wiki. It is also possible to write an XML writer from scratch and use it when calling `end()` on the XML document.
 
@@ -272,6 +282,7 @@ root.ele({ number: [ "one", "two"  ]});
 ## 0.0.1 - 2010-11-02
 - Initial release
 
+[7.0.0]: https://github.com/oozcitak/xmlbuilder-js/compare/v6.0.0...v7.0.0
 [6.0.0]: https://github.com/oozcitak/xmlbuilder-js/compare/v5.0.1...v6.0.0
 [5.0.1]: https://github.com/oozcitak/xmlbuilder-js/compare/v5.0.0...v5.0.1
 [5.0.0]: https://github.com/oozcitak/xmlbuilder-js/compare/v4.2.1...v5.0.0
