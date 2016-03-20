@@ -218,8 +218,7 @@ suite 'Creating XML:', ->
           '<cdata><![CDATA[<test att="val">this is a test</test>\nSecond line]]></cdata>' +
           '<raw>&<>&</raw>' +
           '<atttest att="val">text</atttest>' +
-          '<?pi pival?>' +
-          '<atttest att2="val2">text2</atttest>' +
+          '<atttest att2="val2"><?pi pival?>text2</atttest>' +
       '</root>'
     )
 
@@ -242,7 +241,7 @@ suite 'Creating XML:', ->
       '<?xml version="1.1" encoding="UTF-8" standalone="yes"?>' +
       '<!DOCTYPE test14 SYSTEM "hello.dtd"><test14><node>test</node></test14>'
     )
-  
+
     eq(
       xml('test14', { headless: true, version: '1.1', encoding: 'UTF-8', standalone: true, sysID: 'hello.dtd' })
         .ele('node').txt('test').end()

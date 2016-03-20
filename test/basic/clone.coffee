@@ -32,6 +32,6 @@ suite 'Clone:', ->
         .com('comment')
     eq(
       xml('test2', { headless: true}).importXMLBuilder(org.root().clone()).end()
-      '<test2><test><![CDATA[val1]]>val2<?pi target?><node><!-- comment --></node></test></test2>'
+      '<test2><test><![CDATA[val1]]>val2<node><?pi target?><!-- comment --></node></test></test2>'
     )
 

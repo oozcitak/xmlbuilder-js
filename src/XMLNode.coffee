@@ -9,6 +9,7 @@ XMLDeclaration = null
 XMLDocType = null
 XMLRaw = null
 XMLText = null
+XMLProcessingInstruction = null
 
 # Represents a generic XMl element
 module.exports = class XMLNode
@@ -31,6 +32,7 @@ module.exports = class XMLNode
       XMLDocType = require './XMLDocType'
       XMLRaw = require './XMLRaw'
       XMLText = require './XMLText'
+      XMLProcessingInstruction = require './XMLProcessingInstruction'
 
 
   # Creates a child element node
@@ -69,10 +71,6 @@ module.exports = class XMLNode
         if not @options.ignoreDecorators and @stringify.convertAttKey and key.indexOf(@stringify.convertAttKey) == 0
           lastChild = @attribute(key.substr(@stringify.convertAttKey.length), val)
 
-        # assign processing instructions
-        else if not @options.ignoreDecorators and @stringify.convertPIKey and key.indexOf(@stringify.convertPIKey) == 0
-          lastChild = @instruction(key.substr(@stringify.convertPIKey.length), val)
-
         # expand list by creating child nodes
         else if not @options.separateArrayItems and Array.isArray val
           for item in val
@@ -102,6 +100,9 @@ module.exports = class XMLNode
       # raw text node
       else if not @options.ignoreDecorators and @stringify.convertRawKey and name.indexOf(@stringify.convertRawKey) == 0
         lastChild = @raw text
+      # processing instruction
+      else if not @options.ignoreDecorators and @stringify.convertPIKey and name.indexOf(@stringify.convertPIKey) == 0
+        lastChild = @instruction name.substr(@stringify.convertPIKey.length), text
       # element node
       else
         lastChild = @node name, attributes, text
@@ -224,6 +225,27 @@ module.exports = class XMLNode
     return @
 
 
+  # Adds a processing instruction
+  #
+  # `target` instruction target
+  # `value` instruction value
+  instruction: (target, value) ->
+    target = target.valueOf() if target?
+    value = value.valueOf() if value?
+
+    if Array.isArray target # expand if array
+      for insTarget in target
+        @instruction insTarget
+    else if isObject target # expand if object
+      for own insTarget, insValue of target
+        @instruction insTarget, insValue
+    else
+      value = value.apply() if isFunction value
+      instruction = new XMLProcessingInstruction @, target, value
+      @children.push instruction
+    return @
+
+
   # Creates the xml declaration
   #
   # `version` A version number string, e.g. 1.0
@@ -314,6 +336,7 @@ module.exports = class XMLNode
   txt: (value) -> @text value
   dat: (value) -> @cdata value
   com: (value) -> @comment value
+  ins: (target, value) -> @instruction target, value
   doc: () -> @document()
   dec: (version, encoding, standalone) -> @declaration version, encoding, standalone
   dtd: (pubID, sysID) -> @doctype pubID, sysID
@@ -323,4 +346,6 @@ module.exports = class XMLNode
   d: (value) -> @cdata value
   c: (value) -> @comment value
   r: (value) -> @raw value
+  i: (target, value) -> @instruction target, value
   u: () -> @up()
+

@@ -4,7 +4,6 @@ isFunction = require 'lodash/isFunction'
 
 XMLNode = require './XMLNode'
 XMLAttribute = require './XMLAttribute'
-XMLProcessingInstruction = require './XMLProcessingInstruction'
 
 # Represents an element of the XML document
 module.exports = class XMLElement extends XMLNode
@@ -23,7 +22,6 @@ module.exports = class XMLElement extends XMLNode
 
     @name = @stringify.eleName name
     @children = []
-    @instructions = []
     @attributes = {}
 
     @attribute attributes if attributes?
@@ -42,11 +40,6 @@ module.exports = class XMLElement extends XMLNode
     clonedSelf.attributes = {}
     for own attName, att of @attributes
       clonedSelf.attributes[attName] = att.clone()
-
-    # clone processing instructions
-    clonedSelf.instructions = []
-    for pi in @instructions
-      clonedSelf.instructions.push pi.clone()
 
     # clone child nodes
     clonedSelf.children = []
@@ -93,27 +86,6 @@ module.exports = class XMLElement extends XMLNode
     return @
 
 
-  # Adds a processing instruction
-  #
-  # `target` instruction target
-  # `value` instruction value
-  instruction: (target, value) ->
-    target = target.valueOf() if target?
-    value = value.valueOf() if value?
-
-    if Array.isArray target # expand if array
-      for insTarget in target
-        @instruction insTarget
-    else if isObject target # expand if object
-      for own insTarget, insValue of target
-        @instruction insTarget, insValue
-    else
-      value = value.apply() if isFunction value
-      instruction = new XMLProcessingInstruction @, target, value
-      @instructions.push instruction
-    return @
-
-
   # Converts the XML fragment to string
   #
   # `options.pretty` pretty prints the result
@@ -127,6 +99,5 @@ module.exports = class XMLElement extends XMLNode
 
   # Aliases
   att: (name, value) -> @attribute name, value
-  ins: (target, value) -> @instruction target, value
   a: (name, value) -> @attribute name, value
-  i: (target, value) -> @instruction target, value
+

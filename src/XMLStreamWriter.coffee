@@ -87,10 +87,6 @@ module.exports = class XMLStreamWriter extends XMLWriterBase
 
     space = @space(level)
 
-    # instructions
-    for ins in node.instructions
-       @processingInstruction ins, level
-
     # open tag
     @stream.write space + '<' + node.name
 
@@ -119,6 +115,7 @@ module.exports = class XMLStreamWriter extends XMLWriterBase
           when child instanceof XMLElement then @element child, level + 1
           when child instanceof XMLRaw     then @raw     child, level + 1
           when child instanceof XMLText    then @text    child, level + 1
+          when child instanceof XMLProcessingInstruction then @processingInstruction child, level + 1
           else throw new Error "Unknown XML node type: " + child.constructor.name
       # close tag
       @stream.write space + '</' + node.name + '>' + (if node.isRoot then '' else @newline)

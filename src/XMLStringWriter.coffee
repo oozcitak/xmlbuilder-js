@@ -98,10 +98,6 @@ module.exports = class XMLStringWriter extends XMLWriterBase
 
     r = ''
 
-    # instructions
-    for ins in node.instructions
-      r += @processingInstruction ins, level
-
     # open tag
     r += space + '<' + node.name
 
@@ -130,6 +126,7 @@ module.exports = class XMLStringWriter extends XMLWriterBase
           when child instanceof XMLElement then @element child, level + 1
           when child instanceof XMLRaw     then @raw     child, level + 1
           when child instanceof XMLText    then @text    child, level + 1
+          when child instanceof XMLProcessingInstruction then @processingInstruction child, level + 1
           else throw new Error "Unknown XML node type: " + child.constructor.name
       # close tag
       r += space + '</' + node.name + '>' + @newline

@@ -1,7 +1,9 @@
 create = require 'lodash/create'
 
+XMLNode = require './XMLNode'
+
 # Represents a processing instruction
-module.exports = class XMLProcessingInstruction
+module.exports = class XMLProcessingInstruction extends XMLNode
 
 
   # Initializes a new instance of `XMLProcessingInstruction`
@@ -10,8 +12,7 @@ module.exports = class XMLProcessingInstruction
   # `target` instruction target
   # `value` instruction value
   constructor: (parent, target, value) ->
-    @options = parent.options
-    @stringify = parent.stringify
+    super parent
 
     if not target?
       throw new Error "Missing instruction target"

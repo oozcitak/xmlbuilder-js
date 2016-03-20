@@ -127,7 +127,7 @@ suite 'Creating XML with stream writer:', ->
       .ele('xmlbuilder', {'for': 'node-js' })
           .com('CoffeeScript is awesome.')
           .nod('repo', {'type': 'git'}, 'git://github.com/oozcitak/xmlbuilder-js.git')
-          .ins('target', 'val')
+            .ins('target', 'val')
           .up()
       .up()
       .ele('cdata')
@@ -174,8 +174,10 @@ suite 'Creating XML with stream writer:', ->
       <root>
           <xmlbuilder for="node-js">
               <!-- CoffeeScript is awesome. -->
-              <?target val?>
-              <repo type="git">git://github.com/oozcitak/xmlbuilder-js.git</repo>
+              <repo type="git">
+                  git://github.com/oozcitak/xmlbuilder-js.git
+                  <?target val?>
+              </repo>
           </xmlbuilder>
           <cdata>
               <![CDATA[<test att="val">this is a test</test>

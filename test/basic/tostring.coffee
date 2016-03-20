@@ -5,7 +5,7 @@ suite 'Test toString() function with built-in XML writer:', ->
     eq xml('root').att('att', 'val').attributes['att'].toString(), ' att="val"'
     eq xml('root').dat('val').children[0].toString(), '<![CDATA[val]]>'
     eq xml('root').com('val').children[0].toString(), '<!-- val -->'
-    eq xml('root').ins('target', 'val').instructions[0].toString(), '<?target val?>'
+    eq xml('root').ins('target', 'val').children[0].toString(), '<?target val?>'
     eq xml('root').raw('val').children[0].toString(), 'val'
     eq xml('root').text('val').children[0].toString(), 'val'
 

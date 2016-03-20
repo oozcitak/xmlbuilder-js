@@ -67,9 +67,9 @@ suite 'Creating XML:', ->
 
       '<root>' +
           '<ele>simple element</ele>' +
-          '<?pi mypi?>' +
           '<person age="35">' +
               '<name>John</name>' +
+              '<?pi mypi?>' +
               '<!-- Good guy -->' +
               '<![CDATA[well formed!]]>' +
               '<unescaped>&<>&</unescaped>' +
@@ -153,7 +153,7 @@ suite 'Creating XML:', ->
                   six:
                     '@val': 6
                     ends: 'here'
-    
+
     eq(
       xml('root', { headless: true }).ele(obj).end()
       '<root>' +
@@ -213,7 +213,7 @@ suite 'Creating XML:', ->
             "two"
             () -> return "three"
         ]
-    
+
     eq(
       xml('root', { headless: true }).ele(obj).end()
       '<root>' +
