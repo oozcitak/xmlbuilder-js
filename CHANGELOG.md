@@ -3,7 +3,7 @@
 All notable changes to this project are documented in this file. This project adheres to [Semantic Versioning](http://semver.org/#semantic-versioning-200).
 
 ## [7.0.0] - 2016-03-21
-- Processing instructions are now created as regular nodes. This is a major breaking change if you are using processing instructions. Previously processing instructions were inserted before their parent node. After this change processing instructions are appended to the children of the parent node. Note that it is not currently possible to insert a processing instructions before the root element.
+- Processing instructions are now created as regular nodes. This is a major breaking change if you are using processing instructions. Previously processing instructions were inserted before their parent node. After this change processing instructions are appended to the children of the parent node. Note that it is not currently possible to insert processing instructions before or after the root element.
 ```js
 root.ele('node').ins('pi');
 // pre-v7
