@@ -33,6 +33,6 @@ suite 'Test toString() function with built-in XML writer:', ->
 
   test 'XML Declaration', ->
     eq(
-      xml('root').dec().doc().xmldec.toString()
+      xml('root').dec().doc().dec().toString()
       '<?xml version="1.0"?>'
     )

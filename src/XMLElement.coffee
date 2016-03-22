@@ -20,7 +20,6 @@ module.exports = class XMLElement extends XMLNode
       throw new Error "Missing element name"
 
     @name = @stringify.eleName name
-    @children = []
     @attributes = {}
 
     @attribute attributes if attributes?

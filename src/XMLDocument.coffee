@@ -1,11 +1,11 @@
 isPlainObject = require 'lodash/isPlainObject'
 
+XMLNode = require './XMLNode'
 XMLStringifier = require './XMLStringifier'
-XMLElement = require './XMLElement'
 XMLStringWriter = require './XMLStringWriter'
 
 # Represents an XML builder
-module.exports = class XMLDocument
+module.exports = class XMLDocument extends XMLNode
 
 
   # Initializes a new instance of `XMLDocument`
@@ -39,6 +39,8 @@ module.exports = class XMLDocument
   #     string. If the default writer is not set, the built-in XMLStringWriter
   #     will be used instead.
   constructor: (name, options) ->
+    super null
+
     if not name?
       throw new Error "Root element needs a name"
 
@@ -48,8 +50,9 @@ module.exports = class XMLDocument
     @options = options
     @stringify = new XMLStringifier options
 
-    temp = new XMLElement @, 'doc' # temporary node so that we can call element()
-    root = temp.element name
+    @isDocument = true
+
+    root = @element name
     root.isRoot = true
     root.documentObject = @
     @rootObject = root
@@ -63,15 +66,11 @@ module.exports = class XMLDocument
 
 
   # Gets the xml declaration
-  dec: () -> @xmldec
+  dec: () -> @declarationObject
 
 
   # Gets the document type declaration
-  dtd: () -> @doctype
-
-
-  # Gets the root node
-  root: () -> @rootObject
+  dtd: () -> @doctypeObject
 
 
   # Ends the document and passes it to the given XML writer

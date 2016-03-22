@@ -19,12 +19,15 @@ module.exports = class XMLNode
   #
   # `parent` the parent node
   constructor: (@parent) ->
-    @options = @parent.options
-    @stringify = @parent.stringify
+    if @parent
+      @options = @parent.options
+      @stringify = @parent.stringify
+
+    @children = []
 
     # first execution, load dependencies that are otherwise
     # circular (so we can't load them at the top)
-    if XMLElement is null
+    unless XMLElement
       XMLElement = require './XMLElement'
       XMLCData = require './XMLCData'
       XMLComment = require './XMLComment'
@@ -254,7 +257,7 @@ module.exports = class XMLNode
   declaration: (version, encoding, standalone) ->
     doc = @document()
     xmldec = new XMLDeclaration doc, version, encoding, standalone
-    doc.xmldec = xmldec
+    doc.declarationObject = xmldec
     return doc.root()
 
 
@@ -265,7 +268,7 @@ module.exports = class XMLNode
   doctype: (pubID, sysID) ->
     doc = @document()
     doctype = new XMLDocType doc, pubID, sysID
-    doc.doctype = doctype
+    doc.doctypeObject = doctype
     return doctype
 
 
@@ -278,18 +281,26 @@ module.exports = class XMLNode
 
   # Gets the root node
   root: () ->
-    if @isRoot
-      return @
+    node = @
 
-    child = @parent
-    child = child.parent while not child.isRoot
+    while node
+      if node.isDocument
+        return node.rootObject
+      else if node.isRoot
+        return node
 
-    return child
+      node = node.parent
 
 
   # Gets the node representing the XML document
   document: () ->
-    return @root().documentObject
+    node = @
+
+    while node
+      if node.isDocument
+        return node
+
+      node = node.parent
 
 
   # Ends the document and converts string
