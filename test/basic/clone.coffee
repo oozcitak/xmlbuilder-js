@@ -8,7 +8,7 @@ xmloriginal = xml('test', { headless: true})
 
 xmlcloned = xmloriginal.root().clone()
 xmlcloned.ele('added', '3')
-newxml = xml('test2', { headless: true}).importXMLBuilder(xmlcloned)
+newxml = xml('test2', { headless: true}).importDocument(xmlcloned)
 
 suite 'Clone:', ->
   test 'Original should remain unchanged', ->
@@ -31,7 +31,7 @@ suite 'Clone:', ->
         .ins('pi', 'target')
         .com('comment')
     eq(
-      xml('test2', { headless: true}).importXMLBuilder(org.root().clone()).end()
+      xml('test2', { headless: true}).importDocument(org.root().clone()).end()
       '<test2><test><![CDATA[val1]]>val2<node><?pi target?><!-- comment --></node></test></test2>'
     )
 

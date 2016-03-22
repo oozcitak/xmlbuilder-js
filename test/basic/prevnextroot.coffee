@@ -29,12 +29,12 @@ suite 'Navigation:', ->
   test 'doc() in element', ->
     isan(
       xml('test').ele('node').doc()
-      'XMLBuilder'
+      'XMLDocument'
     )
 
   test 'doc() in dtd', ->
     isan(
       xml('test').dtd().doc()
-      'XMLBuilder'
+      'XMLDocument'
     )
 

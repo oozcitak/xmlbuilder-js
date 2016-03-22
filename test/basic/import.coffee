@@ -5,7 +5,7 @@ suite 'Edit:', ->
 
     eq(
       xml('test13', {}, {}, { headless: true })
-        .importXMLBuilder(test13imported.doc())
+        .importDocument(test13imported.doc())
         .end()
       '<test13><test13imported><node>imported</node></test13imported></test13>'
     )

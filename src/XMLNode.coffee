@@ -319,11 +319,11 @@ module.exports = class XMLNode
     @parent.children[i + 1]
 
 
-  # Imports cloned root from another XMLBuilder
+  # Imports cloned root from another XML document
   #
-  # `xmlbuilder` the instance of XMLBuilder to insert nodes from
-  importXMLBuilder: (xmlbuilder) ->
-    clonedRoot = xmlbuilder.root().clone()
+  # `doc` the XML document to insert nodes from
+  importDocument: (doc) ->
+    clonedRoot = doc.root().clone()
     clonedRoot.parent = @
     clonedRoot.isRoot = false
     @children.push clonedRoot
@@ -349,3 +349,5 @@ module.exports = class XMLNode
   i: (target, value) -> @instruction target, value
   u: () -> @up()
 
+  # can be deprecated in a future release
+  importXMLBuilder: (doc) -> @importDocument doc

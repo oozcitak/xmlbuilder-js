@@ -5,10 +5,10 @@ XMLElement = require './XMLElement'
 XMLStringWriter = require './XMLStringWriter'
 
 # Represents an XML builder
-module.exports = class XMLBuilder
+module.exports = class XMLDocument
 
 
-  # Initializes a new instance of `XMLBuilder`
+  # Initializes a new instance of `XMLDocument`
   # and creates the XML prolog
   #
   # `name` name of the root element

@@ -1,4 +1,4 @@
-XMLBuilder = require './XMLBuilder'
+XMLDocument = require './XMLDocument'
 XMLStringWriter = require './XMLStringWriter'
 XMLStreamWriter = require './XMLStreamWriter'
 
@@ -34,7 +34,7 @@ XMLStreamWriter = require './XMLStreamWriter'
 #     will be used instead.
 module.exports.create = (name, xmldec, doctype, options) ->
   options = Object.assign { }, xmldec, doctype, options
-  new XMLBuilder(name, options).root()
+  new XMLDocument(name, options).root()
 
 module.exports.stringWriter = (options) ->
   new XMLStringWriter(options)
