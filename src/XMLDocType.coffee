@@ -1,6 +1,6 @@
-create = require 'lodash/create'
 isObject = require 'lodash/isObject'
 
+XMLNode = require './XMLNode'
 XMLCData = require './XMLCData'
 XMLComment = require './XMLComment'
 XMLDTDAttList = require './XMLDTDAttList'
@@ -10,7 +10,7 @@ XMLDTDNotation = require './XMLDTDNotation'
 XMLProcessingInstruction = require './XMLProcessingInstruction'
 
 # Represents doctype declaration
-module.exports = class XMLDocType
+module.exports = class XMLDocType extends XMLNode
 
 
   # Initializes a new instance of `XMLDocType`
@@ -20,9 +20,9 @@ module.exports = class XMLDocType
   # `pubID` public identifier of the external subset
   # `sysID` system identifier of the external subset
   constructor: (parent, pubID, sysID) ->
+    super parent
+
     @documentObject = parent
-    @options = parent.options
-    @stringify = parent.stringify
 
     @children = []
 

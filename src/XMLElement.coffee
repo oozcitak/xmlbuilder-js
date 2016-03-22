@@ -1,4 +1,3 @@
-create = require 'lodash/create'
 isObject = require 'lodash/isObject'
 isFunction = require 'lodash/isFunction'
 
@@ -30,7 +29,7 @@ module.exports = class XMLElement extends XMLNode
   # Creates and returns a deep clone of `this`
   #
   clone: () ->
-    clonedSelf = create XMLElement.prototype, @
+    clonedSelf = Object.create @
 
     # remove document element
     if clonedSelf.isRoot

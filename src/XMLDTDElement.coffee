@@ -1,7 +1,7 @@
-create = require 'lodash/create'
+XMLNode = require './XMLNode'
 
 # Represents an attribute
-module.exports = class XMLDTDElement
+module.exports = class XMLDTDElement extends XMLNode
 
 
   # Initializes a new instance of `XMLDTDElement`
@@ -10,8 +10,7 @@ module.exports = class XMLDTDElement
   # `name` element name
   # `value` element content (defaults to #PCDATA)
   constructor: (parent, name, value) ->
-    @options = parent.options
-    @stringify = parent.stringify
+    super parent
 
     if not name?
       throw new Error "Missing DTD element name"

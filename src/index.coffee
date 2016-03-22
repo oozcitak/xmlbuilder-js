@@ -1,5 +1,3 @@
-assign = require 'lodash/assign'
-
 XMLBuilder = require './XMLBuilder'
 XMLStringWriter = require './XMLStringWriter'
 XMLStreamWriter = require './XMLStreamWriter'
@@ -35,7 +33,7 @@ XMLStreamWriter = require './XMLStreamWriter'
 #     string. If the default writer is not set, the built-in XMLStringWriter
 #     will be used instead.
 module.exports.create = (name, xmldec, doctype, options) ->
-  options = assign { }, xmldec, doctype, options
+  options = Object.assign { }, xmldec, doctype, options
   new XMLBuilder(name, options).root()
 
 module.exports.stringWriter = (options) ->

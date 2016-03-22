@@ -1,8 +1,9 @@
-create = require 'lodash/create'
 isObject = require 'lodash/isObject'
 
+XMLNode = require './XMLNode'
+
 # Represents an entity declaration in the DTD
-module.exports = class XMLDTDEntity
+module.exports = class XMLDTDEntity extends XMLNode
 
 
   # Initializes a new instance of `XMLDTDEntity`
@@ -16,8 +17,7 @@ module.exports = class XMLDTDEntity
   # `value.sysID` system identifier
   # `value.nData` notation declaration
   constructor: (parent, pe, name, value) ->
-    @options = parent.options
-    @stringify = parent.stringify
+    super parent
 
     if not name?
       throw new Error "Missing entity name"

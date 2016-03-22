@@ -1,5 +1,3 @@
-create = require 'lodash/create'
-
 XMLNode = require './XMLNode'
 
 # Represents a text node
@@ -20,7 +18,7 @@ module.exports = class XMLText extends XMLNode
 
   # Creates and returns a deep clone of `this`
   clone: () ->
-    create XMLText.prototype, @
+    Object.create @
 
 
   # Converts the XML fragment to string

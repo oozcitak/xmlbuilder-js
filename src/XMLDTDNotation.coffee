@@ -1,7 +1,7 @@
-create = require 'lodash/create'
+XMLNode = require './XMLNode'
 
 # Represents a NOTATION entry in the DTD
-module.exports = class XMLDTDNotation
+module.exports = class XMLDTDNotation extends XMLNode
 
 
   # Initializes a new instance of `XMLDTDNotation`
@@ -12,8 +12,7 @@ module.exports = class XMLDTDNotation
   # `value.pubID` public identifier
   # `value.sysID` system identifier
   constructor: (parent, name, value) ->
-    @options = parent.options
-    @stringify = parent.stringify
+    super parent
 
     if not name?
       throw new Error "Missing notation name"

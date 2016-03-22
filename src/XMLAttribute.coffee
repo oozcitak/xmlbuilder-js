@@ -1,5 +1,3 @@
-create = require 'lodash/create'
-
 # Represents an attribute
 module.exports = class XMLAttribute
 
@@ -24,7 +22,7 @@ module.exports = class XMLAttribute
 
   # Creates and returns a deep clone of `this`
   clone: () ->
-    create XMLAttribute.prototype, @
+    Object.create @
 
 
   # Converts the XML fragment to string

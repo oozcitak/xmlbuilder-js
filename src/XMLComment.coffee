@@ -1,5 +1,3 @@
-create = require 'lodash/create'
-
 XMLNode = require './XMLNode'
 
 # Represents a comment node
@@ -20,7 +18,7 @@ module.exports = class XMLComment extends XMLNode
 
   # Creates and returns a deep clone of `this`
   clone: () ->
-    create XMLComment.prototype, @
+    Object.create @
 
 
   # Converts the XML fragment to string

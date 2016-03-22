@@ -1,4 +1,3 @@
-create = require 'lodash/create'
 isObject = require 'lodash/isObject'
 
 XMLNode = require './XMLNode'
