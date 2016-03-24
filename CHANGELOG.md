@@ -2,6 +2,11 @@
 
 All notable changes to this project are documented in this file. This project adheres to [Semantic Versioning](http://semver.org/#semantic-versioning-200).
 
+## [8.0.0] - 2016-03-25
+- Added the `begin` export function. See the wiki for details.
+- Added the ability to add comments and processing instructions before and after the root element. Added `commentBefore`, `commentAfter`, `instructionBefore` and `instructionAfter` functions for this purpose.
+- Dropped support for old node.js releases. Minimum required node.js version is now 4.0.
+
 ## [7.0.0] - 2016-03-21
 - Processing instructions are now created as regular nodes. This is a major breaking change if you are using processing instructions. Previously processing instructions were inserted before their parent node. After this change processing instructions are appended to the children of the parent node. Note that it is not currently possible to insert processing instructions before or after the root element.
 ```js
@@ -282,6 +287,7 @@ root.ele({ number: [ "one", "two"  ]});
 ## 0.0.1 - 2010-11-02
 - Initial release
 
+[8.0.0]: https://github.com/oozcitak/xmlbuilder-js/compare/v7.0.0...v8.0.0
 [7.0.0]: https://github.com/oozcitak/xmlbuilder-js/compare/v6.0.0...v7.0.0
 [6.0.0]: https://github.com/oozcitak/xmlbuilder-js/compare/v5.0.1...v6.0.0
 [5.0.1]: https://github.com/oozcitak/xmlbuilder-js/compare/v5.0.0...v5.0.1
