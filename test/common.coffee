@@ -1,5 +1,6 @@
 global.builder = require('../src/index.coffee')
 global.xml = builder.create
+global.doc = builder.begin
 global.writer = builder.stringWriter
 global.eq = require('assert').strictEqual
 global.err = require('assert').throws

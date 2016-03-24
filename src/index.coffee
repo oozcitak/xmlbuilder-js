@@ -33,8 +33,45 @@ XMLStreamWriter = require './XMLStreamWriter'
 #     string. If the default writer is not set, the built-in XMLStringWriter
 #     will be used instead.
 module.exports.create = (name, xmldec, doctype, options) ->
+  if not name?
+    throw new Error "Root element needs a name"
+
   options = Object.assign { }, xmldec, doctype, options
-  new XMLDocument(name, options).root()
+
+  # create the document node
+  doc = new XMLDocument(options)
+  # add the root node
+  root = doc.element name
+
+  # prolog
+  if not options.headless
+    doc.declaration options
+
+    if options.pubID? or options.sysID?
+      doc.doctype options
+
+  return root
+
+# Creates a new document and returns the document node for
+#
+# `options.allowSurrogateChars` whether surrogates will be allowed: true or
+#     false
+# `options.skipNullAttributes` whether attributes with null values will be
+#     ignored: true or false
+# `options.ignoreDecorators` whether decorator strings will be ignored when
+#     converting JS objects: true or false
+# `options.separateArrayItems` whether array items are created as separate
+#     nodes when passed as an object value: true or false
+# `options.noDoubleEncoding` whether existing html entities are encoded:
+#     true or false
+# `options.stringify` a set of functions to use for converting values to
+#     strings
+#
+# `options.writer` the default XML writer to use for converting nodes to
+#     string. If the default writer is not set, the built-in XMLStringWriter
+#     will be used instead.
+module.exports.begin = (options) ->
+  new XMLDocument(options)
 
 module.exports.stringWriter = (options) ->
   new XMLStringWriter(options)

@@ -24,6 +24,12 @@ module.exports = class XMLElement extends XMLNode
 
     @attribute attributes if attributes?
 
+    # set properties if this is the root node
+    if parent.isDocument
+      @isRoot = true
+      @documentObject = parent
+      parent.rootObject = @
+
 
   # Creates and returns a deep clone of `this`
   #

@@ -9,19 +9,7 @@ module.exports = class XMLDocument extends XMLNode
 
 
   # Initializes a new instance of `XMLDocument`
-  # and creates the XML prolog
   #
-  # `name` name of the root element
-  #
-  # `options.version` A version number string, e.g. 1.0
-  # `options.encoding` Encoding declaration, e.g. UTF-8
-  # `options.standalone` standalone document declaration: true or false
-  #
-  # `options.pubID` public identifier of the external subset
-  # `options.sysID` system identifier of the external subset
-  #
-  # `options.headless` whether XML declaration and doctype will be included:
-  #     true or false
   # `options.allowSurrogateChars` whether surrogates will be allowed: true or
   #     false
   # `options.skipNullAttributes` whether attributes with null values will be
@@ -38,11 +26,8 @@ module.exports = class XMLDocument extends XMLNode
   # `options.writer` the default XML writer to use for converting nodes to
   #     string. If the default writer is not set, the built-in XMLStringWriter
   #     will be used instead.
-  constructor: (name, options) ->
+  constructor: (options) ->
     super null
-
-    if not name?
-      throw new Error "Root element needs a name"
 
     options ?= {}
     if not options.writer then options.writer = new XMLStringWriter()
@@ -51,18 +36,6 @@ module.exports = class XMLDocument extends XMLNode
     @stringify = new XMLStringifier options
 
     @isDocument = true
-
-    root = @element name
-    root.isRoot = true
-    root.documentObject = @
-    @rootObject = root
-
-    # prolog
-    if not options.headless
-      @declaration options
-
-      if options.pubID? or options.sysID?
-        @doctype options
 
 
   # Ends the document and passes it to the given XML writer

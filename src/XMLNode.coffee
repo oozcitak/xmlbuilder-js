@@ -335,7 +335,7 @@ module.exports = class XMLNode
     else
       doc.children.unshift xmldec
 
-    return doc.root()
+    return doc.root() or doc
 
 
   # Creates the document type declaration

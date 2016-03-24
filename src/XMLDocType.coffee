@@ -111,5 +111,5 @@ module.exports = class XMLDocType extends XMLNode
   ent: (name, value) -> @entity name, value
   pent: (name, value) -> @pEntity name, value
   not: (name, value) -> @notation name, value
-  up: () -> @root()
+  up: () -> @root() or @documentObject
 
