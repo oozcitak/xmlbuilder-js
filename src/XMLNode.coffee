@@ -219,6 +219,40 @@ module.exports = class XMLNode
     return @
 
 
+  # Creates a comment node before the current node
+  #
+  # `value` comment text
+  commentBefore: (value) ->
+    # temporarily remove children starting *with* this
+    i = @parent.children.indexOf @
+    removed = @parent.children.splice i
+
+    # add the new child
+    child = @parent.comment value
+
+    # add back removed children after new child
+    Array.prototype.push.apply @parent.children, removed
+
+    return @
+
+
+  # Creates a comment node after the current node
+  #
+  # `value` comment text
+  commentAfter: (value) ->
+    # temporarily remove children starting *after* this
+    i = @parent.children.indexOf @
+    removed = @parent.children.splice i + 1
+
+    # add the new child
+    child = @parent.comment value
+
+    # add back removed children after new child
+    Array.prototype.push.apply @parent.children, removed
+
+    return @
+
+
   # Adds unescaped raw text
   #
   # `value` text
@@ -246,6 +280,42 @@ module.exports = class XMLNode
       value = value.apply() if isFunction value
       instruction = new XMLProcessingInstruction @, target, value
       @children.push instruction
+    return @
+
+
+  # Creates a processing instruction node before the current node
+  #
+  # `target` instruction target
+  # `value` instruction value
+  instructionBefore: (target, value) ->
+    # temporarily remove children starting *with* this
+    i = @parent.children.indexOf @
+    removed = @parent.children.splice i
+
+    # add the new child
+    child = @parent.instruction target, value
+
+    # add back removed children after new child
+    Array.prototype.push.apply @parent.children, removed
+
+    return @
+
+
+  # Creates a processing instruction node after the current node
+  #
+  # `target` instruction target
+  # `value` instruction value
+  instructionAfter: (target, value) ->
+    # temporarily remove children starting *after* this
+    i = @parent.children.indexOf @
+    removed = @parent.children.splice i + 1
+
+    # add the new child
+    child = @parent.instruction target, value
+
+    # add back removed children after new child
+    Array.prototype.push.apply @parent.children, removed
+
     return @
 
 

@@ -26,3 +26,9 @@ suite 'Processing Instructions:', ->
       '<test18><?renderCache.subset "Verdana" 0 0 ISO-8859-1 4 268 67 "#(),-./?><?pitarget pivalue?></test18>'
     )
 
+  test 'Instructions before and after root', ->
+    eq(
+      xml('ins', { headless: true })
+        .instructionBefore('pre' ,'val1').instructionAfter('post', 'val2').end()
+      '<?pre val1?><ins/><?post val2?>'
+    )
