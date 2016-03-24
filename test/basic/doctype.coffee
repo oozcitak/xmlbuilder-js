@@ -23,6 +23,12 @@ suite 'Document Type Declaration:', ->
       '<?xml version="1.0"?><!DOCTYPE root><root><node>test</node></root>'
     )
 
+  test 'Replace dtd', ->
+    eq(
+      xml('root').dtd('hello.dtd').up().ele('node').txt('test').dtd('bye.dtd').end()
+      '<?xml version="1.0"?><!DOCTYPE root SYSTEM "bye.dtd"><root><node>test</node></root>'
+    )
+
   test 'Internal and external dtd', ->
     eq(
       xml('root')

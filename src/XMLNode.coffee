@@ -379,8 +379,8 @@ module.exports = class XMLNode
         return node.rootObject
       else if node.isRoot
         return node
-
-      node = node.parent
+      else
+        node = node.parent
 
 
   # Gets the node representing the XML document
@@ -390,8 +390,8 @@ module.exports = class XMLNode
     while node
       if node.isDocument
         return node
-
-      node = node.parent
+      else
+        node = node.parent
 
 
   # Ends the document and converts string
@@ -401,9 +401,6 @@ module.exports = class XMLNode
 
   # Gets the previous node
   prev: () ->
-    if @isRoot
-      throw new Error "Root node has no siblings"
-
     i = @parent.children.indexOf @
     if i < 1
       throw new Error "Already at the first node"
@@ -412,9 +409,6 @@ module.exports = class XMLNode
 
   # Gets the next node
   next: () ->
-    if @isRoot
-      throw new Error "Root node has no siblings"
-
     i = @parent.children.indexOf @
     if i == -1 || i == @parent.children.length - 1
       throw new Error "Already at the last node"

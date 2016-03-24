@@ -32,22 +32,28 @@ module.exports = class XMLStreamWriter extends XMLWriterBase
     super options
 
   document: (doc) ->
+    # set a flag on the last root level node so that we don't insert a newline
+    # after it
+    for child in doc.children
+      child.isLastRootNode = false
+    doc.children[doc.children.length - 1].isLastRootNode = true
+
     for child in doc.children
       switch
         when child instanceof XMLDeclaration then @declaration child
         when child instanceof XMLDocType     then @docType     child
         when child instanceof XMLComment     then @comment     child
         when child instanceof XMLProcessingInstruction then @processingInstruction child
-        else @element child, 0
+        else @element child
 
   attribute: (att) ->
     @stream.write ' ' + att.name + '="' + att.value + '"'
 
   cdata: (node, level) ->
-    @stream.write @space(level) + '<![CDATA[' + node.text + ']]>' + @newline
+    @stream.write @space(level) + '<![CDATA[' + node.text + ']]>' + @endline(node)
 
   comment: (node, level) ->
-    @stream.write @space(level) + '<!-- ' + node.text + ' -->' + @newline
+    @stream.write @space(level) + '<!-- ' + node.text + ' -->' + @endline(node)
 
   declaration: (node, level) ->
     @stream.write @space(level)
@@ -55,7 +61,7 @@ module.exports = class XMLStreamWriter extends XMLWriterBase
     @stream.write ' encoding="' + node.encoding + '"' if node.encoding?
     @stream.write ' standalone="' + node.standalone + '"' if node.standalone?
     @stream.write '?>'
-    @stream.write @newline
+    @stream.write @endline(node)
 
   docType: (node, level) ->
     level or= 0
@@ -72,7 +78,7 @@ module.exports = class XMLStreamWriter extends XMLWriterBase
     # internal subset
     if node.children.length > 0
       @stream.write ' ['
-      @stream.write @newline
+      @stream.write @endline(node)
       for child in node.children
         switch
           when child instanceof XMLDTDAttList  then @dtdAttList  child, level + 1
@@ -87,7 +93,7 @@ module.exports = class XMLStreamWriter extends XMLWriterBase
 
     # close tag
     @stream.write '>'
-    @stream.write  @newline
+    @stream.write @endline(node)
 
   element: (node, level) ->
     level or= 0
@@ -104,14 +110,14 @@ module.exports = class XMLStreamWriter extends XMLWriterBase
     if node.children.length == 0 or node.children.every((e) -> e.value == '')
       # empty element
       if @allowEmpty
-        @stream.write '></' + node.name + '>' + (if node.isRoot then '' else @newline)
+        @stream.write '></' + node.name + '>'
       else
-        @stream.write '/>' + (if node.isRoot then '' else @newline)
+        @stream.write '/>'
     else if @pretty and node.children.length == 1 and node.children[0].value?
       # do not indent text-only nodes
       @stream.write '>'
       @stream.write node.children[0].value
-      @stream.write '</' + node.name + '>' + (if node.isRoot then '' else @newline)
+      @stream.write '</' + node.name + '>'
     else
       @stream.write '>' + @newline
       # inner tags
@@ -125,27 +131,29 @@ module.exports = class XMLStreamWriter extends XMLWriterBase
           when child instanceof XMLProcessingInstruction then @processingInstruction child, level + 1
           else throw new Error "Unknown XML node type: " + child.constructor.name
       # close tag
-      @stream.write space + '</' + node.name + '>' + (if node.isRoot then '' else @newline)
+      @stream.write space + '</' + node.name + '>'
+
+    @stream.write @endline(node)
 
   processingInstruction: (node, level) ->
     @stream.write @space(level) + '<?' + node.target
     @stream.write ' ' + node.value if node.value
-    @stream.write '?>' + @newline
+    @stream.write '?>' + @endline(node)
 
   raw: (node, level) ->
-    @stream.write @space(level) + node.value + @newline
+    @stream.write @space(level) + node.value + @endline(node)
 
   text: (node, level) ->
-    @stream.write @space(level) + node.value + @newline
+    @stream.write @space(level) + node.value + @endline(node)
 
   dtdAttList: (node, level) ->
     @stream.write @space(level) + '<!ATTLIST ' + node.elementName + ' ' + node.attributeName + ' ' + node.attributeType
     @stream.write ' ' + node.defaultValueType if node.defaultValueType != '#DEFAULT'
     @stream.write ' "' + node.defaultValue + '"' if node.defaultValue
-    @stream.write '>' + @newline
+    @stream.write '>' + @endline(node)
 
   dtdElement: (node, level) ->
-    @stream.write @space(level) + '<!ELEMENT ' + node.name + ' ' + node.value + '>' + @newline
+    @stream.write @space(level) + '<!ELEMENT ' + node.name + ' ' + node.value + '>' + @endline(node)
 
   dtdEntity: (node, level) ->
     @stream.write @space(level) + '<!ENTITY'
@@ -159,7 +167,7 @@ module.exports = class XMLStreamWriter extends XMLWriterBase
       else if node.sysID
         @stream.write ' SYSTEM "' + node.sysID + '"'
       @stream.write ' NDATA ' + node.nData if node.nData
-    @stream.write '>' + @newline
+    @stream.write '>' + @endline(node)
 
   dtdNotation: (node, level) ->
     @stream.write @space(level) + '<!NOTATION ' + node.name
@@ -169,4 +177,10 @@ module.exports = class XMLStreamWriter extends XMLWriterBase
       @stream.write ' PUBLIC "' + node.pubID + '"'
     else if node.sysID
       @stream.write ' SYSTEM "' + node.sysID + '"'
-    @stream.write '>' + @newline
+    @stream.write '>' + @endline(node)
+
+  endline: (node) ->
+    unless node.isLastRootNode
+      @newline
+    else
+      ''

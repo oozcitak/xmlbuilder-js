@@ -254,6 +254,9 @@ suite 'Creating XML with stream writer:', ->
           .up()
       .ele('atttest', 'text')
           .att('att', () -> 'val')
+      .root()
+      .commentBefore('pre').commentAfter('post')
+      .instructionBefore('pre' ,'val1').instructionAfter('post', 'val2')
       .end(builder.streamWriter(process.stdout, { pretty: true, indent: '' } ))
 
     eq(
@@ -261,6 +264,8 @@ suite 'Creating XML with stream writer:', ->
 
       """
       <?xml version="1.0"?>
+      <!-- pre -->
+      <?pre val1?>
       <root>
       <xmlbuilder for="node-js">
       <!-- CoffeeScript is awesome. -->
@@ -274,6 +279,8 @@ suite 'Creating XML with stream writer:', ->
       <atttest att="val">text</atttest>
       <atttest att="val">text</atttest>
       </root>
+      <?post val2?>
+      <!-- post -->
       """
     )
 

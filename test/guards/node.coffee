@@ -5,8 +5,6 @@ suite 'Node Guards:', ->
       () -> xml('test').insertAfter()
       () -> xml('test').remove()
       () -> xml('test').up()
-      () -> xml('test').prev()
-      () -> xml('test').next()
       () -> xml('test').ele('first').prev()
       () -> xml('test').ele('first').up().ele('last').next()
       () -> xml('root').ele([])
@@ -17,8 +15,6 @@ suite 'Node Guards:', ->
       /Cannot insert elements at root level/
       /Cannot remove the root element/
       /The root node has no parent\. Use doc\(\) if you need to get the document object\./
-      /Root node has no siblings/
-      /Root node has no siblings/
       /Already at the first node/
       /Already at the last node/
       /Could not create any elements with: /
