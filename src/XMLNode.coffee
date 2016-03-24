@@ -256,8 +256,15 @@ module.exports = class XMLNode
   # `standalone` standalone document declaration: true or false
   declaration: (version, encoding, standalone) ->
     doc = @document()
+
     xmldec = new XMLDeclaration doc, version, encoding, standalone
-    doc.declarationObject = xmldec
+
+    # Replace XML declaration if exists, otherwise insert at top
+    if doc.children[0] instanceof XMLDeclaration
+      doc.children[0] = xmldec
+    else
+      doc.children.unshift xmldec
+
     return doc.root()
 
 
@@ -267,10 +274,24 @@ module.exports = class XMLNode
   # `sysID` the system identifier of the external subset
   doctype: (pubID, sysID) ->
     doc = @document()
-    doctype = new XMLDocType doc, pubID, sysID
-    doc.doctypeObject = doctype
-    return doctype
 
+    doctype = new XMLDocType doc, pubID, sysID
+
+    # Replace DTD if exists
+    for child, i in doc.children
+      if child instanceof XMLDocType
+        doc.children[i] = doctype
+        return doctype
+
+    # insert before root node if the root node exists
+    for child, i in doc.children
+      if child.isRoot
+        doc.children.splice i, 0, doctype
+        return doctype
+
+    # otherwise append to end
+    doc.children.push doctype
+    return doctype
 
   # Gets the parent node
   up: () ->

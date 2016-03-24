@@ -59,18 +59,10 @@ module.exports = class XMLDocument extends XMLNode
 
     # prolog
     if not options.headless
-      root.declaration options
+      @declaration options
 
       if options.pubID? or options.sysID?
-        root.doctype options
-
-
-  # Gets the xml declaration
-  dec: () -> @declarationObject
-
-
-  # Gets the document type declaration
-  dtd: () -> @doctypeObject
+        @doctype options
 
 
   # Ends the document and passes it to the given XML writer

@@ -1,7 +1,7 @@
-suite 'Text Processing', ->
+suite 'Comments', ->
   test 'Nothing gets escaped', ->
     eq(
-      xml('comment', {}, {}, { headless: true })
+      xml('comment', { headless: true })
         .comment('<>\'"&\t\n\r').end()
       '<comment><!-- <>\'"&\t\n\r --></comment>'
     )

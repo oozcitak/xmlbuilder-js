@@ -1,3 +1,6 @@
+XMLDeclaration = require './XMLDeclaration'
+XMLDocType = require './XMLDocType'
+
 XMLCData = require './XMLCData'
 XMLComment = require './XMLComment'
 XMLElement = require './XMLElement'
@@ -29,9 +32,13 @@ module.exports = class XMLStreamWriter extends XMLWriterBase
     super options
 
   document: (doc) ->
-    @declaration doc.dec() if doc.dec()?
-    @docType doc.dtd() if doc.dtd()?
-    @element doc.root()
+    for child in doc.children
+      switch
+        when child instanceof XMLDeclaration then @declaration child
+        when child instanceof XMLDocType     then @docType     child
+        when child instanceof XMLComment     then @comment     child
+        when child instanceof XMLProcessingInstruction then @processingInstruction child
+        else @element child, 0
 
   attribute: (att) ->
     @stream.write ' ' + att.name + '="' + att.value + '"'
