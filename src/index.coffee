@@ -1,4 +1,7 @@
+isFunction = require 'lodash/isFunction'
+
 XMLDocument = require './XMLDocument'
+XMLDocumentCB = require './XMLDocumentCB'
 XMLStringWriter = require './XMLStringWriter'
 XMLStreamWriter = require './XMLStreamWriter'
 
@@ -28,7 +31,6 @@ XMLStreamWriter = require './XMLStreamWriter'
 #     true or false
 # `options.stringify` a set of functions to use for converting values to
 #     strings
-#
 # `options.writer` the default XML writer to use for converting nodes to
 #     string. If the default writer is not set, the built-in XMLStringWriter
 #     will be used instead.
@@ -53,6 +55,7 @@ module.exports.create = (name, xmldec, doctype, options) ->
   return root
 
 # Creates a new document and returns the document node for
+# chain-building the document tree
 #
 # `options.allowSurrogateChars` whether surrogates will be allowed: true or
 #     false
@@ -66,12 +69,24 @@ module.exports.create = (name, xmldec, doctype, options) ->
 #     true or false
 # `options.stringify` a set of functions to use for converting values to
 #     strings
-#
 # `options.writer` the default XML writer to use for converting nodes to
 #     string. If the default writer is not set, the built-in XMLStringWriter
 #     will be used instead.
-module.exports.begin = (options) ->
-  new XMLDocument(options)
+#
+# `onData` the function to be called when a new chunk of XML is output. The
+#          string containing the XML chunk is passed to `onData` as its single
+#          argument.
+# `onEnd`  the function to be called when the XML document is completed with
+#          `end`. `onEnd` does not receive any arguments.
+module.exports.begin = (options, onData, onEnd) ->
+  if isFunction(options)
+    [onData, onEnd] = [options, onData]
+    options = {}
+
+  if onData
+    new XMLDocumentCB(options, onData, onEnd)
+  else
+    new XMLDocument(options)
 
 module.exports.stringWriter = (options) ->
   new XMLStringWriter(options)

@@ -46,7 +46,7 @@ module.exports = class XMLNode
   element: (name, attributes, text) ->
     lastChild = null
 
-    attributes ?= {}
+    attributes or= {}
     attributes = attributes.valueOf()
     # swap argument order: text <-> attributes
     if not isObject attributes
@@ -180,7 +180,7 @@ module.exports = class XMLNode
   node: (name, attributes, text) ->
     name = name.valueOf() if name?
 
-    attributes ?= {}
+    attributes or= {}
     attributes = attributes.valueOf()
     # swap argument order: text <-> attributes
     if not isObject attributes

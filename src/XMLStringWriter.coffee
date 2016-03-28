@@ -191,3 +191,45 @@ module.exports = class XMLStringWriter extends XMLWriterBase
     r += '>' + @newline
 
     return r
+
+  openNode: (node, level) ->
+    level or= 0
+
+    switch
+      when node instanceof XMLCData   then @cdata   child, level
+      when node instanceof XMLComment then @comment child, level
+      when node instanceof XMLRaw     then @raw     child, level
+      when node instanceof XMLText    then @text    child, level
+      when node instanceof XMLProcessingInstruction then @processingInstruction child, level
+      when node instanceof XMLElement
+        r = @space(level) + '<' + node.name
+
+        # attributes
+        for own name, att of node.attributes
+          r += @attribute att
+
+        r += (if node.children then '>' else '/>') + @newline
+
+        return r
+      when node instanceof XMLDocType
+        r = @space(level) + '<!DOCTYPE ' + node.rootNodeName
+
+        # external identifier
+        if node.pubID and node.sysID
+          r += ' PUBLIC "' + node.pubID + '" "' + node.sysID + '"'
+        else if node.sysID
+          r += ' SYSTEM "' + node.sysID + '"'
+
+        # internal subset
+        r += (if node.children then ' [' else '>') + @newline
+
+        return r
+
+  closeNode: (node, level) ->
+    level or= 0
+
+    return switch
+      when node instanceof XMLElement
+        @space(level) + '</' + node.name + '>' + @newline
+      when node instanceof XMLDocType
+        @space(level) + ']>' + @newline

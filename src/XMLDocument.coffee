@@ -22,14 +22,13 @@ module.exports = class XMLDocument extends XMLNode
   #     true or false
   # `options.stringify` a set of functions to use for converting values to
   #     strings
-  #
   # `options.writer` the default XML writer to use for converting nodes to
   #     string. If the default writer is not set, the built-in XMLStringWriter
   #     will be used instead.
   constructor: (options) ->
     super null
 
-    options ?= {}
+    options or= {}
     if not options.writer then options.writer = new XMLStringWriter()
 
     @options = options

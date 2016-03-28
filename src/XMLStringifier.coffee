@@ -12,7 +12,7 @@ module.exports = class XMLStringifier
   # `options.noDoubleEncoding` whether existing html entities are encoded: true or false
   # `options.stringify` a set of functions to use for converting values to strings
   constructor: (options) ->
-    options ?= {}
+    options or= {}
     @allowSurrogateChars = options.allowSurrogateChars
     @noDoubleEncoding = options.noDoubleEncoding
     @textCase = options.textCase
