@@ -17,6 +17,8 @@ XMLDTDEntity = require './XMLDTDEntity'
 XMLDTDElement = require './XMLDTDElement'
 XMLDTDNotation = require './XMLDTDNotation'
 
+XMLAttribute = require './XMLAttribute'
+
 XMLStringifier = require './XMLStringifier'
 XMLStringWriter = require './XMLStringWriter'
 
@@ -122,7 +124,22 @@ module.exports = class XMLDocumentCB
   # `name` attribute name
   # `value` attribute value
   attribute: (name, value) ->
-    throw new Error "att() cannot be used in callback mode"
+    if not @currentNode or @currentNode.children
+      throw new Error "att() can only be used immediately after an ele() call in callback mode"
+
+    name = name.valueOf() if name?
+
+    if isObject name # expand if object
+      for own attName, attValue of name
+        @attribute attName, attValue
+    else
+      value = value.apply() if isFunction value
+      if not @options.skipNullAttributes or value?
+        @currentNode.attributes[name] = new XMLAttribute @, name, value
+
+    return @
+
+
 
 
   # Creates a text node
