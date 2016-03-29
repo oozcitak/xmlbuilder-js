@@ -1,3 +1,5 @@
+
+
 suite 'Attributes:', ->
   test 'Add attribute (single with object argument)', ->
     eq(
@@ -84,4 +86,3 @@ suite 'Attributes:', ->
         .end()
       '<test4 second="2"/>'
     )
-    

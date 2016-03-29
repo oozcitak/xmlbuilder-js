@@ -57,8 +57,6 @@ module.exports = class XMLDocumentCB
     else if isPlainObject(options.writer)
       writerOptions = options.writer
       options.writer = new XMLStringWriter(writerOptions)
-    else if not options.writer
-      options.writer = new XMLStringWriter()
 
     @options = options
     @writer = options.writer
@@ -243,7 +241,7 @@ module.exports = class XMLDocumentCB
       throw new Error "Missing root node name"
 
     if @root
-      throw new Error "DTD must come before the root node"
+      throw new Error "dtd() must come before the root node"
 
     @currentNode = new XMLDocType @, pubID, sysID
     @currentNode.rootNodeName = root
@@ -334,7 +332,7 @@ module.exports = class XMLDocumentCB
   # Gets the parent node
   up: () ->
     if @currentLevel < 0
-      throw new Error "The root node has no parent."
+      throw new Error "The document node has no parent"
 
     if @currentNode
       if @currentNode.children then @closeNode(@currentNode) else @openNode(@currentNode)
@@ -416,7 +414,11 @@ module.exports = class XMLDocumentCB
       @attList arguments...
     else
       @attribute arguments...
-  a: (name, value) -> @attribute name, value
+  a: () ->
+    if @currentNode and @currentNode instanceof XMLDocType
+      @attList arguments...
+    else
+      @attribute arguments...
 
   # DTD aliases
   # att() and ele() are defined above
