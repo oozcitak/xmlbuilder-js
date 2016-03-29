@@ -21,11 +21,6 @@ builder.begin(function(chunk) { result += chunk; })
   .end();
 ```
 
-- Replaced native `Object.assign` with `lodash.assign` to support old JS engines.  See [#111](https://github.com/oozcitak/xmlbuilder-js/issues/111).
-
-- Added the ability to add comments and processing instructions before and after the root element. Added `commentBefore`, `commentAfter`, `instructionBefore` and `instructionAfter` functions for this purpose.
-- Dropped support for old node.js releases. Minimum required node.js version is now 4.0.
-
 ## [8.0.0] - 2016-03-25
 - Added the `begin` export function. See the wiki for details.
 - Added the ability to add comments and processing instructions before and after the root element. Added `commentBefore`, `commentAfter`, `instructionBefore` and `instructionAfter` functions for this purpose.
