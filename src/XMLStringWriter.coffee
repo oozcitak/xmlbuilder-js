@@ -195,35 +195,29 @@ module.exports = class XMLStringWriter extends XMLWriterBase
   openNode: (node, level) ->
     level or= 0
 
-    switch
-      when node instanceof XMLCData   then @cdata   child, level
-      when node instanceof XMLComment then @comment child, level
-      when node instanceof XMLRaw     then @raw     child, level
-      when node instanceof XMLText    then @text    child, level
-      when node instanceof XMLProcessingInstruction then @processingInstruction child, level
-      when node instanceof XMLElement
-        r = @space(level) + '<' + node.name
+    if node instanceof XMLElement
+      r = @space(level) + '<' + node.name
 
-        # attributes
-        for own name, att of node.attributes
-          r += @attribute att
+      # attributes
+      for own name, att of node.attributes
+        r += @attribute att
 
-        r += (if node.children then '>' else '/>') + @newline
+      r += (if node.children then '>' else '/>') + @newline
 
-        return r
-      when node instanceof XMLDocType
-        r = @space(level) + '<!DOCTYPE ' + node.rootNodeName
+      return r
+    else # if node instanceof XMLDocType
+      r = @space(level) + '<!DOCTYPE ' + node.rootNodeName
 
-        # external identifier
-        if node.pubID and node.sysID
-          r += ' PUBLIC "' + node.pubID + '" "' + node.sysID + '"'
-        else if node.sysID
-          r += ' SYSTEM "' + node.sysID + '"'
+      # external identifier
+      if node.pubID and node.sysID
+        r += ' PUBLIC "' + node.pubID + '" "' + node.sysID + '"'
+      else if node.sysID
+        r += ' SYSTEM "' + node.sysID + '"'
 
-        # internal subset
-        r += (if node.children then ' [' else '>') + @newline
+      # internal subset
+      r += (if node.children then ' [' else '>') + @newline
 
-        return r
+      return r
 
   closeNode: (node, level) ->
     level or= 0

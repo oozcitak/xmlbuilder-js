@@ -37,6 +37,8 @@ suite 'Creating XML using begin() callbacks:', ->
         .up()
         .ele('cdata')
           .cdata('<test att="val">this is a test</test>\nSecond line')
+          .text('text node')
+          .ins('target', 'value')
         .up()
         .ele('raw')
           .raw('&<>&')
@@ -75,8 +77,31 @@ suite 'Creating XML using begin() callbacks:', ->
               '<!-- CoffeeScript is awesome. -->' +
               '<repo type="git">git://github.com/oozcitak/xmlbuilder-js.git</repo>' +
           '</xmlbuilder>' +
-          '<cdata><![CDATA[<test att="val">this is a test</test>\nSecond line]]></cdata>' +
+          '<cdata>' +
+              '<![CDATA[<test att="val">this is a test</test>\nSecond line]]>' +
+              'text node' +
+              '<?target value?>' +
+          '</cdata>' +
           '<raw>&<>&</raw>' +
           '<atttest att="val">text</atttest>' +
       '</root>'
+    )
+
+  test 'Test public DTD', ->
+
+    result = ''
+    data = (chunk) ->
+      result += chunk
+
+    doc(data)
+      .dtd('root', 'hello.dtd', 'value')
+      .up()
+      .ele('root')
+        .end()
+
+    eq(
+      result
+
+      '<!DOCTYPE root PUBLIC "hello.dtd" "value">' +
+      '<root/>'
     )
