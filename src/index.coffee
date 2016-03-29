@@ -4,6 +4,7 @@ XMLDocument = require './XMLDocument'
 XMLDocumentCB = require './XMLDocumentCB'
 XMLStringWriter = require './XMLStringWriter'
 XMLStreamWriter = require './XMLStreamWriter'
+assign = require 'object-assign'
 
 # Creates a new document and returns the root node for
 # chain-building the document tree
@@ -38,7 +39,7 @@ module.exports.create = (name, xmldec, doctype, options) ->
   if not name?
     throw new Error "Root element needs a name"
 
-  options = Object.assign { }, xmldec, doctype, options
+  options = assign { }, xmldec, doctype, options
 
   # create the document node
   doc = new XMLDocument(options)
