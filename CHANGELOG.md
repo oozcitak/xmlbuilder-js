@@ -2,6 +2,30 @@
 
 All notable changes to this project are documented in this file. This project adheres to [Semantic Versioning](http://semver.org/#semantic-versioning-200).
 
+## [8.1.0] - 2016-03-29
+- Added the callback option to the `begin` export function. When used with a
+calback function, the XML document will be generated in chunks and each chunk
+will be passed to the supplied function. In this mode, `begin` uses a different
+code path and the builder should use much less memory since the entire XML tree
+is not kept. There are a few drawbacks though. For example, traversing the document
+tree or adding attributes to a node after it is written is not possible. It is
+also not possible to remove nodes or attributes.
+
+``` js
+var result = '';
+
+builder.begin(function(chunk) { result += chunk; })
+  .dec()
+  .ele('root')
+    .ele('xmlbuilder').up()
+  .end();
+```
+
+- Replaced native `Object.assign` with `lodash.assign` to support old JS engines.  See [#111](https://github.com/oozcitak/xmlbuilder-js/issues/111).
+
+- Added the ability to add comments and processing instructions before and after the root element. Added `commentBefore`, `commentAfter`, `instructionBefore` and `instructionAfter` functions for this purpose.
+- Dropped support for old node.js releases. Minimum required node.js version is now 4.0.
+
 ## [8.0.0] - 2016-03-25
 - Added the `begin` export function. See the wiki for details.
 - Added the ability to add comments and processing instructions before and after the root element. Added `commentBefore`, `commentAfter`, `instructionBefore` and `instructionAfter` functions for this purpose.
@@ -287,6 +311,7 @@ root.ele({ number: [ "one", "two"  ]});
 ## 0.0.1 - 2010-11-02
 - Initial release
 
+[8.1.0]: https://github.com/oozcitak/xmlbuilder-js/compare/v8.0.0...v8.1.0
 [8.0.0]: https://github.com/oozcitak/xmlbuilder-js/compare/v7.0.0...v8.0.0
 [7.0.0]: https://github.com/oozcitak/xmlbuilder-js/compare/v6.0.0...v7.0.0
 [6.0.0]: https://github.com/oozcitak/xmlbuilder-js/compare/v5.0.1...v6.0.0
