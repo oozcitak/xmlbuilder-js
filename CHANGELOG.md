@@ -4,7 +4,7 @@ All notable changes to this project are documented in this file. This project ad
 
 ## [8.1.0] - 2016-03-29
 - Added the callback option to the `begin` export function. When used with a
-calback function, the XML document will be generated in chunks and each chunk
+callback function, the XML document will be generated in chunks and each chunk
 will be passed to the supplied function. In this mode, `begin` uses a different
 code path and the builder should use much less memory since the entire XML tree
 is not kept. There are a few drawbacks though. For example, traversing the document
