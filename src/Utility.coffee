@@ -52,6 +52,13 @@ camelCase = (val) ->
     r += if index then capitalize(word.toLowerCase()) else word.toLowerCase()
   return r
 
+# Converts the string to title case
+titleCase = (val) ->
+  r = ''
+  for word, index in words(val)
+    r += capitalize(word.toLowerCase())
+  return r
+
 # Converts the string to kebab case
 kebabCase = (val) ->
   r = ''
@@ -79,6 +86,7 @@ module.exports.isEmpty = isEmpty
 module.exports.isPlainObject = isPlainObject
 
 module.exports.camelCase = camelCase
+module.exports.titleCase = titleCase
 module.exports.kebabCase = kebabCase
 module.exports.snakeCase = snakeCase
 module.exports.capitalize = capitalize

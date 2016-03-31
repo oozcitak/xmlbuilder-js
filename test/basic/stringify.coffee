@@ -33,3 +33,7 @@ suite 'Stringify:', ->
       xml(obj, { headless: true, textCase: 'snake' }).end()
       '<ele_name att_name="val"/>'
     )
+    eq(
+      xml(obj, { headless: true, textCase: 'title' }).end()
+      '<EleName AttName="val"/>'
+    )

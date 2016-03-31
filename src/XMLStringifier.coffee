@@ -1,4 +1,4 @@
-{ camelCase, kebabCase, snakeCase } = require './Utility'
+{ camelCase, titleCase, kebabCase, snakeCase } = require './Utility'
 
 # Converts values to strings
 module.exports = class XMLStringifier
@@ -106,6 +106,7 @@ module.exports = class XMLStringifier
   applyCase: (str) ->
     switch @textCase
       when "camel" then camelCase(str)
+      when "title" then titleCase(str)
       when "kebab", "lower" then kebabCase(str)
       when "snake" then snakeCase(str)
       when "upper" then kebabCase(str).toUpperCase()
