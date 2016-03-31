@@ -1,6 +1,4 @@
-isObject = require 'lodash/isObject'
-isFunction = require 'lodash/isFunction'
-isEmpty = require 'lodash/isEmpty'
+{ isObject, isFunction, isEmpty } = require './Utility'
 
 XMLElement = null
 XMLCData = null

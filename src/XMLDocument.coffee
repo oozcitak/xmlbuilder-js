@@ -1,4 +1,4 @@
-isPlainObject = require 'lodash/isPlainObject'
+{ isPlainObject } = require './Utility'
 
 XMLNode = require './XMLNode'
 XMLStringifier = require './XMLStringifier'

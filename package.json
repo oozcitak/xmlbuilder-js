@@ -21,9 +21,7 @@
   "engines": {
     "node": ">=4.0"
   },
-  "dependencies": {
-    "lodash": "^4.0.0"
-  },
+  "dependencies": { },
   "devDependencies": {
     "coffee-script": "*",
     "mocha": "*",

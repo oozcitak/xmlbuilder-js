@@ -1,6 +1,4 @@
-camelCase = require 'lodash/camelCase'
-kebabCase = require 'lodash/kebabCase'
-snakeCase = require 'lodash/snakeCase'
+{ camelCase, kebabCase, snakeCase } = require './Utility'
 
 # Converts values to strings
 module.exports = class XMLStringifier

@@ -1,6 +1,4 @@
-isObject = require 'lodash/isObject'
-isPlainObject = require 'lodash/isPlainObject'
-isFunction = require 'lodash/isFunction'
+{ isObject, isFunction, isPlainObject } = require './Utility'
 
 XMLElement = require './XMLElement'
 XMLCData = require './XMLCData'

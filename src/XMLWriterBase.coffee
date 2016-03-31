@@ -1,4 +1,3 @@
-
 # Base class for XML writers
 module.exports = class XMLWriterBase
 

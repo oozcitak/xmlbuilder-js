@@ -1,5 +1,4 @@
-isFunction = require 'lodash/isFunction'
-assign = require 'lodash/assign'
+{ assign, isFunction } = require './Utility'
 
 XMLDocument = require './XMLDocument'
 XMLDocumentCB = require './XMLDocumentCB'
