@@ -27,14 +27,11 @@
     "mocha": "*",
     "coffee-coverage": "*",
     "istanbul": "*",
-    "coveralls": "*",
-    "memwatch-next": "*",
-    "lodash": "*"
+    "coveralls": "*"
   },
   "scripts": {
     "prepublish": "coffee -co lib src",
     "postpublish": "rm -rf lib",
-    "test": "mocha && istanbul report text lcov",
-    "perf": "coffee ./perf/perf.coffee"
+    "test": "mocha && istanbul report text lcov"
   }
 }
