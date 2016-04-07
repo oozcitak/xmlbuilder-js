@@ -86,7 +86,7 @@ module.exports = class XMLDocumentCB
 
     name = name.valueOf()
 
-    attributes or= {}
+    attributes ?= {}
     attributes = attributes.valueOf()
     # swap argument order: text <-> attributes
     if not isObject attributes
