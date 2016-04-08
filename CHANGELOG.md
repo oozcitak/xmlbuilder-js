@@ -2,6 +2,9 @@
 
 All notable changes to this project are documented in this file. This project adheres to [Semantic Versioning](http://semver.org/#semantic-versioning-200).
 
+## [8.2.2] - 2016-04-08
+- Falsy values can now be used as a text node in callback mode.
+
 ## [8.2.1] - 2016-04-07
 - Falsy values can now be used as a text node. See 
 [#117](https://github.com/oozcitak/xmlbuilder-js/issues/117).
@@ -319,6 +322,7 @@ root.ele({ number: [ "one", "two"  ]});
 ## 0.0.1 - 2010-11-02
 - Initial release
 
+[8.2.2]: https://github.com/oozcitak/xmlbuilder-js/compare/v8.2.1...v8.2.2
 [8.2.1]: https://github.com/oozcitak/xmlbuilder-js/compare/v8.2.0...v8.2.1
 [8.2.0]: https://github.com/oozcitak/xmlbuilder-js/compare/v8.1.0...v8.2.0
 [8.1.0]: https://github.com/oozcitak/xmlbuilder-js/compare/v8.0.0...v8.1.0
