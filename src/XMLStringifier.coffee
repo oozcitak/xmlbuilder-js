@@ -133,6 +133,7 @@ module.exports = class XMLStringifier
     ampregex = if @noDoubleEncoding then /(?!&\S+;)&/g else /&/g
     str.replace(ampregex, '&amp;')
        .replace(/</g, '&lt;')
+       .replace(/>/g, '&gt;')
        .replace(/"/g, '&quot;')
        .replace(/\t/g, '&#x9;')
        .replace(/\n/g, '&#xA;')
