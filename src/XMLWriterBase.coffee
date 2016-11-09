@@ -17,10 +17,12 @@ module.exports = class XMLWriterBase
       @indent = options.indent ? '  '
       @newline = options.newline ? '\n'
       @offset = options.offset ? 0
+      @dontprettytextnodes = options.dontprettytextnodes ? 0
     else
       @indent = ''
       @newline = ''
       @offset = 0
+      @dontprettytextnodes = 0
 
     # overwrite default properties
     for own key, value of options.writer or {}
@@ -35,10 +37,12 @@ module.exports = class XMLWriterBase
       @indent = if "indent" of options then options.indent else '  '
       @newline = if "newline" of options then options.newline else '\n'
       @offset = if "offset" of options then options.offset else 0
+      @dontprettytextnodes =  if "dontprettytextnodes" of options then options.dontprettytextnodes else 0
     else
       @indent = ''
       @newline = ''
       @offset = 0
+      @dontprettytextnodes = 0
 
     # overwrite default properties
     for own key, value of options.writer or {}

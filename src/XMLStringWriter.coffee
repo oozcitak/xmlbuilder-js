@@ -30,6 +30,9 @@ module.exports = class XMLStringWriter extends XMLWriterBase
     super options
 
   document: (doc) ->
+    @textispresent = false
+    @newlinedefault = @newline
+    @prettydefault = @pretty
     r = ''
     for child in doc.children
       r += switch
@@ -100,6 +103,14 @@ module.exports = class XMLStringWriter extends XMLWriterBase
 
   element: (node, level) ->
     level or= 0
+    textispresentwasset = false
+
+    if @textispresent
+      @newline = ''
+      @pretty = false
+    else
+      @newline = @newlinedefault
+      @pretty = @prettydefault
 
     space = @space(level)
 
@@ -124,6 +135,21 @@ module.exports = class XMLStringWriter extends XMLWriterBase
       r += node.children[0].value
       r += '</' + node.name + '>' + @newline
     else
+      # if ANY are a text node, then suppress pretty now
+      if @dontprettytextnodes
+        for child in node.children
+          if child.value?
+            @textispresent++
+            textispresentwasset = true
+            break
+
+      if @textispresent
+        @newline = ''
+        @pretty = false
+        space = @space(level)
+
+      # close the opening tag, after dealing with newline
+
       r += '>' + @newline
       # inner tags
       for child in node.children
@@ -135,6 +161,14 @@ module.exports = class XMLStringWriter extends XMLWriterBase
           when child instanceof XMLText    then @text    child, level + 1
           when child instanceof XMLProcessingInstruction then @processingInstruction child, level + 1
           else throw new Error "Unknown XML node type: " + child.constructor.name
+
+      if textispresentwasset
+        @textispresent--
+
+      if !@textispresent
+        @newline = @newlinedefault
+        @pretty = @prettydefault
+
       # close tag
       r += space + '</' + node.name + '>' + @newline
 
