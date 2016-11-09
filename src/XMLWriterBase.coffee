@@ -49,6 +49,10 @@ module.exports = class XMLWriterBase
   # returns the indentation string for the current level
   space: (level) ->
     if @pretty
-      new Array((level or 0) + @offset + 1).join(@indent)
+      indent = (level or 0) + @offset + 1
+      if indent > 0
+        new Array(indent).join(@indent)
+      else
+        ''
     else
       ''
