@@ -9,6 +9,7 @@ module.exports = class XMLWriterBase
   # `options.newline` newline sequence
   # `options.offset` a fixed number of indentations to add to every line
   # `options.allowEmpty` do not self close empty element tags
+  # 'options.dontprettytextnodes' if any text is present in node, don't indent or LF
   constructor: (options) ->
     options or= {}
     @pretty = options.pretty or false
@@ -23,6 +24,10 @@ module.exports = class XMLWriterBase
       @newline = ''
       @offset = 0
       @dontprettytextnodes = 0
+
+    # create local copies of these two for later
+    @newlinedefault = @newline
+    @prettydefault = @pretty
 
     # overwrite default properties
     for own key, value of options.writer or {}
@@ -43,6 +48,10 @@ module.exports = class XMLWriterBase
       @newline = ''
       @offset = 0
       @dontprettytextnodes = 0
+
+    # create local copies of these two for later
+    @newlinedefault = @newline
+    @prettydefault = @pretty
 
     # overwrite default properties
     for own key, value of options.writer or {}

@@ -26,13 +26,12 @@ module.exports = class XMLStringWriter extends XMLWriterBase
   # `options.newline` newline sequence
   # `options.offset` a fixed number of indentations to add to every line
   # `options.allowEmpty` do not self close empty element tags
+  # 'options.dontprettytextnodes' if any text is present in node, don't indent or LF
   constructor: (options) ->
     super options
 
   document: (doc) ->
     @textispresent = false
-    @newlinedefault = @newline
-    @prettydefault = @pretty
     r = ''
     for child in doc.children
       r += switch
