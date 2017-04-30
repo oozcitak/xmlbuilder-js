@@ -1,5 +1,3 @@
-{ camelCase, titleCase, kebabCase, snakeCase } = require './Utility'
-
 # Converts values to strings
 module.exports = class XMLStringifier
 
@@ -11,14 +9,12 @@ module.exports = class XMLStringifier
   constructor: (options) ->
     options or= {}
     @noDoubleEncoding = options.noDoubleEncoding
-    @textCase = options.textCase
     for own key, value of options.stringify or {}
       @[key] = value
 
   # Defaults
   eleName: (val) ->
     val = '' + val or ''
-    val = @applyCase val
     @assertLegalChar val
   eleText: (val) ->
     val = '' + val or ''
@@ -36,7 +32,6 @@ module.exports = class XMLStringifier
     '' + val or ''
   attName: (val) ->
     val = '' + val or ''
-    val = @applyCase val
   attValue: (val) ->
     val = '' + val or ''
     @attEscape val
@@ -97,17 +92,6 @@ module.exports = class XMLStringifier
 
     str
 
-  # Converts element and attribute names to the given case
-  #
-  # `str` the string to convert
-  applyCase: (str) ->
-    switch @textCase
-      when "camel" then camelCase(str)
-      when "title" then titleCase(str)
-      when "kebab", "lower" then kebabCase(str)
-      when "snake" then snakeCase(str)
-      when "upper" then kebabCase(str).toUpperCase()
-      else str
 
   # Escapes special characters in element values
   #
