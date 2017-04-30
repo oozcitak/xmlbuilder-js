@@ -10,8 +10,6 @@ module.exports = class XMLDocument extends XMLNode
 
   # Initializes a new instance of `XMLDocument`
   #
-  # `options.allowSurrogateChars` whether surrogates will be allowed: true or
-  #     false
   # `options.skipNullAttributes` whether attributes with null values will be
   #     ignored: true or false
   # `options.ignoreDecorators` whether decorator strings will be ignored when

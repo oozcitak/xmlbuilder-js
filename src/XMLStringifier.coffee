@@ -6,12 +6,10 @@ module.exports = class XMLStringifier
 
   # Initializes a new instance of `XMLStringifier`
   #
-  # `options.allowSurrogateChars` whether surrogates will be allowed: true or false
   # `options.noDoubleEncoding` whether existing html entities are encoded: true or false
   # `options.stringify` a set of functions to use for converting values to strings
   constructor: (options) ->
     options or= {}
-    @allowSurrogateChars = options.allowSurrogateChars
     @noDoubleEncoding = options.noDoubleEncoding
     @textCase = options.textCase
     for own key, value of options.stringify or {}
@@ -90,11 +88,10 @@ module.exports = class XMLStringifier
   #
   # `str` the string to check
   assertLegalChar: (str) =>
-    if @allowSurrogateChars
-      chars = /[\u0000-\u0008\u000B-\u000C\u000E-\u001F\uFFFE-\uFFFF]/
-    else
-      chars = /[\u0000-\u0008\u000B-\u000C\u000E-\u001F\uD800-\uDFFF\uFFFE-\uFFFF]/
-    chr = str.match chars
+    # Valid characters from https://www.w3.org/TR/xml11/#charsets
+    # any Unicode character, excluding the surrogate blocks, FFFE, and FFFF.
+    # [#x1-#xD7FF] | [#xE000-#xFFFD] | [#x10000-#x10FFFF]
+    chr = str.match /[\u{0000}\u{D800}-\u{DFFF}\u{FFFE}-\u{FFFF}]/u
     if chr
       throw new Error "Invalid character (#{chr}) in string: #{str} at index #{chr.index}"
 

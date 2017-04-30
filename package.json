@@ -19,11 +19,11 @@
   },
   "main": "./lib/index",
   "engines": {
-    "node": ">=4.0"
+    "node": ">=6.0"
   },
   "dependencies": {},
   "devDependencies": {
-    "coffee-script": "*",
+    "coffeescript": "jashkenas/coffeescript",
     "mocha": "*",
     "coffee-coverage": "*",
     "istanbul": "*",

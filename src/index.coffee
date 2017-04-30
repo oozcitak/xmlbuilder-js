@@ -19,8 +19,6 @@ XMLStreamWriter = require './XMLStreamWriter'
 #
 # `options.headless` whether XML declaration and doctype will be included:
 #     true or false
-# `options.allowSurrogateChars` whether surrogates will be allowed: true or
-#     false
 # `options.skipNullAttributes` whether attributes with null values will be
 #     ignored: true or false
 # `options.ignoreDecorators` whether decorator strings will be ignored when
@@ -57,8 +55,6 @@ module.exports.create = (name, xmldec, doctype, options) ->
 # Creates a new document and returns the document node for
 # chain-building the document tree
 #
-# `options.allowSurrogateChars` whether surrogates will be allowed: true or
-#     false
 # `options.skipNullAttributes` whether attributes with null values will be
 #     ignored: true or false
 # `options.ignoreDecorators` whether decorator strings will be ignored when
