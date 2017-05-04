@@ -86,9 +86,9 @@ module.exports = class XMLStringifier
     # Valid characters from https://www.w3.org/TR/xml11/#charsets
     # any Unicode character, excluding the surrogate blocks, FFFE, and FFFF.
     # [#x1-#xD7FF] | [#xE000-#xFFFD] | [#x10000-#x10FFFF]
-    chr = str.match /[\u{0000}\u{D800}-\u{DFFF}\u{FFFE}-\u{FFFF}]/u
-    if chr
-      throw new Error "Invalid character (#{chr}) in string: #{str} at index #{chr.index}"
+    res = str.match /[\u{0000}\u{D800}-\u{DFFF}\u{FFFE}-\u{FFFF}]/u
+    if res
+      throw new Error "Invalid character in string: #{str} at index #{res.index}"
 
     str
 

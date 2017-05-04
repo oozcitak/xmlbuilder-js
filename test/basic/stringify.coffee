@@ -11,3 +11,10 @@ suite 'Stringify:', ->
       '<my:test7><my:nodes><my:node>1</my:node><my:node>2</my:node><my:node>3</my:node></my:nodes></my:test7>'
     )
 
+  test 'Invalid chars', ->
+    err () -> xml('test').node('node with invalid char \u{0000} in node name')
+    err () -> xml('test').node('node with invalid char \u{D800} in node name')
+    err () -> xml('test').node('node with invalid char \u{DFFF} in node name')
+    err () -> xml('test').node('node with invalid char \u{FFFE} in node name')
+    err () -> xml('test').node('node with invalid char \u{FFFF} in node name')
+    
