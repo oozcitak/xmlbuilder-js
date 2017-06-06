@@ -86,7 +86,9 @@ module.exports = class XMLStringifier
     # Valid characters from https://www.w3.org/TR/xml11/#charsets
     # any Unicode character, excluding the surrogate blocks, FFFE, and FFFF.
     # [#x1-#xD7FF] | [#xE000-#xFFFD] | [#x10000-#x10FFFF]
-    res = str.match /[\u{0000}\u{D800}-\u{DFFF}\u{FFFE}-\u{FFFF}]/u
+    # This complex ES5 compatible Regexp has been generated using the "regenerate" NPM module
+    # `regenerate().add(0x0000).addRange(0xD800, 0xDFFF).addRange(0xFFFE, 0xFFFF).toString()`
+    res = str.match /[\0\uFFFE\uFFFF]|[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?:[^\uD800-\uDBFF]|^)[\uDC00-\uDFFF]/
     if res
       throw new Error "Invalid character in string: #{str} at index #{res.index}"
 
