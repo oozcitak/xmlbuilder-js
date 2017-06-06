@@ -1,6 +1,6 @@
 {
   "name": "xmlbuilder",
-  "version": "9.0.0",
+  "version": "9.0.1",
   "keywords": [
     "xml",
     "xmlbuilder"
@@ -19,7 +19,7 @@
   },
   "main": "./lib/index",
   "engines": {
-    "node": ">=6.0"
+    "node": ">=4.0"
   },
   "dependencies": {},
   "devDependencies": {
