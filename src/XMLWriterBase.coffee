@@ -20,13 +20,13 @@ module.exports = class XMLWriterBase
       @newline = options.newline ? '\n'
       @offset = options.offset ? 0
       @dontprettytextnodes = options.dontprettytextnodes ? 0
-      @spacebeforeslash = options.spacebeforeslash ? ''
     else
       @indent = ''
       @newline = ''
       @offset = 0
       @dontprettytextnodes = 0
-      @spacebeforeslash = ''
+
+    @spacebeforeslash = options.spacebeforeslash ? ''
 
     # create local copies of these two for later
     @newlinedefault = @newline
@@ -46,13 +46,13 @@ module.exports = class XMLWriterBase
       @newline = if "newline" of options then options.newline else '\n'
       @offset = if "offset" of options then options.offset else 0
       @dontprettytextnodes =  if "dontprettytextnodes" of options then options.dontprettytextnodes else 0
-      @spacebeforeslash = if "spacebeforeslash" of options then options.spacebeforeslash else ''
     else
       @indent = ''
       @newline = ''
       @offset = 0
       @dontprettytextnodes = 0
-      @spacebeforeslash = ''
+
+    @spacebeforeslash = if "spacebeforeslash" of options then options.spacebeforeslash else ''
 
     # create local copies of these two for later
     @newlinedefault = @newline

@@ -31,3 +31,10 @@ suite 'Creating XML with string writer:', ->
       """
     )
 
+  test 'Fragment', ->
+    eq(
+      xml('root').toString({ spacebeforeslash: ' ' })
+
+      '<root />'
+    )
+
