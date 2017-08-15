@@ -2,6 +2,9 @@
 
 All notable changes to this project are documented in this file. This project adheres to [Semantic Versioning](http://semver.org/#semantic-versioning-200).
 
+## [9.0.3] - 2017-08-15
+- `spacebeforeslash` writer option can now be used with XML fragments.
+
 ## [9.0.2] - 2017-08-15
 - Added the `spacebeforeslash` writer option to add a space character before closing tags of empty elements. See
 [#157](https://github.com/oozcitak/xmlbuilder-js/issues/157).
@@ -339,6 +342,7 @@ root.ele({ number: [ "one", "two"  ]});
 ## 0.0.1 - 2010-11-02
 - Initial release
 
+[9.0.3]: https://github.com/oozcitak/xmlbuilder-js/compare/v9.0.2...v9.0.3
 [9.0.2]: https://github.com/oozcitak/xmlbuilder-js/compare/v9.0.1...v9.0.2
 [9.0.1]: https://github.com/oozcitak/xmlbuilder-js/compare/v9.0.0...v9.0.1
 [9.0.0]: https://github.com/oozcitak/xmlbuilder-js/compare/v8.2.2...v9.0.0
