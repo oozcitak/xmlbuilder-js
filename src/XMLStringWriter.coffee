@@ -27,6 +27,7 @@ module.exports = class XMLStringWriter extends XMLWriterBase
   # `options.offset` a fixed number of indentations to add to every line
   # `options.allowEmpty` do not self close empty element tags
   # 'options.dontprettytextnodes' if any text is present in node, don't indent or LF
+  # `options.spacebeforeslash` add a space before the closing slash of empty elements
   constructor: (options) ->
     super options
 
@@ -61,7 +62,7 @@ module.exports = class XMLStringWriter extends XMLWriterBase
     r += '<?xml version="' + node.version + '"'
     r += ' encoding="' + node.encoding + '"' if node.encoding?
     r += ' standalone="' + node.standalone + '"' if node.standalone?
-    r += '?>'
+    r += @spacebeforeslash + '?>'
     r += @newline
 
     return r
@@ -95,7 +96,7 @@ module.exports = class XMLStringWriter extends XMLWriterBase
       r += ']'
 
     # close tag
-    r += '>'
+    r += @spacebeforeslash + '>'
     r += @newline
 
     return r
@@ -127,7 +128,7 @@ module.exports = class XMLStringWriter extends XMLWriterBase
       if @allowEmpty
         r += '></' + node.name + '>' + @newline
       else
-        r += '/>' + @newline
+        r += @spacebeforeslash + '/>' + @newline
     else if @pretty and node.children.length == 1 and node.children[0].value?
       # do not indent text-only nodes
       r += '>'
@@ -176,7 +177,7 @@ module.exports = class XMLStringWriter extends XMLWriterBase
   processingInstruction: (node, level) ->
     r = @space(level) + '<?' + node.target
     r += ' ' + node.value if node.value
-    r += '?>' + @newline
+    r += @spacebeforeslash + '?>' + @newline
 
     return r
 
@@ -190,12 +191,12 @@ module.exports = class XMLStringWriter extends XMLWriterBase
     r = @space(level) + '<!ATTLIST ' + node.elementName + ' ' + node.attributeName + ' ' + node.attributeType
     r += ' ' + node.defaultValueType if node.defaultValueType != '#DEFAULT'
     r += ' "' + node.defaultValue + '"' if node.defaultValue
-    r += '>' + @newline
+    r += @spacebeforeslash + '>' + @newline
 
     return r
 
   dtdElement: (node, level) ->
-    @space(level) + '<!ELEMENT ' + node.name + ' ' + node.value + '>' + @newline
+    @space(level) + '<!ELEMENT ' + node.name + ' ' + node.value + @spacebeforeslash + '>' + @newline
 
   dtdEntity: (node, level) ->
     r = @space(level) + '<!ENTITY'
@@ -209,7 +210,7 @@ module.exports = class XMLStringWriter extends XMLWriterBase
       else if node.sysID
         r += ' SYSTEM "' + node.sysID + '"'
       r += ' NDATA ' + node.nData if node.nData
-    r += '>' + @newline
+    r += @spacebeforeslash + '>' + @newline
 
     return r
 
@@ -221,7 +222,7 @@ module.exports = class XMLStringWriter extends XMLWriterBase
       r += ' PUBLIC "' + node.pubID + '"'
     else if node.sysID
       r += ' SYSTEM "' + node.sysID + '"'
-    r += '>' + @newline
+    r += @spacebeforeslash + '>' + @newline
 
     return r
 

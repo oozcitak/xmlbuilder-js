@@ -27,6 +27,7 @@ module.exports = class XMLStreamWriter extends XMLWriterBase
   # `options.newline` newline sequence
   # `options.offset` a fixed number of indentations to add to every line
   # `options.allowEmpty` do not self close empty element tags
+  # `options.spacebeforeslash` add a space before the closing slash of empty elements
   constructor: (stream, options) ->
     @stream = stream
     super options
@@ -60,7 +61,7 @@ module.exports = class XMLStreamWriter extends XMLWriterBase
     @stream.write '<?xml version="' + node.version + '"'
     @stream.write ' encoding="' + node.encoding + '"' if node.encoding?
     @stream.write ' standalone="' + node.standalone + '"' if node.standalone?
-    @stream.write '?>'
+    @stream.write @spacebeforeslash + '?>'
     @stream.write @endline(node)
 
   docType: (node, level) ->
@@ -92,7 +93,7 @@ module.exports = class XMLStreamWriter extends XMLWriterBase
       @stream.write ']'
 
     # close tag
-    @stream.write '>'
+    @stream.write @spacebeforeslash + '>'
     @stream.write @endline(node)
 
   element: (node, level) ->
@@ -112,7 +113,7 @@ module.exports = class XMLStreamWriter extends XMLWriterBase
       if @allowEmpty
         @stream.write '></' + node.name + '>'
       else
-        @stream.write '/>'
+        @stream.write @spacebeforeslash + '/>'
     else if @pretty and node.children.length == 1 and node.children[0].value?
       # do not indent text-only nodes
       @stream.write '>'
@@ -138,7 +139,7 @@ module.exports = class XMLStreamWriter extends XMLWriterBase
   processingInstruction: (node, level) ->
     @stream.write @space(level) + '<?' + node.target
     @stream.write ' ' + node.value if node.value
-    @stream.write '?>' + @endline(node)
+    @stream.write @spacebeforeslash + '?>' + @endline(node)
 
   raw: (node, level) ->
     @stream.write @space(level) + node.value + @endline(node)
@@ -150,10 +151,11 @@ module.exports = class XMLStreamWriter extends XMLWriterBase
     @stream.write @space(level) + '<!ATTLIST ' + node.elementName + ' ' + node.attributeName + ' ' + node.attributeType
     @stream.write ' ' + node.defaultValueType if node.defaultValueType != '#DEFAULT'
     @stream.write ' "' + node.defaultValue + '"' if node.defaultValue
-    @stream.write '>' + @endline(node)
+    @stream.write @spacebeforeslash + '>' + @endline(node)
 
   dtdElement: (node, level) ->
-    @stream.write @space(level) + '<!ELEMENT ' + node.name + ' ' + node.value + '>' + @endline(node)
+    @stream.write @space(level) + '<!ELEMENT ' + node.name + ' ' + node.value
+    @stream.write @spacebeforeslash + '>' + @endline(node)
 
   dtdEntity: (node, level) ->
     @stream.write @space(level) + '<!ENTITY'
@@ -167,7 +169,7 @@ module.exports = class XMLStreamWriter extends XMLWriterBase
       else if node.sysID
         @stream.write ' SYSTEM "' + node.sysID + '"'
       @stream.write ' NDATA ' + node.nData if node.nData
-    @stream.write '>' + @endline(node)
+    @stream.write @spacebeforeslash + '>' + @endline(node)
 
   dtdNotation: (node, level) ->
     @stream.write @space(level) + '<!NOTATION ' + node.name
@@ -177,7 +179,7 @@ module.exports = class XMLStreamWriter extends XMLWriterBase
       @stream.write ' PUBLIC "' + node.pubID + '"'
     else if node.sysID
       @stream.write ' SYSTEM "' + node.sysID + '"'
-    @stream.write '>' + @endline(node)
+    @stream.write @spacebeforeslash + '>' + @endline(node)
 
   endline: (node) ->
     unless node.isLastRootNode

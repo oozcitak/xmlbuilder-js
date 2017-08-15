@@ -10,6 +10,7 @@ module.exports = class XMLWriterBase
   # `options.offset` a fixed number of indentations to add to every line
   # `options.allowEmpty` do not self close empty element tags
   # 'options.dontprettytextnodes' if any text is present in node, don't indent or LF
+  # `options.spacebeforeslash` add a space before the closing slash of empty elements
   constructor: (options) ->
     options or= {}
     @pretty = options.pretty or false
@@ -19,11 +20,13 @@ module.exports = class XMLWriterBase
       @newline = options.newline ? '\n'
       @offset = options.offset ? 0
       @dontprettytextnodes = options.dontprettytextnodes ? 0
+      @spacebeforeslash = options.spacebeforeslash ? ''
     else
       @indent = ''
       @newline = ''
       @offset = 0
       @dontprettytextnodes = 0
+      @spacebeforeslash = ''
 
     # create local copies of these two for later
     @newlinedefault = @newline
@@ -43,11 +46,13 @@ module.exports = class XMLWriterBase
       @newline = if "newline" of options then options.newline else '\n'
       @offset = if "offset" of options then options.offset else 0
       @dontprettytextnodes =  if "dontprettytextnodes" of options then options.dontprettytextnodes else 0
+      @spacebeforeslash = if "spacebeforeslash" of options then options.spacebeforeslash else ''
     else
       @indent = ''
       @newline = ''
       @offset = 0
       @dontprettytextnodes = 0
+      @spacebeforeslash = ''
 
     # create local copies of these two for later
     @newlinedefault = @newline
