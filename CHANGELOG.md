@@ -2,6 +2,10 @@
 
 All notable changes to this project are documented in this file. This project adheres to [Semantic Versioning](http://semver.org/#semantic-versioning-200).
 
+## [9.0.2] - 2017-08-15
+- Added the `spacebeforeslash` writer option to add a space character before closing tags of empty elements. See
+[#157](https://github.com/oozcitak/xmlbuilder-js/issues/157).
+
 ## [9.0.1] - 2017-06-19
 - Fixed character validity checks to work with node.js 4.0 and 5.0. See
 [#161](https://github.com/oozcitak/xmlbuilder-js/issues/161).
@@ -335,6 +339,7 @@ root.ele({ number: [ "one", "two"  ]});
 ## 0.0.1 - 2010-11-02
 - Initial release
 
+[9.0.2]: https://github.com/oozcitak/xmlbuilder-js/compare/v9.0.1...v9.0.2
 [9.0.1]: https://github.com/oozcitak/xmlbuilder-js/compare/v9.0.0...v9.0.1
 [9.0.0]: https://github.com/oozcitak/xmlbuilder-js/compare/v8.2.2...v9.0.0
 [8.2.2]: https://github.com/oozcitak/xmlbuilder-js/compare/v8.2.1...v8.2.2
