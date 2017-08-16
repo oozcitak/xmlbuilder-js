@@ -33,7 +33,7 @@ suite 'Creating XML with string writer:', ->
 
   test 'Fragment', ->
     eq(
-      xml('root').toString({ spacebeforeslash: ' ' })
+      xml('root').toString({ spacebeforeslash: true })
 
       '<root />'
     )

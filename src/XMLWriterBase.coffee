@@ -27,6 +27,7 @@ module.exports = class XMLWriterBase
       @dontprettytextnodes = 0
 
     @spacebeforeslash = options.spacebeforeslash ? ''
+    if @spacebeforeslash is true then @spacebeforeslash = ' '
 
     # create local copies of these two for later
     @newlinedefault = @newline
@@ -53,6 +54,7 @@ module.exports = class XMLWriterBase
       @dontprettytextnodes = 0
 
     @spacebeforeslash = if "spacebeforeslash" of options then options.spacebeforeslash else ''
+    if @spacebeforeslash is true then @spacebeforeslash = ' '
 
     # create local copies of these two for later
     @newlinedefault = @newline
