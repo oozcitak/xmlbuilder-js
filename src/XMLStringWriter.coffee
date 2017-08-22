@@ -49,7 +49,7 @@ module.exports = class XMLStringWriter extends XMLWriterBase
     return r
 
   attribute: (att) ->
-    ' ' + att.name + '="' + att.value + '"'
+    att.name + '="' + att.value + '"'
 
   cdata: (node, level) ->
     @space(level) + '<![CDATA[' + node.text + ']]>' + @newline
@@ -120,8 +120,18 @@ module.exports = class XMLStringWriter extends XMLWriterBase
     r += space + '<' + node.name
 
     # attributes
+    formattedAttrs = []
     for own name, att of node.attributes
-      r += @attribute att
+      formattedAttrs.push @attribute att
+    currentLine = r.split '\n'.slice -1
+    currentLine = currentLine[0]
+
+    currentLineLength = formattedAttrs.reduce ((acc, a) -> acc + a.length), 0
+    currentLineLength += currentLine.length
+    if currentLineLength > 80
+      r += '\n' + @space(level + 1) + formattedAttrs.join('\n' + @space(level + 1)) + '\n' + space
+    else if formattedAttrs.length
+      r += ' ' + formattedAttrs.join ' '
 
     if node.children.length == 0 or node.children.every((e) -> e.value == '')
       # empty element
