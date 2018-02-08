@@ -29,8 +29,9 @@ module.exports = class XMLStreamWriter extends XMLWriterBase
   # `options.allowEmpty` do not self close empty element tags
   # `options.spacebeforeslash` add a space before the closing slash of empty elements
   constructor: (stream, options) ->
-    @stream = stream
     super options
+
+    @stream = stream
 
   document: (doc) ->
     # set a flag on the last root level node so that we don't insert a newline
