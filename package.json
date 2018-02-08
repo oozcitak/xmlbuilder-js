@@ -23,7 +23,7 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "coffeescript": "jashkenas/coffeescript",
+    "coffeescript": "1.*",
     "mocha": "*",
     "coffee-coverage": "*",
     "istanbul": "*",
