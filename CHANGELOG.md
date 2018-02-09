@@ -2,6 +2,9 @@
 
 All notable changes to this project are documented in this file. This project adheres to [Semantic Versioning](http://semver.org/#semantic-versioning-200).
 
+## [9.0.7] - 2018-02-09
+- simplified regex used for validating encoding.
+
 ## [9.0.4] - 2017-08-16
 - `spacebeforeslash` writer option accepts `true` as well as space char(s).
 
@@ -345,6 +348,7 @@ root.ele({ number: [ "one", "two"  ]});
 ## 0.0.1 - 2010-11-02
 - Initial release
 
+[9.0.7]: https://github.com/oozcitak/xmlbuilder-js/compare/v9.0.4...v9.0.7
 [9.0.4]: https://github.com/oozcitak/xmlbuilder-js/compare/v9.0.3...v9.0.4
 [9.0.3]: https://github.com/oozcitak/xmlbuilder-js/compare/v9.0.2...v9.0.3
 [9.0.2]: https://github.com/oozcitak/xmlbuilder-js/compare/v9.0.1...v9.0.2
