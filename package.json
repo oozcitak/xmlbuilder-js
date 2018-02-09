@@ -25,7 +25,7 @@
   "devDependencies": {
     "coffeescript": "1.*",
     "mocha": "*",
-    "coffee-coverage": "*",
+    "coffee-coverage": "2.*",
     "istanbul": "*",
     "coveralls": "*"
   },
