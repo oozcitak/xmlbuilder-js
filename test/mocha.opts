@@ -1,6 +1,5 @@
- --compilers coffee:coffeescript/register
+ --require coffeescript/register
  --require coffee-coverage/register-istanbul
  --require test/common
  --ui tdd
  --reporter dot
- --recursive

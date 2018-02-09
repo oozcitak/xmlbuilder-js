@@ -32,6 +32,6 @@
   "scripts": {
     "prepublish": "coffee -co lib src",
     "postpublish": "rm -rf lib",
-    "test": "mocha && istanbul report text lcov"
+    "test": "mocha \"test/**/*.coffee\" && istanbul report text lcov"
   }
 }
