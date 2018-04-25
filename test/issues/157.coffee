@@ -1,5 +1,5 @@
-suite 'Creating XML with string writer:', ->
-  test 'Plain text writer', ->
+suite 'Tests specific to issues:', ->
+  test 'Option to add space before closing tag. Issue 157', ->
     eq(
       xml('root')
         .dtd('hello.dtd')
