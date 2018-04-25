@@ -30,7 +30,7 @@
     "coveralls": "*"
   },
   "scripts": {
-    "prepublish": "coffee -co lib src",
+    "prepublishOnly": "coffee -co lib src",
     "postpublish": "rm -rf lib",
     "test": "mocha \"test/**/*.coffee\" && istanbul report text lcov"
   }
