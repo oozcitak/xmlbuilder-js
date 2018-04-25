@@ -1,17 +1,25 @@
 suite 'Tests specific to issues:', ->
   test 'importDocument overwrites parent declaration: Issue 175', ->
-    imported = xml('import', { version: "1.0", encoding: "utf-8" })
-      .ele('node', 'imported')
 
+    doc = xml({ factura: {'@id':'comprabante','@version':'2.1.0' }}, {encoding: 'UTF-8'})
+      .ele('identificacionComprador', '1303963712')
+    doc.ele('node')
+
+    for i in [1..3]
+      person = xml('person').att('id', i)
+      doc.importDocument(person)
+      
     eq(
-      xml('test', {version : "1.1", encoding: "de-de"})
-        .importDocument(imported)
-        .end()
-      '<?xml version="1.1" encoding="de-de"?>' +
-        '<test>' +
-          '<import>' +
-            '<node>imported</node>' +
-          '</import>' +
-        '</test>'
+      doc.end()
+      '<?xml version="1.0" encoding="UTF-8"?>' +
+      '<factura id="comprabante" version="2.1.0">' +
+        '<identificacionComprador>' +
+          '1303963712' +
+          '<node/>' +
+          '<person id="1"/>' +
+          '<person id="2"/>' +
+          '<person id="3"/>' +
+        '</identificacionComprador>' +
+      '</factura>'
     )
 
