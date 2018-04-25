@@ -1,4 +1,4 @@
-{ isObject, isFunction, isPlainObject } = require './Utility'
+{ isObject, isFunction, isPlainObject, getValue } = require './Utility'
 
 XMLElement = require './XMLElement'
 XMLCData = require './XMLCData'
@@ -82,10 +82,10 @@ module.exports = class XMLDocumentCB
 
     @openCurrent()
 
-    name = name.valueOf()
+    name = getValue name
 
     attributes ?= {}
-    attributes = attributes.valueOf()
+    attributes = getValue attributes
     # swap argument order: text <-> attributes
     if not isObject attributes
       [text, attributes] = [attributes, text]
@@ -121,7 +121,7 @@ module.exports = class XMLDocumentCB
     if not @currentNode or @currentNode.children
       throw new Error "att() can only be used immediately after an ele() call in callback mode"
 
-    name = name.valueOf() if name?
+    name = getValue(name) if name?
 
     if isObject name # expand if object
       for own attName, attValue of name
@@ -191,8 +191,8 @@ module.exports = class XMLDocumentCB
   instruction: (target, value) ->
     @openCurrent()
 
-    target = target.valueOf() if target?
-    value = value.valueOf() if value?
+    target = getValue(target) if target?
+    value = getValue(value) if value?
 
     if Array.isArray target # expand if array
       for insTarget in target

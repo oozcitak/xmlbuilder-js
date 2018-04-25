@@ -1,4 +1,4 @@
-{ isObject, isFunction, isEmpty } = require './Utility'
+{ isObject, isFunction, isEmpty, getValue } = require './Utility'
 
 XMLElement = null
 XMLCData = null
@@ -45,12 +45,12 @@ module.exports = class XMLNode
     lastChild = null
 
     attributes ?= {}
-    attributes = attributes.valueOf()
+    attributes = getValue attributes
     # swap argument order: text <-> attributes
     if not isObject attributes
       [text, attributes] = [attributes, text]
 
-    name = name.valueOf() if name?
+    name = getValue(name) if name?
     # expand if array
     if Array.isArray name
       lastChild = @element item for item in name
@@ -176,10 +176,10 @@ module.exports = class XMLNode
   # `attributes` an object containing name/value pairs of attributes
   # `text` element text
   node: (name, attributes, text) ->
-    name = name.valueOf() if name?
+    name = getValue(name) if name?
 
     attributes or= {}
-    attributes = attributes.valueOf()
+    attributes = getValue attributes
     # swap argument order: text <-> attributes
     if not isObject attributes
       [text, attributes] = [attributes, text]
@@ -265,8 +265,8 @@ module.exports = class XMLNode
   # `target` instruction target
   # `value` instruction value
   instruction: (target, value) ->
-    target = target.valueOf() if target?
-    value = value.valueOf() if value?
+    target = getValue(target) if target?
+    value = getValue(value) if value?
 
     if Array.isArray target # expand if array
       for insTarget in target

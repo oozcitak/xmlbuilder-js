@@ -1,4 +1,4 @@
-{ isObject, isFunction } = require './Utility'
+{ isObject, isFunction, getValue } = require './Utility'
 
 XMLNode = require './XMLNode'
 XMLAttribute = require './XMLAttribute'
@@ -59,7 +59,7 @@ module.exports = class XMLElement extends XMLNode
   # `name` attribute name
   # `value` attribute value
   attribute: (name, value) ->
-    name = name.valueOf() if name?
+    name = getValue(name) if name?
 
     if isObject name # expand if object
       for own attName, attValue of name
@@ -78,7 +78,7 @@ module.exports = class XMLElement extends XMLNode
   removeAttribute: (name) ->
     if not name?
       throw new Error "Missing attribute name"
-    name = name.valueOf()
+    name = getValue name
 
     if Array.isArray name # expand if array
       for attName in name

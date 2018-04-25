@@ -41,6 +41,12 @@ isPlainObject = (val) ->
     (ctor instanceof ctor) and
     (Function.prototype.toString.call(ctor) is Function.prototype.toString.call(Object))
 
+# Gets the primitive value of an object
+getValue = (obj) ->
+  if isFunction obj.valueOf
+    obj.valueOf()
+  else
+    obj
 
 module.exports.assign = assign
 module.exports.isFunction = isFunction
@@ -48,4 +54,5 @@ module.exports.isObject = isObject
 module.exports.isArray = isArray
 module.exports.isEmpty = isEmpty
 module.exports.isPlainObject = isPlainObject
+module.exports.getValue = getValue
 
