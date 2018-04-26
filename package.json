@@ -23,9 +23,9 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "coffeescript": "1.*",
+    "coffeescript": "*",
     "mocha": "*",
-    "coffee-coverage": "2.*",
+    "coffee-coverage": "*",
     "istanbul": "*",
     "coveralls": "*"
   },
