@@ -11,7 +11,7 @@ module.exports = class XMLCData extends XMLNode
     super parent
 
     if not text?
-      throw new Error "Missing CDATA text"
+      throw new Error "Missing CDATA text. " + @debugInfo()
 
     @text = @stringify.cdata text
 

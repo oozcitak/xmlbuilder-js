@@ -10,16 +10,17 @@ suite 'DTDAttList Guards:', ->
     ]
 
     results = [
-      /Missing DTD element name/
-      /Missing DTD attribute name/
-      /Missing DTD attribute type/
-      /Missing DTD attribute default/
-      /Invalid default value type; expected: #REQUIRED, #IMPLIED, #FIXED or #DEFAULT/
-      /Default value only applies to #FIXED or #DEFAULT/
+      "Missing DTD element name. parent: <test>"
+      "Missing DTD attribute name. node: <ele>, parent: <test>"
+      "Missing DTD attribute type. node: <ele>, parent: <test>"
+      "Missing DTD attribute default. node: <ele>, parent: <test>"
+      "Invalid default value type; expected: #REQUIRED, #IMPLIED, #FIXED or #DEFAULT. node: <ele>, parent: <test>"
+      "Default value only applies to #FIXED or #DEFAULT. node: <ele>, parent: <test>"
     ]
 
     err(
       testCases[i]
+      Error
       results[i]
     ) for i in [0..testCases.length-1]
 

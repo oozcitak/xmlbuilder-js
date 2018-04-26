@@ -542,14 +542,16 @@ suite 'Creating XML with string writer:', ->
         root = xml('test4')
         root.children.push(new String("Invalid node"))
         root.end()
-      /Unknown XML node type: String/
+      Error
+      "Unknown XML node type: String"
     )
     err(
       () ->
         dtd = xml('test4').dtd()
         dtd.children.push(new String("Invalid DTD node"))
         dtd.end()
-      /Unknown DTD node type: String/
+      Error
+      "Unknown DTD node type: String"
     )
 
   test 'Overwrite writer properties', ->

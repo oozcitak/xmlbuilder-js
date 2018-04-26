@@ -46,6 +46,8 @@ module.exports = class XMLDocumentCB
   # `onEnd`  the function to be called when the XML document is completed with
   #          `end`. `onEnd` does not receive any arguments.
   constructor: (options, onData, onEnd) ->
+    @name = "?xml"
+    
     options or= {}
 
     if not options.writer
@@ -75,10 +77,10 @@ module.exports = class XMLDocumentCB
   # `text` element text
   node: (name, attributes, text) ->
     if not name?
-      throw new Error "Missing node name"
+      throw new Error "Missing node name."
 
     if @root and @currentLevel is -1
-      throw new Error "Document can only have one root node"
+      throw new Error "Document can only have one root node. " + @debugInfo(name)
 
     @openCurrent()
 
@@ -119,7 +121,7 @@ module.exports = class XMLDocumentCB
   # `value` attribute value
   attribute: (name, value) ->
     if not @currentNode or @currentNode.children
-      throw new Error "att() can only be used immediately after an ele() call in callback mode"
+      throw new Error "att() can only be used immediately after an ele() call in callback mode. " + @debugInfo(name)
 
     name = getValue(name) if name?
 
@@ -217,7 +219,7 @@ module.exports = class XMLDocumentCB
     @openCurrent()
 
     if @documentStarted
-      throw new Error "declaration() must be the first node"
+      throw new Error "declaration() must be the first node."
 
     node = new XMLDeclaration @, version, encoding, standalone
     @onData(@writer.declaration(node, @currentLevel + 1))
@@ -234,10 +236,10 @@ module.exports = class XMLDocumentCB
     @openCurrent()
 
     if not root?
-      throw new Error "Missing root node name"
+      throw new Error "Missing root node name."
 
     if @root
-      throw new Error "dtd() must come before the root node"
+      throw new Error "dtd() must come before the root node."
 
     @currentNode = new XMLDocType @, pubID, sysID
     @currentNode.rootNodeName = root
@@ -328,7 +330,7 @@ module.exports = class XMLDocumentCB
   # Gets the parent node
   up: () ->
     if @currentLevel < 0
-      throw new Error "The document node has no parent"
+      throw new Error "The document node has no parent."
 
     if @currentNode
       if @currentNode.children then @closeNode(@currentNode) else @openNode(@currentNode)
@@ -385,6 +387,14 @@ module.exports = class XMLDocumentCB
   onEnd: () ->
     @documentCompleted = true
     @onEndCallback()
+
+
+  # Returns debug string
+  debugInfo: (name) -> 
+    if not name?
+      ""
+    else
+      "node: <" + name + ">"
 
 
   # Node aliases

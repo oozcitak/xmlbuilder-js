@@ -1,7 +1,8 @@
-suite 'CDATA Guards:', ->
+suite 'Comment Guards:', ->
   test 'constructor', ->
     err(
       () -> xml('test').com()
-      /Missing comment text/
+      Error
+      "Missing comment text. parent: <test>"
     )
 

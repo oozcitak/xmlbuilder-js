@@ -2,6 +2,7 @@ suite 'CDATA Guards:', ->
   test 'constructor', ->
     err(
       () -> xml('test').cdata()
-      /Missing CDATA text/
+      Error
+      "Missing CDATA text. parent: <test>"
     )
 

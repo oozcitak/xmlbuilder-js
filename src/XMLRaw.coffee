@@ -11,7 +11,7 @@ module.exports = class XMLRaw extends XMLNode
     super parent
 
     if not text?
-      throw new Error "Missing raw text"
+      throw new Error "Missing raw text. " + @debugInfo()
 
     @value = @stringify.raw text
 

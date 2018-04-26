@@ -11,17 +11,18 @@ suite 'Node Guards:', ->
     ]
 
     results = [
-      /Cannot insert elements at root level/
-      /Cannot insert elements at root level/
-      /Cannot remove the root element/
-      /The root node has no parent\. Use doc\(\) if you need to get the document object\./
-      /Already at the first node/
-      /Already at the last node/
-      /Could not create any elements with: /
+      "Cannot insert elements at root level. parent: <?xml>"
+      "Cannot insert elements at root level. parent: <?xml>"
+      "Cannot remove the root element. parent: <?xml>"
+      "The root node has no parent. Use doc() if you need to get the document object."
+      "Already at the first node. parent: <?xml>"
+      "Already at the last node. parent: <?xml>"
+      "Could not create any elements with: . parent: <?xml>"
     ]
 
     err(
       testCases[i]
+      Error
       results[i]
     ) for i in [0..testCases.length-1]
 

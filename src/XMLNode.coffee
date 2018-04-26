@@ -109,7 +109,7 @@ module.exports = class XMLNode
         lastChild = @node name, attributes, text
 
     if not lastChild?
-      throw new Error "Could not create any elements with: " + name
+      throw new Error "Could not create any elements with: " + name + ". " + @debugInfo()
 
     return lastChild
 
@@ -121,7 +121,7 @@ module.exports = class XMLNode
   # `text` element text
   insertBefore: (name, attributes, text) ->
     if @isRoot
-      throw new Error "Cannot insert elements at root level"
+      throw new Error "Cannot insert elements at root level. " + @debugInfo(name)
 
     # temporarily remove children starting *with* this
     i = @parent.children.indexOf @
@@ -143,7 +143,7 @@ module.exports = class XMLNode
   # `text` element text
   insertAfter: (name, attributes, text) ->
     if @isRoot
-      throw new Error "Cannot insert elements at root level"
+      throw new Error "Cannot insert elements at root level. " + @debugInfo(name)
 
     # temporarily remove children starting *after* this
     i = @parent.children.indexOf @
@@ -162,7 +162,7 @@ module.exports = class XMLNode
   #
   remove: () ->
     if @isRoot
-      throw new Error "Cannot remove the root element"
+      throw new Error "Cannot remove the root element. " + @debugInfo()
 
     i = @parent.children.indexOf @
     @parent.children[i..i] = []
@@ -401,7 +401,7 @@ module.exports = class XMLNode
   prev: () ->
     i = @parent.children.indexOf @
     if i < 1
-      throw new Error "Already at the first node"
+      throw new Error "Already at the first node. " + @debugInfo()
     @parent.children[i - 1]
 
 
@@ -409,7 +409,7 @@ module.exports = class XMLNode
   next: () ->
     i = @parent.children.indexOf @
     if i == -1 || i == @parent.children.length - 1
-      throw new Error "Already at the last node"
+      throw new Error "Already at the last node. " + @debugInfo()
     @parent.children[i + 1]
 
 
@@ -422,6 +422,20 @@ module.exports = class XMLNode
     clonedRoot.isRoot = false
     @children.push clonedRoot
     return @
+  
+
+  # Returns debug string for this node
+  debugInfo: (name) -> 
+    name = name or @name
+
+    if not name? and not @parent?.name
+      ""
+    else if not name?
+      "parent: <" + @parent.name + ">"
+    else if not @parent?.name
+      "node: <" + name + ">"
+    else
+      "node: <" + name + ">, parent: <" + @parent.name + ">"
 
 
   # Aliases

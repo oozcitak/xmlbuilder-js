@@ -13,7 +13,7 @@ module.exports = class XMLDTDElement extends XMLNode
     super parent
 
     if not name?
-      throw new Error "Missing DTD element name"
+      throw new Error "Missing DTD element name. " + @debugInfo()
     if not value
       value = '(#PCDATA)'
     if Array.isArray value

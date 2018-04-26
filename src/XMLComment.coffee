@@ -11,7 +11,7 @@ module.exports = class XMLComment extends XMLNode
     super parent
 
     if not text?
-      throw new Error "Missing comment text"
+      throw new Error "Missing comment text. " + @debugInfo()
 
     @text = @stringify.comment text
 

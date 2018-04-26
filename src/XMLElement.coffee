@@ -16,7 +16,7 @@ module.exports = class XMLElement extends XMLNode
     super parent
 
     if not name?
-      throw new Error "Missing element name"
+      throw new Error "Missing element name. " + @debugInfo()
 
     @name = @stringify.eleName name
     @attributes = {}
@@ -77,7 +77,7 @@ module.exports = class XMLElement extends XMLNode
   # `name` attribute name
   removeAttribute: (name) ->
     if not name?
-      throw new Error "Missing attribute name"
+      throw new Error "Missing attribute name. " + @debugInfo()
     name = getValue name
 
     if Array.isArray name # expand if array

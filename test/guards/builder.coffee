@@ -1,7 +1,8 @@
-suite 'CDATA Guards:', ->
+suite 'begin() Guards:', ->
   test 'constructor', ->
     err(
       () -> xml()
-      /Root element needs a name/
+      Error
+      "Root element needs a name."
     )
 

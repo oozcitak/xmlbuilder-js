@@ -18,19 +18,19 @@ module.exports = class XMLDTDAttList extends XMLNode
     super parent
 
     if not elementName?
-      throw new Error "Missing DTD element name"
+      throw new Error "Missing DTD element name. " + @debugInfo()
     if not attributeName?
-      throw new Error "Missing DTD attribute name"
+      throw new Error "Missing DTD attribute name. " + @debugInfo(elementName)
     if not attributeType
-      throw new Error "Missing DTD attribute type"
+      throw new Error "Missing DTD attribute type. " + @debugInfo(elementName)
     if not defaultValueType
-      throw new Error "Missing DTD attribute default"
+      throw new Error "Missing DTD attribute default. " + @debugInfo(elementName)
     if defaultValueType.indexOf('#') != 0
       defaultValueType = '#' + defaultValueType
     if not defaultValueType.match /^(#REQUIRED|#IMPLIED|#FIXED|#DEFAULT)$/
-      throw new Error "Invalid default value type; expected: #REQUIRED, #IMPLIED, #FIXED or #DEFAULT"
+      throw new Error "Invalid default value type; expected: #REQUIRED, #IMPLIED, #FIXED or #DEFAULT. " + @debugInfo(elementName)
     if defaultValue and not defaultValueType.match /^(#FIXED|#DEFAULT)$/
-      throw new Error "Default value only applies to #FIXED or #DEFAULT"
+      throw new Error "Default value only applies to #FIXED or #DEFAULT. " + @debugInfo(elementName)
 
     @elementName = @stringify.eleName elementName
     @attributeName = @stringify.attName attributeName

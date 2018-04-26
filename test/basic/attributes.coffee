@@ -1,5 +1,3 @@
-
-
 suite 'Attributes:', ->
   test 'Add attribute (single with object argument)', ->
     eq(
@@ -34,33 +32,6 @@ suite 'Attributes:', ->
           .removeAttribute(["second", "third"])
         .end()
       '<test4><node first="1">element</node></test4>'
-    )
-
-  test 'Throw if null attribute (ele)', ->
-    err(
-      () -> xml('test4', { headless: true }).ele('node', 'element', {"first":null, "second":"2"})
-    )
-
-  test 'Throw if null attribute (att)', ->
-    err(
-      () -> xml('test4', { headless: true }).ele('node').att("first")
-    )
-
-  test 'Throw if null attribute name (att)', ->
-    err(
-      () -> xml('test4', { headless: true }).ele('node').att(null, "first")
-      /Missing attribute name of element node/
-    )
-
-  test 'Throw if null attribute value (att)', ->
-    err(
-      () -> xml('test4', { headless: true }).ele('node').att("first", null)
-      /Missing attribute value for attribute first of element node/
-    )
-
-  test 'Throw if null attribute (JSON)', ->
-    err(
-      () -> xml('test4', { headless: true }).ele({'@first': null})
     )
 
   test 'Skip if null attribute (ele)', ->

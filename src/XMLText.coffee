@@ -11,7 +11,7 @@ module.exports = class XMLText extends XMLNode
     super parent
 
     if not text?
-      throw new Error "Missing element text"
+      throw new Error "Missing element text. " + @debugInfo()
 
     @value = @stringify.eleText text
 

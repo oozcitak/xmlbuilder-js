@@ -2,6 +2,7 @@ suite 'DTDElement Guards:', ->
   test 'constructor', ->
     err(
       () -> xml('test').dtd().ele()
-      /Missing DTD element name/
+      Error
+      "Missing DTD element name. parent: <test>"
     )
 

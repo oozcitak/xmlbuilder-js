@@ -9,15 +9,16 @@ suite 'DTDEntity Guards:', ->
     ]
 
     results = [
-      /Missing entity name/
-      /Missing entity value/
-      /Public and\/or system identifiers are required for an external entity/
-      /System identifier is required for a public external entity/
-      /Notation declaration is not allowed in a parameter entity/
+      "Missing DTD entity name. parent: <!DOCTYPE>"
+      "Missing DTD entity value. node: <name>, parent: <!DOCTYPE>"
+      "Public and/or system identifiers are required for an external entity. node: <name>, parent: <!DOCTYPE>"
+      "System identifier is required for a public external entity. node: <name>, parent: <!DOCTYPE>"
+      "Notation declaration is not allowed in a parameter entity. node: <name>, parent: <!DOCTYPE>"
     ]
 
     err(
       testCases[i]
+      Error
       results[i]
     ) for i in [0..testCases.length-1]
 

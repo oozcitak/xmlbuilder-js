@@ -1,7 +1,8 @@
-suite 'CDATA Guards:', ->
+suite 'Text Guards:', ->
   test 'constructor', ->
     err(
       () -> xml('test').txt()
-      /Missing element text/
+      Error
+      "Missing element text. parent: <test>"
     )
 

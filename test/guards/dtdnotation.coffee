@@ -6,12 +6,13 @@ suite 'DTDNotation Guards:', ->
     ]
 
     results = [
-      /Missing notation name/
-      /Public or system identifiers are required for an external entity/
+      "Missing DTD notation name. parent: <!DOCTYPE>"
+      "Public or system identifiers are required for an external entity. node: <name>, parent: <!DOCTYPE>"
     ]
 
     err(
       testCases[i]
+      Error
       results[i]
     ) for i in [0..testCases.length-1]
 

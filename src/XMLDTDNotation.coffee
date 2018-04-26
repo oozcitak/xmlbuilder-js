@@ -15,9 +15,9 @@ module.exports = class XMLDTDNotation extends XMLNode
     super parent
 
     if not name?
-      throw new Error "Missing notation name"
+      throw new Error "Missing DTD notation name. " + @debugInfo(name)
     if not value.pubID and not value.sysID
-      throw new Error "Public or system identifiers are required for an external entity"
+      throw new Error "Public or system identifiers are required for an external entity. " + @debugInfo(name)
 
     @name = @stringify.eleName name
     @pubID = @stringify.dtdPubID value.pubID if value.pubID?

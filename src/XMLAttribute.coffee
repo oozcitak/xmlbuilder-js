@@ -10,11 +10,12 @@ module.exports = class XMLAttribute
   constructor: (parent, name, value) ->
     @options = parent.options
     @stringify = parent.stringify
+    @parent = parent
 
     if not name?
-      throw new Error "Missing attribute name of element " + parent.name
+      throw new Error "Missing attribute name. " + @debugInfo(name)
     if not value?
-      throw new Error "Missing attribute value for attribute " + name + " of element " + parent.name
+      throw new Error "Missing attribute value. " + @debugInfo(name)
 
     @name = @stringify.attName name
     @value = @stringify.attValue value
@@ -34,3 +35,16 @@ module.exports = class XMLAttribute
   toString: (options) ->
     @options.writer.set(options).attribute @
 
+  
+  # Returns debug string for this node
+  debugInfo: (name) -> 
+    name = name or @name
+
+    if not name? and not @parent?.name
+      ""
+    else if not name?
+      "parent: <" + @parent.name + ">"
+    else if not @parent?.name
+      "attribute: {" + name + "}"
+    else
+      "attribute: {" + name + "}, parent: <" + @parent.name + ">"

@@ -20,9 +20,9 @@ module.exports = class XMLDTDEntity extends XMLNode
     super parent
 
     if not name?
-      throw new Error "Missing entity name"
+      throw new Error "Missing DTD entity name. " + @debugInfo(name)
     if not value?
-      throw new Error "Missing entity value"
+      throw new Error "Missing DTD entity value. " + @debugInfo(name)
 
     @pe = !!pe
     @name = @stringify.eleName name
@@ -31,16 +31,16 @@ module.exports = class XMLDTDEntity extends XMLNode
       @value =  @stringify.dtdEntityValue value
     else
       if not value.pubID and not value.sysID
-        throw new Error "Public and/or system identifiers are required for an external entity"
+        throw new Error "Public and/or system identifiers are required for an external entity. " + @debugInfo(name)
       if value.pubID and not value.sysID
-        throw new Error "System identifier is required for a public external entity"
+        throw new Error "System identifier is required for a public external entity. " + @debugInfo(name)
 
       @pubID = @stringify.dtdPubID value.pubID if value.pubID?
       @sysID = @stringify.dtdSysID value.sysID if value.sysID?
 
       @nData = @stringify.dtdNData value.nData if value.nData?
       if @pe and @nData
-        throw new Error "Notation declaration is not allowed in a parameter entity"
+        throw new Error "Notation declaration is not allowed in a parameter entity. " + @debugInfo(name)
 
 
   # Converts the XML fragment to string

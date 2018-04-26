@@ -290,12 +290,14 @@ suite 'Creating XML with stream writer:', ->
         root = xml('test4')
         root.children.push(new String("Invalid node"))
         root.end(builder.streamWriter(process.stdout))
-      /Unknown XML node type: String/
+      Error
+      "Unknown XML node type: String"
     )
     err(
       () ->
         dtd = xml('test4').dtd()
         dtd.children.push(new String("Invalid DTD node"))
         dtd.end(builder.streamWriter(process.stdout))
-      /Unknown DTD node type: String/
+      Error
+      "Unknown DTD node type: String"
     )

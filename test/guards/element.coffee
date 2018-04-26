@@ -6,12 +6,13 @@ suite 'XMLElement Guards:', ->
     ]
 
     results = [
-      /Missing element name/
-      /Missing attribute name/
+      "Missing element name. parent: <test>"
+      "Missing attribute name. parent: <test>"
     ]
 
     err(
       testCases[i]
+      Error
       results[i]
     ) for i in [0..testCases.length-1]
 

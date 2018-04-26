@@ -13,7 +13,7 @@ module.exports = class XMLProcessingInstruction extends XMLNode
     super parent
 
     if not target?
-      throw new Error "Missing instruction target"
+      throw new Error "Missing instruction target. " + @debugInfo()
 
     @target = @stringify.insTarget target
     @value = @stringify.insValue value if value

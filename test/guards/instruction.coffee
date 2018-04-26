@@ -2,6 +2,7 @@ suite 'CDATA Guards:', ->
   test 'constructor', ->
     err(
       () -> xml('test').ins()
-      /Missing instruction target/
+      Error
+      "Missing instruction target. parent: <test>"
     )
 

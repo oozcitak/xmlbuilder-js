@@ -34,7 +34,7 @@ XMLStreamWriter = require './XMLStreamWriter'
 #     will be used instead.
 module.exports.create = (name, xmldec, doctype, options) ->
   if not name?
-    throw new Error "Root element needs a name"
+    throw new Error "Root element needs a name."
 
   options = assign { }, xmldec, doctype, options
 

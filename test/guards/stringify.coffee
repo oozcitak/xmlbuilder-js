@@ -8,14 +8,15 @@ suite 'Stringify Guards:', ->
     ]
 
     results = [
-      /Comment text cannot contain double-hypen: --/
-      /Invalid processing instruction value: \?>/
-      /Invalid encoding: A#/
-      /Invalid version number: A.B/
+      "Comment text cannot contain double-hypen: --"
+      "Invalid processing instruction value: ?>"
+      "Invalid encoding: A"
+      "Invalid version number: A.B"
     ]
 
     err(
       testCases[i]
+      Error
       results[i]
     ) for i in [0..testCases.length-1]
 

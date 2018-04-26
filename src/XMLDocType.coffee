@@ -19,6 +19,8 @@ module.exports = class XMLDocType extends XMLNode
   constructor: (parent, pubID, sysID) ->
     super parent
 
+    @name = "!DOCTYPE"
+
     @documentObject = parent
 
     # arguments may also be passed as an object

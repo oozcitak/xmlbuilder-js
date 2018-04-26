@@ -26,6 +26,8 @@ module.exports = class XMLDocument extends XMLNode
   constructor: (options) ->
     super null
 
+    @name = "?xml"
+    
     options or= {}
     if not options.writer then options.writer = new XMLStringWriter()
 
