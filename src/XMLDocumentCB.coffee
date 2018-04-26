@@ -41,8 +41,8 @@ module.exports = class XMLDocumentCB
   #     will be used instead.
   #
   # `onData` the function to be called when a new chunk of XML is output. The
-  #          string containing the XML chunk is passed to `onData` as its single
-  #          argument.
+  #          string containing the XML chunk is passed to `onData` as its first
+  #          argument, and the current indentation level as its second argument.
   # `onEnd`  the function to be called when the XML document is completed with
   #          `end`. `onEnd` does not receive any arguments.
   constructor: (options, onData, onEnd) ->
@@ -136,8 +136,6 @@ module.exports = class XMLDocumentCB
     return @
 
 
-
-
   # Creates a text node
   #
   # `value` element text
@@ -145,7 +143,7 @@ module.exports = class XMLDocumentCB
     @openCurrent()
 
     node = new XMLText @, value
-    @onData(@writer.text(node, @currentLevel + 1))
+    @onData(@writer.text(node, @currentLevel + 1), @currentLevel + 1)
 
     return @
 
@@ -157,7 +155,7 @@ module.exports = class XMLDocumentCB
     @openCurrent()
 
     node = new XMLCData @, value
-    @onData(@writer.cdata(node, @currentLevel + 1))
+    @onData(@writer.cdata(node, @currentLevel + 1), @currentLevel + 1)
 
     return @
 
@@ -169,7 +167,7 @@ module.exports = class XMLDocumentCB
     @openCurrent()
 
     node = new XMLComment @, value
-    @onData(@writer.comment(node, @currentLevel + 1))
+    @onData(@writer.comment(node, @currentLevel + 1), @currentLevel + 1)
 
     return @
 
@@ -181,7 +179,7 @@ module.exports = class XMLDocumentCB
     @openCurrent()
 
     node = new XMLRaw @, value
-    @onData(@writer.raw(node, @currentLevel + 1))
+    @onData(@writer.raw(node, @currentLevel + 1), @currentLevel + 1)
 
     return @
 
@@ -205,7 +203,7 @@ module.exports = class XMLDocumentCB
     else
       value = value.apply() if isFunction value
       node = new XMLProcessingInstruction @, target, value
-      @onData(@writer.processingInstruction(node, @currentLevel + 1))
+      @onData(@writer.processingInstruction(node, @currentLevel + 1), @currentLevel + 1)
 
     return @
 
@@ -222,7 +220,7 @@ module.exports = class XMLDocumentCB
       throw new Error "declaration() must be the first node."
 
     node = new XMLDeclaration @, version, encoding, standalone
-    @onData(@writer.declaration(node, @currentLevel + 1))
+    @onData(@writer.declaration(node, @currentLevel + 1), @currentLevel + 1)
 
     return @
 
@@ -258,7 +256,7 @@ module.exports = class XMLDocumentCB
     @openCurrent()
 
     node = new XMLDTDElement @, name, value
-    @onData(@writer.dtdElement(node, @currentLevel + 1))
+    @onData(@writer.dtdElement(node, @currentLevel + 1), @currentLevel + 1)
 
     return @
 
@@ -276,7 +274,7 @@ module.exports = class XMLDocumentCB
     @openCurrent()
 
     node = new XMLDTDAttList @, elementName, attributeName, attributeType, defaultValueType, defaultValue
-    @onData(@writer.dtdAttList(node, @currentLevel + 1))
+    @onData(@writer.dtdAttList(node, @currentLevel + 1), @currentLevel + 1)
 
     return @
 
@@ -292,7 +290,7 @@ module.exports = class XMLDocumentCB
     @openCurrent()
 
     node = new XMLDTDEntity @, false, name, value
-    @onData(@writer.dtdEntity(node, @currentLevel + 1))
+    @onData(@writer.dtdEntity(node, @currentLevel + 1), @currentLevel + 1)
 
     return @
 
@@ -307,7 +305,7 @@ module.exports = class XMLDocumentCB
     @openCurrent()
 
     node = new XMLDTDEntity @, true, name, value
-    @onData(@writer.dtdEntity(node, @currentLevel + 1))
+    @onData(@writer.dtdEntity(node, @currentLevel + 1), @currentLevel + 1)
 
     return @
 
@@ -322,7 +320,7 @@ module.exports = class XMLDocumentCB
     @openCurrent()
 
     node = new XMLDTDNotation @, name, value
-    @onData(@writer.dtdNotation(node, @currentLevel + 1))
+    @onData(@writer.dtdNotation(node, @currentLevel + 1), @currentLevel + 1)
 
     return @
 
@@ -364,23 +362,24 @@ module.exports = class XMLDocumentCB
   openNode: (node) ->
     if not node.isOpen
       if not @root and @currentLevel is 0 and node instanceof XMLElement then @root = node
-      @onData(@writer.openNode(node, @currentLevel))
+      @onData(@writer.openNode(node, @currentLevel), @currentLevel)
       node.isOpen = true
 
 
   # Writes the closing tag of the current node
   closeNode: (node) ->
     if not node.isClosed
-      @onData(@writer.closeNode(node, @currentLevel))
+      @onData(@writer.closeNode(node, @currentLevel), @currentLevel)
       node.isClosed = true
 
 
   # Called when a new chunk of XML is output
   #
   # `chunk` a string containing the XML chunk
-  onData: (chunk) ->
+  # `level` current indentation level
+  onData: (chunk, level) ->
     @documentStarted = true
-    @onDataCallback(chunk)
+    @onDataCallback(chunk, level + 1)
 
 
   # Called when the XML document is completed

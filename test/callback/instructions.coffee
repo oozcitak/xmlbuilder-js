@@ -1,7 +1,7 @@
 suite 'Processing Instructions:', ->
 
   result = ''
-  data = (chunk) ->
+  data = (chunk, level) ->
     result += chunk
 
   doc(data)

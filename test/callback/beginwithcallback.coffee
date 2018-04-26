@@ -2,7 +2,7 @@ suite 'Creating XML using begin() callbacks:', ->
   test 'Long form', ->
 
     result = ''
-    data = (chunk) ->
+    data = (chunk, level) ->
       result += chunk
 
     doc(data)
