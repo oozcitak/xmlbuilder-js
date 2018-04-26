@@ -2,8 +2,14 @@
 
 All notable changes to this project are documented in this file. This project adheres to [Semantic Versioning](http://semver.org/#semantic-versioning-200).
 
+## [10.0.0] - 2018-04-26
+- Added current indentation level as a parameter to the onData function when in callback mode. See [#125](https://github.com/oozcitak/xmlbuilder-js/issues/125).
+- Added name of the current node and parent node to error messages where possible. See [#152](https://github.com/oozcitak/xmlbuilder-js/issues/152).
+- Fixed an issue where objects created with Object.create(null) created an error. See [#176](https://github.com/oozcitak/xmlbuilder-js/issues/176).
+- Added test builds for node.js v8 and v10.
+
 ## [9.0.7] - 2018-02-09
-- simplified regex used for validating encoding.
+- Simplified regex used for validating encoding.
 
 ## [9.0.4] - 2017-08-16
 - `spacebeforeslash` writer option accepts `true` as well as space char(s).
@@ -348,6 +354,7 @@ root.ele({ number: [ "one", "two"  ]});
 ## 0.0.1 - 2010-11-02
 - Initial release
 
+[10.0.0]: https://github.com/oozcitak/xmlbuilder-js/compare/v9.0.7...v10.0.0
 [9.0.7]: https://github.com/oozcitak/xmlbuilder-js/compare/v9.0.4...v9.0.7
 [9.0.4]: https://github.com/oozcitak/xmlbuilder-js/compare/v9.0.3...v9.0.4
 [9.0.3]: https://github.com/oozcitak/xmlbuilder-js/compare/v9.0.2...v9.0.3
