@@ -3,6 +3,8 @@ node_js:
   - "4.0"
   - "5.0"
   - "6.0"
+  - "8.0"
+  - "10.0"
   - "node"
 after_success:
   - "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls"
