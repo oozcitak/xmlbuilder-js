@@ -7,6 +7,7 @@ XMLElement = require './XMLElement'
 XMLRaw = require './XMLRaw'
 XMLText = require './XMLText'
 XMLProcessingInstruction = require './XMLProcessingInstruction'
+XMLDummy = require './XMLDummy'
 
 XMLDTDAttList = require './XMLDTDAttList'
 XMLDTDElement = require './XMLDTDElement'
@@ -160,6 +161,7 @@ module.exports = class XMLStringWriter extends XMLWriterBase
           when child instanceof XMLRaw     then @raw     child, level + 1
           when child instanceof XMLText    then @text    child, level + 1
           when child instanceof XMLProcessingInstruction then @processingInstruction child, level + 1
+          when child instanceof XMLDummy   then ''
           else throw new Error "Unknown XML node type: " + child.constructor.name
 
       if textispresentwasset

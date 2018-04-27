@@ -8,6 +8,7 @@ XMLDocType = null
 XMLRaw = null
 XMLText = null
 XMLProcessingInstruction = null
+XMLDummy = null
 
 # Represents a generic XMl element
 module.exports = class XMLNode
@@ -34,6 +35,7 @@ module.exports = class XMLNode
       XMLRaw = require './XMLRaw'
       XMLText = require './XMLText'
       XMLProcessingInstruction = require './XMLProcessingInstruction'
+      XMLDummy = require './XMLDummy'
 
 
   # Creates a child element node
@@ -43,6 +45,9 @@ module.exports = class XMLNode
   # `text` element text
   element: (name, attributes, text) ->
     lastChild = null
+
+    if attributes == null and not text?
+      [attributes, text] = [{}, null]
 
     attributes ?= {}
     attributes = getValue attributes
@@ -87,6 +92,9 @@ module.exports = class XMLNode
         # text node
         else
           lastChild = @element key, val
+
+    else if @options.skipNullNodes and text == null
+      lastChild = @dummy()
 
     else
       # text node
@@ -260,6 +268,12 @@ module.exports = class XMLNode
     return @
 
 
+  # Adds a dummy node
+  dummy: () ->
+    child = new XMLDummy @
+    @children.push child
+    return child
+
   # Adds a processing instruction
   #
   # `target` instruction target
@@ -400,16 +414,26 @@ module.exports = class XMLNode
   # Gets the previous node
   prev: () ->
     i = @parent.children.indexOf @
+
+    # skip dummy nodes
+    i = i - 1 while i > 0 and @parent.children[i - 1].isDummy
+
     if i < 1
       throw new Error "Already at the first node. " + @debugInfo()
+
     @parent.children[i - 1]
 
 
   # Gets the next node
   next: () ->
     i = @parent.children.indexOf @
+
+    # skip dummy nodes
+    i = i + 1 while i < @parent.children.length - 1 and @parent.children[i + 1].isDummy
+
     if i == -1 || i == @parent.children.length - 1
       throw new Error "Already at the last node. " + @debugInfo()
+
     @parent.children[i + 1]
 
 
