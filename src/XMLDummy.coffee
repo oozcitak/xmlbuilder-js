@@ -8,7 +8,7 @@ module.exports = class XMLDummy extends XMLNode
   #
   # `XMLDummy` is a special node representing a node with 
   # a null value. Dummy nodes are created while recursively
-  # building the XML tree. Simple skipping null values doesn't
+  # building the XML tree. Simply skipping null values doesn't
   # work because that would break the recursive chain.
   constructor: (parent) ->
     super parent

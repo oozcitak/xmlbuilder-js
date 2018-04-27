@@ -19,6 +19,8 @@ XMLStreamWriter = require './XMLStreamWriter'
 #
 # `options.headless` whether XML declaration and doctype will be included:
 #     true or false
+  # `options.skipNullValues` whether nodes with null values will be ignored:
+  #     true or false
 # `options.skipNullAttributes` whether attributes with null values will be
 #     ignored: true or false
 # `options.ignoreDecorators` whether decorator strings will be ignored when
