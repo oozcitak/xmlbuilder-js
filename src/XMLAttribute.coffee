@@ -40,11 +40,7 @@ module.exports = class XMLAttribute
   debugInfo: (name) -> 
     name = name or @name
 
-    if not name? and not @parent?.name
-      ""
-    else if not name?
+    if not name?
       "parent: <" + @parent.name + ">"
-    else if not @parent?.name
-      "attribute: {" + name + "}"
     else
       "attribute: {" + name + "}, parent: <" + @parent.name + ">"
