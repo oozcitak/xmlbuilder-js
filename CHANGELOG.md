@@ -4,7 +4,7 @@ All notable changes to this project are documented in this file. This project ad
 
 ## [10.0.0] - 2018-04-26
 - Added current indentation level as a parameter to the onData function when in callback mode. See [#125](https://github.com/oozcitak/xmlbuilder-js/issues/125).
-- Added name of the current node and parent node to error messages where possible. See [#152](https://github.com/oozcitak/xmlbuilder-js/issues/152).
+- Added name of the current node and parent node to error messages where possible. See [#152](https://github.com/oozcitak/xmlbuilder-js/issues/152). This has the potential to break code depending on the content of error messages.
 - Fixed an issue where objects created with Object.create(null) created an error. See [#176](https://github.com/oozcitak/xmlbuilder-js/issues/176).
 - Added test builds for node.js v8 and v10.
 
