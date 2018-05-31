@@ -26,7 +26,7 @@ module.exports = class XMLDocumentCB
 
   # Initializes a new instance of `XMLDocumentCB`
   #
-  # `options.skipNullValues` whether nodes with null values will be ignored:
+  # `options.skipNullNodes` whether nodes with null values will be ignored:
   #     true or false
   # `options.skipNullAttributes` whether attributes with null values will be
   #     ignored: true or false
