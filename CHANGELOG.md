@@ -2,6 +2,9 @@
 
 All notable changes to this project are documented in this file. This project adheres to [Semantic Versioning](http://semver.org/#semantic-versioning-200).
 
+## [10.1.0] - 2018-10-10
+- Added the `skipNullNodes` option to skip nodes with null values. See [#158](https://github.com/oozcitak/xmlbuilder-js/issues/158).
+
 ## [10.0.0] - 2018-04-26
 - Added current indentation level as a parameter to the onData function when in callback mode. See [#125](https://github.com/oozcitak/xmlbuilder-js/issues/125).
 - Added name of the current node and parent node to error messages where possible. See [#152](https://github.com/oozcitak/xmlbuilder-js/issues/152). This has the potential to break code depending on the content of error messages.
@@ -354,6 +357,7 @@ root.ele({ number: [ "one", "two"  ]});
 ## 0.0.1 - 2010-11-02
 - Initial release
 
+[10.1.0]: https://github.com/oozcitak/xmlbuilder-js/compare/v10.0.0...v10.1.0
 [10.0.0]: https://github.com/oozcitak/xmlbuilder-js/compare/v9.0.7...v10.0.0
 [9.0.7]: https://github.com/oozcitak/xmlbuilder-js/compare/v9.0.4...v9.0.7
 [9.0.4]: https://github.com/oozcitak/xmlbuilder-js/compare/v9.0.3...v9.0.4
