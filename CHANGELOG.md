@@ -2,6 +2,9 @@
 
 All notable changes to this project are documented in this file. This project adheres to [Semantic Versioning](http://semver.org/#semantic-versioning-200).
 
+## [10.1.1] - 2018-10-24
+- Fixed an edge case where a null node at root level would be printed although `skipNullNodes` was set. See [#187](https://github.com/oozcitak/xmlbuilder-js/issues/187).
+
 ## [10.1.0] - 2018-10-10
 - Added the `skipNullNodes` option to skip nodes with null values. See [#158](https://github.com/oozcitak/xmlbuilder-js/issues/158).
 
@@ -357,6 +360,7 @@ root.ele({ number: [ "one", "two"  ]});
 ## 0.0.1 - 2010-11-02
 - Initial release
 
+[10.1.1]: https://github.com/oozcitak/xmlbuilder-js/compare/v10.1.0...v10.1.1
 [10.1.0]: https://github.com/oozcitak/xmlbuilder-js/compare/v10.0.0...v10.1.0
 [10.0.0]: https://github.com/oozcitak/xmlbuilder-js/compare/v9.0.7...v10.0.0
 [9.0.7]: https://github.com/oozcitak/xmlbuilder-js/compare/v9.0.4...v9.0.7
