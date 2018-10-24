@@ -301,3 +301,19 @@ suite 'Creating XML with stream writer:', ->
       Error
       "Unknown DTD node type: String"
     )
+
+
+  test 'Skipp null nodes', ->
+    xml('root', { headless:true, skipNullNodes: true })
+      .ele('nullnode', null)
+      .up()
+      .ele('data')
+      .end(builder.streamWriter(process.stdout))
+
+    eq(
+      hook.captured()
+
+      '<root>' +
+        '<data/>' +
+      '</root>'
+    )
