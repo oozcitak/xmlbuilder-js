@@ -36,6 +36,9 @@ module.exports = class XMLStringWriter extends XMLWriterBase
     @textispresent = false
     r = ''
     for child in doc.children
+      # skip dummy nodes
+      if child instanceof XMLDummy then continue
+
       r += switch
         when child instanceof XMLDeclaration then @declaration child
         when child instanceof XMLDocType     then @docType     child

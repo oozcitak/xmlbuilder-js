@@ -42,6 +42,9 @@ module.exports = class XMLStreamWriter extends XMLWriterBase
     doc.children[doc.children.length - 1].isLastRootNode = true
 
     for child in doc.children
+      # skip dummy nodes
+      if child instanceof XMLDummy then continue
+
       switch
         when child instanceof XMLDeclaration then @declaration child
         when child instanceof XMLDocType     then @docType     child

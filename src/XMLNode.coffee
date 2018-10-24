@@ -449,7 +449,7 @@ module.exports = class XMLNode
   
 
   # Returns debug string for this node
-  debugInfo: (name) -> 
+  debugInfo: (name) ->
     name = name or @name
 
     if not name? and not @parent?.name
