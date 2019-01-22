@@ -33,12 +33,18 @@ module.exports = class XMLStreamWriter extends XMLWriterBase
   constructor: (@stream, options) ->
     super(options)
 
+  endline: (node, options, level) ->
+    if node.isLastRootNode then '' else options.newline
+
   document: (doc, options) ->
     # set a flag so that we don't insert a newline after the last root level node 
     for child, i in doc.children
       child.isLastRootNode = (i is doc.children.length - 1)
 
-    for child, i in doc.children
+    options = @filterOptions options
+    options.textispresent = false
+    
+    for child in doc.children
       # skip dummy nodes
       if child instanceof XMLDummy then continue
 
@@ -50,21 +56,16 @@ module.exports = class XMLStreamWriter extends XMLWriterBase
         else @element child, options, 0
 
   attribute: (att, options, level) ->
-    @stream.write ' ' + att.name + '="' + att.value + '"'
+    @stream.write super(att, options, level)
 
   cdata: (node, options, level) ->
-    @stream.write @space(node, options, level) + '<![CDATA[' + node.text + ']]>' + @endline(node, options, level)
+    @stream.write super(node, options, level)
 
   comment: (node, options, level) ->
-    @stream.write @space(node, options, level) + '<!-- ' + node.text + ' -->' + @endline(node, options, level)
+    @stream.write super(node, options, level)
 
   declaration: (node, options, level) ->
-    @stream.write @space(node, options, level)
-    @stream.write '<?xml version="' + node.version + '"'
-    @stream.write ' encoding="' + node.encoding + '"' if node.encoding?
-    @stream.write ' standalone="' + node.standalone + '"' if node.standalone?
-    @stream.write options.spaceBeforeSlash + '?>'
-    @stream.write @endline(node, options, level)
+    @stream.write super(node, options, level)
 
   docType: (node, options, level) ->
     level or= 0
@@ -140,49 +141,22 @@ module.exports = class XMLStreamWriter extends XMLWriterBase
     @stream.write @endline(node, options, level)
 
   processingInstruction: (node, options, level) ->
-    @stream.write @space(node, options, level) + '<?' + node.target
-    @stream.write ' ' + node.value if node.value
-    @stream.write options.spaceBeforeSlash + '?>' + @endline(node, options, level)
+    @stream.write super(node, options, level)
 
   raw: (node, options, level) ->
-    @stream.write @space(node, options, level) + node.value + @endline(node, options, level)
+    @stream.write super(node, options, level)
 
   text: (node, options, level) ->
-    @stream.write @space(node, options, level) + node.value + @endline(node, options, level)
+    @stream.write super(node, options, level)
 
   dtdAttList: (node, options, level) ->
-    @stream.write @space(node, options, level) + '<!ATTLIST ' + node.elementName + ' ' + node.attributeName + ' ' + node.attributeType
-    @stream.write ' ' + node.defaultValueType if node.defaultValueType != '#DEFAULT'
-    @stream.write ' "' + node.defaultValue + '"' if node.defaultValue
-    @stream.write options.spaceBeforeSlash + '>' + @endline(node, options, level)
+    @stream.write super(node, options, level)
 
   dtdElement: (node, options, level) ->
-    @stream.write @space(node, options, level) + '<!ELEMENT ' + node.name + ' ' + node.value
-    @stream.write options.spaceBeforeSlash + '>' + @endline(node, options, level)
+    @stream.write super(node, options, level)
 
   dtdEntity: (node, options, level) ->
-    @stream.write @space(node, options, level) + '<!ENTITY'
-    @stream.write ' %' if node.pe
-    @stream.write ' ' + node.name
-    if node.value
-      @stream.write ' "' + node.value + '"'
-    else
-      if node.pubID and node.sysID
-        @stream.write ' PUBLIC "' + node.pubID + '" "' + node.sysID + '"'
-      else if node.sysID
-        @stream.write ' SYSTEM "' + node.sysID + '"'
-      @stream.write ' NDATA ' + node.nData if node.nData
-    @stream.write options.spaceBeforeSlash + '>' + @endline(node, options, level)
+    @stream.write super(node, options, level)
 
   dtdNotation: (node, options, level) ->
-    @stream.write @space(node, options, level) + '<!NOTATION ' + node.name
-    if node.pubID and node.sysID
-      @stream.write ' PUBLIC "' + node.pubID + '" "' + node.sysID + '"'
-    else if node.pubID
-      @stream.write ' PUBLIC "' + node.pubID + '"'
-    else if node.sysID
-      @stream.write ' SYSTEM "' + node.sysID + '"'
-    @stream.write options.spaceBeforeSlash + '>' + @endline(node, options, level)
-
-  endline: (node, options, level) ->
-    if node.isLastRootNode then '' else options.newline
+    @stream.write super(node, options, level)
