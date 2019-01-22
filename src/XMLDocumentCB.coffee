@@ -52,14 +52,16 @@ module.exports = class XMLDocumentCB
     
     options or= {}
 
+    writerOptions = {}
     if not options.writer
-      options.writer = new XMLStringWriter(options)
+      options.writer = new XMLStringWriter()
     else if isPlainObject(options.writer)
       writerOptions = options.writer
-      options.writer = new XMLStringWriter(writerOptions)
+      options.writer = new XMLStringWriter()
 
     @options = options
     @writer = options.writer
+    @writerOptions = @writer.filterOptions writerOptions
     @stringify = new XMLStringifier options
     @onDataCallback = onData or () ->
     @onEndCallback = onEnd or () ->
@@ -148,7 +150,7 @@ module.exports = class XMLDocumentCB
     @openCurrent()
 
     node = new XMLText @, value
-    @onData(@writer.text(node, @currentLevel + 1), @currentLevel + 1)
+    @onData(@writer.text(node, @writerOptions, @currentLevel + 1), @currentLevel + 1)
 
     return @
 
@@ -160,7 +162,7 @@ module.exports = class XMLDocumentCB
     @openCurrent()
 
     node = new XMLCData @, value
-    @onData(@writer.cdata(node, @currentLevel + 1), @currentLevel + 1)
+    @onData(@writer.cdata(node, @writerOptions, @currentLevel + 1), @currentLevel + 1)
 
     return @
 
@@ -172,7 +174,7 @@ module.exports = class XMLDocumentCB
     @openCurrent()
 
     node = new XMLComment @, value
-    @onData(@writer.comment(node, @currentLevel + 1), @currentLevel + 1)
+    @onData(@writer.comment(node, @writerOptions, @currentLevel + 1), @currentLevel + 1)
 
     return @
 
@@ -184,7 +186,7 @@ module.exports = class XMLDocumentCB
     @openCurrent()
 
     node = new XMLRaw @, value
-    @onData(@writer.raw(node, @currentLevel + 1), @currentLevel + 1)
+    @onData(@writer.raw(node, @writerOptions, @currentLevel + 1), @currentLevel + 1)
 
     return @
 
@@ -208,7 +210,7 @@ module.exports = class XMLDocumentCB
     else
       value = value.apply() if isFunction value
       node = new XMLProcessingInstruction @, target, value
-      @onData(@writer.processingInstruction(node, @currentLevel + 1), @currentLevel + 1)
+      @onData(@writer.processingInstruction(node, @writerOptions, @currentLevel + 1), @currentLevel + 1)
 
     return @
 
@@ -225,7 +227,7 @@ module.exports = class XMLDocumentCB
       throw new Error "declaration() must be the first node."
 
     node = new XMLDeclaration @, version, encoding, standalone
-    @onData(@writer.declaration(node, @currentLevel + 1), @currentLevel + 1)
+    @onData(@writer.declaration(node, @writerOptions, @currentLevel + 1), @currentLevel + 1)
 
     return @
 
@@ -261,7 +263,7 @@ module.exports = class XMLDocumentCB
     @openCurrent()
 
     node = new XMLDTDElement @, name, value
-    @onData(@writer.dtdElement(node, @currentLevel + 1), @currentLevel + 1)
+    @onData(@writer.dtdElement(node, @writerOptions, @currentLevel + 1), @currentLevel + 1)
 
     return @
 
@@ -279,7 +281,7 @@ module.exports = class XMLDocumentCB
     @openCurrent()
 
     node = new XMLDTDAttList @, elementName, attributeName, attributeType, defaultValueType, defaultValue
-    @onData(@writer.dtdAttList(node, @currentLevel + 1), @currentLevel + 1)
+    @onData(@writer.dtdAttList(node, @writerOptions, @currentLevel + 1), @currentLevel + 1)
 
     return @
 
@@ -295,7 +297,7 @@ module.exports = class XMLDocumentCB
     @openCurrent()
 
     node = new XMLDTDEntity @, false, name, value
-    @onData(@writer.dtdEntity(node, @currentLevel + 1), @currentLevel + 1)
+    @onData(@writer.dtdEntity(node, @writerOptions, @currentLevel + 1), @currentLevel + 1)
 
     return @
 
@@ -310,7 +312,7 @@ module.exports = class XMLDocumentCB
     @openCurrent()
 
     node = new XMLDTDEntity @, true, name, value
-    @onData(@writer.dtdEntity(node, @currentLevel + 1), @currentLevel + 1)
+    @onData(@writer.dtdEntity(node, @writerOptions, @currentLevel + 1), @currentLevel + 1)
 
     return @
 
@@ -325,7 +327,7 @@ module.exports = class XMLDocumentCB
     @openCurrent()
 
     node = new XMLDTDNotation @, name, value
-    @onData(@writer.dtdNotation(node, @currentLevel + 1), @currentLevel + 1)
+    @onData(@writer.dtdNotation(node, @writerOptions, @currentLevel + 1), @currentLevel + 1)
 
     return @
 
@@ -367,14 +369,14 @@ module.exports = class XMLDocumentCB
   openNode: (node) ->
     if not node.isOpen
       if not @root and @currentLevel is 0 and node instanceof XMLElement then @root = node
-      @onData(@writer.openNode(node, @currentLevel), @currentLevel)
+      @onData(@writer.openNode(node, @writerOptions, @currentLevel), @currentLevel)
       node.isOpen = true
 
 
   # Writes the closing tag of the current node
   closeNode: (node) ->
     if not node.isClosed
-      @onData(@writer.closeNode(node, @currentLevel), @currentLevel)
+      @onData(@writer.closeNode(node, @writerOptions, @currentLevel), @currentLevel)
       node.isClosed = true
 
 

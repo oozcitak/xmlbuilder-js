@@ -86,20 +86,6 @@ suite 'Creating XML with stream writer:', ->
       '</root>'
     )
 
-  test 'Plain text writer set()', ->
-    xml('root')
-      .ele('xmlbuilder')
-      .end(builder.streamWriter(process.stdout, { pretty: true }).set({ pretty: false }))
-
-    eq(
-      hook.captured()
-
-      '<?xml version="1.0"?>' +
-      '<root>' +
-          '<xmlbuilder/>' +
-      '</root>'
-    )
-
   test 'Pretty printing', ->
     xml('root')
       .dtd('hello.dtd')
@@ -208,7 +194,7 @@ suite 'Creating XML with stream writer:', ->
           .up()
       .ele('atttest', 'text')
           .att('att', () -> 'val')
-      .end(builder.streamWriter(process.stdout).set( { pretty: true, indent: '    ', offset : 1 } ))
+      .end(builder.streamWriter(process.stdout, { pretty: true, indent: '    ', offset : 1 } ))
 
     eq(
       hook.captured()

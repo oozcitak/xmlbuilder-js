@@ -97,7 +97,7 @@ module.exports = class XMLElement extends XMLNode
   # `options.newline` newline sequence for pretty print
   # `options.allowEmpty` do not self close empty element tags
   toString: (options) ->
-    @options.writer.set(options).element @
+    @options.writer.element @, @options.writer.filterOptions(options)
 
 
   # Aliases

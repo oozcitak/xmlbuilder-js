@@ -33,7 +33,7 @@ module.exports = class XMLAttribute
   # `options.offset` how many indentations to add to every line for pretty print
   # `options.newline` newline sequence for pretty print
   toString: (options) ->
-    @options.writer.set(options).attribute @
+    @options.writer.attribute @, @options.writer.filterOptions(options)
 
   
   # Returns debug string for this node

@@ -103,7 +103,7 @@ module.exports = class XMLDocType extends XMLNode
   # `options.offset` how many indentations to add to every line for pretty print
   # `options.newline` newline sequence for pretty print
   toString: (options) ->
-    @options.writer.set(options).docType @
+    @options.writer.docType @, @options.writer.filterOptions(options)
 
 
   # Aliases

@@ -31,4 +31,4 @@ module.exports = class XMLProcessingInstruction extends XMLNode
   # `options.offset` how many indentations to add to every line for pretty print
   # `options.newline` newline sequence for pretty print
   toString: (options) ->
-    @options.writer.set(options).processingInstruction @
+    @options.writer.processingInstruction @, @options.writer.filterOptions(options)

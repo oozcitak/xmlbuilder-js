@@ -28,5 +28,5 @@ module.exports = class XMLCData extends XMLNode
   # `options.offset` how many indentations to add to every line for pretty print
   # `options.newline` newline sequence for pretty print
   toString: (options) ->
-    @options.writer.set(options).cdata @
+    @options.writer.cdata @, @options.writer.filterOptions(options)
 

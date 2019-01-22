@@ -22,57 +22,54 @@ module.exports = class XMLStreamWriter extends XMLWriterBase
 
   # Initializes a new instance of `XMLStreamWriter`
   #
-  # `stream` the writable output stream
+  # `stream` output stream
   # `options.pretty` pretty prints the result
   # `options.indent` indentation string
   # `options.newline` newline sequence
   # `options.offset` a fixed number of indentations to add to every line
   # `options.allowEmpty` do not self close empty element tags
-  # `options.spacebeforeslash` add a space before the closing slash of empty elements
-  constructor: (stream, options) ->
-    super options
+  # 'options.dontPrettyTextNodes' if any text is present in node, don't indent or LF
+  # `options.spaceBeforeSlash` add a space before the closing slash of empty elements
+  constructor: (@stream, options) ->
+    super(options)
 
-    @stream = stream
+  document: (doc, options) ->
+    # set a flag so that we don't insert a newline after the last root level node 
+    for child, i in doc.children
+      child.isLastRootNode = (i is doc.children.length - 1)
 
-  document: (doc) ->
-    # set a flag on the last root level node so that we don't insert a newline
-    # after it
-    for child in doc.children
-      child.isLastRootNode = false
-    doc.children[doc.children.length - 1].isLastRootNode = true
-
-    for child in doc.children
+    for child, i in doc.children
       # skip dummy nodes
       if child instanceof XMLDummy then continue
 
       switch
-        when child instanceof XMLDeclaration then @declaration child
-        when child instanceof XMLDocType     then @docType     child
-        when child instanceof XMLComment     then @comment     child
-        when child instanceof XMLProcessingInstruction then @processingInstruction child
-        else @element child
+        when child instanceof XMLDeclaration then @declaration child, options, 0
+        when child instanceof XMLDocType     then @docType     child, options, 0
+        when child instanceof XMLComment     then @comment     child, options, 0
+        when child instanceof XMLProcessingInstruction then @processingInstruction child, options, 0
+        else @element child, options, 0
 
-  attribute: (att) ->
+  attribute: (att, options, level) ->
     @stream.write ' ' + att.name + '="' + att.value + '"'
 
-  cdata: (node, level) ->
-    @stream.write @space(level) + '<![CDATA[' + node.text + ']]>' + @endline(node)
+  cdata: (node, options, level) ->
+    @stream.write @space(node, options, level) + '<![CDATA[' + node.text + ']]>' + @endline(node, options, level)
 
-  comment: (node, level) ->
-    @stream.write @space(level) + '<!-- ' + node.text + ' -->' + @endline(node)
+  comment: (node, options, level) ->
+    @stream.write @space(node, options, level) + '<!-- ' + node.text + ' -->' + @endline(node, options, level)
 
-  declaration: (node, level) ->
-    @stream.write @space(level)
+  declaration: (node, options, level) ->
+    @stream.write @space(node, options, level)
     @stream.write '<?xml version="' + node.version + '"'
     @stream.write ' encoding="' + node.encoding + '"' if node.encoding?
     @stream.write ' standalone="' + node.standalone + '"' if node.standalone?
-    @stream.write @spacebeforeslash + '?>'
-    @stream.write @endline(node)
+    @stream.write options.spaceBeforeSlash + '?>'
+    @stream.write @endline(node, options, level)
 
-  docType: (node, level) ->
+  docType: (node, options, level) ->
     level or= 0
 
-    @stream.write @space(level)
+    @stream.write @space(node, options, level)
     @stream.write '<!DOCTYPE ' + node.root().name
 
     # external identifier
@@ -84,87 +81,87 @@ module.exports = class XMLStreamWriter extends XMLWriterBase
     # internal subset
     if node.children.length > 0
       @stream.write ' ['
-      @stream.write @endline(node)
+      @stream.write @endline(node, options, level)
       for child in node.children
         switch
-          when child instanceof XMLDTDAttList  then @dtdAttList  child, level + 1
-          when child instanceof XMLDTDElement  then @dtdElement  child, level + 1
-          when child instanceof XMLDTDEntity   then @dtdEntity   child, level + 1
-          when child instanceof XMLDTDNotation then @dtdNotation child, level + 1
-          when child instanceof XMLCData       then @cdata       child, level + 1
-          when child instanceof XMLComment     then @comment     child, level + 1
-          when child instanceof XMLProcessingInstruction then @processingInstruction child, level + 1
+          when child instanceof XMLDTDAttList  then @dtdAttList  child, options, level + 1
+          when child instanceof XMLDTDElement  then @dtdElement  child, options, level + 1
+          when child instanceof XMLDTDEntity   then @dtdEntity   child, options, level + 1
+          when child instanceof XMLDTDNotation then @dtdNotation child, options, level + 1
+          when child instanceof XMLCData       then @cdata       child, options, level + 1
+          when child instanceof XMLComment     then @comment     child, options, level + 1
+          when child instanceof XMLProcessingInstruction then @processingInstruction child, options, level + 1
           else throw new Error "Unknown DTD node type: " + child.constructor.name
       @stream.write ']'
 
     # close tag
-    @stream.write @spacebeforeslash + '>'
-    @stream.write @endline(node)
+    @stream.write options.spaceBeforeSlash + '>'
+    @stream.write @endline(node, options, level)
 
-  element: (node, level) ->
+  element: (node, options, level) ->
     level or= 0
 
-    space = @space(level)
+    space = @space(node, options, level)
 
     # open tag
     @stream.write space + '<' + node.name
 
     # attributes
     for own name, att of node.attributes
-      @attribute att
+      @attribute att, options, level
 
     if node.children.length == 0 or node.children.every((e) -> e.value == '')
       # empty element
-      if @allowEmpty
+      if options.allowEmpty
         @stream.write '></' + node.name + '>'
       else
-        @stream.write @spacebeforeslash + '/>'
-    else if @pretty and node.children.length == 1 and node.children[0].value?
+        @stream.write options.spaceBeforeSlash + '/>'
+    else if options.pretty and node.children.length == 1 and node.children[0].value?
       # do not indent text-only nodes
       @stream.write '>'
       @stream.write node.children[0].value
       @stream.write '</' + node.name + '>'
     else
-      @stream.write '>' + @newline
+      @stream.write '>' + options.newline
       # inner tags
       for child in node.children
         switch
-          when child instanceof XMLCData   then @cdata   child, level + 1
-          when child instanceof XMLComment then @comment child, level + 1
-          when child instanceof XMLElement then @element child, level + 1
-          when child instanceof XMLRaw     then @raw     child, level + 1
-          when child instanceof XMLText    then @text    child, level + 1
-          when child instanceof XMLProcessingInstruction then @processingInstruction child, level + 1
+          when child instanceof XMLCData   then @cdata   child, options, level + 1
+          when child instanceof XMLComment then @comment child, options, level + 1
+          when child instanceof XMLElement then @element child, options, level + 1
+          when child instanceof XMLRaw     then @raw     child, options, level + 1
+          when child instanceof XMLText    then @text    child, options, level + 1
+          when child instanceof XMLProcessingInstruction then @processingInstruction child, options, level + 1
           when child instanceof XMLDummy   then ''
           else throw new Error "Unknown XML node type: " + child.constructor.name
       # close tag
       @stream.write space + '</' + node.name + '>'
 
-    @stream.write @endline(node)
+    @stream.write @endline(node, options, level)
 
-  processingInstruction: (node, level) ->
-    @stream.write @space(level) + '<?' + node.target
+  processingInstruction: (node, options, level) ->
+    @stream.write @space(node, options, level) + '<?' + node.target
     @stream.write ' ' + node.value if node.value
-    @stream.write @spacebeforeslash + '?>' + @endline(node)
+    @stream.write options.spaceBeforeSlash + '?>' + @endline(node, options, level)
 
-  raw: (node, level) ->
-    @stream.write @space(level) + node.value + @endline(node)
+  raw: (node, options, level) ->
+    @stream.write @space(node, options, level) + node.value + @endline(node, options, level)
 
-  text: (node, level) ->
-    @stream.write @space(level) + node.value + @endline(node)
+  text: (node, options, level) ->
+    @stream.write @space(node, options, level) + node.value + @endline(node, options, level)
 
-  dtdAttList: (node, level) ->
-    @stream.write @space(level) + '<!ATTLIST ' + node.elementName + ' ' + node.attributeName + ' ' + node.attributeType
+  dtdAttList: (node, options, level) ->
+    @stream.write @space(node, options, level) + '<!ATTLIST ' + node.elementName + ' ' + node.attributeName + ' ' + node.attributeType
     @stream.write ' ' + node.defaultValueType if node.defaultValueType != '#DEFAULT'
     @stream.write ' "' + node.defaultValue + '"' if node.defaultValue
-    @stream.write @spacebeforeslash + '>' + @endline(node)
+    @stream.write options.spaceBeforeSlash + '>' + @endline(node, options, level)
 
-  dtdElement: (node, level) ->
-    @stream.write @space(level) + '<!ELEMENT ' + node.name + ' ' + node.value
-    @stream.write @spacebeforeslash + '>' + @endline(node)
+  dtdElement: (node, options, level) ->
+    @stream.write @space(node, options, level) + '<!ELEMENT ' + node.name + ' ' + node.value
+    @stream.write options.spaceBeforeSlash + '>' + @endline(node, options, level)
 
-  dtdEntity: (node, level) ->
-    @stream.write @space(level) + '<!ENTITY'
+  dtdEntity: (node, options, level) ->
+    @stream.write @space(node, options, level) + '<!ENTITY'
     @stream.write ' %' if node.pe
     @stream.write ' ' + node.name
     if node.value
@@ -175,20 +172,17 @@ module.exports = class XMLStreamWriter extends XMLWriterBase
       else if node.sysID
         @stream.write ' SYSTEM "' + node.sysID + '"'
       @stream.write ' NDATA ' + node.nData if node.nData
-    @stream.write @spacebeforeslash + '>' + @endline(node)
+    @stream.write options.spaceBeforeSlash + '>' + @endline(node, options, level)
 
-  dtdNotation: (node, level) ->
-    @stream.write @space(level) + '<!NOTATION ' + node.name
+  dtdNotation: (node, options, level) ->
+    @stream.write @space(node, options, level) + '<!NOTATION ' + node.name
     if node.pubID and node.sysID
       @stream.write ' PUBLIC "' + node.pubID + '" "' + node.sysID + '"'
     else if node.pubID
       @stream.write ' PUBLIC "' + node.pubID + '"'
     else if node.sysID
       @stream.write ' SYSTEM "' + node.sysID + '"'
-    @stream.write @spacebeforeslash + '>' + @endline(node)
+    @stream.write options.spaceBeforeSlash + '>' + @endline(node, options, level)
 
-  endline: (node) ->
-    unless node.isLastRootNode
-      @newline
-    else
-      ''
+  endline: (node, options, level) ->
+    if node.isLastRootNode then '' else options.newline

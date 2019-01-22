@@ -50,13 +50,15 @@ module.exports = class XMLDocument extends XMLNode
   #   `writer.offset` how many indentations to add to every line for pretty print
   #   `writer.newline` newline sequence for pretty print
   end: (writer) ->
+    writerOptions = {}
+
     if not writer
       writer = @options.writer
     else if isPlainObject(writer)
       writerOptions = writer
-      writer = @options.writer.set(writerOptions)
+      writer = @options.writer
 
-    writer.document @
+    writer.document @, writer.filterOptions(writerOptions)
 
 
   # Converts the XML document to string
@@ -66,4 +68,4 @@ module.exports = class XMLDocument extends XMLNode
   # `options.offset` how many indentations to add to every line for pretty print
   # `options.newline` newline sequence for pretty print
   toString: (options) ->
-    @options.writer.set(options).document @
+    @options.writer.document @, @options.writer.filterOptions(options)
