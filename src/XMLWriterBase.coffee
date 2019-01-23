@@ -16,6 +16,8 @@ XMLDTDElement = require './XMLDTDElement'
 XMLDTDEntity = require './XMLDTDEntity'
 XMLDTDNotation = require './XMLDTDNotation'
 
+WriterState = require './WriterState'
+
 # Base class for XML writers
 module.exports = class XMLWriterBase
 
@@ -35,6 +37,7 @@ module.exports = class XMLWriterBase
 
     # overwrite default properties
     for own key, value of options.writer or {}
+      @["_" + key] = @[key]
       @[key] = value
 
   # Filters writer options and provides defaults
@@ -44,26 +47,21 @@ module.exports = class XMLWriterBase
     options or= {}
     options = assign {}, @options, options
 
-    filteredOptions = {}
+    filteredOptions = { writer: @ }
     filteredOptions.pretty = options.pretty or false
     filteredOptions.allowEmpty = options.allowEmpty or false
-    if filteredOptions.pretty
-      filteredOptions.indent = options.indent ? '  '
-      filteredOptions.newline = options.newline ? '\n'
-      filteredOptions.offset = options.offset ? 0
-      filteredOptions.dontPrettyTextNodes = options.dontPrettyTextNodes ? options.dontprettytextnodes ? 0
-    else
-      filteredOptions.indent = ''
-      filteredOptions.newline = ''
-      filteredOptions.offset = 0
-      filteredOptions.dontPrettyTextNodes = 0
+    
+    filteredOptions.indent = options.indent ? '  '
+    filteredOptions.newline = options.newline ? '\n'
+    filteredOptions.offset = options.offset ? 0
+    filteredOptions.dontPrettyTextNodes = options.dontPrettyTextNodes ? options.dontprettytextnodes ? 0
 
     filteredOptions.spaceBeforeSlash = options.spaceBeforeSlash ? options.spacebeforeslash ? ''
     if filteredOptions.spaceBeforeSlash is true then filteredOptions.spaceBeforeSlash = ' '
 
-    # create local copies of these two for later
-    filteredOptions.newlineDefault = filteredOptions.newline
-    filteredOptions.prettyDefault = filteredOptions.pretty
+    filteredOptions.suppressPrettyCount = 0
+
+    filteredOptions.State = WriterState.None
 
     return filteredOptions
 
@@ -73,7 +71,9 @@ module.exports = class XMLWriterBase
   # `options` writer options
   # `level` current indentation level
   space: (node, options, level) ->
-    if options.pretty
+    if not options.pretty or options.suppressPrettyCount
+      return ''
+    else if options.pretty
       indentLevel = (level or 0) + options.offset + 1
       if indentLevel > 0
         return new Array(indentLevel).join(options.indent)
@@ -86,30 +86,54 @@ module.exports = class XMLWriterBase
   # `options` writer options
   # `level` current indentation level
   endline: (node, options, level) ->
-    options.newline
+    if not options.pretty or options.suppressPrettyCount
+      return ''
+    else
+      return options.newline
 
   attribute: (att, options, level) ->
     ' ' + att.name + '="' + att.value + '"'
 
   cdata: (node, options, level) ->
-    @space(node, options, level) + '<![CDATA[' + node.text + ']]>' + @endline(node, options, level)
+    options.State = WriterState.OpenTag
+    r = @space(node, options, level) + '<![CDATA['
+    options.State = WriterState.InsideTag
+    r += node.text
+    options.State = WriterState.CloseTag
+    r += ']]>' + @endline(node, options, level)
+    options.State = WriterState.None
+
+    return r
 
   comment: (node, options, level) ->
-    @space(node, options, level) + '<!-- ' + node.text + ' -->' + @endline(node, options, level)
+    options.State = WriterState.OpenTag
+    r = @space(node, options, level) + '<!-- '
+    options.State = WriterState.InsideTag
+    r += node.text
+    options.State = WriterState.CloseTag
+    r += ' -->' + @endline(node, options, level)
+    options.State = WriterState.None
+
+    return r
 
   declaration: (node, options, level) ->
-    r = @space(node, options, level)
-    r += '<?xml version="' + node.version + '"'
+    options.State = WriterState.OpenTag
+    r = @space(node, options, level) + '<?xml'
+    options.State = WriterState.InsideTag
+    r += ' version="' + node.version + '"'
     r += ' encoding="' + node.encoding + '"' if node.encoding?
     r += ' standalone="' + node.standalone + '"' if node.standalone?
+    options.State = WriterState.CloseTag
     r += options.spaceBeforeSlash + '?>'
-    r += options.newline
+    r += @endline(node, options, level)
+    options.State = WriterState.None
 
     return r
 
   docType: (node, options, level) ->
     level or= 0
 
+    options.State = WriterState.OpenTag
     r = @space(node, options, level)
     r += '<!DOCTYPE ' + node.root().name
 
@@ -122,7 +146,8 @@ module.exports = class XMLWriterBase
     # internal subset
     if node.children.length > 0
       r += ' ['
-      r += options.newline
+      r += @endline(node, options, level)
+      options.State = WriterState.InsideTag
       for child in node.children
         r += switch
           when child instanceof XMLDTDAttList  then @dtdAttList  child, options, level + 1
@@ -133,31 +158,26 @@ module.exports = class XMLWriterBase
           when child instanceof XMLComment     then @comment     child, options, level + 1
           when child instanceof XMLProcessingInstruction then @processingInstruction child, options, level + 1
           else throw new Error "Unknown DTD node type: " + child.constructor.name
+      options.State = WriterState.CloseTag
       r += ']'
 
     # close tag
+    options.State = WriterState.CloseTag
     r += options.spaceBeforeSlash + '>'
-    r += options.newline
+    r += @endline(node, options, level)
+    options.State = WriterState.None
 
     return r
 
   element: (node, options, level) ->
     level or= 0
-    textispresentwasset = false
-
-    if options.textispresent
-      options.newline = ''
-      options.pretty = false
-    else
-      options.newline = options.newlineDefault
-      options.pretty = options.prettyDefault
-
-    space = @space(node, options, level)
+    prettySuppressed = false
 
     r = ''
 
     # open tag
-    r += space + '<' + node.name
+    options.State = WriterState.OpenTag
+    r += @space(node, options, level) + '<' + node.name
 
     # attributes
     for own name, att of node.attributes
@@ -166,30 +186,31 @@ module.exports = class XMLWriterBase
     if node.children.length == 0 or node.children.every((e) -> e.value == '')
       # empty element
       if options.allowEmpty
-        r += '></' + node.name + '>' + @endline(node, options, level)
+        r += '>'
+        options.State = WriterState.CloseTag
+        r += '</' + node.name + '>' + @endline(node, options, level)
       else
+        options.State = WriterState.CloseTag
         r += options.spaceBeforeSlash + '/>' + @endline(node, options, level)
     else if options.pretty and node.children.length == 1 and node.children[0].value?
       # do not indent text-only nodes
       r += '>'
+      options.State = WriterState.InsideTag
       r += node.children[0].value
+      options.State = WriterState.CloseTag
       r += '</' + node.name + '>' + @endline(node, options, level)
     else
       # if ANY are a text node, then suppress pretty now
       if options.dontPrettyTextNodes
         for child in node.children
           if child.value?
-            options.textispresent++
-            textispresentwasset = true
+            options.suppressPrettyCount++
+            prettySuppressed = true
             break
-
-      if options.textispresent
-        options.newline = ''
-        options.pretty = false
-        space = @space(node, options, level)
 
       # close the opening tag, after dealing with newline
       r += '>' + @endline(node, options, level)
+      options.State = WriterState.InsideTag
       # inner tags
       for child in node.children
         r += switch
@@ -202,44 +223,81 @@ module.exports = class XMLWriterBase
           when child instanceof XMLDummy   then ''
           else throw new Error "Unknown XML node type: " + child.constructor.name
 
-      if textispresentwasset
-        options.textispresent--
-
-      if !options.textispresent
-        options.newline = options.newlineDefault
-        options.pretty = options.prettyDefault
-
       # close tag
-      r += space + '</' + node.name + '>' + @endline(node, options, level)
+      options.State = WriterState.CloseTag
+      r += @space(node, options, level) + '</' + node.name + '>'
+
+      if prettySuppressed
+        options.suppressPrettyCount--
+
+      r += @endline(node, options, level)
+      options.State = WriterState.None
 
     return r
 
   processingInstruction: (node, options, level) ->
-    r = @space(node, options, level) + '<?' + node.target
+    options.State = WriterState.OpenTag
+    r = @space(node, options, level) + '<?'
+    options.State = WriterState.InsideTag
+    r += node.target
     r += ' ' + node.value if node.value
-    r += options.spaceBeforeSlash + '?>' + @endline(node, options, level)
+    options.State = WriterState.CloseTag
+    r += options.spaceBeforeSlash + '?>'
+    r += @endline(node, options, level)
+    options.State = WriterState.None
 
     return r
 
   raw: (node, options, level) ->
-    @space(node, options, level) + node.value + @endline(node, options, level)
+    options.State = WriterState.OpenTag
+    r = @space(node, options, level)
+    options.State = WriterState.InsideTag
+    r += node.value
+    options.State = WriterState.CloseTag
+    r += @endline(node, options, level)
+    options.State = WriterState.None
+
+    return r
 
   text: (node, options, level) ->
-    @space(node, options, level) + node.value + @endline(node, options, level)
+    options.State = WriterState.OpenTag
+    r = @space(node, options, level)
+    options.State = WriterState.InsideTag
+    r += node.value
+    options.State = WriterState.CloseTag
+    r += @endline(node, options, level)
+    options.State = WriterState.None
+
+    return r
 
   dtdAttList: (node, options, level) ->
-    r = @space(node, options, level) + '<!ATTLIST ' + node.elementName + ' ' + node.attributeName + ' ' + node.attributeType
+    options.State = WriterState.OpenTag
+    r = @space(node, options, level) + '<!ATTLIST'
+    options.State = WriterState.InsideTag
+    r += ' ' + node.elementName + ' ' + node.attributeName + ' ' + node.attributeType
     r += ' ' + node.defaultValueType if node.defaultValueType != '#DEFAULT'
     r += ' "' + node.defaultValue + '"' if node.defaultValue
+    options.State = WriterState.CloseTag
     r += options.spaceBeforeSlash + '>' + @endline(node, options, level)
+    options.State = WriterState.None
 
     return r
 
   dtdElement: (node, options, level) ->
-    @space(node, options, level) + '<!ELEMENT ' + node.name + ' ' + node.value + options.spaceBeforeSlash + '>' + @endline(node, options, level)
+    options.State = WriterState.OpenTag
+    r = @space(node, options, level) + '<!ELEMENT'
+    options.State = WriterState.InsideTag
+    r += ' ' + node.name + ' ' + node.value
+    options.State = WriterState.CloseTag
+    r += options.spaceBeforeSlash + '>' + @endline(node, options, level)
+    options.State = WriterState.None
+
+    return r
 
   dtdEntity: (node, options, level) ->
+    options.State = WriterState.OpenTag
     r = @space(node, options, level) + '<!ENTITY'
+    options.State = WriterState.InsideTag
     r += ' %' if node.pe
     r += ' ' + node.name
     if node.value
@@ -250,19 +308,26 @@ module.exports = class XMLWriterBase
       else if node.sysID
         r += ' SYSTEM "' + node.sysID + '"'
       r += ' NDATA ' + node.nData if node.nData
+    options.State = WriterState.CloseTag
     r += options.spaceBeforeSlash + '>' + @endline(node, options, level)
+    options.State = WriterState.None
 
     return r
 
   dtdNotation: (node, options, level) ->
-    r = @space(node, options, level) + '<!NOTATION ' + node.name
+    options.State = WriterState.OpenTag
+    r = @space(node, options, level) + '<!NOTATION'
+    options.State = WriterState.InsideTag
+    r += ' ' + node.name
     if node.pubID and node.sysID
       r += ' PUBLIC "' + node.pubID + '" "' + node.sysID + '"'
     else if node.pubID
       r += ' PUBLIC "' + node.pubID + '"'
     else if node.sysID
       r += ' SYSTEM "' + node.sysID + '"'
+    options.State = WriterState.CloseTag
     r += options.spaceBeforeSlash + '>' + @endline(node, options, level)
+    options.State = WriterState.None
 
     return r
 
@@ -270,6 +335,7 @@ module.exports = class XMLWriterBase
     level or= 0
 
     if node instanceof XMLElement
+      options.State = WriterState.OpenTag
       r = @space(node, options, level) + '<' + node.name
 
       # attributes
@@ -278,8 +344,10 @@ module.exports = class XMLWriterBase
 
       r += (if node.children then '>' else '/>') + @endline(node, options, level)
 
+      options.State = WriterState.InsideTag
       return r
     else # if node instanceof XMLDocType
+      options.State = WriterState.OpenTag
       r = @space(node, options, level) + '<!DOCTYPE ' + node.rootNodeName
 
       # external identifier
@@ -289,14 +357,25 @@ module.exports = class XMLWriterBase
         r += ' SYSTEM "' + node.sysID + '"'
 
       # internal subset
-      r += (if node.children then ' [' else '>') + @endline(node, options, level)
+      if node.children
+        r += ' ['
+        options.State = WriterState.InsideTag
+      else
+        options.State = WriterState.CloseTag
+        r += '>'
+      r += @endline(node, options, level)
 
       return r
 
   closeNode: (node, options, level) ->
     level or= 0
 
+    r = ''
+    options.State = WriterState.CloseTag
     if node instanceof XMLElement
-      @space(node, options, level) + '</' + node.name + '>' + @endline(node, options, level)
+      r = @space(node, options, level) + '</' + node.name + '>' + @endline(node, options, level)
     else # if node instanceof XMLDocType
-      @space(node, options, level) + ']>' + @endline(node, options, level)
+      r = @space(node, options, level) + ']>' + @endline(node, options, level)
+    options.State = WriterState.None
+
+    return r

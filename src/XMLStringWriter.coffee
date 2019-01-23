@@ -34,7 +34,7 @@ module.exports = class XMLStringWriter extends XMLWriterBase
 
   document: (doc, options) ->
     options = @filterOptions options
-    options.textispresent = false
+    
     r = ''
     for child in doc.children
       # skip dummy nodes
