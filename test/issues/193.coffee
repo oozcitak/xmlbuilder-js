@@ -2,13 +2,13 @@ suite 'Tests specific to issues:', ->
   test 'use of writer modification in .end(). Issue 193', ->
 
     newSpace = (node, options, level) ->
-      if (node.parent?.name is "p" and options.State is 1) or (node.name is "p" and options.State is 3)
+      if (node.parent?.name is "p" and options.state is 1) or (node.name is "p" and options.state is 3)
         return ''
       else
         return @_space node, options, level
 
     newEndline = (node, options, level) ->
-      if (node.parent?.name is "p" and options.State is 3) or (node.name is "p" and options.State is 1)
+      if (node.parent?.name is "p" and options.state is 3) or (node.name is "p" and options.state is 1)
         return ''
       else
         return @_endline node, options, level

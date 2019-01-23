@@ -35,7 +35,7 @@ module.exports = class XMLStreamWriter extends XMLWriterBase
     super(options)
 
   endline: (node, options, level) ->
-    if node.isLastRootNode and options.State is WriterState.CloseTag then '' else super(node, options, level)
+    if node.isLastRootNode and options.state is WriterState.CloseTag then '' else super(node, options, level)
 
   document: (doc, options) ->
     # set a flag so that we don't insert a newline after the last root level node 
@@ -70,7 +70,7 @@ module.exports = class XMLStreamWriter extends XMLWriterBase
   docType: (node, options, level) ->
     level or= 0
 
-    options.State = WriterState.OpenTag
+    options.state = WriterState.OpenTag
     @stream.write @space(node, options, level)
     @stream.write '<!DOCTYPE ' + node.root().name
 
@@ -84,7 +84,7 @@ module.exports = class XMLStreamWriter extends XMLWriterBase
     if node.children.length > 0
       @stream.write ' ['
       @stream.write @endline(node, options, level)
-      options.State = WriterState.InsideTag
+      options.state = WriterState.InsideTag
       for child in node.children
         switch
           when child instanceof XMLDTDAttList  then @dtdAttList  child, options, level + 1
@@ -95,20 +95,20 @@ module.exports = class XMLStreamWriter extends XMLWriterBase
           when child instanceof XMLComment     then @comment     child, options, level + 1
           when child instanceof XMLProcessingInstruction then @processingInstruction child, options, level + 1
           else throw new Error "Unknown DTD node type: " + child.constructor.name
-      options.State = WriterState.CloseTag
+      options.state = WriterState.CloseTag
       @stream.write ']'
 
     # close tag
-    options.State = WriterState.CloseTag
+    options.state = WriterState.CloseTag
     @stream.write options.spaceBeforeSlash + '>'
     @stream.write @endline(node, options, level)
-    options.State = WriterState.None
+    options.state = WriterState.None
 
   element: (node, options, level) ->
     level or= 0
 
     # open tag
-    options.State = WriterState.OpenTag
+    options.state = WriterState.OpenTag
     @stream.write @space(node, options, level) + '<' + node.name
 
     # attributes
@@ -119,21 +119,21 @@ module.exports = class XMLStreamWriter extends XMLWriterBase
       # empty element
       if options.allowEmpty
         @stream.write '>'
-        options.State = WriterState.CloseTag
+        options.state = WriterState.CloseTag
         @stream.write '</' + node.name + '>'
       else
-        options.State = WriterState.CloseTag
+        options.state = WriterState.CloseTag
         @stream.write options.spaceBeforeSlash + '/>'
     else if options.pretty and node.children.length == 1 and node.children[0].value?
       # do not indent text-only nodes
       @stream.write '>'
-      options.State = WriterState.InsideTag
+      options.state = WriterState.InsideTag
       @stream.write node.children[0].value
-      options.State = WriterState.CloseTag
+      options.state = WriterState.CloseTag
       @stream.write '</' + node.name + '>'
     else
       @stream.write '>' + @endline(node, options, level)
-      options.State = WriterState.InsideTag
+      options.state = WriterState.InsideTag
       # inner tags
       for child in node.children
         switch
@@ -146,11 +146,11 @@ module.exports = class XMLStreamWriter extends XMLWriterBase
           when child instanceof XMLDummy   then ''
           else throw new Error "Unknown XML node type: " + child.constructor.name
       # close tag
-      options.State = WriterState.CloseTag
+      options.state = WriterState.CloseTag
       @stream.write @space(node, options, level) + '</' + node.name + '>'
 
     @stream.write @endline(node, options, level)
-    options.State = WriterState.None
+    options.state = WriterState.None
 
   processingInstruction: (node, options, level) ->
     @stream.write super(node, options, level)
