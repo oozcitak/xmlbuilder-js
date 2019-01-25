@@ -61,6 +61,7 @@ module.exports = class XMLWriterBase
 
     filteredOptions.suppressPrettyCount = 0
 
+    filteredOptions.user = {}
     filteredOptions.state = WriterState.None
 
     return filteredOptions
@@ -70,7 +71,7 @@ module.exports = class XMLWriterBase
   # `node` current node
   # `options` writer options
   # `level` current indentation level
-  space: (node, options, level) ->
+  indent: (node, options, level) ->
     if not options.pretty or options.suppressPrettyCount
       return ''
     else if options.pretty
@@ -92,33 +93,41 @@ module.exports = class XMLWriterBase
       return options.newline
 
   attribute: (att, options, level) ->
-    ' ' + att.name + '="' + att.value + '"'
+    @openNode(att, options, level)
+    r = ' ' + att.name + '="' + att.value + '"'
+    @closeNode(att, options, level)
+    return r
 
   cdata: (node, options, level) ->
+    @openNode(node, options, level)
     options.state = WriterState.OpenTag
-    r = @space(node, options, level) + '<![CDATA['
+    r = @indent(node, options, level) + '<![CDATA['
     options.state = WriterState.InsideTag
     r += node.text
     options.state = WriterState.CloseTag
     r += ']]>' + @endline(node, options, level)
     options.state = WriterState.None
+    @closeNode(node, options, level)
 
     return r
 
   comment: (node, options, level) ->
+    @openNode(node, options, level)
     options.state = WriterState.OpenTag
-    r = @space(node, options, level) + '<!-- '
+    r = @indent(node, options, level) + '<!-- '
     options.state = WriterState.InsideTag
     r += node.text
     options.state = WriterState.CloseTag
     r += ' -->' + @endline(node, options, level)
     options.state = WriterState.None
+    @closeNode(node, options, level)
 
     return r
 
   declaration: (node, options, level) ->
+    @openNode(node, options, level)
     options.state = WriterState.OpenTag
-    r = @space(node, options, level) + '<?xml'
+    r = @indent(node, options, level) + '<?xml'
     options.state = WriterState.InsideTag
     r += ' version="' + node.version + '"'
     r += ' encoding="' + node.encoding + '"' if node.encoding?
@@ -127,14 +136,16 @@ module.exports = class XMLWriterBase
     r += options.spaceBeforeSlash + '?>'
     r += @endline(node, options, level)
     options.state = WriterState.None
+    @closeNode(node, options, level)
 
     return r
 
   docType: (node, options, level) ->
     level or= 0
 
+    @openNode(node, options, level)
     options.state = WriterState.OpenTag
-    r = @space(node, options, level)
+    r = @indent(node, options, level)
     r += '<!DOCTYPE ' + node.root().name
 
     # external identifier
@@ -166,6 +177,7 @@ module.exports = class XMLWriterBase
     r += options.spaceBeforeSlash + '>'
     r += @endline(node, options, level)
     options.state = WriterState.None
+    @closeNode(node, options, level)
 
     return r
 
@@ -176,8 +188,9 @@ module.exports = class XMLWriterBase
     r = ''
 
     # open tag
+    @openNode(node, options, level)
     options.state = WriterState.OpenTag
-    r += @space(node, options, level) + '<' + node.name
+    r += @indent(node, options, level) + '<' + node.name
 
     # attributes
     for own name, att of node.attributes
@@ -225,7 +238,7 @@ module.exports = class XMLWriterBase
 
       # close tag
       options.state = WriterState.CloseTag
-      r += @space(node, options, level) + '</' + node.name + '>'
+      r += @indent(node, options, level) + '</' + node.name + '>'
 
       if prettySuppressed
         options.suppressPrettyCount--
@@ -233,11 +246,14 @@ module.exports = class XMLWriterBase
       r += @endline(node, options, level)
       options.state = WriterState.None
 
+    @closeNode(node, options, level)
+
     return r
 
   processingInstruction: (node, options, level) ->
+    @openNode(node, options, level)
     options.state = WriterState.OpenTag
-    r = @space(node, options, level) + '<?'
+    r = @indent(node, options, level) + '<?'
     options.state = WriterState.InsideTag
     r += node.target
     r += ' ' + node.value if node.value
@@ -245,34 +261,40 @@ module.exports = class XMLWriterBase
     r += options.spaceBeforeSlash + '?>'
     r += @endline(node, options, level)
     options.state = WriterState.None
+    @closeNode(node, options, level)
 
     return r
 
   raw: (node, options, level) ->
+    @openNode(node, options, level)
     options.state = WriterState.OpenTag
-    r = @space(node, options, level)
+    r = @indent(node, options, level)
     options.state = WriterState.InsideTag
     r += node.value
     options.state = WriterState.CloseTag
     r += @endline(node, options, level)
     options.state = WriterState.None
+    @closeNode(node, options, level)
 
     return r
 
   text: (node, options, level) ->
+    @openNode(node, options, level)
     options.state = WriterState.OpenTag
-    r = @space(node, options, level)
+    r = @indent(node, options, level)
     options.state = WriterState.InsideTag
     r += node.value
     options.state = WriterState.CloseTag
     r += @endline(node, options, level)
     options.state = WriterState.None
+    @closeNode(node, options, level)
 
     return r
 
   dtdAttList: (node, options, level) ->
+    @openNode(node, options, level)
     options.state = WriterState.OpenTag
-    r = @space(node, options, level) + '<!ATTLIST'
+    r = @indent(node, options, level) + '<!ATTLIST'
     options.state = WriterState.InsideTag
     r += ' ' + node.elementName + ' ' + node.attributeName + ' ' + node.attributeType
     r += ' ' + node.defaultValueType if node.defaultValueType != '#DEFAULT'
@@ -280,23 +302,27 @@ module.exports = class XMLWriterBase
     options.state = WriterState.CloseTag
     r += options.spaceBeforeSlash + '>' + @endline(node, options, level)
     options.state = WriterState.None
+    @closeNode(node, options, level)
 
     return r
 
   dtdElement: (node, options, level) ->
+    @openNode(node, options, level)
     options.state = WriterState.OpenTag
-    r = @space(node, options, level) + '<!ELEMENT'
+    r = @indent(node, options, level) + '<!ELEMENT'
     options.state = WriterState.InsideTag
     r += ' ' + node.name + ' ' + node.value
     options.state = WriterState.CloseTag
     r += options.spaceBeforeSlash + '>' + @endline(node, options, level)
     options.state = WriterState.None
+    @closeNode(node, options, level)
 
     return r
 
   dtdEntity: (node, options, level) ->
+    @openNode(node, options, level)
     options.state = WriterState.OpenTag
-    r = @space(node, options, level) + '<!ENTITY'
+    r = @indent(node, options, level) + '<!ENTITY'
     options.state = WriterState.InsideTag
     r += ' %' if node.pe
     r += ' ' + node.name
@@ -311,12 +337,14 @@ module.exports = class XMLWriterBase
     options.state = WriterState.CloseTag
     r += options.spaceBeforeSlash + '>' + @endline(node, options, level)
     options.state = WriterState.None
+    @closeNode(node, options, level)
 
     return r
 
   dtdNotation: (node, options, level) ->
+    @openNode(node, options, level)
     options.state = WriterState.OpenTag
-    r = @space(node, options, level) + '<!NOTATION'
+    r = @indent(node, options, level) + '<!NOTATION'
     options.state = WriterState.InsideTag
     r += ' ' + node.name
     if node.pubID and node.sysID
@@ -328,54 +356,11 @@ module.exports = class XMLWriterBase
     options.state = WriterState.CloseTag
     r += options.spaceBeforeSlash + '>' + @endline(node, options, level)
     options.state = WriterState.None
+    @closeNode(node, options, level)
 
     return r
 
   openNode: (node, options, level) ->
-    level or= 0
-
-    if node instanceof XMLElement
-      options.state = WriterState.OpenTag
-      r = @space(node, options, level) + '<' + node.name
-
-      # attributes
-      for own name, att of node.attributes
-        r += @attribute att, options, level
-
-      r += (if node.children then '>' else '/>') + @endline(node, options, level)
-
-      options.state = WriterState.InsideTag
-      return r
-    else # if node instanceof XMLDocType
-      options.state = WriterState.OpenTag
-      r = @space(node, options, level) + '<!DOCTYPE ' + node.rootNodeName
-
-      # external identifier
-      if node.pubID and node.sysID
-        r += ' PUBLIC "' + node.pubID + '" "' + node.sysID + '"'
-      else if node.sysID
-        r += ' SYSTEM "' + node.sysID + '"'
-
-      # internal subset
-      if node.children
-        r += ' ['
-        options.state = WriterState.InsideTag
-      else
-        options.state = WriterState.CloseTag
-        r += '>'
-      r += @endline(node, options, level)
-
-      return r
 
   closeNode: (node, options, level) ->
-    level or= 0
 
-    r = ''
-    options.state = WriterState.CloseTag
-    if node instanceof XMLElement
-      r = @space(node, options, level) + '</' + node.name + '>' + @endline(node, options, level)
-    else # if node instanceof XMLDocType
-      r = @space(node, options, level) + ']>' + @endline(node, options, level)
-    options.state = WriterState.None
-
-    return r

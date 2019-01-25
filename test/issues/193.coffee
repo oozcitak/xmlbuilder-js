@@ -1,11 +1,11 @@
 suite 'Tests specific to issues:', ->
   test 'use of writer modification in .end(). Issue 193', ->
 
-    newSpace = (node, options, level) ->
+    newIndent = (node, options, level) ->
       if (node.parent?.name is "p" and options.state is 1) or (node.name is "p" and options.state is 3)
         return ''
       else
-        return @_space node, options, level
+        return @_indent node, options, level
 
     newEndline = (node, options, level) ->
       if (node.parent?.name is "p" and options.state is 3) or (node.name is "p" and options.state is 1)
@@ -17,7 +17,7 @@ suite 'Tests specific to issues:', ->
       xml('html', { headless: true })
         .ele('p', { 'style': 'S1' })
           .ele('span', { 'style': 'S1' }).txt(1)
-        .end(builder.stringWriter({ writer: { space: newSpace, endline: newEndline }, pretty: true } ))
+        .end(builder.stringWriter({ writer: { indent: newIndent, endline: newEndline }, pretty: true } ))
 
       """
       <html>

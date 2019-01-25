@@ -19,6 +19,7 @@ XMLAttribute = require './XMLAttribute'
 
 XMLStringifier = require './XMLStringifier'
 XMLStringWriter = require './XMLStringWriter'
+WriterState = require './WriterState'
 
 # Represents an XML builder
 module.exports = class XMLDocumentCB
@@ -369,14 +370,54 @@ module.exports = class XMLDocumentCB
   openNode: (node) ->
     if not node.isOpen
       if not @root and @currentLevel is 0 and node instanceof XMLElement then @root = node
-      @onData(@writer.openNode(node, @writerOptions, @currentLevel), @currentLevel)
+      chunk = ''
+      if node instanceof XMLElement
+        @writerOptions.state = WriterState.OpenTag
+        chunk = @writer.indent(node, @writerOptions, @currentLevel) + '<' + node.name
+    
+        # attributes
+        for own name, att of node.attributes
+          chunk += @writer.attribute att,  @writerOptions, @currentLevel
+    
+        chunk += (if node.children then '>' else '/>') + @writer.endline(node,  @writerOptions, @currentLevel)
+    
+        @writerOptions.state = WriterState.InsideTag
+
+      else # if node instanceof XMLDocType
+        @writerOptions.state = WriterState.OpenTag
+        chunk = @writer.indent(node,  @writerOptions, @currentLevel) + '<!DOCTYPE ' + node.rootNodeName
+    
+        # external identifier
+        if node.pubID and node.sysID
+          chunk += ' PUBLIC "' + node.pubID + '" "' + node.sysID + '"'
+        else if node.sysID
+          chunk += ' SYSTEM "' + node.sysID + '"'
+    
+        # internal subset
+        if node.children
+          chunk += ' ['
+          @writerOptions.state = WriterState.InsideTag
+        else
+          @writerOptions.state = WriterState.CloseTag
+          chunk += '>'
+        chunk += @writer.endline(node,  @writerOptions, @currentLevel)
+
+      @onData(chunk, @currentLevel)
       node.isOpen = true
 
 
   # Writes the closing tag of the current node
   closeNode: (node) ->
     if not node.isClosed
-      @onData(@writer.closeNode(node, @writerOptions, @currentLevel), @currentLevel)
+      chunk = ''
+      @writerOptions.state = WriterState.CloseTag
+      if node instanceof XMLElement
+        chunk = @writer.indent(node, @writerOptions, @currentLevel) + '</' + node.name + '>' + @writer.endline(node, @writerOptions, @currentLevel)
+      else # if node instanceof XMLDocType
+        chunk = @writer.indent(node, @writerOptions, @currentLevel) + ']>' + @writer.endline(node, @writerOptions, @currentLevel)
+      @writerOptions.state = WriterState.None
+
+      @onData(chunk, @currentLevel)
       node.isClosed = true
 
 

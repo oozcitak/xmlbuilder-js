@@ -70,8 +70,9 @@ module.exports = class XMLStreamWriter extends XMLWriterBase
   docType: (node, options, level) ->
     level or= 0
 
+    @openNode(node, options, level)
     options.state = WriterState.OpenTag
-    @stream.write @space(node, options, level)
+    @stream.write @indent(node, options, level)
     @stream.write '<!DOCTYPE ' + node.root().name
 
     # external identifier
@@ -103,13 +104,15 @@ module.exports = class XMLStreamWriter extends XMLWriterBase
     @stream.write options.spaceBeforeSlash + '>'
     @stream.write @endline(node, options, level)
     options.state = WriterState.None
+    @closeNode(node, options, level)
 
   element: (node, options, level) ->
     level or= 0
 
     # open tag
+    @openNode(node, options, level)
     options.state = WriterState.OpenTag
-    @stream.write @space(node, options, level) + '<' + node.name
+    @stream.write @indent(node, options, level) + '<' + node.name
 
     # attributes
     for own name, att of node.attributes
@@ -147,10 +150,11 @@ module.exports = class XMLStreamWriter extends XMLWriterBase
           else throw new Error "Unknown XML node type: " + child.constructor.name
       # close tag
       options.state = WriterState.CloseTag
-      @stream.write @space(node, options, level) + '</' + node.name + '>'
+      @stream.write @indent(node, options, level) + '</' + node.name + '>'
 
     @stream.write @endline(node, options, level)
     options.state = WriterState.None
+    @closeNode(node, options, level)
 
   processingInstruction: (node, options, level) ->
     @stream.write super(node, options, level)
