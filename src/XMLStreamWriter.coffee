@@ -1,19 +1,3 @@
-XMLDeclaration = require './XMLDeclaration'
-XMLDocType = require './XMLDocType'
-
-XMLCData = require './XMLCData'
-XMLComment = require './XMLComment'
-XMLElement = require './XMLElement'
-XMLRaw = require './XMLRaw'
-XMLText = require './XMLText'
-XMLProcessingInstruction = require './XMLProcessingInstruction'
-XMLDummy = require './XMLDummy'
-
-XMLDTDAttList = require './XMLDTDAttList'
-XMLDTDElement = require './XMLDTDElement'
-XMLDTDEntity = require './XMLDTDEntity'
-XMLDTDNotation = require './XMLDTDNotation'
-
 XMLWriterBase = require './XMLWriterBase'
 WriterState = require './WriterState'
 
@@ -35,7 +19,10 @@ module.exports = class XMLStreamWriter extends XMLWriterBase
     super(options)
 
   endline: (node, options, level) ->
-    if node.isLastRootNode and options.state is WriterState.CloseTag then '' else super(node, options, level)
+    if node.isLastRootNode and options.state is WriterState.CloseTag
+      return ''
+    else 
+      super(node, options, level)
 
   document: (doc, options) ->
     # set a flag so that we don't insert a newline after the last root level node 
@@ -45,15 +32,7 @@ module.exports = class XMLStreamWriter extends XMLWriterBase
     options = @filterOptions options
 
     for child in doc.children
-      # skip dummy nodes
-      if child instanceof XMLDummy then continue
-
-      switch
-        when child instanceof XMLDeclaration then @declaration child, options, 0
-        when child instanceof XMLDocType     then @docType     child, options, 0
-        when child instanceof XMLComment     then @comment     child, options, 0
-        when child instanceof XMLProcessingInstruction then @processingInstruction child, options, 0
-        else @element child, options, 0
+      @writeChildNode child, options, 0
 
   attribute: (att, options, level) ->
     @stream.write super(att, options, level)
@@ -87,15 +66,7 @@ module.exports = class XMLStreamWriter extends XMLWriterBase
       @stream.write @endline(node, options, level)
       options.state = WriterState.InsideTag
       for child in node.children
-        switch
-          when child instanceof XMLDTDAttList  then @dtdAttList  child, options, level + 1
-          when child instanceof XMLDTDElement  then @dtdElement  child, options, level + 1
-          when child instanceof XMLDTDEntity   then @dtdEntity   child, options, level + 1
-          when child instanceof XMLDTDNotation then @dtdNotation child, options, level + 1
-          when child instanceof XMLCData       then @cdata       child, options, level + 1
-          when child instanceof XMLComment     then @comment     child, options, level + 1
-          when child instanceof XMLProcessingInstruction then @processingInstruction child, options, level + 1
-          else throw new Error "Unknown DTD node type: " + child.constructor.name
+        @writeChildNode child, options, level + 1
       options.state = WriterState.CloseTag
       @stream.write ']'
 
@@ -131,7 +102,11 @@ module.exports = class XMLStreamWriter extends XMLWriterBase
       # do not indent text-only nodes
       @stream.write '>'
       options.state = WriterState.InsideTag
-      @stream.write node.children[0].value
+      options.suppressPrettyCount++
+      prettySuppressed = true
+      @writeChildNode node.children[0], options, level + 1
+      options.suppressPrettyCount--
+      prettySuppressed = false
       options.state = WriterState.CloseTag
       @stream.write '</' + node.name + '>'
     else
@@ -139,15 +114,7 @@ module.exports = class XMLStreamWriter extends XMLWriterBase
       options.state = WriterState.InsideTag
       # inner tags
       for child in node.children
-        switch
-          when child instanceof XMLCData   then @cdata   child, options, level + 1
-          when child instanceof XMLComment then @comment child, options, level + 1
-          when child instanceof XMLElement then @element child, options, level + 1
-          when child instanceof XMLRaw     then @raw     child, options, level + 1
-          when child instanceof XMLText    then @text    child, options, level + 1
-          when child instanceof XMLProcessingInstruction then @processingInstruction child, options, level + 1
-          when child instanceof XMLDummy   then ''
-          else throw new Error "Unknown XML node type: " + child.constructor.name
+        @writeChildNode child, options, level + 1
       # close tag
       options.state = WriterState.CloseTag
       @stream.write @indent(node, options, level) + '</' + node.name + '>'

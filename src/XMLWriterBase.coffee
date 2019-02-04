@@ -160,15 +160,7 @@ module.exports = class XMLWriterBase
       r += @endline(node, options, level)
       options.state = WriterState.InsideTag
       for child in node.children
-        r += switch
-          when child instanceof XMLDTDAttList  then @dtdAttList  child, options, level + 1
-          when child instanceof XMLDTDElement  then @dtdElement  child, options, level + 1
-          when child instanceof XMLDTDEntity   then @dtdEntity   child, options, level + 1
-          when child instanceof XMLDTDNotation then @dtdNotation child, options, level + 1
-          when child instanceof XMLCData       then @cdata       child, options, level + 1
-          when child instanceof XMLComment     then @comment     child, options, level + 1
-          when child instanceof XMLProcessingInstruction then @processingInstruction child, options, level + 1
-          else throw new Error "Unknown DTD node type: " + child.constructor.name
+        r += @writeChildNode child, options, level + 1
       options.state = WriterState.CloseTag
       r += ']'
 
@@ -209,7 +201,11 @@ module.exports = class XMLWriterBase
       # do not indent text-only nodes
       r += '>'
       options.state = WriterState.InsideTag
-      r += node.children[0].value
+      options.suppressPrettyCount++
+      prettySuppressed = true
+      r += @writeChildNode node.children[0], options, level + 1
+      options.suppressPrettyCount--
+      prettySuppressed = false
       options.state = WriterState.CloseTag
       r += '</' + node.name + '>' + @endline(node, options, level)
     else
@@ -226,15 +222,7 @@ module.exports = class XMLWriterBase
       options.state = WriterState.InsideTag
       # inner tags
       for child in node.children
-        r += switch
-          when child instanceof XMLCData   then @cdata   child, options, level + 1
-          when child instanceof XMLComment then @comment child, options, level + 1
-          when child instanceof XMLElement then @element child, options, level + 1
-          when child instanceof XMLRaw     then @raw     child, options, level + 1
-          when child instanceof XMLText    then @text    child, options, level + 1
-          when child instanceof XMLProcessingInstruction then @processingInstruction child, options, level + 1
-          when child instanceof XMLDummy   then ''
-          else throw new Error "Unknown XML node type: " + child.constructor.name
+        r += @writeChildNode child, options, level + 1
 
       # close tag
       options.state = WriterState.CloseTag
@@ -249,6 +237,23 @@ module.exports = class XMLWriterBase
     @closeNode(node, options, level)
 
     return r
+
+  writeChildNode: (node, options, level) ->
+    switch
+      when node instanceof XMLCData   then @cdata   node, options, level
+      when node instanceof XMLComment then @comment node, options, level
+      when node instanceof XMLElement then @element node, options, level
+      when node instanceof XMLRaw     then @raw     node, options, level
+      when node instanceof XMLText    then @text    node, options, level
+      when node instanceof XMLProcessingInstruction then @processingInstruction node, options, level
+      when node instanceof XMLDummy   then ''
+      when node instanceof XMLDeclaration then @declaration node, options, level
+      when node instanceof XMLDocType     then @docType     node, options, level
+      when node instanceof XMLDTDAttList  then @dtdAttList  node, options, level
+      when node instanceof XMLDTDElement  then @dtdElement  node, options, level
+      when node instanceof XMLDTDEntity   then @dtdEntity   node, options, level
+      when node instanceof XMLDTDNotation then @dtdNotation node, options, level
+      else throw new Error "Unknown XML node type: " + node.constructor.name
 
   processingInstruction: (node, options, level) ->
     @openNode(node, options, level)
@@ -363,4 +368,3 @@ module.exports = class XMLWriterBase
   openNode: (node, options, level) ->
 
   closeNode: (node, options, level) ->
-
