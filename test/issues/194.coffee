@@ -12,7 +12,7 @@ suite 'Tests specific to issues:', ->
       .ele("foo", "line\nbreak")
       .end( { newline: "\r\n" } );
     eq(
-      xml('root', { headless: true, stringify: { elEscape: escapeFunc } })
+      xml('root', { headless: true, stringify: { txtEscape: escapeFunc } })
         .ele("foo", "line\nbreak")
       .end( { pretty: true, newline: "\r\n" } );
 

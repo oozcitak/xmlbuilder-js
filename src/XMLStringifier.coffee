@@ -8,7 +8,8 @@ module.exports = class XMLStringifier
   # `options.stringify` a set of functions to use for converting values to strings
   constructor: (options) ->
     options or= {}
-    @noDoubleEncoding = options.noDoubleEncoding
+    @options = options
+
     for own key, value of options.stringify or {}
       @[key] = value
 
@@ -18,7 +19,7 @@ module.exports = class XMLStringifier
     @assertLegalChar val
   eleText: (val) ->
     val = '' + val or ''
-    @assertLegalChar @elEscape val
+    @assertLegalChar @txtEscape(val)
   cdata: (val) ->
     val = '' + val or ''
     val = val.replace(']]>', ']]]]><![CDATA[>')
@@ -94,14 +95,13 @@ module.exports = class XMLStringifier
 
     str
 
-
   # Escapes special characters in element values
   #
   # See http://www.w3.org/TR/2000/WD-xml-c14n-20000119.html#charescaping
   #
   # `str` the string to escape
-  elEscape: (str) ->
-    ampregex = if @noDoubleEncoding then /(?!&\S+;)&/g else /&/g
+  txtEscape: (str) ->
+    ampregex = if @options.noDoubleEncoding then /(?!&\S+;)&/g else /&/g
     str.replace(ampregex, '&amp;')
        .replace(/</g, '&lt;')
        .replace(/>/g, '&gt;')
@@ -113,11 +113,10 @@ module.exports = class XMLStringifier
   #
   # `str` the string to escape
   attEscape: (str) ->
-    ampregex = if @noDoubleEncoding then /(?!&\S+;)&/g else /&/g
+    ampregex = if @options.noDoubleEncoding then /(?!&\S+;)&/g else /&/g
     str.replace(ampregex, '&amp;')
        .replace(/</g, '&lt;')
        .replace(/"/g, '&quot;')
        .replace(/\t/g, '&#x9;')
        .replace(/\n/g, '&#xA;')
        .replace(/\r/g, '&#xD;')
-
