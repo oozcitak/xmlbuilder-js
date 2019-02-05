@@ -70,34 +70,37 @@ module.exports = class XMLNode
         # evaluate if function
         val = val.apply() if isFunction val
 
+        # assign attributes
+        if not @options.ignoreDecorators and @stringify.convertAttKey and key.indexOf(@stringify.convertAttKey) == 0
+          lastChild = @attribute(key.substr(@stringify.convertAttKey.length), val)
+
         # skip empty arrays
-        if not @options.separateArrayItems and Array.isArray(val) and isEmpty(val)
+        else if not @options.separateArrayItems and Array.isArray(val) and isEmpty(val)
           lastChild = @dummy()
 
-        else
-          # empty objects produce one node
-          if isObject(val) and isEmpty(val)
-            lastChild = @element key
+        # empty objects produce one node
+        else if isObject(val) and isEmpty(val)
+          lastChild = @element key
 
-          # assign attributes
-          else if not @options.ignoreDecorators and @stringify.convertAttKey and key.indexOf(@stringify.convertAttKey) == 0
-            lastChild = @attribute(key.substr(@stringify.convertAttKey.length), val)
-     
-          # expand list by creating child nodes
-          else if not @options.separateArrayItems and Array.isArray(val)
-            for item in val
-              childNode = {}
-              childNode[key] = item
-              lastChild = @element childNode
-     
-          # expand child nodes under parent
-          else if isObject val
-            lastChild = @element key
-            lastChild.element val
-     
-          # text node
-          else
-            lastChild = @element key, val
+        # skip null and undefined nodes
+        else if not @options.keepNullNodes and not val?
+          lastChild = @dummy()
+   
+        # expand list by creating child nodes
+        else if not @options.separateArrayItems and Array.isArray(val)
+          for item in val
+            childNode = {}
+            childNode[key] = item
+            lastChild = @element childNode
+   
+        # expand child nodes under parent
+        else if isObject val
+          lastChild = @element key
+          lastChild.element val
+   
+        # text node
+        else
+          lastChild = @element key, val
 
     else if not @options.keepNullNodes and text is null
       lastChild = @dummy()
