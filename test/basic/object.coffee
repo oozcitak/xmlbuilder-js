@@ -247,3 +247,8 @@ suite 'Creating XML:', ->
       '<root><item/></root>'
     )
 
+  test 'From JS object (null should produce no nodes)', ->
+    eq(
+      xml('root', { headless: true }).ele({ item: null }).end()
+      '<root/>'
+    )

@@ -16,5 +16,3 @@ suite 'Text Processing:', ->
       xml('test10', {}, {}, { headless: true }).text('').end()
       '<test10/>'
     )
-    
-

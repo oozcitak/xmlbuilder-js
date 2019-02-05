@@ -75,11 +75,12 @@ module.exports = class XMLNode
           lastChild = @dummy()
 
         else
-          # skip empty or null objects and arrays
-          val = null if isObject(val) and isEmpty(val)
-     
+          # empty objects produce one node
+          if isObject(val) and isEmpty(val)
+            lastChild = @element key
+
           # assign attributes
-          if not @options.ignoreDecorators and @stringify.convertAttKey and key.indexOf(@stringify.convertAttKey) == 0
+          else if not @options.ignoreDecorators and @stringify.convertAttKey and key.indexOf(@stringify.convertAttKey) == 0
             lastChild = @attribute(key.substr(@stringify.convertAttKey.length), val)
      
           # expand list by creating child nodes
@@ -98,7 +99,7 @@ module.exports = class XMLNode
           else
             lastChild = @element key, val
 
-    else if @options.skipNullNodes and text == null
+    else if not @options.keepNullNodes and text is null
       lastChild = @dummy()
 
     else
