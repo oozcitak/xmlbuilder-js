@@ -102,6 +102,7 @@ module.exports = class XMLNode
         else
           lastChild = @element key, val
 
+    # skip null nodes
     else if not @options.keepNullNodes and text is null
       lastChild = @dummy()
 
