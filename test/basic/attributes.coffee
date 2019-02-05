@@ -36,15 +36,15 @@ suite 'Attributes:', ->
 
   test 'Skip if null attribute (ele)', ->
     eq(
-      xml('test4', { headless: true, skipNullAttributes: true })
-        .ele('node', 'element', {"first":null, 'second': '2'})
+      xml('test4', { headless: true })
+        .ele('node', 'element', {"first": null, "second": '2'})
         .end()
       '<test4><node second="2">element</node></test4>'
     )
 
   test 'Skip if null attribute (att)', ->
     eq(
-      xml('test4', { headless: true, skipNullAttributes: true })
+      xml('test4', { headless: true })
         .ele('node').att("first")
         .end()
       '<test4><node/></test4>'
@@ -52,8 +52,32 @@ suite 'Attributes:', ->
 
   test 'Skip if null attribute (JSON)', ->
     eq(
-      xml('test4', { headless: true, skipNullAttributes: true })
+      xml('test4', { headless: true })
         .ele({'@first': null, '@second': '2'})
         .end()
       '<test4 second="2"/>'
+    )
+
+  test 'Keep null attribute (ele)', ->
+    eq(
+      xml('test4', { headless: true, keepNullAttributes: true })
+        .ele('node', 'element', {"first": null, "second": '2'})
+        .end()
+      '<test4><node first="" second="2">element</node></test4>'
+    )
+
+  test 'Keep null attribute (att)', ->
+    eq(
+      xml('test4', { headless: true, keepNullAttributes: true })
+        .ele('node').att("first")
+        .end()
+      '<test4><node first=""/></test4>'
+    )
+
+  test 'Keep null attribute (JSON)', ->
+    eq(
+      xml('test4', { headless: true, keepNullAttributes: true })
+        .ele({'@first': null, '@second': '2'})
+        .end()
+      '<test4 first="" second="2"/>'
     )

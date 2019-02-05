@@ -14,8 +14,6 @@ module.exports = class XMLAttribute
 
     if not name?
       throw new Error "Missing attribute name. " + @debugInfo(name)
-    if not value?
-      throw new Error "Missing attribute value. " + @debugInfo(name)
 
     @name = @stringify.attName name
     @value = @stringify.attValue value

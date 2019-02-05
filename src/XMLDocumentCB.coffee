@@ -29,8 +29,8 @@ module.exports = class XMLDocumentCB
   #
   # `options.skipNullNodes` whether nodes with null values will be ignored:
   #     true or false
-  # `options.skipNullAttributes` whether attributes with null values will be
-  #     ignored: true or false
+  # `options.keepNullAttributes` whether attributes with null values will be
+  #     kept or ignored: true or false
   # `options.ignoreDecorators` whether decorator strings will be ignored when
   #     converting JS objects: true or false
   # `options.separateArrayItems` whether array items are created as separate
@@ -91,9 +91,6 @@ module.exports = class XMLDocumentCB
 
     name = getValue name
 
-    if attributes == null and not text?
-      [attributes, text] = [{}, null]
-
     attributes ?= {}
     attributes = getValue attributes
     # swap argument order: text <-> attributes
@@ -138,7 +135,9 @@ module.exports = class XMLDocumentCB
         @attribute attName, attValue
     else
       value = value.apply() if isFunction value
-      if not @options.skipNullAttributes or value?
+      if @options.keepNullAttributes and not value?
+        @currentNode.attributes[name] = new XMLAttribute @, name, ""
+      else if value?
         @currentNode.attributes[name] = new XMLAttribute @, name, value
 
     return @

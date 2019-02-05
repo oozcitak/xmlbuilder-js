@@ -66,7 +66,9 @@ module.exports = class XMLElement extends XMLNode
         @attribute attName, attValue
     else
       value = value.apply() if isFunction value
-      if not @options.skipNullAttributes or value?
+      if @options.keepNullAttributes and not value?
+        @attributes[name] = new XMLAttribute @, name, ""
+      else if value?
         @attributes[name] = new XMLAttribute @, name, value
 
     return @
