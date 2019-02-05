@@ -14,10 +14,10 @@ module.exports = class XMLStringifier
       @[key] = value
 
   # Defaults
-  eleName: (val) ->
+  name: (val) ->
     val = '' + val or ''
     @assertLegalChar val
-  eleText: (val) ->
+  text: (val) ->
     val = '' + val or ''
     @assertLegalChar @txtEscape(val)
   cdata: (val) ->
@@ -31,8 +31,6 @@ module.exports = class XMLStringifier
     @assertLegalChar val
   raw: (val) ->
     '' + val or ''
-  attName: (val) ->
-    val = '' + val or ''
   attValue: (val) ->
     val = '' + val or ''
     @attEscape val

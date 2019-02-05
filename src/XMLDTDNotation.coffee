@@ -19,7 +19,7 @@ module.exports = class XMLDTDNotation extends XMLNode
     if not value.pubID and not value.sysID
       throw new Error "Public or system identifiers are required for an external entity. " + @debugInfo(name)
 
-    @name = @stringify.eleName name
+    @name = @stringify.name name
     @pubID = @stringify.dtdPubID value.pubID if value.pubID?
     @sysID = @stringify.dtdSysID value.sysID if value.sysID?
 

@@ -2,7 +2,7 @@ suite 'Stringify:', ->
   test 'Custom function', ->
     addns = (val) -> 'my:' + val
     eq(
-      xml('test7', { headless: true, stringify: { eleName: addns } })
+      xml('test7', { headless: true, stringify: { name: addns } })
         .ele('nodes')
         .ele('node', '1').up()
         .ele('node', '2').up()

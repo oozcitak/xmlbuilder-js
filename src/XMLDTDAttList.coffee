@@ -32,8 +32,8 @@ module.exports = class XMLDTDAttList extends XMLNode
     if defaultValue and not defaultValueType.match /^(#FIXED|#DEFAULT)$/
       throw new Error "Default value only applies to #FIXED or #DEFAULT. " + @debugInfo(elementName)
 
-    @elementName = @stringify.eleName elementName
-    @attributeName = @stringify.attName attributeName
+    @elementName = @stringify.name elementName
+    @attributeName = @stringify.name attributeName
     @attributeType = @stringify.dtdAttType attributeType
     @defaultValue = @stringify.dtdAttDefault defaultValue
     @defaultValueType = defaultValueType

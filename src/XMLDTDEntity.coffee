@@ -25,7 +25,7 @@ module.exports = class XMLDTDEntity extends XMLNode
       throw new Error "Missing DTD entity value. " + @debugInfo(name)
 
     @pe = !!pe
-    @name = @stringify.eleName name
+    @name = @stringify.name name
 
     if not isObject value
       @value =  @stringify.dtdEntityValue value

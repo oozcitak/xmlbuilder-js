@@ -18,7 +18,7 @@ module.exports = class XMLElement extends XMLNode
     if not name?
       throw new Error "Missing element name. " + @debugInfo()
 
-    @name = @stringify.eleName name
+    @name = @stringify.name name
     @attributes = {}
 
     @attribute attributes if attributes?

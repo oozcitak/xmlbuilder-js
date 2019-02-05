@@ -13,7 +13,7 @@ module.exports = class XMLText extends XMLNode
     if not text?
       throw new Error "Missing element text. " + @debugInfo()
 
-    @value = @stringify.eleText text
+    @value = @stringify.text text
 
 
   # Creates and returns a deep clone of `this`

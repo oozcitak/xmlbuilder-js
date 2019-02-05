@@ -19,7 +19,7 @@ module.exports = class XMLDTDElement extends XMLNode
     if Array.isArray value
       value = '(' + value.join(',') + ')'
 
-    @name = @stringify.eleName name
+    @name = @stringify.name name
     @value = @stringify.dtdElementValue value
 
 
