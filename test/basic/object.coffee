@@ -223,15 +223,27 @@ suite 'Creating XML:', ->
       '</root>'
     )
 
-  test 'From JS object (empty array)', ->
+  test 'From JS object (empty array should produce no nodes)', ->
     eq(
-      xml({ root: [] }).end()
-      '<?xml version="1.0"?><root/>'
+      xml('root', { headless: true }).ele({ item: [] }).end()
+      '<root/>'
     )
 
-  test 'From JS object (empty object)', ->
+  test 'From JS object (empty array should produce one node if separateArrayItems is set)', ->
     eq(
-      xml({ root: {} }).end()
-      '<?xml version="1.0"?><root/>'
+      xml('root', { headless: true, separateArrayItems: true }).ele({ item: [] }).end()
+      '<root><item/></root>'
+    )
+
+  test 'From JS object (empty object should produce one node)', ->
+    eq(
+      xml('root', { headless: true }).ele({ item: {} }).end()
+      '<root><item/></root>'
+    )
+
+  test 'From JS object (empty array with empty object should produce one node)', ->
+    eq(
+      xml('root', { headless: true }).ele({ item: [{}] }).end()
+      '<root><item/></root>'
     )
 

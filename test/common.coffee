@@ -22,3 +22,6 @@ global.captureStream = (stream) ->
     captured: ->
       buf
   }
+
+global.xmleleend = (arg) ->
+  builder.create('root', { headless: true }).ele(arg).end()

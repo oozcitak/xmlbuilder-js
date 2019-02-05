@@ -70,28 +70,33 @@ module.exports = class XMLNode
         # evaluate if function
         val = val.apply() if isFunction val
 
-        # skip empty or null objects and arrays
-        val = null if (isObject val) and (isEmpty val)
+        # skip empty arrays
+        if not @options.separateArrayItems and Array.isArray(val) and isEmpty(val)
+          lastChild = @dummy()
 
-        # assign attributes
-        if not @options.ignoreDecorators and @stringify.convertAttKey and key.indexOf(@stringify.convertAttKey) == 0
-          lastChild = @attribute(key.substr(@stringify.convertAttKey.length), val)
-
-        # expand list by creating child nodes
-        else if not @options.separateArrayItems and Array.isArray val
-          for item in val
-            childNode = {}
-            childNode[key] = item
-            lastChild = @element childNode
-
-        # expand child nodes under parent
-        else if isObject val
-          lastChild = @element key
-          lastChild.element val
-
-        # text node
         else
-          lastChild = @element key, val
+          # skip empty or null objects and arrays
+          val = null if isObject(val) and isEmpty(val)
+     
+          # assign attributes
+          if not @options.ignoreDecorators and @stringify.convertAttKey and key.indexOf(@stringify.convertAttKey) == 0
+            lastChild = @attribute(key.substr(@stringify.convertAttKey.length), val)
+     
+          # expand list by creating child nodes
+          else if not @options.separateArrayItems and Array.isArray(val)
+            for item in val
+              childNode = {}
+              childNode[key] = item
+              lastChild = @element childNode
+     
+          # expand child nodes under parent
+          else if isObject val
+            lastChild = @element key
+            lastChild.element val
+     
+          # text node
+          else
+            lastChild = @element key, val
 
     else if @options.skipNullNodes and text == null
       lastChild = @dummy()
@@ -460,6 +465,26 @@ module.exports = class XMLNode
       "node: <" + name + ">"
     else
       "node: <" + name + ">, parent: <" + @parent.name + ">"
+
+
+  # Count the number of child nodes which are not `XMLDummy`
+  countNonDummy: () ->
+    if not @children or @children.length is 0
+      return 0
+    else
+      count = 0
+      for child in @children
+        count++ if not (child instanceof XMLDummy)
+      return count
+
+  # Returns the first child node which is not an `XMLDummy`
+  firstNonDummy: () ->
+    if not @children or @children.length is 0
+      return null
+    else
+      for child in @children
+        return child if not (child instanceof XMLDummy)
+      return null
 
 
   # Aliases
