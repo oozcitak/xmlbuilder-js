@@ -93,9 +93,9 @@ module.exports = class XMLWriterBase
       return options.newline
 
   attribute: (att, options, level) ->
-    @openNode(att, options, level)
+    @openAttribute(att, options, level)
     r = ' ' + att.name + '="' + att.value + '"'
-    @closeNode(att, options, level)
+    @closeAttribute(att, options, level)
     return r
 
   cdata: (node, options, level) ->
@@ -370,3 +370,7 @@ module.exports = class XMLWriterBase
   openNode: (node, options, level) ->
 
   closeNode: (node, options, level) ->
+
+  openAttribute: (att, options, level) ->
+
+  closeAttribute: (att, options, level) ->
