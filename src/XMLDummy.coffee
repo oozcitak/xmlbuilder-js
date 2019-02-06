@@ -15,7 +15,6 @@ module.exports = class XMLDummy extends XMLNode
     super parent
 
     @type = NodeType.Dummy
-    @isDummy = true
 
 
   # Creates and returns a deep clone of `this`

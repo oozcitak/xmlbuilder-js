@@ -9,6 +9,7 @@ XMLRaw = null
 XMLText = null
 XMLProcessingInstruction = null
 XMLDummy = null
+NodeType = null
 
 # Represents a generic XMl element
 module.exports = class XMLNode
@@ -36,6 +37,7 @@ module.exports = class XMLNode
       XMLText = require './XMLText'
       XMLProcessingInstruction = require './XMLProcessingInstruction'
       XMLDummy = require './XMLDummy'
+      NodeType = require './NodeType'
 
 
   # Creates a child element node
@@ -426,7 +428,7 @@ module.exports = class XMLNode
     i = @parent.children.indexOf @
 
     # skip dummy nodes
-    i = i - 1 while i > 0 and @parent.children[i - 1].isDummy
+    i = i - 1 while i > 0 and @parent.children[i - 1].type is NodeType.Dummy
 
     if i < 1
       throw new Error "Already at the first node. " + @debugInfo()
@@ -439,7 +441,7 @@ module.exports = class XMLNode
     i = @parent.children.indexOf @
 
     # skip dummy nodes
-    i = i + 1 while i < @parent.children.length - 1 and @parent.children[i + 1].isDummy
+    i = i + 1 while i < @parent.children.length - 1 and @parent.children[i + 1].type is NodeType.Dummy
 
     if i == -1 || i == @parent.children.length - 1
       throw new Error "Already at the last node. " + @debugInfo()
@@ -479,7 +481,7 @@ module.exports = class XMLNode
     else
       count = 0
       for child in @children
-        count++ if not child.isDummy
+        count++ unless child.type is NodeType.Dummy
       return count
 
   # Returns the first child node which is not an `XMLDummy`
@@ -488,7 +490,7 @@ module.exports = class XMLNode
       return null
     else
       for child in @children
-        return child if not child.isDummy
+        return child unless child.type is NodeType.Dummy
       return null
 
 
