@@ -26,7 +26,7 @@ module.exports = class XMLElement extends XMLNode
     @attribute attributes if attributes?
 
     # set properties if this is the root node
-    if parent.isDocument
+    if parent.type is NodeType.Document
       @isRoot = true
       @documentObject = parent
       parent.rootObject = @

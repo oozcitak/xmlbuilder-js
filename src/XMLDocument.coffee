@@ -38,8 +38,6 @@ module.exports = class XMLDocument extends XMLNode
     @options = options
     @stringify = new XMLStringifier options
 
-    @isDocument = true
-
 
   # Ends the document and passes it to the given XML writer
   #

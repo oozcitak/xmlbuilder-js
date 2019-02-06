@@ -401,7 +401,7 @@ module.exports = class XMLNode
     node = @
 
     while node
-      if node.isDocument
+      if node.type is NodeType.Document
         return node.rootObject
       else if node.isRoot
         return node
@@ -414,7 +414,7 @@ module.exports = class XMLNode
     node = @
 
     while node
-      if node.isDocument
+      if node.type is NodeType.Document
         return node
       else
         node = node.parent
