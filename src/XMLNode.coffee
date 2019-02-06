@@ -479,7 +479,7 @@ module.exports = class XMLNode
     else
       count = 0
       for child in @children
-        count++ if not (child instanceof XMLDummy)
+        count++ if not child.isDummy
       return count
 
   # Returns the first child node which is not an `XMLDummy`
@@ -488,7 +488,7 @@ module.exports = class XMLNode
       return null
     else
       for child in @children
-        return child if not (child instanceof XMLDummy)
+        return child if not child.isDummy
       return null
 
 
