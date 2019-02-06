@@ -186,7 +186,7 @@ module.exports = class XMLWriterBase
 
     # attributes
     for own name, att of node.attributes
-      r += @attribute att, level, options
+      r += @attribute att, options, level
 
     childNodeCount = node.countNonDummy()
     firstNonDummyChildNode = node.firstNonDummy()
