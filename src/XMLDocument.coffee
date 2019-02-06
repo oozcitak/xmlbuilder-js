@@ -1,6 +1,7 @@
 { isPlainObject } = require './Utility'
 
 XMLNode = require './XMLNode'
+NodeType = require './NodeType'
 XMLStringifier = require './XMLStringifier'
 XMLStringWriter = require './XMLStringWriter'
 
@@ -29,7 +30,8 @@ module.exports = class XMLDocument extends XMLNode
     super null
 
     @name = "?xml"
-    
+    @type = NodeType.Document
+
     options or= {}
     if not options.writer then options.writer = new XMLStringWriter()
 

@@ -1,4 +1,5 @@
 XMLNode = require './XMLNode'
+NodeType = require './NodeType'
 
 # Represents a  raw node
 module.exports = class XMLRaw extends XMLNode
@@ -13,6 +14,7 @@ module.exports = class XMLRaw extends XMLNode
     if not text?
       throw new Error "Missing raw text. " + @debugInfo()
 
+    @type = NodeType.Raw
     @value = @stringify.raw text
 
 

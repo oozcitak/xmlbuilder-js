@@ -1,4 +1,5 @@
 XMLNode = require './XMLNode'
+NodeType = require './NodeType'
 
 # Represents an attribute
 module.exports = class XMLDTDElement extends XMLNode
@@ -20,6 +21,7 @@ module.exports = class XMLDTDElement extends XMLNode
       value = '(' + value.join(',') + ')'
 
     @name = @stringify.name name
+    @type = NodeType.ElementDeclaration
     @value = @stringify.dtdElementValue value
 
 

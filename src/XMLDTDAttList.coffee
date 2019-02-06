@@ -1,4 +1,5 @@
 XMLNode = require './XMLNode'
+NodeType = require './NodeType'
 
 # Represents an attribute list
 module.exports = class XMLDTDAttList extends XMLNode
@@ -33,6 +34,7 @@ module.exports = class XMLDTDAttList extends XMLNode
       throw new Error "Default value only applies to #FIXED or #DEFAULT. " + @debugInfo(elementName)
 
     @elementName = @stringify.name elementName
+    @type = NodeType.AttributeDeclaration
     @attributeName = @stringify.name attributeName
     @attributeType = @stringify.dtdAttType attributeType
     @defaultValue = @stringify.dtdAttDefault defaultValue

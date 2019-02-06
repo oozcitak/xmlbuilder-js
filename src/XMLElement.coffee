@@ -1,6 +1,7 @@
 { isObject, isFunction, getValue } = require './Utility'
 
 XMLNode = require './XMLNode'
+NodeType = require './NodeType'
 XMLAttribute = require './XMLAttribute'
 
 # Represents an element of the XML document
@@ -19,6 +20,7 @@ module.exports = class XMLElement extends XMLNode
       throw new Error "Missing element name. " + @debugInfo()
 
     @name = @stringify.name name
+    @type = NodeType.Element
     @attributes = {}
 
     @attribute attributes if attributes?

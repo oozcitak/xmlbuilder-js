@@ -1,4 +1,5 @@
 XMLNode = require './XMLNode'
+NodeType = require './NodeType'
 
 # Represents a  CDATA node
 module.exports = class XMLCData extends XMLNode
@@ -13,6 +14,7 @@ module.exports = class XMLCData extends XMLNode
     if not text?
       throw new Error "Missing CDATA text. " + @debugInfo()
 
+    @type = NodeType.CData
     @text = @stringify.cdata text
 
 

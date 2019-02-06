@@ -1,4 +1,5 @@
 XMLNode = require './XMLNode'
+NodeType = require './NodeType'
 
 # Represents a comment node
 module.exports = class XMLComment extends XMLNode
@@ -13,6 +14,7 @@ module.exports = class XMLComment extends XMLNode
     if not text?
       throw new Error "Missing comment text. " + @debugInfo()
 
+    @type = NodeType.Comment
     @text = @stringify.comment text
 
 

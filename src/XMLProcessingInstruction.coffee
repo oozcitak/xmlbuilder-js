@@ -1,4 +1,5 @@
 XMLNode = require './XMLNode'
+NodeType = require './NodeType'
 
 # Represents a processing instruction
 module.exports = class XMLProcessingInstruction extends XMLNode
@@ -15,6 +16,7 @@ module.exports = class XMLProcessingInstruction extends XMLNode
     if not target?
       throw new Error "Missing instruction target. " + @debugInfo()
 
+    @type = NodeType.ProcessingInstruction
     @target = @stringify.insTarget target
     @value = @stringify.insValue value if value
 

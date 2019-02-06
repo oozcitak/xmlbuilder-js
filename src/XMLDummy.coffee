@@ -1,4 +1,5 @@
 XMLNode = require './XMLNode'
+NodeType = require './NodeType'
 
 # Represents a  raw node
 module.exports = class XMLDummy extends XMLNode
@@ -13,6 +14,7 @@ module.exports = class XMLDummy extends XMLNode
   constructor: (parent) ->
     super parent
 
+    @type = NodeType.Dummy
     @isDummy = true
 
 

@@ -1,6 +1,7 @@
 { isObject } = require './Utility'
 
 XMLNode = require './XMLNode'
+NodeType = require './NodeType'
 
 # Represents an entity declaration in the DTD
 module.exports = class XMLDTDEntity extends XMLNode
@@ -26,6 +27,7 @@ module.exports = class XMLDTDEntity extends XMLNode
 
     @pe = !!pe
     @name = @stringify.name name
+    @type = NodeType.EntityDeclaration
 
     if not isObject value
       @value =  @stringify.dtdEntityValue value

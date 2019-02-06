@@ -1,6 +1,7 @@
 { isObject } = require './Utility'
 
 XMLNode = require './XMLNode'
+NodeType = require './NodeType'
 
 # Represents the XML declaration
 module.exports = class XMLDeclaration extends XMLNode
@@ -22,6 +23,7 @@ module.exports = class XMLDeclaration extends XMLNode
 
     version = '1.0' if not version
 
+    @type = NodeType.Declaration
     @version = @stringify.xmlVersion version
     @encoding = @stringify.xmlEncoding encoding if encoding?
     @standalone = @stringify.xmlStandalone standalone if standalone?

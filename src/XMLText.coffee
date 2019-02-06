@@ -1,4 +1,5 @@
 XMLNode = require './XMLNode'
+NodeType = require './NodeType'
 
 # Represents a text node
 module.exports = class XMLText extends XMLNode
@@ -13,6 +14,7 @@ module.exports = class XMLText extends XMLNode
     if not text?
       throw new Error "Missing element text. " + @debugInfo()
 
+    @type = NodeType.Text
     @value = @stringify.text text
 
 

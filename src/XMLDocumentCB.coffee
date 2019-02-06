@@ -1,5 +1,6 @@
 { isObject, isFunction, isPlainObject, getValue } = require './Utility'
 
+NodeType = require './NodeType'
 XMLElement = require './XMLElement'
 XMLCData = require './XMLCData'
 XMLComment = require './XMLComment'
@@ -50,6 +51,7 @@ module.exports = class XMLDocumentCB
   #          `end`. `onEnd` does not receive any arguments.
   constructor: (options, onData, onEnd) ->
     @name = "?xml"
+    @type = NodeType.Document
     
     options or= {}
 

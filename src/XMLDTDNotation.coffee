@@ -1,4 +1,5 @@
 XMLNode = require './XMLNode'
+NodeType = require './NodeType'
 
 # Represents a NOTATION entry in the DTD
 module.exports = class XMLDTDNotation extends XMLNode
@@ -20,6 +21,7 @@ module.exports = class XMLDTDNotation extends XMLNode
       throw new Error "Public or system identifiers are required for an external entity. " + @debugInfo(name)
 
     @name = @stringify.name name
+    @type = NodeType.NotationDeclaration
     @pubID = @stringify.dtdPubID value.pubID if value.pubID?
     @sysID = @stringify.dtdSysID value.sysID if value.sysID?
 

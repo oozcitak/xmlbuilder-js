@@ -1,6 +1,7 @@
 { isObject } = require './Utility'
 
 XMLNode = require './XMLNode'
+NodeType = require './NodeType'
 XMLDTDAttList = require './XMLDTDAttList'
 XMLDTDEntity = require './XMLDTDEntity'
 XMLDTDElement = require './XMLDTDElement'
@@ -20,6 +21,7 @@ module.exports = class XMLDocType extends XMLNode
     super parent
 
     @name = "!DOCTYPE"
+    @type = NodeType.DocType
 
     @documentObject = parent
 
