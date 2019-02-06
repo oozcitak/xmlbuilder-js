@@ -354,7 +354,9 @@ module.exports = class XMLNode
     xmldec = new XMLDeclaration doc, version, encoding, standalone
 
     # Replace XML declaration if exists, otherwise insert at top
-    if doc.children[0] instanceof XMLDeclaration
+    if doc.children.length is 0
+      doc.children.unshift xmldec
+    else if doc.children[0].type is NodeType.Declaration
       doc.children[0] = xmldec
     else
       doc.children.unshift xmldec
@@ -373,7 +375,7 @@ module.exports = class XMLNode
 
     # Replace DTD if exists
     for child, i in doc.children
-      if child instanceof XMLDocType
+      if child.type is NodeType.DocType
         doc.children[i] = doctype
         return doctype
 

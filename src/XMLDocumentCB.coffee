@@ -116,7 +116,7 @@ module.exports = class XMLDocumentCB
   # `attributes` an object containing name/value pairs of attributes
   # `text` element text
   element: (name, attributes, text) ->
-    if @currentNode and @currentNode instanceof XMLDocType
+    if @currentNode and @currentNode.type is NodeType.DocType
       @dtdElement arguments...
     else
       @node name, attributes, text
@@ -370,9 +370,9 @@ module.exports = class XMLDocumentCB
   # no child nodes
   openNode: (node) ->
     if not node.isOpen
-      if not @root and @currentLevel is 0 and node instanceof XMLElement then @root = node
+      if not @root and @currentLevel is 0 and node.type is NodeType.Element then @root = node
       chunk = ''
-      if node instanceof XMLElement
+      if node.type is NodeType.Element
         @writerOptions.state = WriterState.OpenTag
         chunk = @writer.indent(node, @writerOptions, @currentLevel) + '<' + node.name
     
@@ -384,7 +384,7 @@ module.exports = class XMLDocumentCB
     
         @writerOptions.state = WriterState.InsideTag
 
-      else # if node instanceof XMLDocType
+      else # if node.type is NodeType.DocType
         @writerOptions.state = WriterState.OpenTag
         chunk = @writer.indent(node,  @writerOptions, @currentLevel) + '<!DOCTYPE ' + node.rootNodeName
     
@@ -412,9 +412,9 @@ module.exports = class XMLDocumentCB
     if not node.isClosed
       chunk = ''
       @writerOptions.state = WriterState.CloseTag
-      if node instanceof XMLElement
+      if node.type is NodeType.Element
         chunk = @writer.indent(node, @writerOptions, @currentLevel) + '</' + node.name + '>' + @writer.endline(node, @writerOptions, @currentLevel)
-      else # if node instanceof XMLDocType
+      else # if node.type is NodeType.DocType
         chunk = @writer.indent(node, @writerOptions, @currentLevel) + ']>' + @writer.endline(node, @writerOptions, @currentLevel)
       @writerOptions.state = WriterState.None
 
@@ -464,12 +464,12 @@ module.exports = class XMLDocumentCB
 
   # Attribute aliases
   att: () ->
-    if @currentNode and @currentNode instanceof XMLDocType
+    if @currentNode and @currentNode.type is NodeType.DocType
       @attList arguments...
     else
       @attribute arguments...
   a: () ->
-    if @currentNode and @currentNode instanceof XMLDocType
+    if @currentNode and @currentNode.type is NodeType.DocType
       @attList arguments...
     else
       @attribute arguments...
