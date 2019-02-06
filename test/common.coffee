@@ -1,4 +1,4 @@
-global.builder = require('../src/index.coffee')
+global.builder = require('../src/index')
 global.xml = builder.create
 global.doc = builder.begin
 global.writer = builder.stringWriter

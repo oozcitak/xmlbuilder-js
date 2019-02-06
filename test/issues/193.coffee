@@ -2,13 +2,13 @@ suite 'Tests specific to issues:', ->
   test 'use of writer modification in .end(). Issue 193', ->
 
     newIndent = (node, options, level) ->
-      if (node.parent?.name is "p" and options.state is 1) or (node.name is "p" and options.state is 3)
+      if (node.parent?.name is "p" and options.state is builder.writerState.OpenTag) or (node.name is "p" and options.state is builder.writerState.CloseTag)
         return ''
       else
         return @_indent node, options, level
 
     newEndline = (node, options, level) ->
-      if (node.parent?.name is "p" and options.state is 3) or (node.name is "p" and options.state is 1)
+      if (node.parent?.name is "p" and options.state is builder.writerState.CloseTag) or (node.name is "p" and options.state is builder.writerState.OpenTag)
         return ''
       else
         return @_endline node, options, level

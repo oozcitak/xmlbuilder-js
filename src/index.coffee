@@ -5,6 +5,9 @@ XMLDocumentCB = require './XMLDocumentCB'
 XMLStringWriter = require './XMLStringWriter'
 XMLStreamWriter = require './XMLStreamWriter'
 
+NodeType = require './NodeType'
+WriterState = require './WriterState'
+
 # Creates a new document and returns the root node for
 # chain-building the document tree
 #
@@ -93,3 +96,6 @@ module.exports.stringWriter = (options) ->
 
 module.exports.streamWriter = (stream, options) ->
   new XMLStreamWriter(stream, options)
+
+module.exports.nodeType = NodeType
+module.exports.writerState = WriterState
