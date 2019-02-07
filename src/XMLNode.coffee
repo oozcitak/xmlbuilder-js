@@ -97,8 +97,12 @@ module.exports = class XMLNode
    
         # expand child nodes under parent
         else if isObject val
-          lastChild = @element key
-          lastChild.element val
+          # if the key is #text expand child nodes under this node to support mixed content
+          if not @options.ignoreDecorators and @stringify.convertTextKey and key.indexOf(@stringify.convertTextKey) == 0
+            lastChild = @element val
+          else
+            lastChild = @element key
+            lastChild.element val
    
         # text node
         else
@@ -214,6 +218,8 @@ module.exports = class XMLNode
   #
   # `value` element text
   text: (value) ->
+    if isObject value
+      @element value
     child = new XMLText @, value
     @children.push child
     return @
