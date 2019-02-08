@@ -242,20 +242,20 @@ module.exports = class XMLWriterBase
     return r
 
   writeChildNode: (node, options, level) ->
-    switch
-      when node.type is NodeType.CData   then @cdata   node, options, level
-      when node.type is NodeType.Comment then @comment node, options, level
-      when node.type is NodeType.Element then @element node, options, level
-      when node.type is NodeType.Raw     then @raw     node, options, level
-      when node.type is NodeType.Text    then @text    node, options, level
-      when node.type is NodeType.ProcessingInstruction then @processingInstruction node, options, level
-      when node.type is NodeType.Dummy   then ''
-      when node.type is NodeType.Declaration then @declaration node, options, level
-      when node.type is NodeType.DocType     then @docType     node, options, level
-      when node.type is NodeType.AttributeDeclaration then @dtdAttList  node, options, level
-      when node.type is NodeType.ElementDeclaration   then @dtdElement  node, options, level
-      when node.type is NodeType.EntityDeclaration    then @dtdEntity   node, options, level
-      when node.type is NodeType.NotationDeclaration  then @dtdNotation node, options, level
+    switch node.type
+      when NodeType.CData   then @cdata   node, options, level
+      when NodeType.Comment then @comment node, options, level
+      when NodeType.Element then @element node, options, level
+      when NodeType.Raw     then @raw     node, options, level
+      when NodeType.Text    then @text    node, options, level
+      when NodeType.ProcessingInstruction then @processingInstruction node, options, level
+      when NodeType.Dummy   then ''
+      when NodeType.Declaration then @declaration node, options, level
+      when NodeType.DocType     then @docType     node, options, level
+      when NodeType.AttributeDeclaration then @dtdAttList  node, options, level
+      when NodeType.ElementDeclaration   then @dtdElement  node, options, level
+      when NodeType.EntityDeclaration    then @dtdEntity   node, options, level
+      when NodeType.NotationDeclaration  then @dtdNotation node, options, level
       else throw new Error "Unknown XML node type: " + node.constructor.name
 
   processingInstruction: (node, options, level) ->
