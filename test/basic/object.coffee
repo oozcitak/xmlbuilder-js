@@ -111,7 +111,7 @@ suite 'Creating XML:', ->
               '#text': 'classified'
 
     eq(
-      xml('root', { headless: true, ignoreDecorators: true })
+      xml('root', { headless: true, ignoreDecorators: true, noValidation: true })
         .ele(obj).up()
         .ele('added')
         .end()
@@ -124,7 +124,7 @@ suite 'Creating XML:', ->
               '<?pi>mypi</?pi>' +
               '<#comment>Good guy</#comment>' +
               '<#cdata>well formed!</#cdata>' +
-              '<unescaped><#raw>&amp;&lt;&gt;&amp;</#raw></unescaped>' +
+              '<unescaped><#raw>&<>&</#raw></unescaped>' +
               '<address>' +
                   '<city>Istanbul</city>' +
                   '<street>End of long and winding road</street>' +

@@ -155,11 +155,11 @@ module.exports = class XMLDocumentCB
     else
       if Array.isArray(name) or isObject(name) or isFunction(name)
 
-        oldEscapeFlag = @options.noEscaping
-        @options.noEscaping = true
+        oldValidationFlag = @options.noValidation
+        @options.noValidation = true
         root = new XMLDocument(@options).element('TEMP_ROOT')
         root.element(name)
-        @options.noEscaping = oldEscapeFlag
+        @options.noValidation = oldValidationFlag
 
         for child in root.children
           @createChildNode(child)

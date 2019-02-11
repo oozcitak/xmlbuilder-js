@@ -125,7 +125,7 @@ suite 'Creating XML using begin() callbacks:', ->
               '#text': 'classified'
 
     result = ''
-    doc({ ignoreDecorators: true }, data).ele(obj).end()
+    doc({ ignoreDecorators: true, noValidation: true }, data).ele(obj).end()
 
     eq(
       result
@@ -138,7 +138,7 @@ suite 'Creating XML using begin() callbacks:', ->
               '<?pi>mypi</?pi>' +
               '<#comment>Good guy</#comment>' +
               '<#cdata>well formed!</#cdata>' +
-              '<unescaped><#raw>&amp;&lt;&gt;&amp;</#raw></unescaped>' +
+              '<unescaped><#raw>&<>&</#raw></unescaped>' +
               '<address>' +
                   '<city>Istanbul</city>' +
                   '<street>End of long and winding road</street>' +
