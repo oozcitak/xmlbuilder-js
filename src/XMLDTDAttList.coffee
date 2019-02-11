@@ -37,7 +37,7 @@ module.exports = class XMLDTDAttList extends XMLNode
     @type = NodeType.AttributeDeclaration
     @attributeName = @stringify.name attributeName
     @attributeType = @stringify.dtdAttType attributeType
-    @defaultValue = @stringify.dtdAttDefault defaultValue
+    @defaultValue = @stringify.dtdAttDefault defaultValue if defaultValue
     @defaultValueType = defaultValueType
 
 

@@ -14,7 +14,7 @@ suite 'Tests specific to issues:', ->
     eq(
       xml('root', { headless: true, stringify: { txtEscape: escapeFunc } })
         .ele("foo", "line\nbreak")
-      .end( { pretty: true, newline: "\r\n" } );
+      .end( { pretty: true, newline: "\r\n" } )
 
       '<root>\r\n' +
       '  <foo>line\r\nbreak</foo>\r\n' +
