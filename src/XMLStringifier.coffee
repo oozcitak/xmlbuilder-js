@@ -22,7 +22,7 @@ module.exports = class XMLStringifier
     @assertLegalChar '' + val or ''
   text: (val) ->
     if @options.noEscaping then return val
-    @assertLegalChar @txtEscape('' + val or '')
+    @assertLegalChar @textEscape('' + val or '')
   cdata: (val) ->
     if @options.noEscaping then return val
     val = '' + val or ''
@@ -137,7 +137,7 @@ module.exports = class XMLStringifier
   # See http://www.w3.org/TR/2000/WD-xml-c14n-20000119.html#charescaping
   #
   # `str` the string to escape
-  txtEscape: (str) ->
+  textEscape: (str) ->
     if @options.noEscaping then return str
     ampregex = if @options.noDoubleEncoding then /(?!&\S+;)&/g else /&/g
     str.replace(ampregex, '&amp;')

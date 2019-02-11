@@ -8,11 +8,8 @@ suite 'Tests specific to issues:', ->
         .replace(/\r/g, '&#xD;')
         .replace(/\r?\n/gm, '\r\n') # normalize newlines
 
-    xml('root', { stringify: { elEscape: escapeFunc } } )
-      .ele("foo", "line\nbreak")
-      .end( { newline: "\r\n" } );
     eq(
-      xml('root', { headless: true, stringify: { txtEscape: escapeFunc } })
+      xml('root', { headless: true, stringify: { textEscape: escapeFunc } })
         .ele("foo", "line\nbreak")
       .end( { pretty: true, newline: "\r\n" } )
 
