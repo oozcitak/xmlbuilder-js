@@ -13,3 +13,4 @@ module.exports =
   EntityDeclaration : 12
   NotationDeclaration : 13
   Dummy : 14
+  Attribute : 15

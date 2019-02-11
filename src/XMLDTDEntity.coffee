@@ -31,12 +31,14 @@ module.exports = class XMLDTDEntity extends XMLNode
 
     if not isObject value
       @value =  @stringify.dtdEntityValue value
+      @internal = true
     else
       if not value.pubID and not value.sysID
         throw new Error "Public and/or system identifiers are required for an external entity. " + @debugInfo(name)
       if value.pubID and not value.sysID
         throw new Error "System identifier is required for a public external entity. " + @debugInfo(name)
 
+      @internal = false
       @pubID = @stringify.dtdPubID value.pubID if value.pubID?
       @sysID = @stringify.dtdSysID value.sysID if value.sysID?
 

@@ -1,3 +1,5 @@
+NodeType = require './NodeType'
+
 # Represents an attribute
 module.exports = class XMLAttribute
 
@@ -17,6 +19,7 @@ module.exports = class XMLAttribute
 
     @name = @stringify.name name
     @value = @stringify.attValue value
+    @type = NodeType.Attribute
 
 
   # Creates and returns a deep clone of `this`

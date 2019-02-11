@@ -6,6 +6,7 @@ module.exports = class XMLStringifier
   #
   # `options.noDoubleEncoding` whether existing html entities are encoded: true or false
   # `options.stringify` a set of functions to use for converting values to strings
+  # `options.noEscaping` whether values will be escaped or returned as is
   constructor: (options) ->
     options or= {}
     @options = options
@@ -15,57 +16,75 @@ module.exports = class XMLStringifier
 
   # Defaults
   name: (val) ->
+    if @options.noEscaping then return val
     val = '' + val or ''
     @assertLegalChar val
   text: (val) ->
+    if @options.noEscaping then return val
     val = '' + val or ''
     @assertLegalChar @txtEscape(val)
   cdata: (val) ->
+    if @options.noEscaping then return val
     val = '' + val or ''
     val = val.replace(']]>', ']]]]><![CDATA[>')
     @assertLegalChar val
   comment: (val) ->
+    if @options.noEscaping then return val
     val = '' + val or ''
     if val.match /--/
       throw new Error "Comment text cannot contain double-hypen: " + val
     @assertLegalChar val
   raw: (val) ->
+    if @options.noEscaping then return val
     '' + val or ''
   attValue: (val) ->
+    if @options.noEscaping then return val
     val = '' + val or ''
     @attEscape val
   insTarget: (val) ->
+    if @options.noEscaping then return val
     '' + val or ''
   insValue: (val) ->
+    if @options.noEscaping then return val
     val = '' + val or ''
     if val.match /\?>/
       throw new Error "Invalid processing instruction value: " + val
     val
   xmlVersion: (val) ->
+    if @options.noEscaping then return val
     val = '' + val or ''
     if not val.match /1\.[0-9]+/
       throw new Error "Invalid version number: " + val
     val
   xmlEncoding: (val) ->
+    if @options.noEscaping then return val
     val = '' + val or ''
     if not val.match /^[A-Za-z](?:[A-Za-z0-9._-])*$/
       throw new Error "Invalid encoding: " + val
     val
   xmlStandalone: (val) ->
+    if @options.noEscaping then return val
     if val then "yes" else "no"
   dtdPubID: (val) ->
+    if @options.noEscaping then return val
     '' + val or ''
   dtdSysID: (val) ->
+    if @options.noEscaping then return val
     '' + val or ''
   dtdElementValue: (val) ->
+    if @options.noEscaping then return val
     '' + val or ''
   dtdAttType: (val) ->
+    if @options.noEscaping then return val
     '' + val or ''
   dtdAttDefault: (val) ->
+    if @options.noEscaping then return val
     if val? then '' + val or '' else val
   dtdEntityValue: (val) ->
+    if @options.noEscaping then return val
     '' + val or ''
   dtdNData: (val) ->
+    if @options.noEscaping then return val
     '' + val or ''
 
   # strings to match while converting from JS objects
@@ -82,6 +101,7 @@ module.exports = class XMLStringifier
   #
   # `str` the string to check
   assertLegalChar: (str) =>
+    if @options.noEscaping then return str
     # Valid characters from https://www.w3.org/TR/xml11/#charsets
     # any Unicode character, excluding the surrogate blocks, FFFE, and FFFF.
     # [#x1-#xD7FF] | [#xE000-#xFFFD] | [#x10000-#x10FFFF]
@@ -99,6 +119,7 @@ module.exports = class XMLStringifier
   #
   # `str` the string to escape
   txtEscape: (str) ->
+    if @options.noEscaping then return str
     ampregex = if @options.noDoubleEncoding then /(?!&\S+;)&/g else /&/g
     str.replace(ampregex, '&amp;')
        .replace(/</g, '&lt;')
@@ -111,6 +132,7 @@ module.exports = class XMLStringifier
   #
   # `str` the string to escape
   attEscape: (str) ->
+    if @options.noEscaping then return str
     ampregex = if @options.noDoubleEncoding then /(?!&\S+;)&/g else /&/g
     str.replace(ampregex, '&amp;')
        .replace(/</g, '&lt;')

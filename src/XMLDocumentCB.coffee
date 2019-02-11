@@ -1,6 +1,7 @@
 { isObject, isFunction, isPlainObject, getValue } = require './Utility'
 
 NodeType = require './NodeType'
+XMLDocument = require './XMLDocument'
 XMLElement = require './XMLElement'
 XMLCData = require './XMLCData'
 XMLComment = require './XMLComment'
@@ -77,6 +78,39 @@ module.exports = class XMLDocumentCB
     @root = null
 
 
+  # Creates a child element node from the given XMLNode
+  #
+  # `node` the child node
+  createChildNode: (node) ->
+    switch node.type
+      when NodeType.CData   then @cdata   node.text
+      when NodeType.Comment then @comment node.text
+      when NodeType.Element 
+        attributes = {}
+        for own attName, att of node.attributes
+          attributes[attName] = att.value
+        @node node.name, attributes
+      when NodeType.Dummy   then @dummy()
+      when NodeType.Raw     then @raw     node.value
+      when NodeType.Text    then @text    node.value
+      when NodeType.ProcessingInstruction then @instruction node.target, node.value
+      else throw new Error "This XML node type is not supported in a JS object: " + node.constructor.name
+
+    # write child nodes recursively
+    for child in node.children
+      @createChildNode(child)
+      if child.type is NodeType.Element then @up()
+
+    return @
+
+  # Creates a dummy node
+  #
+  dummy: () ->
+    # no-op, just return this
+
+    return @
+
+
   # Creates a node
   #
   # `name` name of the node
@@ -119,8 +153,22 @@ module.exports = class XMLDocumentCB
     if @currentNode and @currentNode.type is NodeType.DocType
       @dtdElement arguments...
     else
-      @node name, attributes, text
+      if Array.isArray(name) or isObject(name) or isFunction(name)
 
+        oldEscapeFlag = @options.noEscaping
+        @options.noEscaping = true
+        root = new XMLDocument(@options).element('TEMP_ROOT')
+        root.element(name)
+        @options.noEscaping = oldEscapeFlag
+
+        for child in root.children
+          @createChildNode(child)
+          if child.type is NodeType.Element then @up()
+
+      else
+        @node name, attributes, text
+
+    return @
 
   # Adds or modifies an attribute
   #
