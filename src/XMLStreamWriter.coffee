@@ -1,3 +1,4 @@
+NodeType = require './NodeType'
 XMLWriterBase = require './XMLWriterBase'
 WriterState = require './WriterState'
 
@@ -91,7 +92,7 @@ module.exports = class XMLStreamWriter extends XMLWriterBase
 
     childNodeCount = node.countNonDummy()
     firstNonDummyChildNode = node.firstNonDummy()
-    if childNodeCount == 0 or node.children.every((e) -> e.value == '')
+    if childNodeCount == 0 or node.children.every((e) -> (e.type is NodeType.Text or e.type is NodeType.Raw) and e.value == '')
       # empty element
       if options.allowEmpty
         @stream.write '>'
@@ -100,7 +101,7 @@ module.exports = class XMLStreamWriter extends XMLWriterBase
       else
         options.state = WriterState.CloseTag
         @stream.write options.spaceBeforeSlash + '/>'
-    else if options.pretty and childNodeCount == 1 and firstNonDummyChildNode.value?
+    else if options.pretty and childNodeCount == 1 and (firstNonDummyChildNode.type is NodeType.Text or firstNonDummyChildNode.type is NodeType.Raw) and firstNonDummyChildNode.value?
       # do not indent text-only nodes
       @stream.write '>'
       options.state = WriterState.InsideTag

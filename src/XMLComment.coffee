@@ -15,7 +15,7 @@ module.exports = class XMLComment extends XMLNode
       throw new Error "Missing comment text. " + @debugInfo()
 
     @type = NodeType.Comment
-    @text = @stringify.comment text
+    @value = @stringify.comment text
 
 
   # Creates and returns a deep clone of `this`

@@ -83,8 +83,8 @@ module.exports = class XMLDocumentCB
   # `node` the child node
   createChildNode: (node) ->
     switch node.type
-      when NodeType.CData   then @cdata   node.text
-      when NodeType.Comment then @comment node.text
+      when NodeType.CData   then @cdata   node.value
+      when NodeType.Comment then @comment node.value
       when NodeType.Element 
         attributes = {}
         for own attName, att of node.attributes

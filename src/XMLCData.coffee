@@ -15,7 +15,7 @@ module.exports = class XMLCData extends XMLNode
       throw new Error "Missing CDATA text. " + @debugInfo()
 
     @type = NodeType.CData
-    @text = @stringify.cdata text
+    @value = @stringify.cdata text
 
 
   # Creates and returns a deep clone of `this`

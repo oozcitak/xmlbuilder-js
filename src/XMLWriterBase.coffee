@@ -104,7 +104,7 @@ module.exports = class XMLWriterBase
     options.state = WriterState.OpenTag
     r = @indent(node, options, level) + '<![CDATA['
     options.state = WriterState.InsideTag
-    r += node.text
+    r += node.value
     options.state = WriterState.CloseTag
     r += ']]>' + @endline(node, options, level)
     options.state = WriterState.None
@@ -117,7 +117,7 @@ module.exports = class XMLWriterBase
     options.state = WriterState.OpenTag
     r = @indent(node, options, level) + '<!-- '
     options.state = WriterState.InsideTag
-    r += node.text
+    r += node.value
     options.state = WriterState.CloseTag
     r += ' -->' + @endline(node, options, level)
     options.state = WriterState.None
@@ -191,7 +191,7 @@ module.exports = class XMLWriterBase
 
     childNodeCount = node.countNonDummy()
     firstNonDummyChildNode = node.firstNonDummy()
-    if childNodeCount == 0 or node.children.every((e) -> e.value == '')
+    if childNodeCount == 0 or node.children.every((e) -> (e.type is NodeType.Text or e.type is NodeType.Raw) and e.value == '')
       # empty element
       if options.allowEmpty
         r += '>'
@@ -200,7 +200,7 @@ module.exports = class XMLWriterBase
       else
         options.state = WriterState.CloseTag
         r += options.spaceBeforeSlash + '/>' + @endline(node, options, level)
-    else if options.pretty and childNodeCount == 1 and firstNonDummyChildNode.value?
+    else if options.pretty and childNodeCount == 1 and (firstNonDummyChildNode.type is NodeType.Text or firstNonDummyChildNode.type is NodeType.Raw) and firstNonDummyChildNode.value?
       # do not indent text-only nodes
       r += '>'
       options.state = WriterState.InsideTag
@@ -215,7 +215,7 @@ module.exports = class XMLWriterBase
       # if ANY are a text node, then suppress pretty now
       if options.dontPrettyTextNodes
         for child in node.children
-          if child.value?
+          if (child.type is NodeType.Text or child.type is NodeType.Raw) and child.value?
             options.suppressPrettyCount++
             prettySuppressed = true
             break
