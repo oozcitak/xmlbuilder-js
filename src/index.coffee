@@ -53,7 +53,7 @@ module.exports.create = (name, xmldec, doctype, options) ->
     doc.declaration options
 
     if options.pubID? or options.sysID?
-      doc.doctype options
+      doc.dtd options
 
   return root
 

@@ -374,7 +374,7 @@ module.exports = class XMLNode
   #
   # `pubID` the public identifier of the external subset
   # `sysID` the system identifier of the external subset
-  doctype: (pubID, sysID) ->
+  dtd: (pubID, sysID) ->
     doc = @document()
 
     doctype = new XMLDocType doc, pubID, sysID
@@ -511,7 +511,6 @@ module.exports = class XMLNode
   ins: (target, value) -> @instruction target, value
   doc: () -> @document()
   dec: (version, encoding, standalone) -> @declaration version, encoding, standalone
-  dtd: (pubID, sysID) -> @doctype pubID, sysID
   e: (name, attributes, text) -> @element name, attributes, text
   n: (name, attributes, text) -> @node name, attributes, text
   t: (value) -> @text value
