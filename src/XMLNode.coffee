@@ -570,5 +570,5 @@ module.exports = class XMLNode
   replaceChild: (newChild, oldChild) -> throw new Error "This DOM method is not implemented." + @debugInfo()
   removeChild: (oldChild) -> throw new Error "This DOM method is not implemented." + @debugInfo()
   appendChild: (newChild) -> throw new Error "This DOM method is not implemented." + @debugInfo()
-  hasChildNodes: () -> children.length isnt 0
+  hasChildNodes: () -> @children.length isnt 0
   cloneNode: (deep) -> throw new Error "This DOM method is not implemented." + @debugInfo()

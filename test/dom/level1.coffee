@@ -41,6 +41,7 @@ suite 'DOM Level 1:', ->
     eq( node.nodeName, 'node' )
     eq( node.nodeType, builder.nodeType.Element )
     eq( node.parentNode.nodeName, 'root' )
+    eq( node.hasChildNodes(), true )
     eq( node.childNodes.length, 3 )
     eq( node.childNodes.item(0).nodeName, 'child1' )
     eq( node.childNodes.item(1).nodeName, 'child2' )
