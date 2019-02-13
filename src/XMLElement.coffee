@@ -120,10 +120,19 @@ module.exports = class XMLElement extends XMLNode
 
 
   # DOM Level 1
-  getAttribute: (name) -> throw new Error "This DOM method is not implemented." + @debugInfo()
+  getAttribute: (name) -> if @attribs.hasOwnProperty(name) then @attribs[name].value else null
   setAttribute: (name, value) -> throw new Error "This DOM method is not implemented." + @debugInfo()
-  getAttributeNode: (name) -> throw new Error "This DOM method is not implemented." + @debugInfo()
+  getAttributeNode: (name) -> if @attribs.hasOwnProperty(name) then @attribs[name] else null
   setAttributeNode: (newAttr) -> throw new Error "This DOM method is not implemented." + @debugInfo()
   removeAttributeNode: (oldAttr) -> throw new Error "This DOM method is not implemented." + @debugInfo()
   getElementsByTagName: (name) -> throw new Error "This DOM method is not implemented." + @debugInfo()
-  normalize: () -> throw new Error "This DOM method is not implemented." + @debugInfo()
+
+  # DOM Level 2
+  getAttributeNS: (namespaceURI, localName) -> throw new Error "This DOM method is not implemented." + @debugInfo()
+  setAttributeNS: (namespaceURI, qualifiedName, value) -> throw new Error "This DOM method is not implemented." + @debugInfo()
+  removeAttributeNS: (namespaceURI, localName) -> throw new Error "This DOM method is not implemented." + @debugInfo()
+  getAttributeNodeNS: (namespaceURI, localName) -> throw new Error "This DOM method is not implemented." + @debugInfo()
+  setAttributeNodeNS: (newAttr) -> throw new Error "This DOM method is not implemented." + @debugInfo()
+  getElementsByTagNameNS: (namespaceURI, localName) -> throw new Error "This DOM method is not implemented." + @debugInfo()
+  hasAttribute: (name) -> @attribs.hasOwnProperty(name)
+  hasAttributeNS: (namespaceURI, localName) -> throw new Error "This DOM method is not implemented." + @debugInfo()

@@ -65,7 +65,12 @@ module.exports = class XMLNode
       if not @attributeMap or not @attributeMap.nodes
         @attributeMap = new XMLNamedNodeMap @attribs
       return @attributeMap
-    Object.defineProperty @, 'ownerDocument', get: () -> @document()
+    Object.defineProperty @, 'ownerDocument', get: () -> @document() or null
+
+    # DOM level 2
+    Object.defineProperty @, 'namespaceURI', get: () -> ''
+    Object.defineProperty @, 'prefix', get: () -> ''
+    Object.defineProperty @, 'localName', get: () -> @name
 
 
   # Sets the parent node of this node and its children recursively
@@ -572,3 +577,8 @@ module.exports = class XMLNode
   appendChild: (newChild) -> throw new Error "This DOM method is not implemented." + @debugInfo()
   hasChildNodes: () -> @children.length isnt 0
   cloneNode: (deep) -> throw new Error "This DOM method is not implemented." + @debugInfo()
+  normalize: () -> throw new Error "This DOM method is not implemented." + @debugInfo()
+
+  # DOM level 2 functions to be implemented later
+  isSupported: (feature, version) -> return true
+  hasAttributes: () -> @attribs.length isnt 0

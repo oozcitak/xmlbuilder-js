@@ -95,8 +95,11 @@ suite 'DOM Level 1:', ->
 
   test 'Element', ->
     node = xml('root')
+    node.att('att1', 'val1')
 
     eq( node.tagName, 'root' )
+    eq( node.getAttribute('att1'), 'val1' )
+    eq( node.getAttributeNode('att1').value, 'val1' )
 
   test 'DocumentType', ->
     dtd = xml('root').dtd()

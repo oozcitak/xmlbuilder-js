@@ -21,6 +21,9 @@ module.exports = class XMLAttribute extends XMLNode
     @specified = true
     @type = NodeType.Attribute
 
+    # DOM level 1
+    Object.defineProperty @, 'ownerElement', get: () -> @parent
+
 
   # Creates and returns a deep clone of `this`
   clone: () ->

@@ -89,3 +89,10 @@ module.exports = class XMLDocument extends XMLNode
   createAttribute: (name) -> throw new Error "This DOM method is not implemented." + @debugInfo()
   createEntityReference: (name) -> throw new Error "This DOM method is not implemented." + @debugInfo()
   getElementsByTagName: (tagname) -> throw new Error "This DOM method is not implemented." + @debugInfo()
+
+  # DOM level 2 functions to be implemented later
+  importNode: (importedNode, deep) -> throw new Error "This DOM method is not implemented." + @debugInfo()
+  createElementNS: (namespaceURI, qualifiedName) -> throw new Error "This DOM method is not implemented." + @debugInfo()
+  createAttributeNS: (namespaceURI, qualifiedName) -> throw new Error "This DOM method is not implemented." + @debugInfo()
+  getElementsByTagNameNS: (namespaceURI, localName) -> throw new Error "This DOM method is not implemented." + @debugInfo()
+  getElementById: (elementId) -> throw new Error "This DOM method is not implemented." + @debugInfo()

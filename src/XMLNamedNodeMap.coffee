@@ -33,3 +33,8 @@ module.exports = class XMLNamedNodeMap
     delete @nodes[name]
     return oldNode or null
   item: (index) -> @nodes[Object.keys(@nodes)[index]] or null
+
+  # DOM level 2 functions to be implemented later
+  getNamedItemNS: (namespaceURI, localName) -> throw new Error "This DOM method is not implemented."
+  setNamedItemNS: (node) -> throw new Error "This DOM method is not implemented."
+  removeNamedItemNS: (namespaceURI, localName) -> throw new Error "This DOM method is not implemented."
