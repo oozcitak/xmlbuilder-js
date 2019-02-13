@@ -14,6 +14,7 @@ module.exports = class XMLText extends XMLNode
     if not text?
       throw new Error "Missing element text. " + @debugInfo()
 
+    @name = "#text"
     @type = NodeType.Text
     @value = @stringify.text text
 

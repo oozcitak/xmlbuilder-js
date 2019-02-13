@@ -20,8 +20,13 @@ module.exports = class XMLDocType extends XMLNode
   constructor: (parent, pubID, sysID) ->
     super parent
 
-    @name = "!DOCTYPE"
     @type = NodeType.DocType
+    # set DTD name to the name of the root node
+    if parent.children
+      for child in parent.children
+        if child.type is NodeType.Element
+          @name = child.name
+          break
 
     @documentObject = parent
 

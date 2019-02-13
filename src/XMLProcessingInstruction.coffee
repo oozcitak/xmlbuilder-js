@@ -18,6 +18,7 @@ module.exports = class XMLProcessingInstruction extends XMLNode
 
     @type = NodeType.ProcessingInstruction
     @target = @stringify.insTarget target
+    @name = @target
     @value = @stringify.insValue value if value
 
 

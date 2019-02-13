@@ -14,6 +14,7 @@ module.exports = class XMLCData extends XMLNode
     if not text?
       throw new Error "Missing CDATA text. " + @debugInfo()
 
+    @name = "#cdata-section"
     @type = NodeType.CData
     @value = @stringify.cdata text
 

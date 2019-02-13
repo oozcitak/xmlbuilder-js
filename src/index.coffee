@@ -1,5 +1,6 @@
 { assign, isFunction } = require './Utility'
 
+XMLDOMImplementation = require './XMLDOMImplementation'
 XMLDocument = require './XMLDocument'
 XMLDocumentCB = require './XMLDocumentCB'
 XMLStringWriter = require './XMLStringWriter'
@@ -96,6 +97,8 @@ module.exports.stringWriter = (options) ->
 
 module.exports.streamWriter = (stream, options) ->
   new XMLStreamWriter(stream, options)
+
+module.exports.implementation = new XMLDOMImplementation()
 
 module.exports.nodeType = NodeType
 module.exports.writerState = WriterState

@@ -30,7 +30,15 @@ module.exports = class XMLElement extends XMLNode
       @isRoot = true
       @documentObject = parent
       parent.rootObject = @
+      # set dtd name
+      if parent.children
+        for child in parent.children
+          if child.type is NodeType.DocType
+            child.name = @name
+            break
 
+    # DOM level 1
+    Object.defineProperty @, 'tagName', get: () -> @name
 
   # Creates and returns a deep clone of `this`
   #
@@ -80,6 +88,8 @@ module.exports = class XMLElement extends XMLNode
   #
   # `name` attribute name
   removeAttribute: (name) ->
+    # Also defined in DOM level 1
+    # removeAttribute(name) removes an attribute by name.
     if not name?
       throw new Error "Missing attribute name. " + @debugInfo()
     name = getValue name
@@ -108,3 +118,12 @@ module.exports = class XMLElement extends XMLNode
   att: (name, value) -> @attribute name, value
   a: (name, value) -> @attribute name, value
 
+
+  # DOM Level 1
+  getAttribute: (name) -> throw new Error "This DOM method is not implemented." + @debugInfo()
+  setAttribute: (name, value) -> throw new Error "This DOM method is not implemented." + @debugInfo()
+  getAttributeNode: (name) -> throw new Error "This DOM method is not implemented." + @debugInfo()
+  setAttributeNode: (newAttr) -> throw new Error "This DOM method is not implemented." + @debugInfo()
+  removeAttributeNode: (oldAttr) -> throw new Error "This DOM method is not implemented." + @debugInfo()
+  getElementsByTagName: (name) -> throw new Error "This DOM method is not implemented." + @debugInfo()
+  normalize: () -> throw new Error "This DOM method is not implemented." + @debugInfo()
