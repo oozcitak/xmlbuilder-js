@@ -46,15 +46,14 @@ module.exports = class XMLNode
     Object.defineProperty @, 'nodeValue', get: () -> @value
     Object.defineProperty @, 'parentNode', get: () -> @parent
     #Object.defineProperty @, 'childNodes', get: () -> @children # NodeList ???
-    Object.defineProperty @, 'firstChild', get: () -> @firstNonDummy()
-    Object.defineProperty @, 'lastChild', get: () -> @lastNonDummy()
+    Object.defineProperty @, 'firstChild', get: () -> @children[0] or null
+    Object.defineProperty @, 'lastChild', get: () -> @children[@children.length - 1] or null
     Object.defineProperty @, 'previousSibling', get: () ->
         i = @parent.children.indexOf @
-        if i > 0 then @parent.children[i - 1] else null
+        @parent.children[i - 1] or null
     Object.defineProperty @, 'nextSibling', get: () ->
         i = @parent.children.indexOf @
-        if i < @parent.children.length - 1 and i isnt -1 then @parent.children[i + 1] else null
-    -> if @parent then @parent.lastNonDummy() else null
+        @parent.children[i + 1] or null
     #Object.defineProperty @, 'attributes', get: () -> @attributes # NamedNodeMap ???
     Object.defineProperty @, 'ownerDocument', get: () -> @document()
 
@@ -550,5 +549,5 @@ module.exports = class XMLNode
   replaceChild: (newChild, oldChild) -> throw new Error "This DOM method is not implemented." + @debugInfo()
   removeChild: (oldChild) -> throw new Error "This DOM method is not implemented." + @debugInfo()
   appendChild: (newChild) -> throw new Error "This DOM method is not implemented." + @debugInfo()
-  hasChildNodes: () -> countNonDummy() isnt 0
+  hasChildNodes: () -> children.length isnt 0
   cloneNode: (deep) -> throw new Error "This DOM method is not implemented." + @debugInfo()
