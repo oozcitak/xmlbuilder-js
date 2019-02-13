@@ -1,6 +1,5 @@
 global.builder = require('../src/index')
 global.assert = require('assert')
-global.xpath = require('xpath')
 
 global.xml = builder.create
 global.doc = builder.begin
