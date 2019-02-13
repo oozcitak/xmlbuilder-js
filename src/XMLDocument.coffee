@@ -1,5 +1,6 @@
 { isPlainObject } = require './Utility'
 
+XMLDOMImplementation = require './XMLDOMImplementation'
 XMLNode = require './XMLNode'
 NodeType = require './NodeType'
 XMLStringifier = require './XMLStringifier'
@@ -29,7 +30,7 @@ module.exports = class XMLDocument extends XMLNode
   constructor: (options) ->
     super null
 
-    @name = "?xml"
+    @name = "#document"
     @type = NodeType.Document
 
     options or= {}
@@ -38,6 +39,14 @@ module.exports = class XMLDocument extends XMLNode
     @options = options
     @stringify = new XMLStringifier options
 
+    # DOM level 1
+    Object.defineProperty @, 'implementation', value: new XMLDOMImplementation()
+    Object.defineProperty @, 'doctype', get: () ->
+      for child in @children
+        if child.type is NodeType.DocType
+          return child
+      return null
+    Object.defineProperty @, 'documentElement', get: () -> @rootObject or null
 
   # Ends the document and passes it to the given XML writer
   #
@@ -69,3 +78,14 @@ module.exports = class XMLDocument extends XMLNode
   # `options.newline` newline sequence for pretty print
   toString: (options) ->
     @options.writer.document @, @options.writer.filterOptions(options)
+
+  # DOM level 1 functions to be implemented later
+  createElement: (tagName) -> throw new Error "This DOM method is not implemented." + @debugInfo()
+  createDocumentFragment: () -> throw new Error "This DOM method is not implemented." + @debugInfo()
+  createTextNode: (data) -> throw new Error "This DOM method is not implemented." + @debugInfo()
+  createComment: (data) -> throw new Error "This DOM method is not implemented." + @debugInfo()
+  createCDATASection: (data) -> throw new Error "This DOM method is not implemented." + @debugInfo()
+  createProcessingInstruction: (target, data) -> throw new Error "This DOM method is not implemented." + @debugInfo()
+  createAttribute: (name) -> throw new Error "This DOM method is not implemented." + @debugInfo()
+  createEntityReference: (name) -> throw new Error "This DOM method is not implemented." + @debugInfo()
+  getElementsByTagName: (tagname) -> throw new Error "This DOM method is not implemented." + @debugInfo()

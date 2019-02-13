@@ -1,7 +1,11 @@
 global.builder = require('../src/index')
+
 global.xml = builder.create
 global.doc = builder.begin
 global.writer = builder.stringWriter
+
+global.xpath = require('xpath')
+
 global.eq = require('assert').strictEqual
 global.err = require('assert').throws
 global.noterr = require('assert').doesNotThrow

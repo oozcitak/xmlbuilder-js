@@ -14,6 +14,7 @@ module.exports = class XMLComment extends XMLNode
     if not text?
       throw new Error "Missing comment text. " + @debugInfo()
 
+    @name = "#comment"
     @type = NodeType.Comment
     @value = @stringify.comment text
 

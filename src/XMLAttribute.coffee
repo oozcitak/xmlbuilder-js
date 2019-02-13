@@ -1,7 +1,8 @@
 NodeType = require './NodeType'
+XMLNode = require './XMLNode'
 
 # Represents an attribute
-module.exports = class XMLAttribute
+module.exports = class XMLAttribute extends XMLNode
 
 
   # Initializes a new instance of `XMLAttribute`
@@ -10,15 +11,14 @@ module.exports = class XMLAttribute
   # `name` attribute target
   # `value` attribute value
   constructor: (parent, name, value) ->
-    @options = parent.options
-    @stringify = parent.stringify
-    @parent = parent
+    super parent
 
     if not name?
       throw new Error "Missing attribute name. " + @debugInfo(name)
 
     @name = @stringify.name name
     @value = @stringify.attValue value
+    @specified = true
     @type = NodeType.Attribute
 
 

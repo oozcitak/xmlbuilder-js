@@ -23,6 +23,7 @@ module.exports = class XMLNode
       @options = @parent.options
       @stringify = @parent.stringify
 
+    @value = null
     @children = []
 
     # first execution, load dependencies that are otherwise
@@ -39,6 +40,23 @@ module.exports = class XMLNode
       XMLDummy = require './XMLDummy'
       NodeType = require './NodeType'
 
+    # DOM level 1
+    Object.defineProperty @, 'nodeName', get: () -> @name
+    Object.defineProperty @, 'nodeType', get: () -> @type
+    Object.defineProperty @, 'nodeValue', get: () -> @value
+    Object.defineProperty @, 'parentNode', get: () -> @parent
+    #Object.defineProperty @, 'childNodes', get: () -> @children # NodeList ???
+    Object.defineProperty @, 'firstChild', get: () -> @firstNonDummy()
+    Object.defineProperty @, 'lastChild', get: () -> @lastNonDummy()
+    Object.defineProperty @, 'previousSibling', get: () ->
+        i = @parent.children.indexOf @
+        if i > 0 then @parent.children[i - 1] else null
+    Object.defineProperty @, 'nextSibling', get: () ->
+        i = @parent.children.indexOf @
+        if i < @parent.children.length - 1 and i isnt -1 then @parent.children[i + 1] else null
+    -> if @parent then @parent.lastNonDummy() else null
+    #Object.defineProperty @, 'attributes', get: () -> @attributes # NamedNodeMap ???
+    Object.defineProperty @, 'ownerDocument', get: () -> @document()
 
   # Creates a child element node
   #
@@ -144,20 +162,45 @@ module.exports = class XMLNode
   # `attributes` an object containing name/value pairs of attributes
   # `text` element text
   insertBefore: (name, attributes, text) ->
-    if @isRoot
-      throw new Error "Cannot insert elements at root level. " + @debugInfo(name)
+    # DOM level 1
+    # insertBefore(newChild, refChild) inserts the child node newChild before refChild
+    if name?.type
+      newChild = name
+      refChild = attributes
 
-    # temporarily remove children starting *with* this
-    i = @parent.children.indexOf @
-    removed = @parent.children.splice i
+      newChild.parent = @
+      newChild.options = @options
+      newChild.stringify = @stringify
 
-    # add the new child
-    child = @parent.element name, attributes, text
+      if refChild
+        # temporarily remove children starting *with* refChild
+        i = children.indexOf refChild
+        removed = children.splice i
+      
+        # add the new child
+        children.push newChild
+      
+        # add back removed children after new child
+        Array.prototype.push.apply children, removed
+      else
+        children.push newChild
 
-    # add back removed children after new child
-    Array.prototype.push.apply @parent.children, removed
-
-    return child
+      return newChild
+    else
+      if @isRoot
+        throw new Error "Cannot insert elements at root level. " + @debugInfo(name)
+      
+      # temporarily remove children starting *with* this
+      i = @parent.children.indexOf @
+      removed = @parent.children.splice i
+      
+      # add the new child
+      child = @parent.element name, attributes, text
+      
+      # add back removed children after new child
+      Array.prototype.push.apply @parent.children, removed
+      
+      return child
 
 
   # Creates a child element node after the current node
@@ -168,17 +211,17 @@ module.exports = class XMLNode
   insertAfter: (name, attributes, text) ->
     if @isRoot
       throw new Error "Cannot insert elements at root level. " + @debugInfo(name)
-
+    
     # temporarily remove children starting *after* this
     i = @parent.children.indexOf @
     removed = @parent.children.splice i + 1
-
+    
     # add the new child
     child = @parent.element name, attributes, text
-
+    
     # add back removed children after new child
     Array.prototype.push.apply @parent.children, removed
-
+    
     return child
 
 
@@ -502,3 +545,10 @@ module.exports = class XMLNode
 
   # can be deprecated in a future release
   importXMLBuilder: (doc) -> @importDocument doc
+
+  # DOM level 1 functions to be implemented later
+  replaceChild: (newChild, oldChild) -> throw new Error "This DOM method is not implemented." + @debugInfo()
+  removeChild: (oldChild) -> throw new Error "This DOM method is not implemented." + @debugInfo()
+  appendChild: (newChild) -> throw new Error "This DOM method is not implemented." + @debugInfo()
+  hasChildNodes: () -> countNonDummy() isnt 0
+  cloneNode: (deep) -> throw new Error "This DOM method is not implemented." + @debugInfo()
