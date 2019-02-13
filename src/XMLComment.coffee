@@ -1,8 +1,8 @@
-XMLNode = require './XMLNode'
 NodeType = require './NodeType'
+XMLCharacterData = require './XMLCharacterData'
 
 # Represents a comment node
-module.exports = class XMLComment extends XMLNode
+module.exports = class XMLComment extends XMLCharacterData
 
 
   # Initializes a new instance of `XMLComment`

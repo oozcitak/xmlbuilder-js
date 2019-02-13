@@ -1,8 +1,8 @@
-XMLNode = require './XMLNode'
 NodeType = require './NodeType'
+XMLCharacterData = require './XMLCharacterData'
 
 # Represents a  CDATA node
-module.exports = class XMLCData extends XMLNode
+module.exports = class XMLCData extends XMLCharacterData
 
 
   # Initializes a new instance of `XMLCData`

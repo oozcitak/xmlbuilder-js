@@ -9,6 +9,8 @@ module.exports = class XMLCharacterData extends XMLNode
   constructor: (parent) ->
     super parent
 
+    @value = ''
+
     # DOM level 1
     Object.defineProperty @, 'data', get: () -> @value
     Object.defineProperty @, 'length', get: () -> @value.length

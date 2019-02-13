@@ -1,5 +1,5 @@
-XMLNode = require './XMLNode'
 NodeType = require './NodeType'
+XMLNode = require './XMLNode'
 
 # Represents a  raw node
 module.exports = class XMLRaw extends XMLNode

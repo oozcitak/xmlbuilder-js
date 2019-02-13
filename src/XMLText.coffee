@@ -1,8 +1,8 @@
-XMLNode = require './XMLNode'
 NodeType = require './NodeType'
+XMLCharacterData = require './XMLCharacterData'
 
 # Represents a text node
-module.exports = class XMLText extends XMLNode
+module.exports = class XMLText extends XMLCharacterData
 
 
   # Initializes a new instance of `XMLText`
@@ -33,3 +33,6 @@ module.exports = class XMLText extends XMLNode
   toString: (options) ->
     @options.writer.text @, @options.writer.filterOptions(options)
 
+
+  # DOM level 1 functions to be implemented later
+  splitText: (offset) -> throw new Error "This DOM method is not implemented." + @debugInfo()

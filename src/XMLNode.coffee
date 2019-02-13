@@ -10,6 +10,8 @@ XMLText = null
 XMLProcessingInstruction = null
 XMLDummy = null
 NodeType = null
+XMLNodeList = null
+XMLNamedNodeMap = null
 
 # Represents a generic XMl element
 module.exports = class XMLNode
@@ -39,13 +41,18 @@ module.exports = class XMLNode
       XMLProcessingInstruction = require './XMLProcessingInstruction'
       XMLDummy = require './XMLDummy'
       NodeType = require './NodeType'
+      XMLNodeList = require './XMLNodeList'
+      XMLNamedNodeMap = require './XMLNamedNodeMap'
 
     # DOM level 1
     Object.defineProperty @, 'nodeName', get: () -> @name
     Object.defineProperty @, 'nodeType', get: () -> @type
     Object.defineProperty @, 'nodeValue', get: () -> @value
     Object.defineProperty @, 'parentNode', get: () -> @parent
-    #Object.defineProperty @, 'childNodes', get: () -> @children # NodeList ???
+    Object.defineProperty @, 'childNodes', get: () -> 
+      if not @childNodeList or not @childNodeList.nodes
+        @childNodeList = new XMLNodeList @children
+      return @childNodeList
     Object.defineProperty @, 'firstChild', get: () -> @children[0] or null
     Object.defineProperty @, 'lastChild', get: () -> @children[@children.length - 1] or null
     Object.defineProperty @, 'previousSibling', get: () ->
@@ -54,8 +61,25 @@ module.exports = class XMLNode
     Object.defineProperty @, 'nextSibling', get: () ->
         i = @parent.children.indexOf @
         @parent.children[i + 1] or null
-    #Object.defineProperty @, 'attributes', get: () -> @attribs # NamedNodeMap ???
+    Object.defineProperty @, 'attributes', get: () ->
+      if not @attributeMap or not @attributeMap.nodes
+        @attributeMap = new XMLNamedNodeMap @attribs
+      return @attributeMap
     Object.defineProperty @, 'ownerDocument', get: () -> @document()
+
+
+  # Sets the parent node of this node and its children recursively
+  #
+  # `parent` the parent node
+  setParent: (parent) ->
+    @parent = parent
+    if parent
+      @options = parent.options
+      @stringify = parent.stringify
+
+    for child in @children
+      child.setParent @
+
 
   # Creates a child element node
   #
@@ -166,10 +190,7 @@ module.exports = class XMLNode
     if name?.type
       newChild = name
       refChild = attributes
-
-      newChild.parent = @
-      newChild.options = @options
-      newChild.stringify = @stringify
+      newChild.setParent @
 
       if refChild
         # temporarily remove children starting *with* refChild

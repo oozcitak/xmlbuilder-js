@@ -6,6 +6,7 @@ XMLDTDAttList = require './XMLDTDAttList'
 XMLDTDEntity = require './XMLDTDEntity'
 XMLDTDElement = require './XMLDTDElement'
 XMLDTDNotation = require './XMLDTDNotation'
+XMLNamedNodeMap = require './XMLNamedNodeMap'
 
 # Represents doctype declaration
 module.exports = class XMLDocType extends XMLNode
@@ -39,6 +40,16 @@ module.exports = class XMLDocType extends XMLNode
 
     @pubID = @stringify.dtdPubID pubID if pubID?
     @sysID = @stringify.dtdSysID sysID if sysID?
+
+    # DOM level 1
+    Object.defineProperty @, 'entities', get: () -> 
+      nodes = {}
+      nodes[child.name] = child for child in @children when (child.type is NodeType.EntityDeclaration) and not child.pe
+      new XMLNamedNodeMap nodes
+    Object.defineProperty @, 'notations', get: () -> 
+      nodes = {}
+      nodes[child.name] = child for child in @children when child.type is NodeType.NotationDeclaration
+      new XMLNamedNodeMap nodes
 
 
   # Creates an element type declaration

@@ -1,5 +1,5 @@
-XMLNode = require './XMLNode'
 NodeType = require './NodeType'
+XMLNode = require './XMLNode'
 
 # Represents a processing instruction
 module.exports = class XMLProcessingInstruction extends XMLNode
@@ -20,6 +20,9 @@ module.exports = class XMLProcessingInstruction extends XMLNode
     @target = @stringify.insTarget target
     @name = @target
     @value = @stringify.insValue value if value
+
+    # DOM level 1
+    Object.defineProperty @, 'data', get: () -> @value
 
 
   # Creates and returns a deep clone of `this`

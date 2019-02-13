@@ -46,6 +46,11 @@ module.exports = class XMLDTDEntity extends XMLNode
       if @pe and @nData
         throw new Error "Notation declaration is not allowed in a parameter entity. " + @debugInfo(name)
 
+    # DOM level 1
+    Object.defineProperty @, 'publicId', get: () -> @pubID
+    Object.defineProperty @, 'systemId', get: () -> @sysID
+    Object.defineProperty @, 'notationName', get: () -> @nData or null
+
 
   # Converts the XML fragment to string
   #

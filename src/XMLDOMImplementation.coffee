@@ -11,7 +11,7 @@ module.exports = class XMLDOMImplementation
   #           not specified, supporting any version of the feature will 
   #           cause the method to return true.
   hasFeature: (feature, version) ->
-    if feature.toUpper() is "XML" and version is "1.0"
+    if feature.toUpperCase() is "XML" and version is "1.0"
       return true
 
     return false
