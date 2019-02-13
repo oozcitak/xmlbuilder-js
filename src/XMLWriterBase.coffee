@@ -156,7 +156,7 @@ module.exports = class XMLWriterBase
       r += ' SYSTEM "' + node.sysID + '"'
 
     # internal subset
-    if node.countNonDummy() > 0
+    if node.children.length > 0
       r += ' ['
       r += @endline(node, options, level)
       options.state = WriterState.InsideTag
@@ -189,8 +189,8 @@ module.exports = class XMLWriterBase
     for own name, att of node.attributes
       r += @attribute att, options, level
 
-    childNodeCount = node.countNonDummy()
-    firstNonDummyChildNode = node.firstNonDummy()
+    childNodeCount = node.children.length
+    firstChildNode = if childNodeCount is 0 then null else node.children[0]
     if childNodeCount == 0 or node.children.every((e) -> (e.type is NodeType.Text or e.type is NodeType.Raw) and e.value == '')
       # empty element
       if options.allowEmpty
@@ -200,13 +200,13 @@ module.exports = class XMLWriterBase
       else
         options.state = WriterState.CloseTag
         r += options.spaceBeforeSlash + '/>' + @endline(node, options, level)
-    else if options.pretty and childNodeCount == 1 and (firstNonDummyChildNode.type is NodeType.Text or firstNonDummyChildNode.type is NodeType.Raw) and firstNonDummyChildNode.value?
+    else if options.pretty and childNodeCount == 1 and (firstChildNode.type is NodeType.Text or firstChildNode.type is NodeType.Raw) and firstChildNode.value?
       # do not indent text-only nodes
       r += '>'
       options.state = WriterState.InsideTag
       options.suppressPrettyCount++
       prettySuppressed = true
-      r += @writeChildNode firstNonDummyChildNode, options, level + 1
+      r += @writeChildNode firstChildNode, options, level + 1
       options.suppressPrettyCount--
       prettySuppressed = false
       options.state = WriterState.CloseTag

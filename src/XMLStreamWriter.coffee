@@ -62,7 +62,7 @@ module.exports = class XMLStreamWriter extends XMLWriterBase
       @stream.write ' SYSTEM "' + node.sysID + '"'
 
     # internal subset
-    if node.countNonDummy() > 0
+    if node.children.length > 0
       @stream.write ' ['
       @stream.write @endline(node, options, level)
       options.state = WriterState.InsideTag
@@ -90,8 +90,8 @@ module.exports = class XMLStreamWriter extends XMLWriterBase
     for own name, att of node.attributes
       @attribute att, options, level
 
-    childNodeCount = node.countNonDummy()
-    firstNonDummyChildNode = node.firstNonDummy()
+    childNodeCount = node.children.length
+    firstChildNode = if childNodeCount is 0 then null else node.children[0]
     if childNodeCount == 0 or node.children.every((e) -> (e.type is NodeType.Text or e.type is NodeType.Raw) and e.value == '')
       # empty element
       if options.allowEmpty
@@ -101,13 +101,13 @@ module.exports = class XMLStreamWriter extends XMLWriterBase
       else
         options.state = WriterState.CloseTag
         @stream.write options.spaceBeforeSlash + '/>'
-    else if options.pretty and childNodeCount == 1 and (firstNonDummyChildNode.type is NodeType.Text or firstNonDummyChildNode.type is NodeType.Raw) and firstNonDummyChildNode.value?
+    else if options.pretty and childNodeCount == 1 and (firstChildNode.type is NodeType.Text or firstChildNode.type is NodeType.Raw) and firstChildNode.value?
       # do not indent text-only nodes
       @stream.write '>'
       options.state = WriterState.InsideTag
       options.suppressPrettyCount++
       prettySuppressed = true
-      @writeChildNode firstNonDummyChildNode, options, level + 1
+      @writeChildNode firstChildNode, options, level + 1
       options.suppressPrettyCount--
       prettySuppressed = false
       options.state = WriterState.CloseTag

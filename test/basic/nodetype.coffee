@@ -11,7 +11,6 @@ suite 'Check node type:', ->
 
     doc = xml(obj, { sysID: 'hello.dtd' }).doc()
     root = doc.root()
-    root.dummy()
 
     eq(doc.type, builder.nodeType.Document)
     eq(doc.children[0].type, builder.nodeType.Declaration)
@@ -22,7 +21,6 @@ suite 'Check node type:', ->
     eq(root.children[2].type, builder.nodeType.CData)
     eq(root.children[3].type, builder.nodeType.Comment)
     eq(root.children[4].type, builder.nodeType.ProcessingInstruction)
-    eq(root.children[5].type, builder.nodeType.Dummy)
 
   test 'DTD node types', ->
     dtd = xml('root', { headless: true }).dtd()

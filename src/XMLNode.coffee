@@ -289,7 +289,13 @@ module.exports = class XMLNode
   # Adds a dummy node
   dummy: () ->
     child = new XMLDummy @
-    @children.push child
+    # Normally when a new node is created it is added to the child node collection.
+    # However, dummy nodes are never added to the XML tree. They are created while
+    # converting JS objects to XML nodes in order not to break the recursive function
+    # chain. They can be thought of as invisible nodes. They can be traversed through
+    # by using prev(), next(), up(), etc. functions but they do not exists in the tree.
+    #
+    # @children.push child
     return child
 
   # Adds a processing instruction
@@ -435,9 +441,6 @@ module.exports = class XMLNode
   prev: () ->
     i = @parent.children.indexOf @
 
-    # skip dummy nodes
-    i = i - 1 while i > 0 and @parent.children[i - 1].type is NodeType.Dummy
-
     if i < 1
       throw new Error "Already at the first node. " + @debugInfo()
 
@@ -447,9 +450,6 @@ module.exports = class XMLNode
   # Gets the next node
   next: () ->
     i = @parent.children.indexOf @
-
-    # skip dummy nodes
-    i = i + 1 while i < @parent.children.length - 1 and @parent.children[i + 1].type is NodeType.Dummy
 
     if i == -1 || i == @parent.children.length - 1
       throw new Error "Already at the last node. " + @debugInfo()
@@ -480,26 +480,6 @@ module.exports = class XMLNode
       "node: <" + name + ">"
     else
       "node: <" + name + ">, parent: <" + @parent.name + ">"
-
-
-  # Count the number of child nodes which are not `XMLDummy`
-  countNonDummy: () ->
-    if not @children or @children.length is 0
-      return 0
-    else
-      count = 0
-      for child in @children
-        count++ unless child.type is NodeType.Dummy
-      return count
-
-  # Returns the first child node which is not an `XMLDummy`
-  firstNonDummy: () ->
-    if not @children or @children.length is 0
-      return null
-    else
-      for child in @children
-        return child unless child.type is NodeType.Dummy
-      return null
 
 
   # Aliases
