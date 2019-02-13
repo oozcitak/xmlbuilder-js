@@ -87,7 +87,7 @@ module.exports = class XMLStreamWriter extends XMLWriterBase
     @stream.write @indent(node, options, level) + '<' + node.name
 
     # attributes
-    for own name, att of node.attributes
+    for own name, att of node.attribs
       @attribute att, options, level
 
     childNodeCount = node.children.length

@@ -54,7 +54,7 @@ module.exports = class XMLNode
     Object.defineProperty @, 'nextSibling', get: () ->
         i = @parent.children.indexOf @
         @parent.children[i + 1] or null
-    #Object.defineProperty @, 'attributes', get: () -> @attributes # NamedNodeMap ???
+    #Object.defineProperty @, 'attributes', get: () -> @attribs # NamedNodeMap ???
     Object.defineProperty @, 'ownerDocument', get: () -> @document()
 
   # Creates a child element node

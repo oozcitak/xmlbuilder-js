@@ -87,7 +87,7 @@ module.exports = class XMLDocumentCB
       when NodeType.Comment then @comment node.value
       when NodeType.Element 
         attributes = {}
-        for own attName, att of node.attributes
+        for own attName, att of node.attribs
           attributes[attName] = att.value
         @node node.name, attributes
       when NodeType.Dummy   then @dummy()
@@ -186,9 +186,9 @@ module.exports = class XMLDocumentCB
     else
       value = value.apply() if isFunction value
       if @options.keepNullAttributes and not value?
-        @currentNode.attributes[name] = new XMLAttribute @, name, ""
+        @currentNode.attribs[name] = new XMLAttribute @, name, ""
       else if value?
-        @currentNode.attributes[name] = new XMLAttribute @, name, value
+        @currentNode.attribs[name] = new XMLAttribute @, name, value
 
     return @
 
@@ -425,7 +425,7 @@ module.exports = class XMLDocumentCB
         chunk = @writer.indent(node, @writerOptions, @currentLevel) + '<' + node.name
     
         # attributes
-        for own name, att of node.attributes
+        for own name, att of node.attribs
           chunk += @writer.attribute att,  @writerOptions, @currentLevel
     
         chunk += (if node.children then '>' else '/>') + @writer.endline(node,  @writerOptions, @currentLevel)

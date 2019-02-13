@@ -21,7 +21,7 @@ module.exports = class XMLElement extends XMLNode
 
     @name = @stringify.name name
     @type = NodeType.Element
-    @attributes = {}
+    @attribs = {}
 
     @attribute attributes if attributes?
 
@@ -50,9 +50,9 @@ module.exports = class XMLElement extends XMLNode
       clonedSelf.documentObject = null
 
     # clone attributes
-    clonedSelf.attributes = {}
-    for own attName, att of @attributes
-      clonedSelf.attributes[attName] = att.clone()
+    clonedSelf.attribs = {}
+    for own attName, att of @attribs
+      clonedSelf.attribs[attName] = att.clone()
 
     # clone child nodes
     clonedSelf.children = []
@@ -77,9 +77,9 @@ module.exports = class XMLElement extends XMLNode
     else
       value = value.apply() if isFunction value
       if @options.keepNullAttributes and not value?
-        @attributes[name] = new XMLAttribute @, name, ""
+        @attribs[name] = new XMLAttribute @, name, ""
       else if value?
-        @attributes[name] = new XMLAttribute @, name, value
+        @attribs[name] = new XMLAttribute @, name, value
 
     return @
 
@@ -96,9 +96,9 @@ module.exports = class XMLElement extends XMLNode
 
     if Array.isArray name # expand if array
       for attName in name
-        delete @attributes[attName]
+        delete @attribs[attName]
     else
-      delete @attributes[name]
+      delete @attribs[name]
 
     return @
 

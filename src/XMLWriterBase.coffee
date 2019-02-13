@@ -186,7 +186,7 @@ module.exports = class XMLWriterBase
     r += @indent(node, options, level) + '<' + node.name
 
     # attributes
-    for own name, att of node.attributes
+    for own name, att of node.attribs
       r += @attribute att, options, level
 
     childNodeCount = node.children.length
