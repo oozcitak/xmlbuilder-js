@@ -163,3 +163,16 @@ module.exports = class XMLElement extends XMLNode
   getElementsByTagName: (tagname) -> throw new Error "This DOM method is not implemented." + @debugInfo()
   getElementsByTagNameNS: (namespaceURI, localName) -> throw new Error "This DOM method is not implemented." + @debugInfo()
   getElementsByClassName: (classNames) -> throw new Error "This DOM method is not implemented." + @debugInfo()
+
+
+  isEqualNode: (node) ->
+    if not super.isEqualNode(node) then return false
+    if node.namespaceURI isnt @namespaceURI then return false
+    if node.prefix isnt @prefix then return false
+    if node.localName isnt @localName then return false
+
+    if node.attribs.length isnt @attribs.length then return false
+    for i in [0..@attribs.length - 1]
+      if not @attribs[i].isEqualNode(node.attribs[i]) then return false
+
+    return true

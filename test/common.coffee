@@ -5,6 +5,8 @@ global.xml = builder.create
 global.doc = builder.begin
 global.writer = builder.stringWriter
 
+global.xpath = require('xpath')
+
 global.ok = assert.ok
 global.eq = assert.strictEqual
 global.err = assert.throws

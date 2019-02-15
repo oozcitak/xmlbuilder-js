@@ -19,7 +19,7 @@ module.exports = class XMLCharacterData extends XMLNode
 
   # DOM level 3
   Object.defineProperty @::, 'textContent', 
-    get: () -> @data
+    get: () -> @value
     set: (value) -> @value = value or ''
 
     
@@ -34,3 +34,10 @@ module.exports = class XMLCharacterData extends XMLNode
   insertData: (offset, arg) -> throw new Error "This DOM method is not implemented." + @debugInfo()
   deleteData: (offset, count) -> throw new Error "This DOM method is not implemented." + @debugInfo()
   replaceData: (offset, count, arg) -> throw new Error "This DOM method is not implemented." + @debugInfo()
+
+
+  isEqualNode: (node) ->
+    if not super.isEqualNode(node) then return false
+    if node.data isnt @data then return false
+
+    return true

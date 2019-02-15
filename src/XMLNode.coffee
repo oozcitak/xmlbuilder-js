@@ -12,6 +12,7 @@ XMLDummy = null
 NodeType = null
 XMLNodeList = null
 XMLNamedNodeMap = null
+DocumentPosition = null
 
 # Represents a generic XMl element
 module.exports = class XMLNode
@@ -44,6 +45,7 @@ module.exports = class XMLNode
       NodeType = require './NodeType'
       XMLNodeList = require './XMLNodeList'
       XMLNamedNodeMap = require './XMLNamedNodeMap'
+      DocumentPosition = require './DocumentPosition'
 
 
   # DOM level 1
@@ -591,15 +593,101 @@ module.exports = class XMLNode
   hasAttributes: () -> @attribs.length isnt 0
 
   # DOM level 3 functions to be implemented later
-  compareDocumentPosition: (other) -> throw new Error "This DOM method is not implemented." + @debugInfo()
+  compareDocumentPosition: (other) ->
+    ref = @
+
+    if ref is other 
+      return 0
+    else if @document() isnt other.document()
+      res = DocumentPosition.Disconnected | DocumentPosition.ImplementationSpecific
+      if Math.random() < 0.5 then res |= DocumentPosition.Preceding else res |= DocumentPosition.Following
+      return res
+    else if ref.isAncestor(other)
+      return DocumentPosition.Contains | DocumentPosition.Preceding
+    else if ref.isDescendant(other)
+      return DocumentPosition.Contains | DocumentPosition.Following
+    else if ref.isPreceding(other)
+      return DocumentPosition.Preceding
+    else
+      return DocumentPosition.Following
+
   isSameNode: (other) -> throw new Error "This DOM method is not implemented." + @debugInfo()
   lookupPrefix: (namespaceURI) -> throw new Error "This DOM method is not implemented." + @debugInfo()
   isDefaultNamespace: (namespaceURI) -> throw new Error "This DOM method is not implemented." + @debugInfo()
   lookupNamespaceURI: (prefix) -> throw new Error "This DOM method is not implemented." + @debugInfo()
-  isEqualNode: (arg) -> throw new Error "This DOM method is not implemented." + @debugInfo()
+  isEqualNode: (node) ->
+    if node.nodeType isnt @nodeType then return false
+
+    if node.children.length isnt @children.length then return false
+    for i in [0..@children.length - 1]
+      if not @children[i].isEqualNode(node.children[i]) then return false
+
+    return true
   getFeature: (feature, version) -> throw new Error "This DOM method is not implemented." + @debugInfo()
   setUserData: (key, data, handler) -> throw new Error "This DOM method is not implemented." + @debugInfo()
   getUserData: (key) -> throw new Error "This DOM method is not implemented." + @debugInfo()
 
-  # DOM level 4 functions to be implemented later
-  contains: (other) -> throw new Error "This DOM method is not implemented." + @debugInfo()
+  # Returns true if other is an inclusive descendant of node,
+  # and false otherwise.
+  contains: (other) ->
+    if not other then return false
+    return other is @ or @isDescendant other
+
+
+  # An object A is called a descendant of an object B, if either A is 
+  # a child of B or A is a child of an object C that is a descendant of B.
+  isDescendant: (node) ->
+    for child in @children
+      if node is child then return true
+      isDescendantChild = child.isDescendant(node)
+      if isDescendantChild then return true
+
+    return false
+
+
+  # An object A is called an ancestor of an object B if and only if
+  # B is a descendant of A.
+  isAncestor: (node) ->
+    node.isDescendant @
+
+
+  # An object A is preceding an object B if A and B are in the 
+  # same tree and A comes before B in tree order.
+  isPreceding: (node) ->
+    nodePos = @treePosition node
+    thisPos = @treePosition @
+
+    if nodePos is -1 or thisPos is -1 then false else nodePos < thisPos
+
+
+  # An object A is folllowing an object B if A and B are in the 
+  # same tree and A comes after B in tree order.
+  isFollowing: (node) ->
+    nodePos = @treePosition node
+    thisPos = @treePosition @
+
+    if nodePos is -1 or thisPos is -1 then false else nodePos > thisPos
+
+
+  # Returns the preorder position of the given node in the tree, or -1
+  # if the node is not in the tree.
+  treePosition: (node) ->
+    pos = 0
+    found = false
+    @foreachTreeNode @document(), (childNode) -> 
+      pos++
+      if not found and childNode is node then found = true
+
+    if found then return pos else return -1
+        
+
+  # Depth-first preorder traversal through the XML tree
+  foreachTreeNode: (node, func) ->
+    node or= @document()
+    for child in node.children
+      if res = func(child) 
+        return res
+      else
+        res = @foreachTreeNode(child, func)
+        return res if res
+

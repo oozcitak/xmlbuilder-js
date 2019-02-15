@@ -35,3 +35,10 @@ module.exports = class XMLProcessingInstruction extends XMLCharacterData
   # `options.newline` newline sequence for pretty print
   toString: (options) ->
     @options.writer.processingInstruction @, @options.writer.filterOptions(options)
+
+
+  isEqualNode: (node) ->
+    if not super.isEqualNode(node) then return false
+    if node.target isnt @target then return false
+
+    return true

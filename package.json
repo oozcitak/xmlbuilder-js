@@ -27,7 +27,8 @@
     "mocha": "*",
     "coffee-coverage": "2.*",
     "istanbul": "*",
-    "coveralls": "*"
+    "coveralls": "*",
+    "xpath": "*"
   },
   "scripts": {
     "prepublishOnly": "coffee -co lib src",

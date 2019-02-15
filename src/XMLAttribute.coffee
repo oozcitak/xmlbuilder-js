@@ -31,6 +31,12 @@ module.exports = class XMLAttribute
   Object.defineProperty @::, 'ownerElement', get: () -> @parent
 
 
+  # DOM level 3
+  Object.defineProperty @::, 'textContent', 
+    get: () -> @value
+    set: (value) -> @value = value or ''
+
+
   # DOM level 4
   Object.defineProperty @::, 'namespaceURI', get: () -> ''
   Object.defineProperty @::, 'prefix', get: () -> ''
@@ -61,3 +67,12 @@ module.exports = class XMLAttribute
       "parent: <" + @parent.name + ">"
     else
       "attribute: {" + name + "}, parent: <" + @parent.name + ">"
+
+
+  isEqualNode: (node) ->
+    if node.namespaceURI isnt @namespaceURI then return false
+    if node.prefix isnt @prefix then return false
+    if node.localName isnt @localName then return false
+    if node.value isnt @value then return false
+
+    return true

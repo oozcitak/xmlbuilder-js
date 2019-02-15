@@ -138,3 +138,10 @@ module.exports = class XMLDocType extends XMLNode
   not: (name, value) -> @notation name, value
   up: () -> @root() or @documentObject
 
+
+  isEqualNode: (node) ->
+    if not super.isEqualNode(node) then return false
+    if node.name isnt @name then return false
+    if node.publicId isnt @publicId then return false
+    if node.systemId isnt @systemId then return false
+    return true
