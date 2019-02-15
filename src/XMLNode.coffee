@@ -44,33 +44,33 @@ module.exports = class XMLNode
       XMLNodeList = require './XMLNodeList'
       XMLNamedNodeMap = require './XMLNamedNodeMap'
 
-    # DOM level 1
-    Object.defineProperty @, 'nodeName', get: () -> @name
-    Object.defineProperty @, 'nodeType', get: () -> @type
-    Object.defineProperty @, 'nodeValue', get: () -> @value
-    Object.defineProperty @, 'parentNode', get: () -> @parent
-    Object.defineProperty @, 'childNodes', get: () -> 
-      if not @childNodeList or not @childNodeList.nodes
-        @childNodeList = new XMLNodeList @children
-      return @childNodeList
-    Object.defineProperty @, 'firstChild', get: () -> @children[0] or null
-    Object.defineProperty @, 'lastChild', get: () -> @children[@children.length - 1] or null
-    Object.defineProperty @, 'previousSibling', get: () ->
-        i = @parent.children.indexOf @
-        @parent.children[i - 1] or null
-    Object.defineProperty @, 'nextSibling', get: () ->
-        i = @parent.children.indexOf @
-        @parent.children[i + 1] or null
-    Object.defineProperty @, 'attributes', get: () ->
-      if not @attributeMap or not @attributeMap.nodes
-        @attributeMap = new XMLNamedNodeMap @attribs
-      return @attributeMap
-    Object.defineProperty @, 'ownerDocument', get: () -> @document() or null
+  # DOM level 1
+  Object.defineProperty @::, 'nodeName', get: () -> @name
+  Object.defineProperty @::, 'nodeType', get: () -> @type
+  Object.defineProperty @::, 'nodeValue', get: () -> @value
+  Object.defineProperty @::, 'parentNode', get: () -> @parent
+  Object.defineProperty @::, 'childNodes', get: () -> 
+    if not @childNodeList or not @childNodeList.nodes
+      @childNodeList = new XMLNodeList @children
+    return @childNodeList
+  Object.defineProperty @::, 'firstChild', get: () -> @children[0] or null
+  Object.defineProperty @::, 'lastChild', get: () -> @children[@children.length - 1] or null
+  Object.defineProperty @::, 'previousSibling', get: () ->
+    i = @parent.children.indexOf @
+    @parent.children[i - 1] or null
+  Object.defineProperty @::, 'nextSibling', get: () ->
+    i = @parent.children.indexOf @
+    @parent.children[i + 1] or null
+  Object.defineProperty @::, 'attributes', get: () ->
+    if not @attributeMap or not @attributeMap.nodes
+      @attributeMap = new XMLNamedNodeMap @attribs
+    return @attributeMap
+  Object.defineProperty @::, 'ownerDocument', get: () -> @document() or null
 
-    # DOM level 2
-    Object.defineProperty @, 'namespaceURI', get: () -> ''
-    Object.defineProperty @, 'prefix', get: () -> ''
-    Object.defineProperty @, 'localName', get: () -> @name
+  # DOM level 2
+  Object.defineProperty @::, 'namespaceURI', get: () -> ''
+  Object.defineProperty @::, 'prefix', get: () -> ''
+  Object.defineProperty @::, 'localName', get: () -> @name
 
 
   # Sets the parent node of this node and its children recursively

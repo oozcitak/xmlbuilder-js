@@ -37,8 +37,8 @@ module.exports = class XMLElement extends XMLNode
             child.name = @name
             break
 
-    # DOM level 1
-    Object.defineProperty @, 'tagName', get: () -> @name
+  # DOM level 1
+  Object.defineProperty @::, 'tagName', get: () -> @name
 
   # Creates and returns a deep clone of `this`
   #

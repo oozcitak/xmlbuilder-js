@@ -25,9 +25,9 @@ module.exports = class XMLDTDNotation extends XMLNode
     @pubID = @stringify.dtdPubID value.pubID if value.pubID?
     @sysID = @stringify.dtdSysID value.sysID if value.sysID?
 
-    # DOM level 1
-    Object.defineProperty @, 'publicId', get: () -> @pubID
-    Object.defineProperty @, 'systemId', get: () -> @sysID
+  # DOM level 1
+  Object.defineProperty @::, 'publicId', get: () -> @pubID
+  Object.defineProperty @::, 'systemId', get: () -> @sysID
 
 
   # Converts the XML fragment to string

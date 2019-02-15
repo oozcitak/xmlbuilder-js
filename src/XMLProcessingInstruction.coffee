@@ -21,8 +21,8 @@ module.exports = class XMLProcessingInstruction extends XMLNode
     @name = @target
     @value = @stringify.insValue value if value
 
-    # DOM level 1
-    Object.defineProperty @, 'data', get: () -> @value
+  # DOM level 1
+  Object.defineProperty @::, 'data', get: () -> @value
 
 
   # Creates and returns a deep clone of `this`

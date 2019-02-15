@@ -39,14 +39,14 @@ module.exports = class XMLDocument extends XMLNode
     @options = options
     @stringify = new XMLStringifier options
 
-    # DOM level 1
-    Object.defineProperty @, 'implementation', value: new XMLDOMImplementation()
-    Object.defineProperty @, 'doctype', get: () ->
-      for child in @children
-        if child.type is NodeType.DocType
-          return child
-      return null
-    Object.defineProperty @, 'documentElement', get: () -> @rootObject or null
+  # DOM level 1
+  Object.defineProperty @::, 'implementation', value: new XMLDOMImplementation()
+  Object.defineProperty @::, 'doctype', get: () ->
+    for child in @children
+      if child.type is NodeType.DocType
+        return child
+    return null
+  Object.defineProperty @::, 'documentElement', get: () -> @rootObject or null
 
   # Ends the document and passes it to the given XML writer
   #

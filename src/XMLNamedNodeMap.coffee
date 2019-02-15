@@ -8,8 +8,10 @@ module.exports = class XMLNamedNodeMap
   #
   # `nodes` the object containing nodes.
   constructor: (@nodes) ->
-    # DOM level 1
-    Object.defineProperty @, 'length', get: () -> Object.keys(@nodes).length or 0
+    
+  
+  # DOM level 1
+  Object.defineProperty @::, 'length', get: () -> Object.keys(@nodes).length or 0
 
 
   # Creates and returns a deep clone of `this`

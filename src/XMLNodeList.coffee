@@ -8,8 +8,10 @@ module.exports = class XMLNodeList
   #
   # `nodes` the array containing nodes.
   constructor: (@nodes) ->
-    # DOM level 1
-    Object.defineProperty @, 'length', get: () -> @nodes.length or 0
+
+
+  # DOM level 1
+  Object.defineProperty @::, 'length', get: () -> @nodes.length or 0
 
 
   # Creates and returns a deep clone of `this`
