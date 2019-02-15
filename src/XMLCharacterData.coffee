@@ -15,7 +15,12 @@ module.exports = class XMLCharacterData extends XMLNode
   Object.defineProperty @::, 'data', get: () -> @value
   Object.defineProperty @::, 'length', get: () -> @value.length
 
+  # DOM level 3
+  Object.defineProperty @::, 'textContent', 
+    get: () -> @data
+    set: (value) -> @value = value
 
+    
   # Creates and returns a deep clone of `this`
   clone: () ->
     Object.create @

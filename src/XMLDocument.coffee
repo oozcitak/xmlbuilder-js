@@ -1,6 +1,7 @@
 { isPlainObject } = require './Utility'
 
 XMLDOMImplementation = require './XMLDOMImplementation'
+XMLDOMConfiguration = require './XMLDOMConfiguration'
 XMLNode = require './XMLNode'
 NodeType = require './NodeType'
 XMLStringifier = require './XMLStringifier'
@@ -32,6 +33,8 @@ module.exports = class XMLDocument extends XMLNode
 
     @name = "#document"
     @type = NodeType.Document
+    @documentURI = null
+    @domConfig = new XMLDOMConfiguration()
 
     options or= {}
     if not options.writer then options.writer = new XMLStringWriter()
@@ -47,6 +50,27 @@ module.exports = class XMLDocument extends XMLNode
         return child
     return null
   Object.defineProperty @::, 'documentElement', get: () -> @rootObject or null
+
+
+  # DOM level 3
+  Object.defineProperty @::, 'inputEncoding', get: () -> null
+  Object.defineProperty @::, 'strictErrorChecking', get: () -> false
+  Object.defineProperty @::, 'xmlEncoding', get: () ->
+    if @children.length isnt 0 and @children[0].type is NodeType.Declaration
+      return @children[0].encoding
+    else
+      return null
+  Object.defineProperty @::, 'xmlStandalone', get: () ->
+    if @children.length isnt 0 and @children[0].type is NodeType.Declaration
+      return @children[0].standalone is 'yes'
+    else
+      return false
+  Object.defineProperty @::, 'xmlVersion', get: () ->
+    if @children.length isnt 0 and @children[0].type is NodeType.Declaration
+      return @children[0].version
+    else
+      return "1.0"
+
 
   # Ends the document and passes it to the given XML writer
   #
@@ -96,3 +120,8 @@ module.exports = class XMLDocument extends XMLNode
   createAttributeNS: (namespaceURI, qualifiedName) -> throw new Error "This DOM method is not implemented." + @debugInfo()
   getElementsByTagNameNS: (namespaceURI, localName) -> throw new Error "This DOM method is not implemented." + @debugInfo()
   getElementById: (elementId) -> throw new Error "This DOM method is not implemented." + @debugInfo()
+
+  # DOM level 3 functions to be implemented later
+  adoptNode: (source) -> throw new Error "This DOM method is not implemented." + @debugInfo()
+  normalizeDocument: () ->  throw new Error "This DOM method is not implemented." + @debugInfo()
+  renameNode: (node, namespaceURI, qualifiedName) -> throw new Error "This DOM method is not implemented." + @debugInfo()

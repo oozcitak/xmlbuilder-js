@@ -22,6 +22,7 @@ module.exports = class XMLElement extends XMLNode
     @name = @stringify.name name
     @type = NodeType.Element
     @attribs = {}
+    @schemaTypeInfo = null
 
     @attribute attributes if attributes?
 
@@ -39,6 +40,7 @@ module.exports = class XMLElement extends XMLNode
 
   # DOM level 1
   Object.defineProperty @::, 'tagName', get: () -> @name
+
 
   # Creates and returns a deep clone of `this`
   #
@@ -136,3 +138,8 @@ module.exports = class XMLElement extends XMLNode
   getElementsByTagNameNS: (namespaceURI, localName) -> throw new Error "This DOM method is not implemented." + @debugInfo()
   hasAttribute: (name) -> @attribs.hasOwnProperty(name)
   hasAttributeNS: (namespaceURI, localName) -> throw new Error "This DOM method is not implemented." + @debugInfo()
+
+  # DOM Level 3
+  setIdAttribute: (name, isId) -> if @attribs.hasOwnProperty(name) then @attribs[name].isId else isId
+  setIdAttributeNS: (namespaceURI, localName, isId) -> throw new Error "This DOM method is not implemented." + @debugInfo()
+  setIdAttributeNode: (idAttr, isId) -> throw new Error "This DOM method is not implemented." + @debugInfo()

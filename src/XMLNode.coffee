@@ -27,6 +27,7 @@ module.exports = class XMLNode
 
     @value = null
     @children = []
+    @baseURI = null
 
     # first execution, load dependencies that are otherwise
     # circular (so we can't load them at the top)
@@ -43,6 +44,7 @@ module.exports = class XMLNode
       NodeType = require './NodeType'
       XMLNodeList = require './XMLNodeList'
       XMLNamedNodeMap = require './XMLNamedNodeMap'
+
 
   # DOM level 1
   Object.defineProperty @::, 'nodeName', get: () -> @name
@@ -67,11 +69,25 @@ module.exports = class XMLNode
     return @attributeMap
   Object.defineProperty @::, 'ownerDocument', get: () -> @document() or null
 
+
   # DOM level 2
   Object.defineProperty @::, 'namespaceURI', get: () -> ''
   Object.defineProperty @::, 'prefix', get: () -> ''
   Object.defineProperty @::, 'localName', get: () -> @name
 
+  # DOM level 3
+  Object.defineProperty @::, 'textContent', 
+    get: () ->
+      if @nodeType is NodeType.Element or @nodeType is NodeType.DocumentFragment
+        str = ''
+        for child in @children
+          str += child.textContent if child.textContent
+        return str
+      else
+        return null
+    set: (value) ->
+      throw new Error "This DOM method is not implemented." + @debugInfo()
+  
 
   # Sets the parent node of this node and its children recursively
   #
@@ -579,6 +595,17 @@ module.exports = class XMLNode
   cloneNode: (deep) -> throw new Error "This DOM method is not implemented." + @debugInfo()
   normalize: () -> throw new Error "This DOM method is not implemented." + @debugInfo()
 
-  # DOM level 2 functions to be implemented later
+  # DOM level 2
   isSupported: (feature, version) -> return true
   hasAttributes: () -> @attribs.length isnt 0
+
+  # DOM level 3 functions to be implemented later
+  compareDocumentPosition: (other) -> throw new Error "This DOM method is not implemented." + @debugInfo()
+  isSameNode: (other) -> throw new Error "This DOM method is not implemented." + @debugInfo()
+  lookupPrefix: (namespaceURI) -> throw new Error "This DOM method is not implemented." + @debugInfo()
+  isDefaultNamespace: (namespaceURI) -> throw new Error "This DOM method is not implemented." + @debugInfo()
+  lookupNamespaceURI: (prefix) -> throw new Error "This DOM method is not implemented." + @debugInfo()
+  isEqualNode: (arg) -> throw new Error "This DOM method is not implemented." + @debugInfo()
+  getFeature: (feature, version) -> throw new Error "This DOM method is not implemented." + @debugInfo()
+  setUserData: (key, data, handler) -> throw new Error "This DOM method is not implemented." + @debugInfo()
+  getUserData: (key) -> throw new Error "This DOM method is not implemented." + @debugInfo()

@@ -51,6 +51,10 @@ module.exports = class XMLDTDEntity extends XMLNode
   Object.defineProperty @::, 'systemId', get: () -> @sysID
   Object.defineProperty @::, 'notationName', get: () -> @nData or null
 
+  # DOM level 3
+  Object.defineProperty @::, 'inputEncoding', get: () -> null
+  Object.defineProperty @::, 'xmlEncoding', get: () -> null
+  Object.defineProperty @::, 'xmlVersion', get: () -> null
 
   # Converts the XML fragment to string
   #

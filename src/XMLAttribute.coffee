@@ -20,6 +20,10 @@ module.exports = class XMLAttribute extends XMLNode
     @value = @stringify.attValue value
     @specified = true
     @type = NodeType.Attribute
+    # DOM level 3
+    @isId = false
+    @schemaTypeInfo = null
+
 
   # DOM level 1
   Object.defineProperty @::, 'ownerElement', get: () -> @parent

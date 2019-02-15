@@ -19,6 +19,29 @@ module.exports = class XMLText extends XMLCharacterData
     @value = @stringify.text text
 
 
+  # DOM level 3
+  Object.defineProperty @::, 'isElementContentWhitespace',
+    get: () ->
+      throw new Error "This DOM method is not implemented." + @debugInfo()
+  Object.defineProperty @::, 'wholeText', 
+    get: () ->
+      str = ''
+
+      prev = @previousSibling
+      while prev
+        str = prev.data + str
+        prev = prev.previousSibling
+        
+      str += @data
+
+      next = @nextSibling
+      while next
+        str = str + next.data
+        next = next.nextSibling
+    
+      return str
+
+
   # Creates and returns a deep clone of `this`
   clone: () ->
     Object.create @
@@ -36,3 +59,6 @@ module.exports = class XMLText extends XMLCharacterData
 
   # DOM level 1 functions to be implemented later
   splitText: (offset) -> throw new Error "This DOM method is not implemented." + @debugInfo()
+
+  # DOM level 3 functions to be implemented later
+  replaceWholeText: (content) -> throw new Error "This DOM method is not implemented." + @debugInfo()
