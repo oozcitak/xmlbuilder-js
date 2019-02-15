@@ -63,17 +63,8 @@ module.exports = class XMLNode
   Object.defineProperty @::, 'nextSibling', get: () ->
     i = @parent.children.indexOf @
     @parent.children[i + 1] or null
-  Object.defineProperty @::, 'attributes', get: () ->
-    if not @attributeMap or not @attributeMap.nodes
-      @attributeMap = new XMLNamedNodeMap @attribs
-    return @attributeMap
   Object.defineProperty @::, 'ownerDocument', get: () -> @document() or null
 
-
-  # DOM level 2
-  Object.defineProperty @::, 'namespaceURI', get: () -> ''
-  Object.defineProperty @::, 'prefix', get: () -> ''
-  Object.defineProperty @::, 'localName', get: () -> @name
 
   # DOM level 3
   Object.defineProperty @::, 'textContent', 
@@ -609,3 +600,6 @@ module.exports = class XMLNode
   getFeature: (feature, version) -> throw new Error "This DOM method is not implemented." + @debugInfo()
   setUserData: (key, data, handler) -> throw new Error "This DOM method is not implemented." + @debugInfo()
   getUserData: (key) -> throw new Error "This DOM method is not implemented." + @debugInfo()
+
+  # DOM level 4 functions to be implemented later
+  contains: (other) -> throw new Error "This DOM method is not implemented." + @debugInfo()

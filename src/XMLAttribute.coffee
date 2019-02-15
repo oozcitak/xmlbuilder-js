@@ -2,7 +2,7 @@ NodeType = require './NodeType'
 XMLNode = require './XMLNode'
 
 # Represents an attribute
-module.exports = class XMLAttribute extends XMLNode
+module.exports = class XMLAttribute
 
 
   # Initializes a new instance of `XMLAttribute`
@@ -10,15 +10,16 @@ module.exports = class XMLAttribute extends XMLNode
   # `parent` the parent node
   # `name` attribute target
   # `value` attribute value
-  constructor: (parent, name, value) ->
-    super parent
+  constructor: (@parent, name, value) ->
+    if @parent
+      @options = @parent.options
+      @stringify = @parent.stringify
 
     if not name?
       throw new Error "Missing attribute name. " + @debugInfo(name)
 
     @name = @stringify.name name
     @value = @stringify.attValue value
-    @specified = true
     @type = NodeType.Attribute
     # DOM level 3
     @isId = false
@@ -26,7 +27,15 @@ module.exports = class XMLAttribute extends XMLNode
 
 
   # DOM level 1
+  Object.defineProperty @::, 'nodeType', get: () -> @type
   Object.defineProperty @::, 'ownerElement', get: () -> @parent
+
+
+  # DOM level 4
+  Object.defineProperty @::, 'namespaceURI', get: () -> ''
+  Object.defineProperty @::, 'prefix', get: () -> ''
+  Object.defineProperty @::, 'localName', get: () -> @name
+  Object.defineProperty @::, 'specified', get: () -> true
 
 
   # Creates and returns a deep clone of `this`

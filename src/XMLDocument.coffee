@@ -72,6 +72,14 @@ module.exports = class XMLDocument extends XMLNode
       return "1.0"
 
 
+  # DOM level 4
+  Object.defineProperty @::, 'URL', get: () -> @documentURI
+  Object.defineProperty @::, 'origin', get: () -> null
+  Object.defineProperty @::, 'compatMode', get: () -> null
+  Object.defineProperty @::, 'characterSet', get: () -> null
+  Object.defineProperty @::, 'contentType', get: () -> null
+
+
   # Ends the document and passes it to the given XML writer
   #
   # `writer` is either an XML writer or a plain object to pass to the
@@ -125,3 +133,10 @@ module.exports = class XMLDocument extends XMLNode
   adoptNode: (source) -> throw new Error "This DOM method is not implemented." + @debugInfo()
   normalizeDocument: () ->  throw new Error "This DOM method is not implemented." + @debugInfo()
   renameNode: (node, namespaceURI, qualifiedName) -> throw new Error "This DOM method is not implemented." + @debugInfo()
+
+  # DOM level 4 functions to be implemented later
+  getElementsByClassName: (classNames) -> throw new Error "This DOM method is not implemented." + @debugInfo()
+  createEvent: (eventInterface) -> throw new Error "This DOM method is not implemented." + @debugInfo()
+  createRange: () -> throw new Error "This DOM method is not implemented." + @debugInfo()
+  createNodeIterator: (root, whatToShow, filter) -> throw new Error "This DOM method is not implemented." + @debugInfo()
+  createTreeWalker: (root, whatToShow, filter) -> throw new Error "This DOM method is not implemented." + @debugInfo()

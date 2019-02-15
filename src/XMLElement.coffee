@@ -3,6 +3,7 @@
 XMLNode = require './XMLNode'
 NodeType = require './NodeType'
 XMLAttribute = require './XMLAttribute'
+XMLNamedNodeMap = require './XMLNamedNodeMap'
 
 # Represents an element of the XML document
 module.exports = class XMLElement extends XMLNode
@@ -40,6 +41,19 @@ module.exports = class XMLElement extends XMLNode
 
   # DOM level 1
   Object.defineProperty @::, 'tagName', get: () -> @name
+
+
+  # DOM level 4
+  Object.defineProperty @::, 'namespaceURI', get: () -> ''
+  Object.defineProperty @::, 'prefix', get: () -> ''
+  Object.defineProperty @::, 'localName', get: () -> @name
+  Object.defineProperty @::, 'id', get: () -> throw new Error "This DOM method is not implemented." + @debugInfo()
+  Object.defineProperty @::, 'className', get: () -> throw new Error "This DOM method is not implemented." + @debugInfo()
+  Object.defineProperty @::, 'classList', get: () -> throw new Error "This DOM method is not implemented." + @debugInfo()
+  Object.defineProperty @::, 'attributes', get: () ->
+    if not @attributeMap or not @attributeMap.nodes
+      @attributeMap = new XMLNamedNodeMap @attribs
+    return @attributeMap
 
 
   # Creates and returns a deep clone of `this`
@@ -143,3 +157,9 @@ module.exports = class XMLElement extends XMLNode
   setIdAttribute: (name, isId) -> if @attribs.hasOwnProperty(name) then @attribs[name].isId else isId
   setIdAttributeNS: (namespaceURI, localName, isId) -> throw new Error "This DOM method is not implemented." + @debugInfo()
   setIdAttributeNode: (idAttr, isId) -> throw new Error "This DOM method is not implemented." + @debugInfo()
+
+
+  # DOM Level 4
+  getElementsByTagName: (tagname) -> throw new Error "This DOM method is not implemented." + @debugInfo()
+  getElementsByTagNameNS: (namespaceURI, localName) -> throw new Error "This DOM method is not implemented." + @debugInfo()
+  getElementsByClassName: (classNames) -> throw new Error "This DOM method is not implemented." + @debugInfo()

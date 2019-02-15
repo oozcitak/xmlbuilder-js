@@ -144,3 +144,4 @@ suite 'DOM Level 1:', ->
 
     eq( node.target, 'target' )
     eq( node.data, 'value' )
+    eq( node.value, 'value' )

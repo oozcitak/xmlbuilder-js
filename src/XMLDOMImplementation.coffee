@@ -32,6 +32,13 @@ module.exports = class XMLDOMImplementation
     throw new Error "This DOM method is not implemented."
 
 
+  # Creates a new HTML document.
+  #
+  # `title` document title
+  createHTMLDocument: (title) ->
+    throw new Error "This DOM method is not implemented."
+
+
   # Returns a specialized object which implements the specialized APIs 
   # of the specified feature and version.
   #

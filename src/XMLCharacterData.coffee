@@ -1,6 +1,6 @@
 XMLNode = require './XMLNode'
 
-# Represents a  CDATA node
+# Represents a character data node
 module.exports = class XMLCharacterData extends XMLNode
 
 
@@ -12,13 +12,15 @@ module.exports = class XMLCharacterData extends XMLNode
     @value = ''
 
   # DOM level 1
-  Object.defineProperty @::, 'data', get: () -> @value
+  Object.defineProperty @::, 'data', 
+    get: () -> @value
+    set: (value) -> @value = value or ''
   Object.defineProperty @::, 'length', get: () -> @value.length
 
   # DOM level 3
   Object.defineProperty @::, 'textContent', 
     get: () -> @data
-    set: (value) -> @value = value
+    set: (value) -> @value = value or ''
 
     
   # Creates and returns a deep clone of `this`
