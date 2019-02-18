@@ -20,7 +20,7 @@ All notable changes to this project are documented in this file. This project ad
 - Added node types to node objects. Node types and writer states are exported by the module with the `nodeType` and `writerState` properties.
 - Fixed a bug where array items would not be correctly converted. See [#159](https://github.com/oozcitak/xmlbuilder-js/issues/159).
 - Fixed a bug where mixed-content inside JS objects with `#text` decorator would not be correctly converted. See [#171](https://github.com/oozcitak/xmlbuilder-js/issues/171).
-- Fixed a bug where JS objects would not ne expanded in callback mode. See [#173](https://github.com/oozcitak/xmlbuilder-js/issues/173).
+- Fixed a bug where JS objects would not be expanded in callback mode. See [#173](https://github.com/oozcitak/xmlbuilder-js/issues/173).
 - Fixed a bug where character validation would not obey document's XML version Added separate validation for XML 1.0 and XML 1.1 documents. See [#169](https://github.com/oozcitak/xmlbuilder-js/issues/169).
 - Fixed a bug where names would not be validated according to the spec. See [#49](https://github.com/oozcitak/xmlbuilder-js/issues/49).
 - Renamed `text` property to `value` in comment and cdata nodes to unify the API.
