@@ -2,6 +2,33 @@
 
 All notable changes to this project are documented in this file. This project adheres to [Semantic Versioning](http://semver.org/#semantic-versioning-200).
 
+## [11.0.0] - 2019-02-18
+- Calling `end()` with arguments no longer overwrites writer options. See [#120](https://github.com/oozcitak/xmlbuilder-js/issues/120).
+- Added writer state and customizable space and endline functions to help customize writer behavior. Also added `openNode` and `closeNode` functions to writer. See [#193](https://github.com/oozcitak/xmlbuilder-js/issues/193).
+- Fixed a bug where writer functions would not be called for nodes with a single child node in pretty print mode. See [#195](https://github.com/oozcitak/xmlbuilder-js/issues/195).
+- Renamed `elEscape` to `textEscape` in `XMLStringifier`.
+- Fixed a bug where empty arrays would produce child nodes. See [#190](https://github.com/oozcitak/xmlbuilder-js/issues/190).
+- Removed the `skipNullAttributes` option. `null` attributes are now skipped by default. Added the `keepNullAttributes` option in case someone needs the old behavior.
+- Removed the `skipNullNodes` option. `null` nodes are now skipped by default. Added the `keepNullNodes` option in case someone needs the old behavior.
+- `undefined` values are now skipped when converting JS objects.
+- Renamed stringify functions. See [#194](https://github.com/oozcitak/xmlbuilder-js/issues/194):
+  * `eleName` -> `name`
+  * `attName` -> `name`
+  * `eleText` -> `text`
+- Fixed argument order for `attribute` function in the writer. See [#196](https://github.com/oozcitak/xmlbuilder-js/issues/196).
+- Added `openAttribute` and `closeAttribute` functions to writer. See [#196](https://github.com/oozcitak/xmlbuilder-js/issues/196).
+- Added node types to node objects. Node types and writer states are exported by the module with the `nodeType` and `writerState` properties.
+- Fixed a bug where array items would not be correctly converted. See [#159](https://github.com/oozcitak/xmlbuilder-js/issues/159).
+- Fixed a bug where mixed-content inside JS objects with `#text` decorator would not be correctly converted. See [#171](https://github.com/oozcitak/xmlbuilder-js/issues/171).
+- Fixed a bug where JS objects would not be expanded in callback mode. See [#173](https://github.com/oozcitak/xmlbuilder-js/issues/173).
+- Fixed a bug where character validation would not obey document's XML version. Added separate validation for XML 1.0 and XML 1.1 documents. See [#169](https://github.com/oozcitak/xmlbuilder-js/issues/169).
+- Fixed a bug where names would not be validated according to the spec. See [#49](https://github.com/oozcitak/xmlbuilder-js/issues/49).
+- Renamed `text` property to `value` in comment and cdata nodes to unify the API.
+- Removed `doctype` function to prevent name clash with DOM implementation. Use the `dtd` function instead.
+- Removed dummy nodes from the XML tree (Those were created while chain-building the tree).
+- Renamed `attributes`property to `attribs` to prevent name clash with DOM property with the same name.
+- Implemented the DOM standard (read-only) to support XPath lookups. XML namespaces are not currently supported. See [#122](https://github.com/oozcitak/xmlbuilder-js/issues/122).
+
 ## [10.1.1] - 2018-10-24
 - Fixed an edge case where a null node at root level would be printed although `skipNullNodes` was set. See [#187](https://github.com/oozcitak/xmlbuilder-js/issues/187).
 
@@ -360,6 +387,7 @@ root.ele({ number: [ "one", "two"  ]});
 ## 0.0.1 - 2010-11-02
 - Initial release
 
+[11.0.0]: https://github.com/oozcitak/xmlbuilder-js/compare/v10.1.1...v11.0.0
 [10.1.1]: https://github.com/oozcitak/xmlbuilder-js/compare/v10.1.0...v10.1.1
 [10.1.0]: https://github.com/oozcitak/xmlbuilder-js/compare/v10.0.0...v10.1.0
 [10.0.0]: https://github.com/oozcitak/xmlbuilder-js/compare/v9.0.7...v10.0.0
