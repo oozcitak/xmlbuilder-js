@@ -34,6 +34,14 @@ suite 'Attributes:', ->
       '<test4><node first="1">element</node></test4>'
     )
 
+  test 'Empty attribute', ->
+    eq(
+      xml('test', { headless: true })
+        .ele('node', 'element', {"first":"", "second":"2", "third":""})
+        .end()
+      '<test><node first="" second="2" third="">element</node></test>'
+    )
+
   test 'Skip if null attribute (ele)', ->
     eq(
       xml('test4', { headless: true })
