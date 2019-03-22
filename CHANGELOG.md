@@ -2,6 +2,9 @@
 
 All notable changes to this project are documented in this file. This project adheres to [Semantic Versioning](http://semver.org/#semantic-versioning-200).
 
+## [11.0.1] - 2019-03-22
+- Added TypeScript typings. See [#200](https://github.com/oozcitak/xmlbuilder-js/issues/200).
+
 ## [11.0.0] - 2019-02-18
 - Calling `end()` with arguments no longer overwrites writer options. See [#120](https://github.com/oozcitak/xmlbuilder-js/issues/120).
 - Added writer state and customizable space and endline functions to help customize writer behavior. Also added `openNode` and `closeNode` functions to writer. See [#193](https://github.com/oozcitak/xmlbuilder-js/issues/193).
@@ -387,6 +390,7 @@ root.ele({ number: [ "one", "two"  ]});
 ## 0.0.1 - 2010-11-02
 - Initial release
 
+[11.0.1]: https://github.com/oozcitak/xmlbuilder-js/compare/v11.0.0...v11.0.1
 [11.0.0]: https://github.com/oozcitak/xmlbuilder-js/compare/v10.1.1...v11.0.0
 [10.1.1]: https://github.com/oozcitak/xmlbuilder-js/compare/v10.1.0...v10.1.1
 [10.1.0]: https://github.com/oozcitak/xmlbuilder-js/compare/v10.0.0...v10.1.0
