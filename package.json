@@ -18,6 +18,7 @@
     "url": "http://github.com/oozcitak/xmlbuilder-js/issues"
   },
   "main": "./lib/index",
+  "typings": "./typings/index.d.ts",
   "engines": {
     "node": ">=4.0"
   },
