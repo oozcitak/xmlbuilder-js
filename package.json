@@ -24,16 +24,16 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "coffeescript": "1.*",
-    "mocha": "*",
     "coffee-coverage": "2.*",
+    "coffeescript": "1.*",
+    "coveralls": "^3.0.3",
+    "mocha": "^6.0.2",
     "nyc": "*",
-    "coveralls": "*",
     "xpath": "*"
   },
   "scripts": {
     "prepublishOnly": "coffee -co lib src",
     "postpublish": "rm -rf lib",
-    "test": "nyc mocha"
+    "test": "nyc mocha \"test/**/*.coffee\""
   }
 }
