@@ -27,13 +27,13 @@
     "coffeescript": "1.*",
     "mocha": "*",
     "coffee-coverage": "2.*",
-    "istanbul": "*",
+    "nyc": "*",
     "coveralls": "*",
     "xpath": "*"
   },
   "scripts": {
     "prepublishOnly": "coffee -co lib src",
     "postpublish": "rm -rf lib",
-    "test": "mocha \"test/**/*.coffee\" && istanbul report text lcov"
+    "test": "nyc mocha"
   }
 }
