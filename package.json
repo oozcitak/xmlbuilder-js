@@ -24,10 +24,10 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "coffee-coverage": "2.*",
-    "coffeescript": "1.*",
-    "coveralls": "^3.0.3",
-    "mocha": "^6.0.2",
+    "coffee-coverage": "*",
+    "coffeescript": "*",
+    "coveralls": "*",
+    "mocha": "*",
     "nyc": "*",
     "xpath": "*"
   },
