@@ -1,5 +1,7 @@
 .travis.yml
+appveyor.yml
 src
 test
-perf
 coverage
+.nyc_output
+CHANGELOG.md
