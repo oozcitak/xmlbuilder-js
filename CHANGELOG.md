@@ -2,6 +2,9 @@
 
 All notable changes to this project are documented in this file. This project adheres to [Semantic Versioning](http://semver.org/#semantic-versioning-200).
 
+## [12.0.0] - 2019-04-03
+- Removed support for node.js 4.0 and 5.0. Minimum required version is now 6.0.
+
 ## [11.0.1] - 2019-03-22
 - Added TypeScript typings. See [#200](https://github.com/oozcitak/xmlbuilder-js/issues/200).
 
@@ -390,6 +393,7 @@ root.ele({ number: [ "one", "two"  ]});
 ## 0.0.1 - 2010-11-02
 - Initial release
 
+[12.0.0]: https://github.com/oozcitak/xmlbuilder-js/compare/v11.0.1...v12.0.0
 [11.0.1]: https://github.com/oozcitak/xmlbuilder-js/compare/v11.0.0...v11.0.1
 [11.0.0]: https://github.com/oozcitak/xmlbuilder-js/compare/v10.1.1...v11.0.0
 [10.1.1]: https://github.com/oozcitak/xmlbuilder-js/compare/v10.1.0...v10.1.1
