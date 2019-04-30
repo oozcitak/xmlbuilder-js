@@ -35,9 +35,6 @@ module.exports = class XMLStreamWriter extends XMLWriterBase
     for child in doc.children
       @writeChildNode child, options, 0
 
-  attribute: (att, options, level) ->
-    @stream.write super(att, options, level)
-
   cdata: (node, options, level) ->
     @stream.write super(node, options, level)
 
@@ -84,11 +81,27 @@ module.exports = class XMLStreamWriter extends XMLWriterBase
     # open tag
     @openNode(node, options, level)
     options.state = WriterState.OpenTag
-    @stream.write @indent(node, options, level) + '<' + node.name
+    r = @indent(node, options, level) + '<' + node.name
 
     # attributes
-    for own name, att of node.attribs
-      @attribute att, options, level
+    if options.pretty and options.width > 0
+      len = r.length
+      for own name, att of node.attribs
+        ratt = @attribute att, options, level
+        attLen = ratt.length
+        if len + attLen > options.width
+          rline = @indent(node, options, level + 1) + ratt
+          r += @endline(node, options, level) + rline
+          len = rline.length
+        else
+          rline = ' ' + ratt
+          r += rline
+          len += rline.length
+    else
+      for own name, att of node.attribs
+        r += @attribute att, options, level
+        
+    @stream.write r
 
     childNodeCount = node.children.length
     firstChildNode = if childNodeCount is 0 then null else node.children[0]

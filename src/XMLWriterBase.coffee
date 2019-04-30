@@ -29,6 +29,7 @@ module.exports = class XMLWriterBase
   # `options.indent` indentation string
   # `options.newline` newline sequence
   # `options.offset` a fixed number of indentations to add to every line
+  # `options.width` maximum column width
   # `options.allowEmpty` do not self close empty element tags
   # 'options.dontPrettyTextNodes' if any text is present in node, don't indent or LF
   # `options.spaceBeforeSlash` add a space before the closing slash of empty elements
@@ -55,6 +56,7 @@ module.exports = class XMLWriterBase
     filteredOptions.indent = options.indent ? '  '
     filteredOptions.newline = options.newline ? '\n'
     filteredOptions.offset = options.offset ? 0
+    filteredOptions.width = options.width ? 0
     filteredOptions.dontPrettyTextNodes = options.dontPrettyTextNodes ? options.dontprettytextnodes ? 0
 
     filteredOptions.spaceBeforeSlash = options.spaceBeforeSlash ? options.spacebeforeslash ? ''
@@ -95,7 +97,10 @@ module.exports = class XMLWriterBase
 
   attribute: (att, options, level) ->
     @openAttribute(att, options, level)
-    r = ' ' + att.name + '="' + att.value + '"'
+    if options.pretty and options.width > 0
+      r = att.name + '="' + att.value + '"'
+    else
+      r = ' ' + att.name + '="' + att.value + '"'
     @closeAttribute(att, options, level)
     return r
 
@@ -178,16 +183,28 @@ module.exports = class XMLWriterBase
     level or= 0
     prettySuppressed = false
 
-    r = ''
-
     # open tag
     @openNode(node, options, level)
     options.state = WriterState.OpenTag
-    r += @indent(node, options, level) + '<' + node.name
+    r = @indent(node, options, level) + '<' + node.name
 
     # attributes
-    for own name, att of node.attribs
-      r += @attribute att, options, level
+    if options.pretty and options.width > 0
+      len = r.length
+      for own name, att of node.attribs
+        ratt = @attribute att, options, level
+        attLen = ratt.length
+        if len + attLen > options.width
+          rline = @indent(node, options, level + 1) + ratt
+          r += @endline(node, options, level) + rline
+          len = rline.length
+        else
+          rline = ' ' + ratt
+          r += rline
+          len += rline.length
+    else
+      for own name, att of node.attribs
+        r += @attribute att, options, level
 
     childNodeCount = node.children.length
     firstChildNode = if childNodeCount is 0 then null else node.children[0]
