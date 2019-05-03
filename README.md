@@ -22,6 +22,7 @@ npm install xmlbuilder
 
 ``` js
 var builder = require('xmlbuilder');
+
 var xml = builder.create('root')
   .ele('xmlbuilder')
     .ele('repo', {'type': 'git'}, 'git://github.com/oozcitak/xmlbuilder-js.git')
@@ -44,7 +45,9 @@ will result in:
 It is also possible to convert objects into nodes:
 
 ``` js
-builder.create({
+var builder = require('xmlbuilder');
+
+var obj = {
   root: {
     xmlbuilder: {
       repo: {
@@ -53,12 +56,17 @@ builder.create({
       }
     }
   }
-});
+};
+
+var xml = builder.create(obj).end({ pretty: true});
+console.log(xml);
 ```
 
 If you need to do some processing:
 
 ``` js
+var builder = require('xmlbuilder');
+
 var root = builder.create('squares');
 root.com('f(x) = x^2');
 for(var i = 1; i <= 5; i++)
@@ -67,6 +75,9 @@ for(var i = 1; i <= 5; i++)
   item.att('x', i);
   item.att('y', i * i);
 }
+
+var xml = root.end({ pretty: true});
+console.log(xml);
 ```
 
 This will result in:
