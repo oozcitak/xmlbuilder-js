@@ -15,7 +15,7 @@ An XML builder for [node.js](https://nodejs.org/) similar to
 ### Installation:
 
 ``` sh
-npm install xmlbuilder
+npm install --save xmlbuilder
 ```
 
 ### Usage:
