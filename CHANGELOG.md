@@ -2,6 +2,9 @@
 
 All notable changes to this project are documented in this file. This project adheres to [Semantic Versioning](http://semver.org/#semantic-versioning-200).
 
+## [13.0.0] - 2019-05-07
+- Rewrote all TypeSript typings to be strictly compatible with the API. This is a breaking change for TypeScript users only.
+
 ## [12.0.1] - 2019-04-30
 - Added option for pretty printing attributes.
 
@@ -396,6 +399,7 @@ root.ele({ number: [ "one", "two"  ]});
 ## 0.0.1 - 2010-11-02
 - Initial release
 
+[13.0.0]: https://github.com/oozcitak/xmlbuilder-js/compare/v12.0.1...v13.0.0
 [12.0.1]: https://github.com/oozcitak/xmlbuilder-js/compare/v12.0.0...v12.0.1
 [12.0.0]: https://github.com/oozcitak/xmlbuilder-js/compare/v11.0.1...v12.0.0
 [11.0.1]: https://github.com/oozcitak/xmlbuilder-js/compare/v11.0.0...v11.0.1
