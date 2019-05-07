@@ -144,7 +144,7 @@ declare namespace xmlbuilder {
         attEscape?: (v: string) => string;
     }
 
-    class XMLWriter {
+    interface XMLWriter {
         /** 
          * Writes the indentation string for the given level. 
          * 
@@ -351,6 +351,8 @@ declare namespace xmlbuilder {
         user?: any;
         /** The current state of the writer */
         state?: WriterState;
+        /** Writer function overrides */
+        writer?: XMLWriter;
     }
 
     enum WriterState {
@@ -399,10 +401,10 @@ declare namespace xmlbuilder {
          * If the default writer is not set, the built-in XMLStringWriter 
          * will be used instead. 
          */
-        writer?: XMLWriter;
+        writer?: XMLWriter | WriterOptions;
     }
 
-    type OnDataCallback = (chunk: string) => void;
+    type OnDataCallback = (chunk: string, level: number) => void;
     type OnEndCallback = () => void;
 
     /**
@@ -412,7 +414,8 @@ declare namespace xmlbuilder {
      * @param options - create options
      * @param onData - the function to be called when a new chunk of XML is
      * output. The string containing the XML chunk is passed to `onData` as
-     * its single argument.
+     * its first argument and the current depth of the tree is passed as its
+     * second argument.
      * @param onEnd - the function to be called when the XML document is 
      * completed with `end`. `onEnd` does not receive any arguments.
      */
@@ -434,12 +437,6 @@ declare namespace xmlbuilder {
      * @param options - writer options
      */
     function streamWriter(stream: Writable, options?: WriterOptions): XMLWriter
-
-    /** Defines the type of an XML node. */
-    const nodeType: NodeType;
-
-    /** Defines the state of an XML writer. */
-    const writerState: WriterState;
 
     enum NodeType {
         /** An element node */
@@ -475,8 +472,9 @@ declare namespace xmlbuilder {
         /** An element declaration node inside Doctype */
         ElementDeclaration = 204
     }
-    
-    type nodeType = NodeType;
+
+    export import nodeType = NodeType;
+    export import writerState = WriterState;
 
     interface XMLToStringOptions {
         /** Pretty print the XML tree */
@@ -757,8 +755,8 @@ declare namespace xmlbuilder {
          * 
          * @returns the root element node
          */
-        declaration(version?: string, encoding?: string, standalone?: boolean): XMLElement;
-        dec(version?: string, encoding?: string, standalone?: boolean): XMLElement;
+        declaration(version?: string | { version?: string, encoding?: string, standalone?: boolean }, encoding?: string, standalone?: boolean): XMLElement;
+        dec(version?: string | { version?: string, encoding?: string, standalone?: boolean }, encoding?: string, standalone?: boolean): XMLElement;
 
         /**
          * Creates the document type definition.
@@ -770,8 +768,8 @@ declare namespace xmlbuilder {
          * 
          * @returns the DOCTYPE node
          */
-        doctype(pubID?: string, sysID?: string): XMLDocType;
-        dtd(pubID?: string, sysID?: string): XMLDocType;
+        doctype(pubID?: string | { pubID?: string, sysID?: string }, sysID?: string): XMLDocType;
+        dtd(pubID?: string | { pubID?: string, sysID?: string }, sysID?: string): XMLDocType;
 
         /**
          * Takes the root node of the given XML document and appends it 
@@ -1333,21 +1331,22 @@ declare namespace xmlbuilder {
          * 
          * @returns the document builder object
          */
-        declaration(version: string, encoding: string, standalone: boolean): XMLDocumentCB;
-        dec(version: string, encoding: string, standalone: boolean): XMLDocumentCB;
+        declaration(version?: string, encoding?: string, standalone?: boolean): XMLDocumentCB;
+        dec(version?: string, encoding?: string, standalone?: boolean): XMLDocumentCB;
 
         /**
          * Creates the document type definition.
          * 
          * _Alias:_ `dtd`
          * 
+         * @param root - the name of the root node
          * @param pubID - public identifier of the DTD
          * @param sysID - system identifier of the DTD
          * 
          * @returns the document builder object
          */
-        doctype(pubID: string, sysID: string): XMLDocumentCB;
-        dtd(pubID: string, sysID: string): XMLDocumentCB;
+        doctype(root: string, pubID?: string, sysID?: string): XMLDocumentCB;
+        dtd(root: string, pubID?: string, sysID?: string): XMLDocumentCB;
 
         /**
          * Creates an element type declaration.
@@ -1380,6 +1379,7 @@ declare namespace xmlbuilder {
          */
         attList(elementName: string, attributeName: string, attributeType: string, defaultValueType?: string, defaultValue?: any): XMLDocumentCB;
         att(elementName: string, attributeName: string, attributeType: string, defaultValueType?: string, defaultValue?: any): XMLDocumentCB;
+        a(elementName: string, attributeName: string, attributeType: string, defaultValueType?: string, defaultValue?: any): XMLDocumentCB;
 
         /**
          * Creates a general entity declaration
@@ -1391,8 +1391,8 @@ declare namespace xmlbuilder {
          * 
          * @returns the document builder object
          */
-        entity(name: string, value: { pubID?: string, sysID?: string, nData?: string }): XMLDocumentCB;
-        ent(name: string, value: { pubID?: string, sysID?: string, nData?: string }): XMLDocumentCB;
+        entity(name: string, value: string | { pubID?: string, sysID?: string, nData?: string }): XMLDocumentCB;
+        ent(name: string, value: string | { pubID?: string, sysID?: string, nData?: string }): XMLDocumentCB;
 
         /**
          * Creates a parameter entity declaration
@@ -1404,8 +1404,8 @@ declare namespace xmlbuilder {
          * 
          * @returns the document builder object
          */
-        pEntity(name: string, value: { pubID?: string, sysID?: string }): XMLDocumentCB;
-        pent(name: string, value: { pubID?: string, sysID?: string }): XMLDocumentCB;
+        pEntity(name: string, value: string | { pubID?: string, sysID?: string }): XMLDocumentCB;
+        pent(name: string, value: string | { pubID?: string, sysID?: string }): XMLDocumentCB;
 
         /**
          * Creates a notation declaration
