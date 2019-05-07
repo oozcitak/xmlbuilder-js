@@ -580,6 +580,21 @@ module.exports = class XMLNode
   # can be deprecated in a future release
   importXMLBuilder: (doc) -> @importDocument doc
 
+  # Adds or modifies an attribute.
+  #
+  # `name` attribute name
+  # `value` attribute value
+  attribute: (name, value) ->
+    throw new Error "attribute() applies to element nodes only."
+  att: (name, value) -> @attribute name, value
+  a: (name, value) -> @attribute name, value
+
+  # Removes an attribute
+  #
+  # `name` attribute name
+  removeAttribute: (name) ->
+    throw new Error "attribute() applies to element nodes only."
+
   # DOM level 1 functions to be implemented later
   replaceChild: (newChild, oldChild) -> throw new Error "This DOM method is not implemented." + @debugInfo()
   removeChild: (oldChild) -> throw new Error "This DOM method is not implemented." + @debugInfo()

@@ -290,7 +290,7 @@ suite 'Creating XML with stream writer:', ->
 
 
   test 'Skipp null nodes', ->
-    xml('root', { headless:true, skipNullNodes: true })
+    xml('root', { headless:true })
       .ele('nullnode', null)
       .up()
       .ele('data')

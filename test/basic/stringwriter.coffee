@@ -293,7 +293,7 @@ suite 'Creating XML with string writer:', ->
             .up()
         .ele('atttest', 'text')
             .att('att', 'val')
-        .end(builder.stringWriter( { pretty: true, indent: '    ', dontprettytextnodes: true } ))
+        .end(builder.stringWriter( { pretty: true, indent: '    ', dontPrettyTextNodes: true } ))
 
       """
       <?xml version="1.0"?>
@@ -334,7 +334,7 @@ suite 'Creating XML with string writer:', ->
             .att('att', 'val')
             .up()
         .txt('moretext after node')
-        .end(builder.stringWriter( { pretty: true, indent: '    ', dontprettytextnodes: true} ))
+        .end(builder.stringWriter( { pretty: true, indent: '    ', dontPrettyTextNodes: true} ))
 
       """
       <?xml version="1.0"?>
