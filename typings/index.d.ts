@@ -1,4 +1,4 @@
-import Writable from 'stream';
+import { Writable } from 'stream';
 // Type definitions for xmlbuilder
 // Project: https://github.com/oozcitak/xmlbuilder-js
 //
@@ -558,7 +558,7 @@ declare namespace xmlbuilder {
         /** 
          * Parent element node 
          */
-        parent: XMLElement;
+        parent: XMLNode;
         /** 
          * Child nodes 
          */
@@ -575,9 +575,9 @@ declare namespace xmlbuilder {
          * 
          * @returns the last top level node created
          */
-        element(name: any, attributes?: Object, text?: any): XMLElement;
-        ele(name: any, attributes?: Object, text?: any): XMLElement;
-        e(name: any, attributes?: Object, text?: any): XMLElement;
+        element(name: any, attributes?: Object, text?: any): XMLNode;
+        ele(name: any, attributes?: Object, text?: any): XMLNode;
+        e(name: any, attributes?: Object, text?: any): XMLNode;
 
         /**
          * Adds or modifies an attribute.
@@ -589,9 +589,9 @@ declare namespace xmlbuilder {
          * 
          * @returns the parent element node
          */
-        attribute(name: any, value?: any): XMLElement;
-        att(name: any, value?: any): XMLElement;
-        a(name: any, value?: any): XMLElement;
+        attribute(name: any, value?: any): XMLNode;
+        att(name: any, value?: any): XMLNode;
+        a(name: any, value?: any): XMLNode;
 
         /**
          * Creates a new sibling node and inserts it before this node.
@@ -602,7 +602,7 @@ declare namespace xmlbuilder {
          * 
          * @returns the new node
          */
-        insertBefore(name: any, attributes?: Object, text?: any): XMLElement;
+        insertBefore(name: any, attributes?: Object, text?: any): XMLNode;
         /**
          * Creates a new sibling node and inserts it after this node.
          * 
@@ -612,13 +612,13 @@ declare namespace xmlbuilder {
          * 
          * @returns the new node
          */
-        insertAfter(name: any, attributes?: Object, text?: any): XMLElement;
+        insertAfter(name: any, attributes?: Object, text?: any): XMLNode;
         /**
          * Removes this node from the tree.
          * 
          * @returns the parent node
          */
-        remove(): XMLElement;
+        remove(): XMLNode;
 
         /**
          * Creates a new child node and appends it to the list of child nodes.
@@ -631,9 +631,9 @@ declare namespace xmlbuilder {
          * 
          * @returns the node created
          */
-        node(name: string, attributes?: Object, text?: any): XMLElement;
-        nod(name: string, attributes?: Object, text?: any): XMLElement;
-        n(name: string, attributes?: Object, text?: any): XMLElement;
+        node(name: string, attributes?: Object, text?: any): XMLNode;
+        nod(name: string, attributes?: Object, text?: any): XMLNode;
+        n(name: string, attributes?: Object, text?: any): XMLNode;
 
         /**
          * Creates a new text child node and appends it to the list of child nodes.
@@ -644,9 +644,9 @@ declare namespace xmlbuilder {
          * 
          * @returns the parent node
          */
-        text(value: string): XMLElement;
-        txt(value: string): XMLElement;
-        t(value: string): XMLElement;
+        text(value: string): XMLNode;
+        txt(value: string): XMLNode;
+        t(value: string): XMLNode;
 
         /**
          * Creates a new CDATA child node and appends it to the list of child nodes.
@@ -657,9 +657,9 @@ declare namespace xmlbuilder {
          * 
          * @returns the parent node
          */
-        cdata(value: string): XMLElement;
-        dat(value: string): XMLElement;
-        d(value: string): XMLElement;
+        cdata(value: string): XMLNode;
+        dat(value: string): XMLNode;
+        d(value: string): XMLNode;
 
         /**
          * Creates a new comment child node and appends it to the list of child nodes.
@@ -670,9 +670,9 @@ declare namespace xmlbuilder {
          * 
          * @returns the parent node
          */
-        comment(value: string): XMLElement;
-        com(value: string): XMLElement;
-        c(value: string): XMLElement;
+        comment(value: string): XMLNode;
+        com(value: string): XMLNode;
+        c(value: string): XMLNode;
 
         /**
          * Creates a comment node before the current node
@@ -681,7 +681,7 @@ declare namespace xmlbuilder {
          * 
          * @returns the parent node
          */
-        commentBefore(value: string): XMLElement;
+        commentBefore(value: string): XMLNode;
 
         /**
          * Creates a comment node after the current node
@@ -690,7 +690,7 @@ declare namespace xmlbuilder {
          * 
          * @returns the parent node
          */
-        commentAfter(value: string): XMLElement;
+        commentAfter(value: string): XMLNode;
 
         /**
          * Creates a new raw text child node and appends it to the list of child nodes.
@@ -701,8 +701,8 @@ declare namespace xmlbuilder {
          * 
          * @returns the parent node
          */
-        raw(value: string): XMLElement;
-        r(value: string): XMLElement;
+        raw(value: string): XMLNode;
+        r(value: string): XMLNode;
 
         /**
          * Creates a new processing instruction node and appends it to the list of child nodes.
@@ -714,15 +714,15 @@ declare namespace xmlbuilder {
          * 
          * @returns the parent node
          */
-        instruction(target: string, value: any): XMLElement;
-        instruction(array: Array<any>): XMLElement;
-        instruction(obj: Object): XMLElement;
-        ins(target: string, value: any): XMLElement;
-        ins(array: Array<any>): XMLElement;
-        ins(obj: Object): XMLElement;
-        i(target: string, value: any): XMLElement;
-        i(array: Array<any>): XMLElement;
-        i(obj: Object): XMLElement;
+        instruction(target: string, value: any): XMLNode;
+        instruction(array: Array<any>): XMLNode;
+        instruction(obj: Object): XMLNode;
+        ins(target: string, value: any): XMLNode;
+        ins(array: Array<any>): XMLNode;
+        ins(obj: Object): XMLNode;
+        i(target: string, value: any): XMLNode;
+        i(array: Array<any>): XMLNode;
+        i(obj: Object): XMLNode;
 
         /**
          * Creates a processing instruction node before the current node.
@@ -732,7 +732,7 @@ declare namespace xmlbuilder {
          * 
          * @returns the parent node
          */        
-        instructionBefore(target: string, value: any): XMLElement;
+        instructionBefore(target: string, value: any): XMLNode;
       
         /**
          * Creates a processing instruction node after the current node.
@@ -742,7 +742,7 @@ declare namespace xmlbuilder {
          * 
          * @returns the parent node
          */        
-        instructionAfter(target: string, value: any): XMLElement;
+        instructionAfter(target: string, value: any): XMLNode;
 
         /**
          * Creates the XML declaration.
@@ -755,8 +755,8 @@ declare namespace xmlbuilder {
          * 
          * @returns the root element node
          */
-        declaration(version?: string | { version?: string, encoding?: string, standalone?: boolean }, encoding?: string, standalone?: boolean): XMLElement;
-        dec(version?: string | { version?: string, encoding?: string, standalone?: boolean }, encoding?: string, standalone?: boolean): XMLElement;
+        declaration(version?: string | { version?: string, encoding?: string, standalone?: boolean }, encoding?: string, standalone?: boolean): XMLNode;
+        dec(version?: string | { version?: string, encoding?: string, standalone?: boolean }, encoding?: string, standalone?: boolean): XMLNode;
 
         /**
          * Creates the document type definition.
@@ -779,7 +779,7 @@ declare namespace xmlbuilder {
          * 
          * @returns the current node
          */
-        importDocument(doc: XMLNode): XMLElement;
+        importDocument(doc: XMLNode): XMLNode;
 
         /**
          * Converts the XML document to string.
@@ -801,8 +801,8 @@ declare namespace xmlbuilder {
          * 
          * _Alias:_ `u`
          */
-        up(): XMLElement;
-        u(): XMLElement;
+        up(): XMLNode;
+        u(): XMLNode;
         /**
          * Returns the document node.
          * 
@@ -814,13 +814,13 @@ declare namespace xmlbuilder {
         /**
          * Returns the root element node.
          */
-        root(): XMLElement;
+        root(): XMLNode;
     }
 
     /**
      * Represents the base class of character data nodes.
      */
-    abstract class XMLCharacterData extends XMLNode {
+    abstract class CharacterData extends XMLNode {
         /** Node value */
         value: string;
     }
@@ -960,7 +960,7 @@ declare namespace xmlbuilder {
          * @returns the DOCTYPE node
          */
         attList(elementName: string, attributeName: string, attributeType: string, defaultValueType?: string, defaultValue?: any): XMLDocType;
-        att(elementName: string, attributeName: string, attributeType: string, defaultValueType?: string, defaultValue?: any): XMLDocType;
+        att(elementName: string, attributeName: string, attributeType?: string, defaultValueType?: string, defaultValue?: any): XMLDocType;
 
         /**
          * Creates a general entity declaration
