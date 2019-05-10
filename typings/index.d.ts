@@ -23,17 +23,21 @@ declare namespace xmlbuilder {
         xmldecOrOptions?: CreateOptions, doctypeOrOptions?: CreateOptions,
         options?: CreateOptions): XMLElement | XMLElement;
 
+    /**
+     * Defines the options used while creating an XML document with the `create`
+     * function.
+     */
     interface CreateOptions {
         /**
-         * A version number string, e.g. 1.0
+         * A version number string, e.g. `1.0`
          */
         version?: string;
         /**
-         * Encoding declaration, e.g. UTF-8
+         * Encoding declaration, e.g. `UTF-8`
          */
         encoding?: string;
         /**
-         * Standalone document declaration: true or false
+         * Standalone document declaration: `true` or `false`
          */
         standalone?: boolean;
 
@@ -51,11 +55,11 @@ declare namespace xmlbuilder {
          */
         headless?: boolean;
         /**
-         * Whether nodes with null values will be kept or ignored
+         * Whether nodes with `null` values will be kept or ignored
          */
         keepNullNodes?: boolean;
         /**
-         * Whether attributes with null values will be kept or ignored
+         * Whether attributes with `null` values will be kept or ignored
          */
         keepNullAttributes?: boolean;
         /** 
@@ -82,12 +86,15 @@ declare namespace xmlbuilder {
         stringify?: XMLStringifier;
         /** 
          * The default XML writer to use for converting nodes to string. 
-         * If the default writer is not set, the built-in XMLStringWriter 
+         * If the default writer is not set, the built-in `XMLStringWriter` 
          * will be used instead. 
          */
         writer?: XMLWriter;
     }
 
+    /**
+     * Defines the functions used for converting values to strings.
+     */
     interface XMLStringifier {
         /**
          * Converts an element or attribute name to string
@@ -134,31 +141,31 @@ declare namespace xmlbuilder {
          */
         xmlStandalone?: (v: any) => string;
         /**
-         * Converts Doctype public identifier to string
+         * Converts DocType public identifier to string
          */
         dtdPubID?: (v: any) => string;
         /**
-         * Converts Doctype system identifier to string
+         * Converts DocType system identifier to string
          */
         dtdSysID?: (v: any) => string;
         /**
-         * Converts !ELEMENT node content inside Doctype to string
+         * Converts `!ELEMENT` node content inside Doctype to string
          */
         dtdElementValue?: (v: any) => string;
         /**
-         * Converts !ATTLIST node type inside Doctype to string
+         * Converts `!ATTLIST` node type inside DocType to string
          */
         dtdAttType?: (v: any) => string;
         /**
-         * Converts !ATTLIST node default value inside Doctype to string
+         * Converts `!ATTLIST` node default value inside DocType to string
          */
         dtdAttDefault?: (v: any) => string;
         /**
-         * Converts !ENTITY node content inside Doctype to string
+         * Converts `!ENTITY` node content inside Doctype to string
          */
         dtdEntityValue?: (v: any) => string;
         /**
-         * Converts !NOTATION node content inside Doctype to string
+         * Converts `!NOTATION` node content inside Doctype to string
          */
         dtdNData?: (v: any) => string;
 
@@ -175,9 +182,9 @@ declare namespace xmlbuilder {
         /** 
          * When prepended to a JS object key, converts its value to a text node. 
          * 
-         * _Note:_ Since JS objects cannot contain duplicate keys, multiple text nodes 
-         * can be created by adding some unique text after each object key. 
-         * For example: `{ '#text1': 'some text', '#text2': 'more text' };`
+         * _Note:_ Since JS objects cannot contain duplicate keys, multiple text 
+         * nodes can be created by adding some unique text after each object 
+         * key. For example: `{ '#text1': 'some text', '#text2': 'more text' };`
          */
         convertTextKey?: string;
         /** 
@@ -197,16 +204,19 @@ declare namespace xmlbuilder {
         convertRawKey?: string;
 
         /**
-         * Escapes special characters in text
+         * Escapes special characters in text.
          */
         textEscape?: (v: string) => string;
 
         /**
-         * Escapes special characters in attribute values
+         * Escapes special characters in attribute values.
          */
         attEscape?: (v: string) => string;
     }
 
+    /**
+     * Represents a writer which outputs an XML document.
+     */
     interface XMLWriter {
         /** 
          * Writes the indentation string for the given level. 
@@ -233,7 +243,8 @@ declare namespace xmlbuilder {
          * @param options - writer options and state information
          * @param level - current depth of the XML tree
          */
-        attribute?: (att: XMLAttribute, options: WriterOptions, level: number) => any
+        attribute?: (att: XMLAttribute, options: WriterOptions, 
+            level: number) => any
 
         /** 
          * Writes a CDATA node.
@@ -251,7 +262,8 @@ declare namespace xmlbuilder {
          * @param options - writer options and state information
          * @param level - current depth of the XML tree
          */
-        comment?: (node: XMLComment, options: WriterOptions, level: number) => any
+        comment?: (node: XMLComment, options: WriterOptions, 
+            level: number) => any
 
         /** 
          * Writes the XML declaration (e.g. `<?xml version="1.0"?>`). 
@@ -260,7 +272,8 @@ declare namespace xmlbuilder {
          * @param options - writer options and state information
          * @param level - current depth of the XML tree
          */
-        declaration?: (node: XMLDeclaration, options: WriterOptions, level: number) => any
+        declaration?: (node: XMLDeclaration, options: WriterOptions, 
+            level: number) => any
 
         /** 
          * Writes the DocType node and its children. 
@@ -272,7 +285,8 @@ declare namespace xmlbuilder {
          * @param options - writer options and state information
          * @param level - current depth of the XML tree
          */
-        docType?: (node: XMLDocType, options: WriterOptions, level: number) => any
+        docType?: (node: XMLDocType, options: WriterOptions, 
+            level: number) => any
 
         /** 
          * Writes an element node. 
@@ -286,7 +300,8 @@ declare namespace xmlbuilder {
          * @param options - writer options and state information
          * @param level - current depth of the XML tree
          */
-        element?: (node: XMLElement, options: WriterOptions, level: number) => any
+        element?: (node: XMLElement, options: WriterOptions, 
+            level: number) => any
 
         /** 
          * Writes a processing instruction node. 
@@ -295,7 +310,8 @@ declare namespace xmlbuilder {
          * @param options - writer options and state information
          * @param level - current depth of the XML tree
          */
-        processingInstruction?: (node: XMLProcessingInstruction, options: WriterOptions, level: number) => any
+        processingInstruction?: (node: XMLProcessingInstruction, 
+            options: WriterOptions, level: number) => any
 
         /** 
          * Writes a raw text node. 
@@ -316,34 +332,37 @@ declare namespace xmlbuilder {
         text?: (node: XMLText, options: WriterOptions, level: number) => any
 
         /** 
-         * Writes an attribute node (!ATTLIST) inside the DTD. 
+         * Writes an attribute node (`!ATTLIST`) inside the DTD. 
          * 
          * @param node - current node
          * @param options - writer options and state information
          * @param level - current depth of the XML tree
          */
-        dtdAttList?: (node: XMLDTDAttList, options: WriterOptions, level: number) => any
+        dtdAttList?: (node: XMLDTDAttList, options: WriterOptions, 
+            level: number) => any
 
         /** 
-         * Writes an element node (!ELEMENT) inside the DTD. 
+         * Writes an element node (`!ELEMENT`) inside the DTD. 
          * 
          * @param node - current node
          * @param options - writer options and state information
          * @param level - current depth of the XML tree
          */
-        dtdElement?: (node: XMLDTDElement, options: WriterOptions, level: number) => any
+        dtdElement?: (node: XMLDTDElement, options: WriterOptions, 
+            level: number) => any
 
         /** 
-         * Writes an entity node (!ENTITY) inside the DTD. 
+         * Writes an entity node (`!ENTITY`) inside the DTD. 
          * 
          * @param node - current node
          * @param options - writer options and state information
          * @param level - current depth of the XML tree
          */
-        dtdEntity?: (node: XMLDTDEntity, options: WriterOptions, level: number) => any
+        dtdEntity?: (node: XMLDTDEntity, options: WriterOptions, 
+            level: number) => any
 
         /** 
-         * Writes a notation node (!NOTATION) inside the DTD. 
+         * Writes a notation node (`!NOTATION`) inside the DTD. 
          * 
          * @param node - current node
          * @param options - writer options and state information
@@ -352,47 +371,55 @@ declare namespace xmlbuilder {
         dtdNotation?: (node: XMLDTDNotation, options: WriterOptions, level: number) => any
 
         /** 
-         * Called right after starting writing a node. This function doesn't 
+         * Called right after starting writing a node. This function does not 
          * produce any output, but can be used to alter the state of the writer. 
          * 
          * @param node - current node
          * @param options - writer options and state information
          * @param level - current depth of the XML tree
          */
-        openNode?: (node: XMLNode, options: WriterOptions, level: number) => void
+        openNode?: (node: XMLNode, options: WriterOptions, 
+            level: number) => void
 
         /** 
-         * Called right before completing writing a node. This function doesn't 
+         * Called right before completing writing a node. This function does not 
          * produce any output, but can be used to alter the state of the writer.
          * 
          * @param node - current node
          * @param options - writer options and state information
          * @param level - current depth of the XML tree
          */
-        closeNode?: (node: XMLNode, options: WriterOptions, level: number) => void
+        closeNode?: (node: XMLNode, options: WriterOptions, 
+            level: number) => void
 
         /** 
-         * Called right after starting writing an attribute. This function doesn't 
-         * produce any output, but can be used to alter the state of the writer. 
+         * Called right after starting writing an attribute. This function does 
+         * not produce any output, but can be used to alter the state of the 
+         * writer. 
          * 
          * @param node - current attribute
          * @param options - writer options and state information
          * @param level - current depth of the XML tree
          */
-        openAttribute?: (att: XMLAttribute, options: WriterOptions, level: number) => void
+        openAttribute?: (att: XMLAttribute, options: WriterOptions, 
+            level: number) => void
 
         /** 
          * Called right before completing writing an attribute. This function 
-         * doesn't produce any output, but can be used to alter the state of 
+         * does not produce any output, but can be used to alter the state of 
          * the writer. 
          * 
          * @param node - current attribute
          * @param options - writer options and state information
          * @param level - current depth of the XML tree
          */
-        closeAttribute?: (att: XMLAttribute, options: WriterOptions, level: number) => void
+        closeAttribute?: (att: XMLAttribute, options: WriterOptions, 
+            level: number) => void
     }
 
+    /**
+     * Defines the options passed to the XML writer.
+     */
     interface WriterOptions {
         /**
          * Pretty print the XML tree
@@ -440,13 +467,16 @@ declare namespace xmlbuilder {
         writer?: XMLWriter;
     }
 
+    /**
+     * Defines the state of the writer.
+     */
     enum WriterState {
         /**
          * Writer state is unknown
          */
         None = 0,
         /**
-         * Writer is at an opening tag, e.g. <node>
+         * Writer is at an opening tag, e.g. `<node>`
          */
         OpenTag = 1,
         /**
@@ -454,7 +484,7 @@ declare namespace xmlbuilder {
          */
         InsideTag = 2,
         /**
-         * Writer is at a closing tag, e.g. </node>
+         * Writer is at a closing tag, e.g. `</node>`
          */
         CloseTag = 3
     }
@@ -468,6 +498,10 @@ declare namespace xmlbuilder {
      */
     function begin(options?: BeginOptions): XMLDocument;
 
+    /**
+     * Defines the options used while creating an XML document with the `begin`
+     * function.
+     */
     interface BeginOptions {
         /**
          * Whether nodes with null values will be kept or ignored
@@ -507,7 +541,17 @@ declare namespace xmlbuilder {
         writer?: XMLWriter | WriterOptions;
     }
 
+    /**
+     * A function to be called when a chunk of XML is written.
+     * 
+     * @param chunk - a chunk of string that was written
+     * @param level - current depth of the XML tree
+     */
     type OnDataCallback = (chunk: string, level: number) => void;
+
+    /**
+     * A function to be called when the XML doucment is completed.
+     */
     type OnEndCallback = () => void;
 
     /**
@@ -541,6 +585,9 @@ declare namespace xmlbuilder {
      */
     function streamWriter(stream: Writable, options?: WriterOptions): XMLWriter
 
+    /**
+     * Defines the type of a node in the XML document.
+     */
     enum NodeType {
         /**
          * An element node
@@ -559,11 +606,11 @@ declare namespace xmlbuilder {
          */
         CData = 4,
         /**
-         * An entity reference node inside Doctype
+         * An entity reference node inside DocType
          */
         EntityReference = 5,
         /**
-         * An entity declaration node inside Doctype
+         * An entity declaration node inside DocType
          */
         EntityDeclaration = 6,
         /**
@@ -587,7 +634,7 @@ declare namespace xmlbuilder {
          */
         DocumentFragment = 11,
         /**
-         * A notation declaration node inside Doctype
+         * A notation declaration node inside DocType
          */
         NotationDeclaration = 12,
         /**
@@ -599,18 +646,28 @@ declare namespace xmlbuilder {
          */
         Raw = 202,
         /**
-         * An attribute declaraiton node inside Doctype
+         * An attribute declaraiton node inside DocType
          */
         AttributeDeclaration = 203,
         /**
-         * An element declaration node inside Doctype
+         * An element declaration node inside DocType
          */
         ElementDeclaration = 204
     }
 
+    /**
+     * Defines the type of a node in the XML document.
+     */
     export import nodeType = NodeType;
+
+    /**
+     * Defines the state of the writer.
+     */
     export import writerState = WriterState;
 
+    /**
+     * Defines the settings used when converting the XML document to string.
+     */
     interface XMLToStringOptions {
         /**
          * Pretty print the XML tree
@@ -646,7 +703,7 @@ declare namespace xmlbuilder {
         spaceBeforeSlash?: string | boolean;
         /** 
          * The default XML writer to use for converting nodes to string. 
-         * If the default writer is not set, the built-in XMLStringWriter 
+         * If the default writer is not set, the built-in `XMLStringWriter` 
          * will be used instead. 
          */
         writer?: XMLWriter;
@@ -720,7 +777,7 @@ declare namespace xmlbuilder {
          * 
          * _Aliases:_ `ele` and `e`
          * 
-         * @param name - element node name or a JS object defining the nodes to insert
+         * @param name - node name or a JS object defining the nodes to insert
          * @param attributes - node attributes
          * @param text - node text
          * 
@@ -747,7 +804,7 @@ declare namespace xmlbuilder {
         /**
          * Creates a new sibling node and inserts it before this node.
          * 
-         * @param name - element node name or a JS object defining the nodes to insert
+         * @param name - node name or a JS object defining the nodes to insert
          * @param attributes - node attributes
          * @param text - node text
          * 
@@ -757,7 +814,7 @@ declare namespace xmlbuilder {
         /**
          * Creates a new sibling node and inserts it after this node.
          * 
-         * @param name - element node name or a JS object defining the nodes to insert
+         * @param name - node name or a JS object defining the nodes to insert
          * @param attributes - node attributes
          * @param text - node text
          * 
@@ -772,7 +829,7 @@ declare namespace xmlbuilder {
         remove(): XMLElement;
 
         /**
-         * Creates a new child node and appends it to the list of child nodes.
+         * Creates a new element node and appends it to the list of child nodes.
          * 
          * _Aliases:_ `nod` and `n`
          * 
@@ -787,7 +844,7 @@ declare namespace xmlbuilder {
         n(name: string, attributes?: Object, text?: any): XMLElement;
 
         /**
-         * Creates a new text child node and appends it to the list of child nodes.
+         * Creates a new text node and appends it to the list of child nodes.
          * 
          * _Aliases:_ `txt` and `t`
          * 
@@ -800,7 +857,7 @@ declare namespace xmlbuilder {
         t(value: string): XMLElement;
 
         /**
-         * Creates a new CDATA child node and appends it to the list of child nodes.
+         * Creates a new CDATA node and appends it to the list of child nodes.
          * 
          * _Aliases:_ `dat` and `d`
          * 
@@ -813,7 +870,7 @@ declare namespace xmlbuilder {
         d(value: string): XMLElement;
 
         /**
-         * Creates a new comment child node and appends it to the list of child nodes.
+         * Creates a new comment node and appends it to the list of child nodes.
          * 
          * _Aliases:_ `com` and `c`
          * 
@@ -844,7 +901,8 @@ declare namespace xmlbuilder {
         commentAfter(value: string): XMLElement;
 
         /**
-         * Creates a new raw text child node and appends it to the list of child nodes.
+         * Creates a new raw text node and appends it to the list of child
+         * nodes.
          * 
          * _Alias:_ `r`
          * 
@@ -856,7 +914,8 @@ declare namespace xmlbuilder {
         r(value: string): XMLElement;
 
         /**
-         * Creates a new processing instruction node and appends it to the list of child nodes.
+         * Creates a new processing instruction node and appends it to the list
+         * of child nodes.
          * 
          * _Aliases:_ `ins` and `i`
          * 
@@ -906,8 +965,12 @@ declare namespace xmlbuilder {
          * 
          * @returns the root element node
          */
-        declaration(version?: string | { version?: string, encoding?: string, standalone?: boolean }, encoding?: string, standalone?: boolean): XMLElement;
-        dec(version?: string | { version?: string, encoding?: string, standalone?: boolean }, encoding?: string, standalone?: boolean): XMLElement;
+        declaration(version?: string | 
+            { version?: string, encoding?: string, standalone?: boolean }, 
+            encoding?: string, standalone?: boolean): XMLElement;
+        dec(version?: string | 
+            { version?: string, encoding?: string, standalone?: boolean }, 
+            encoding?: string, standalone?: boolean): XMLElement;
 
         /**
          * Creates the document type definition.
@@ -919,8 +982,10 @@ declare namespace xmlbuilder {
          * 
          * @returns the DOCTYPE node
          */
-        doctype(pubID?: string | { pubID?: string, sysID?: string }, sysID?: string): XMLDocType;
-        dtd(pubID?: string | { pubID?: string, sysID?: string }, sysID?: string): XMLDocType;
+        doctype(pubID?: string | { pubID?: string, sysID?: string }, 
+            sysID?: string): XMLDocType;
+        dtd(pubID?: string | { pubID?: string, sysID?: string }, 
+            sysID?: string): XMLDocType;
 
         /**
          * Takes the root node of the given XML document and appends it 
@@ -1072,20 +1137,20 @@ declare namespace xmlbuilder {
      */
     class XMLDeclaration {
         /**
-         * A version number string, e.g. 1.0
+         * A version number string, e.g. `1.0`
          */
         version: string;
         /**
-         * Encoding declaration, e.g. UTF-8
+         * Encoding declaration, e.g. `UTF-8`
          */
         encoding: string;
         /**
-         * Standalone document declaration: true or false
+         * Standalone document declaration: `true` or `false`
          */
         standalone: boolean;
 
         /** 
-         * Converts the node to string 
+         * Converts the node to string.
          * 
          * @param options - conversion options
          */
@@ -1132,7 +1197,7 @@ declare namespace xmlbuilder {
         ele(name: string, value?: Object): XMLDocType;
 
         /**
-         * Creates an attribute declaration
+         * Creates an attribute declaration.
          * 
          * _Alias:_ `att`
          * 
@@ -1146,11 +1211,13 @@ declare namespace xmlbuilder {
          * 
          * @returns the DOCTYPE node
          */
-        attList(elementName: string, attributeName: string, attributeType: string, defaultValueType: string, defaultValue?: any): XMLDocType;
-        att(elementName: string, attributeName: string, attributeType: string, defaultValueType: string, defaultValue?: any): XMLDocType;
+        attList(elementName: string, attributeName: string, attributeType: string, 
+            defaultValueType: string, defaultValue?: any): XMLDocType;
+        att(elementName: string, attributeName: string, attributeType: string, 
+            defaultValueType: string, defaultValue?: any): XMLDocType;
 
         /**
-         * Creates a general entity declaration
+         * Creates a general entity declaration.
          * 
          * _Alias:_ `ent`
          * 
@@ -1159,11 +1226,13 @@ declare namespace xmlbuilder {
          * 
          * @returns the DOCTYPE node
          */
-        entity(name: string, value: string | { pubID?: string, sysID?: string, nData?: string }): XMLDocType;
-        ent(name: string, value: string | { pubID?: string, sysID?: string, nData?: string }): XMLDocType;
+        entity(name: string, value: string | 
+            { pubID?: string, sysID?: string, nData?: string }): XMLDocType;
+        ent(name: string, value: string | 
+            { pubID?: string, sysID?: string, nData?: string }): XMLDocType;
 
         /**
-         * Creates a parameter entity declaration
+         * Creates a parameter entity declaration.
          * 
          * _Alias:_ `pent`
          * 
@@ -1172,11 +1241,13 @@ declare namespace xmlbuilder {
          * 
          * @returns the DOCTYPE node
          */
-        pEntity(name: string, value: string | { pubID?: string, sysID?: string }): XMLDocType;
-        pent(name: string, value: string | { pubID?: string, sysID?: string }): XMLDocType;
+        pEntity(name: string, value: string | 
+            { pubID?: string, sysID?: string }): XMLDocType;
+        pent(name: string, value: string | 
+            { pubID?: string, sysID?: string }): XMLDocType;
 
         /**
-         * Creates a notation declaration
+         * Creates a notation declaration.
          * 
          * _Alias:_ `not`
          * 
@@ -1185,11 +1256,13 @@ declare namespace xmlbuilder {
          * 
          * @returns the DOCTYPE node
          */
-        notation(name: string, value: { pubID?: string, sysID?: string }): XMLDocType;
-        not(name: string, value: { pubID?: string, sysID?: string }): XMLDocType;
+        notation(name: string, 
+            value: { pubID?: string, sysID?: string }): XMLDocType;
+        not(name: string, 
+            value: { pubID?: string, sysID?: string }): XMLDocType;
 
         /**
-         * Creates a new CDATA child node and appends it to the list of child nodes.
+         * Creates a new CDATA node and appends it to the list of child nodes.
          * 
          * _Alias:_ `dat`
          * 
@@ -1201,7 +1274,8 @@ declare namespace xmlbuilder {
         dat(value: string): XMLDocType;
 
         /**
-         * Creates a new comment child node and appends it to the list of child nodes.
+         * Creates a new comment child and appends it to the list of child
+         * nodes.
          * 
          * _Alias:_ `com`
          * 
@@ -1213,7 +1287,8 @@ declare namespace xmlbuilder {
         com(value: string): XMLDocType;
 
         /**
-         * Creates a new processing instruction node and appends it to the list of child nodes.
+         * Creates a new processing instruction node and appends it to the list 
+         * of child nodes.
          * 
          * _Alias:_ `ins`
          * 
@@ -1238,14 +1313,14 @@ declare namespace xmlbuilder {
         up(): XMLElement;
 
         /** 
-         * Converts the node to string 
+         * Converts the node to string.
          * 
          * @param options - conversion options
          */
         toString(options?: XMLToStringOptions): string;
 
         /** 
-         * Creates a clone of this node 
+         * Creates a clone of this node.
          */
         clone(): XMLDocType;
 
@@ -1293,7 +1368,7 @@ declare namespace xmlbuilder {
         defaultValue: string;
 
         /** 
-         * Converts the node to string 
+         * Converts the node to string.
          * 
          * @param options - conversion options
          */
@@ -1309,11 +1384,12 @@ declare namespace xmlbuilder {
          */
         name: string;
         /**
-         * Element content*/
+         * Element content
+         */
         value: string;
 
         /** 
-         * Converts the node to string 
+         * Converts the node to string.
          * 
          * @param options - conversion options
          */
@@ -1347,7 +1423,7 @@ declare namespace xmlbuilder {
         nData: string;
 
         /** 
-         * Converts the node to string 
+         * Converts the node to string.
          * 
          * @param options - conversion options
          */
@@ -1372,7 +1448,7 @@ declare namespace xmlbuilder {
         sysID: string;
 
         /** 
-         * Converts the node to string 
+         * Converts the node to string.
          * 
          * @param options - conversion options
          */
@@ -1421,7 +1497,7 @@ declare namespace xmlbuilder {
         removeAttribute(name: string | string[]): XMLElement;
 
         /** 
-         * Converts the node to string 
+         * Converts the node to string.
          * 
          * @param options - conversion options
          */
@@ -1450,7 +1526,7 @@ declare namespace xmlbuilder {
         n(name: string, attributes?: Object, text?: any): XMLDocumentCB;
 
         /**
-         * Creates a child element node
+         * Creates a child element node.
          * 
          * _Aliases:_ `ele` and `e`
          * 
@@ -1479,7 +1555,7 @@ declare namespace xmlbuilder {
         a(name: any, value?: any): XMLDocumentCB;
 
         /**
-         * Creates a new text child node and appends it to the list of child nodes.
+         * Creates a new text node and appends it to the list of child nodes.
          * 
          * _Aliases:_ `txt` and `t`
          * 
@@ -1492,7 +1568,7 @@ declare namespace xmlbuilder {
         t(value: string): XMLDocumentCB;
 
         /**
-         * Creates a new CDATA child node and appends it to the list of child nodes.
+         * Creates a new CDATA node and appends it to the list of child nodes.
          * 
          * _Aliases:_ `dat` and `d`
          * 
@@ -1505,7 +1581,7 @@ declare namespace xmlbuilder {
         d(value: string): XMLDocumentCB;
 
         /**
-         * Creates a new comment child node and appends it to the list of child nodes.
+         * Creates a new comment node and appends it to the list of child nodes.
          * 
          * _Aliases:_ `com` and `c`
          * 
@@ -1518,7 +1594,8 @@ declare namespace xmlbuilder {
         c(value: string): XMLDocumentCB;
 
         /**
-         * Creates a new raw text child node and appends it to the list of child nodes.
+         * Creates a new raw text node and appends it to the list of child 
+         * nodes.
          * 
          * _Alias:_ `r`
          * 
@@ -1530,7 +1607,8 @@ declare namespace xmlbuilder {
         r(value: string): XMLDocumentCB;
 
         /**
-         * Creates a new processing instruction node and appends it to the list of child nodes.
+         * Creates a new processing instruction node and appends it to the list 
+         * of child nodes.
          * 
          * _Aliases:_ `ins` and `i`
          * 
@@ -1560,8 +1638,10 @@ declare namespace xmlbuilder {
          * 
          * @returns the document builder object
          */
-        declaration(version?: string, encoding?: string, standalone?: boolean): XMLDocumentCB;
-        dec(version?: string, encoding?: string, standalone?: boolean): XMLDocumentCB;
+        declaration(version?: string, encoding?: string, 
+            standalone?: boolean): XMLDocumentCB;
+        dec(version?: string, encoding?: string, 
+            standalone?: boolean): XMLDocumentCB;
 
         /**
          * Creates the document type definition.
@@ -1592,7 +1672,7 @@ declare namespace xmlbuilder {
         ele(name: string, value?: Object): XMLDocumentCB;
 
         /**
-         * Creates an attribute declaration
+         * Creates an attribute declaration.
          * 
          * _Alias:_ `att`
          * 
@@ -1606,12 +1686,16 @@ declare namespace xmlbuilder {
          * 
          * @returns the document builder object
          */
-        attList(elementName: string, attributeName: string, attributeType: string, defaultValueType?: string, defaultValue?: any): XMLDocumentCB;
-        att(elementName: string, attributeName: string, attributeType: string, defaultValueType?: string, defaultValue?: any): XMLDocumentCB;
-        a(elementName: string, attributeName: string, attributeType: string, defaultValueType?: string, defaultValue?: any): XMLDocumentCB;
+        attList(elementName: string, attributeName: string, 
+            attributeType: string, defaultValueType?: 
+            string, defaultValue?: any): XMLDocumentCB;
+        att(elementName: string, attributeName: string, attributeType: string, 
+            defaultValueType?: string, defaultValue?: any): XMLDocumentCB;
+        a(elementName: string, attributeName: string, attributeType: string, 
+            defaultValueType?: string, defaultValue?: any): XMLDocumentCB;
 
         /**
-         * Creates a general entity declaration
+         * Creates a general entity declaration.
          * 
          * _Alias:_ `ent`
          * 
@@ -1620,11 +1704,13 @@ declare namespace xmlbuilder {
          * 
          * @returns the document builder object
          */
-        entity(name: string, value: string | { pubID?: string, sysID?: string, nData?: string }): XMLDocumentCB;
-        ent(name: string, value: string | { pubID?: string, sysID?: string, nData?: string }): XMLDocumentCB;
+        entity(name: string, value: string | 
+            { pubID?: string, sysID?: string, nData?: string }): XMLDocumentCB;
+        ent(name: string, value: string | 
+            { pubID?: string, sysID?: string, nData?: string }): XMLDocumentCB;
 
         /**
-         * Creates a parameter entity declaration
+         * Creates a parameter entity declaration.
          * 
          * _Alias:_ `pent`
          * 
@@ -1633,11 +1719,13 @@ declare namespace xmlbuilder {
          * 
          * @returns the document builder object
          */
-        pEntity(name: string, value: string | { pubID?: string, sysID?: string }): XMLDocumentCB;
-        pent(name: string, value: string | { pubID?: string, sysID?: string }): XMLDocumentCB;
+        pEntity(name: string, value: string | 
+            { pubID?: string, sysID?: string }): XMLDocumentCB;
+        pent(name: string, value: string | 
+            { pubID?: string, sysID?: string }): XMLDocumentCB;
 
         /**
-         * Creates a notation declaration
+         * Creates a notation declaration.
          * 
          * _Alias:_ `not`
          * 
@@ -1646,11 +1734,13 @@ declare namespace xmlbuilder {
          * 
          * @returns the document builder object
          */
-        notation(name: string, value: { pubID?: string, sysID?: string }): XMLDocumentCB;
-        not(name: string, value: { pubID?: string, sysID?: string }): XMLDocumentCB;
+        notation(name: string, 
+            value: { pubID?: string, sysID?: string }): XMLDocumentCB;
+        not(name: string, 
+            value: { pubID?: string, sysID?: string }): XMLDocumentCB;
 
         /**
-         * Ends the document.
+         * Ends the document and calls the `onEnd` callback function.
          */
         end(): void;
 
@@ -1658,6 +1748,8 @@ declare namespace xmlbuilder {
          * Moves up to the parent node.
          * 
          * _Alias:_ `u`
+         * 
+         * @returns the document builder object
          */
         up(): XMLDocumentCB;
         u(): XMLDocumentCB;
