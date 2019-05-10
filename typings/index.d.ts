@@ -973,7 +973,7 @@ declare namespace xmlbuilder {
          * @returns the DOCTYPE node
          */
         attList(elementName: string, attributeName: string, attributeType: string, defaultValueType: string, defaultValue?: any): XMLDocType;
-        att(elementName: string, attributeName: string, attributeType: string, defaultValueType?: string, defaultValue?: any): XMLDocType;
+        att(elementName: string, attributeName: string, attributeType: string, defaultValueType: string, defaultValue?: any): XMLDocType;
 
         /**
          * Creates a general entity declaration
