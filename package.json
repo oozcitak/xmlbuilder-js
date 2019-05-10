@@ -33,7 +33,6 @@
   },
   "scripts": {
     "prepublishOnly": "coffee -co lib src",
-    "postpublish": "rm -rf lib",
     "test": "nyc mocha \"test/**/*.coffee\""
   }
 }
