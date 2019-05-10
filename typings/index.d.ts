@@ -24,23 +24,39 @@ declare namespace xmlbuilder {
         options?: CreateOptions): XMLElement | XMLElement;
 
     interface CreateOptions {
-        /** A version number string, e.g. 1.0 */
+        /**
+         * A version number string, e.g. 1.0
+         */
         version?: string;
-        /** Encoding declaration, e.g. UTF-8 */
+        /**
+         * Encoding declaration, e.g. UTF-8
+         */
         encoding?: string;
-        /** Standalone document declaration: true or false */
+        /**
+         * Standalone document declaration: true or false
+         */
         standalone?: boolean;
 
-        /** Public identifier of the DTD */
+        /**
+         * Public identifier of the DTD
+         */
         pubID?: string;
-        /** System identifier of the DTD */
+        /**
+         * System identifier of the DTD
+         */
         sysID?: string;
 
-        /** Whether XML declaration and doctype will be included */
+        /**
+         * Whether XML declaration and doctype will be included
+         */
         headless?: boolean;
-        /** Whether nodes with null values will be kept or ignored */
+        /**
+         * Whether nodes with null values will be kept or ignored
+         */
         keepNullNodes?: boolean;
-        /** Whether attributes with null values will be kept or ignored */
+        /**
+         * Whether attributes with null values will be kept or ignored
+         */
         keepNullAttributes?: boolean;
         /** 
          * Whether decorator strings will be ignored when converting JS 
@@ -52,11 +68,17 @@ declare namespace xmlbuilder {
          * as an object value
          */
         separateArrayItems?: boolean;
-        /** Whether existing html entities are encoded */
+        /**
+         * Whether existing html entities are encoded
+         */
         noDoubleEncoding?: boolean;
-        /** Whether values will be validated and escaped or returned as is */
+        /**
+         * Whether values will be validated and escaped or returned as is
+         */
         noValidation?: boolean;
-        /** A set of functions to use for converting values to strings */
+        /**
+         * A set of functions to use for converting values to strings
+         */
         stringify?: XMLStringifier;
         /** 
          * The default XML writer to use for converting nodes to string. 
@@ -67,41 +89,77 @@ declare namespace xmlbuilder {
     }
 
     interface XMLStringifier {
-        /** Converts an element or attribute name to string */
+        /**
+         * Converts an element or attribute name to string
+         */
         name?: (v: any) => string;
-        /** Converts the contents of a text node to string */
+        /**
+         * Converts the contents of a text node to string
+         */
         text?: (v: any) => string;
-        /** Converts the contents of a CDATA node to string */
+        /**
+         * Converts the contents of a CDATA node to string
+         */
         cdata?: (v: any) => string;
-        /** Converts the contents of a comment node to string */
+        /**
+         * Converts the contents of a comment node to string
+         */
         comment?: (v: any) => string;
-        /** Converts the contents of a raw text node to string */
+        /**
+         * Converts the contents of a raw text node to string
+         */
         raw?: (v: any) => string;
-        /** Converts attribute value to string */
+        /**
+         * Converts attribute value to string
+         */
         attValue?: (v: any) => string;
-        /** Converts processing instruction target to string */
+        /**
+         * Converts processing instruction target to string
+         */
         insTarget?: (v: any) => string;
-        /** Converts processing instruction value to string */
+        /**
+         * Converts processing instruction value to string
+         */
         insValue?: (v: any) => string;
-        /** Converts XML version to string */
+        /**
+         * Converts XML version to string
+         */
         xmlVersion?: (v: any) => string;
-        /** Converts XML encoding to string */
+        /**
+         * Converts XML encoding to string
+         */
         xmlEncoding?: (v: any) => string;
-        /** Converts standalone document declaration to string */
+        /**
+         * Converts standalone document declaration to string
+         */
         xmlStandalone?: (v: any) => string;
-        /** Converts Doctype public identifier to string */
+        /**
+         * Converts Doctype public identifier to string
+         */
         dtdPubID?: (v: any) => string;
-        /** Converts Doctype system identifier to string */
+        /**
+         * Converts Doctype system identifier to string
+         */
         dtdSysID?: (v: any) => string;
-        /** Converts !ELEMENT node content inside Doctype to string */
+        /**
+         * Converts !ELEMENT node content inside Doctype to string
+         */
         dtdElementValue?: (v: any) => string;
-        /** Converts !ATTLIST node type inside Doctype to string */
+        /**
+         * Converts !ATTLIST node type inside Doctype to string
+         */
         dtdAttType?: (v: any) => string;
-        /** Converts !ATTLIST node default value inside Doctype to string */
+        /**
+         * Converts !ATTLIST node default value inside Doctype to string
+         */
         dtdAttDefault?: (v: any) => string;
-        /** Converts !ENTITY node content inside Doctype to string */
+        /**
+         * Converts !ENTITY node content inside Doctype to string
+         */
         dtdEntityValue?: (v: any) => string;
-        /** Converts !NOTATION node content inside Doctype to string */
+        /**
+         * Converts !NOTATION node content inside Doctype to string
+         */
         dtdNData?: (v: any) => string;
 
         /** 
@@ -138,10 +196,14 @@ declare namespace xmlbuilder {
          */
         convertRawKey?: string;
 
-        /** Escapes special characters in text */
+        /**
+         * Escapes special characters in text
+         */
         textEscape?: (v: string) => string;
 
-        /** Escapes special characters in attribute values */
+        /**
+         * Escapes special characters in attribute values
+         */
         attEscape?: (v: string) => string;
     }
 
@@ -332,38 +394,68 @@ declare namespace xmlbuilder {
     }
 
     interface WriterOptions {
-        /** Pretty print the XML tree */
+        /**
+         * Pretty print the XML tree
+         */
         pretty?: boolean;
-        /** Indentation string for pretty printing */
+        /**
+         * Indentation string for pretty printing
+         */
         indent?: string;
-        /** Newline string for pretty printing */
+        /**
+         * Newline string for pretty printing
+         */
         newline?: string;
-        /** A fixed number of indents to offset strings */
+        /**
+         * A fixed number of indents to offset strings
+         */
         offset?: number;
-        /** Maximum column width */
+        /**
+         * Maximum column width
+         */
         width?: number;
-        /** Whether to output closing tags for empty element nodes */
+        /**
+         * Whether to output closing tags for empty element nodes
+         */
         allowEmpty?: boolean;
-        /** Whether to pretty print text nodes */
+        /**
+         * Whether to pretty print text nodes
+         */
         dontPrettyTextNodes?: boolean;
-        /** A string to insert before closing slash character */
+        /**
+         * A string to insert before closing slash character
+         */
         spaceBeforeSlash?: string | boolean;
-        /** User state object that is saved between writer functions */
+        /**
+         * User state object that is saved between writer functions
+         */
         user?: any;
-        /** The current state of the writer */
+        /**
+         * The current state of the writer
+         */
         state?: WriterState;
-        /** Writer function overrides */
+        /**
+         * Writer function overrides
+         */
         writer?: XMLWriter;
     }
 
     enum WriterState {
-        /** Writer state is unknown */
+        /**
+         * Writer state is unknown
+         */
         None = 0,
-        /** Writer is at an opening tag, e.g. <node> */
+        /**
+         * Writer is at an opening tag, e.g. <node>
+         */
         OpenTag = 1,
-        /** Writer is inside an element */
+        /**
+         * Writer is inside an element
+         */
         InsideTag = 2,
-        /** Writer is at a closing tag, e.g. </node> */
+        /**
+         * Writer is at a closing tag, e.g. </node>
+         */
         CloseTag = 3
     }
 
@@ -377,9 +469,13 @@ declare namespace xmlbuilder {
     function begin(options?: BeginOptions): XMLDocument;
 
     interface BeginOptions {
-        /** Whether nodes with null values will be kept or ignored */
+        /**
+         * Whether nodes with null values will be kept or ignored
+         */
         keepNullNodes?: boolean;
-        /** Whether attributes with null values will be kept or ignored */
+        /**
+         * Whether attributes with null values will be kept or ignored
+         */
         keepNullAttributes?: boolean;
         /** 
          * Whether decorator strings will be ignored when converting JS 
@@ -391,11 +487,17 @@ declare namespace xmlbuilder {
          * as an object value
          */
         separateArrayItems?: boolean;
-        /** Whether existing html entities are encoded */
+        /**
+         * Whether existing html entities are encoded
+         */
         noDoubleEncoding?: boolean;
-        /** Whether values will be validated and escaped or returned as is */
+        /**
+         * Whether values will be validated and escaped or returned as is
+         */
         noValidation?: boolean;
-        /** A set of functions to use for converting values to strings */
+        /**
+         * A set of functions to use for converting values to strings
+         */
         stringify?: XMLStringifier;
         /** 
          * The default XML writer to use for converting nodes to string. 
@@ -440,37 +542,69 @@ declare namespace xmlbuilder {
     function streamWriter(stream: Writable, options?: WriterOptions): XMLWriter
 
     enum NodeType {
-        /** An element node */
+        /**
+         * An element node
+         */
         Element = 1,
-        /** An attribute node */
+        /**
+         * An attribute node
+         */
         Attribute = 2,
-        /** A text node */
+        /**
+         * A text node
+         */
         Text = 3,
-        /** A CDATA node */
+        /**
+         * A CDATA node
+         */
         CData = 4,
-        /** An entity reference node inside Doctype */
+        /**
+         * An entity reference node inside Doctype
+         */
         EntityReference = 5,
-        /** An entity declaration node inside Doctype */
+        /**
+         * An entity declaration node inside Doctype
+         */
         EntityDeclaration = 6,
-        /** A processing instruction node */
+        /**
+         * A processing instruction node
+         */
         ProcessingInstruction = 7,
-        /** A comment node */
+        /**
+         * A comment node
+         */
         Comment = 8,
-        /** A document node */
+        /**
+         * A document node
+         */
         Document = 9,
-        /** A Doctype node */
+        /**
+         * A Doctype node
+         */
         DocType = 10,
-        /** A document fragment node */
+        /**
+         * A document fragment node
+         */
         DocumentFragment = 11,
-        /** A notation declaration node inside Doctype */
+        /**
+         * A notation declaration node inside Doctype
+         */
         NotationDeclaration = 12,
-        /** An XML declaration node */
+        /**
+         * An XML declaration node
+         */
         Declaration = 201,
-        /** A raw text node */
+        /**
+         * A raw text node
+         */
         Raw = 202,
-        /** An attribute declaraiton node inside Doctype */
+        /**
+         * An attribute declaraiton node inside Doctype
+         */
         AttributeDeclaration = 203,
-        /** An element declaration node inside Doctype */
+        /**
+         * An element declaration node inside Doctype
+         */
         ElementDeclaration = 204
     }
 
@@ -478,21 +612,37 @@ declare namespace xmlbuilder {
     export import writerState = WriterState;
 
     interface XMLToStringOptions {
-        /** Pretty print the XML tree */
+        /**
+         * Pretty print the XML tree
+         */
         pretty?: boolean;
-        /** Indentation string for pretty printing */
+        /**
+         * Indentation string for pretty printing
+         */
         indent?: string;
-        /** Newline string for pretty printing */
+        /**
+         * Newline string for pretty printing
+         */
         newline?: string;
-        /** A fixed number of indents to offset strings */
+        /**
+         * A fixed number of indents to offset strings
+         */
         offset?: number;
-        /** Maximum column width */
+        /**
+         * Maximum column width
+         */
         width?: number;
-        /** Whether to output closing tags for empty element nodes */
+        /**
+         * Whether to output closing tags for empty element nodes
+         */
         allowEmpty?: boolean;
-        /** Whether to pretty print text nodes */
+        /**
+         * Whether to pretty print text nodes
+         */
         dontPrettyTextNodes?: boolean;
-        /** A string to insert before closing slash character */
+        /**
+         * A string to insert before closing slash character
+         */
         spaceBeforeSlash?: string | boolean;
         /** 
          * The default XML writer to use for converting nodes to string. 
@@ -822,7 +972,9 @@ declare namespace xmlbuilder {
      * Represents the base class of character data nodes.
      */
     abstract class XMLCharacterData extends XMLNode {
-        /** Node value */
+        /**
+         * Node value
+         */
         value: string;
     }
 
@@ -837,7 +989,9 @@ declare namespace xmlbuilder {
          */
         toString(options?: XMLToStringOptions): string;
 
-        /** Creates a clone of this node */
+        /**
+         * Creates a clone of this node
+         */
         clone(): XMLCData;
     }
 
@@ -852,7 +1006,9 @@ declare namespace xmlbuilder {
          */
         toString(options?: XMLToStringOptions): string;
 
-        /** Creates a clone of this node */
+        /**
+         * Creates a clone of this node
+         */
         clone(): XMLComment;
     }
 
@@ -860,7 +1016,8 @@ declare namespace xmlbuilder {
      * Represents a processing instruction node.
      */
     class XMLProcessingInstruction extends XMLCharacterData {
-        /**  Instruction target */
+        /**  Instruction target
+         */
         target: string;
 
         /** 
@@ -870,7 +1027,9 @@ declare namespace xmlbuilder {
          */
         toString(options?: XMLToStringOptions): string;
 
-        /** Creates a clone of this node */
+        /**
+         * Creates a clone of this node
+         */
         clone(): XMLProcessingInstruction;
     }
 
@@ -885,7 +1044,9 @@ declare namespace xmlbuilder {
          */
         toString(options?: XMLToStringOptions): string;
 
-        /** Creates a clone of this node */
+        /**
+         * Creates a clone of this node
+         */
         clone(): XMLRaw;
     }
 
@@ -900,7 +1061,9 @@ declare namespace xmlbuilder {
          */
         toString(options?: XMLToStringOptions): string;
 
-        /** Creates a clone of this node */
+        /**
+         * Creates a clone of this node
+         */
         clone(): XMLText;
     }
 
@@ -908,11 +1071,17 @@ declare namespace xmlbuilder {
      * Represents the XML declaration.
      */
     class XMLDeclaration {
-        /** A version number string, e.g. 1.0 */
+        /**
+         * A version number string, e.g. 1.0
+         */
         version: string;
-        /** Encoding declaration, e.g. UTF-8 */
+        /**
+         * Encoding declaration, e.g. UTF-8
+         */
         encoding: string;
-        /** Standalone document declaration: true or false */
+        /**
+         * Standalone document declaration: true or false
+         */
         standalone: boolean;
 
         /** 
@@ -1100,11 +1269,17 @@ declare namespace xmlbuilder {
      * Represents an attribute list in the DTD.
      */
     class XMLDTDAttList {
-        /** The name of the element containing this attribute */
+        /**
+         * The name of the element containing this attribute
+         */
         elementName: string;
-        /** Attribute name */
+        /**
+         * Attribute name
+         */
         attributeName: string;
-        /** Type of the attribute */
+        /**
+         * Type of the attribute
+         */
         attributeType: string;
         /** 
          * Default value type (either `#REQUIRED`, `#IMPLIED`, `#FIXED` 
@@ -1129,9 +1304,12 @@ declare namespace xmlbuilder {
      * Represents an element in the DTD.
      */
     class XMLDTDElement {
-        /** The name of the element */
+        /**
+         * The name of the element
+         */
         name: string;
-        /** Element content*/
+        /**
+         * Element content*/
         value: string;
 
         /** 
@@ -1151,13 +1329,21 @@ declare namespace xmlbuilder {
          * general entity (`false`).
          */
         pe: boolean;
-        /** The name of the entity */
+        /**
+         * The name of the entity
+         */
         name: string;
-        /** Public identifier */
+        /**
+         * Public identifier
+         */
         pubID: string;
-        /** System identifier */
+        /**
+         * System identifier
+         */
         sysID: string;
-        /** Notation declaration */
+        /**
+         * Notation declaration
+         */
         nData: string;
 
         /** 
@@ -1172,11 +1358,17 @@ declare namespace xmlbuilder {
      * Represents a notation in the DTD.
      */
     class XMLDTDNotation {
-        /** The name of the notation */
+        /**
+         * The name of the notation
+         */
         name: string;
-        /** Public identifier */
+        /**
+         * Public identifier
+         */
         pubID: string;
-        /** System identifier */
+        /**
+         * System identifier
+         */
         sysID: string;
 
         /** 
@@ -1191,9 +1383,13 @@ declare namespace xmlbuilder {
      * Represents an element node.
      */
     class XMLElement extends XMLNode {
-        /** Element node name */
+        /**
+         * Element node name
+         */
         name: string;
-        /** Element attributes */
+        /**
+         * Element attributes
+         */
         attribs: { string: XMLAttribute };
 
         /** 
