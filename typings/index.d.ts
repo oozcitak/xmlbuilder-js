@@ -1,4 +1,4 @@
-import Writable from 'stream';
+import { Writable } from 'stream';
 // Type definitions for xmlbuilder
 // Project: https://github.com/oozcitak/xmlbuilder-js
 //
@@ -828,7 +828,7 @@ declare namespace xmlbuilder {
     /**
      * Represents a CDATA node.
      */
-    class XMLCData extends CharacterData {
+    class XMLCData extends XMLCharacterData {
         /** 
          * Converts the node to string 
          * 
@@ -843,7 +843,7 @@ declare namespace xmlbuilder {
     /**
      * Represents a comment node.
      */
-    class XMLComment extends CharacterData {
+    class XMLComment extends XMLCharacterData {
         /** 
          * Converts the node to string 
          * 
@@ -858,7 +858,7 @@ declare namespace xmlbuilder {
     /**
      * Represents a processing instruction node.
      */
-    class XMLProcessingInstruction extends CharacterData {
+    class XMLProcessingInstruction extends XMLCharacterData {
         /**  Instruction target */
         target: string;
 
@@ -876,7 +876,7 @@ declare namespace xmlbuilder {
     /**
      * Represents a raw text node.
      */
-    class XMLRaw extends CharacterData {
+    class XMLRaw extends XMLCharacterData {
         /** 
          * Converts the node to string 
          * 
@@ -891,7 +891,7 @@ declare namespace xmlbuilder {
     /**
      * Represents a text node.
      */
-    class XMLText extends CharacterData {
+    class XMLText extends XMLCharacterData {
         /** 
          * Converts the node to string 
          * 
@@ -925,7 +925,20 @@ declare namespace xmlbuilder {
     /**
      * Represents the document type definition.
      */
-    class XMLDocType extends XMLNode {
+    class XMLDocType {
+        /** 
+         * Type of the node 
+         */
+        type: NodeType;
+        /** 
+         * Parent element node 
+         */
+        parent: XMLElement;
+        /** 
+         * Child nodes 
+         */
+        children: XMLNode[]
+
         /** Public identifier of the DTD */
         pubID: string;
         /** System identifier of the DTD */
@@ -959,8 +972,8 @@ declare namespace xmlbuilder {
          * 
          * @returns the DOCTYPE node
          */
-        attList(elementName: string, attributeName: string, attributeType: string, defaultValueType?: string, defaultValue?: any): XMLDocType;
-        att(elementName: string, attributeName: string, attributeType: string, defaultValueType?: string, defaultValue?: any): XMLDocType;
+        attList(elementName: string, attributeName: string, attributeType: string, defaultValueType: string, defaultValue?: any): XMLDocType;
+        att(elementName: string, attributeName: string, attributeType: string, defaultValueType: string, defaultValue?: any): XMLDocType;
 
         /**
          * Creates a general entity declaration
@@ -1061,6 +1074,21 @@ declare namespace xmlbuilder {
          * Creates a clone of this node 
          */
         clone(): XMLDocType;
+
+        /**
+         * Returns the document node.
+         * 
+         * _Alias:_ `doc`
+         */
+        document(): XMLDocument;
+        doc(): XMLDocument;
+
+        /**
+         * Converts the XML document to string.
+         * 
+         * @param options - conversion options
+         */
+        end(options?: XMLWriter | XMLToStringOptions): string;
     }
 
     /**
