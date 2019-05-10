@@ -2,6 +2,10 @@
 
 All notable changes to this project are documented in this file. This project adheres to [Semantic Versioning](http://semver.org/#semantic-versioning-200).
 
+## [13.0.1] - 2019-05-10
+
+- Corrected typings for doctype and character data nodes. See [#211](https://github.com/oozcitak/xmlbuilder-js/issues/211).
+
 ## [13.0.0] - 2019-05-07
 
 - Rewrote all TypeSript typings to be strictly compatible with the API. This is a breaking change for TypeScript users only.
@@ -491,10 +495,10 @@ root.ele({ number: [ "one", "two"  ]});
 [0.2.2]: https://github.com/oozcitak/xmlbuilder-js/compare/v0.2.1...v0.2.2
 [0.3.0]: https://github.com/oozcitak/xmlbuilder-js/compare/v0.2.2...v0.3.0
 [0.3.1]: https://github.com/oozcitak/xmlbuilder-js/compare/v0.3.0...v0.3.1
-[0.3.10]: https://github.com/oozcitak/xmlbuilder-js/compare/v0.3.3...v0.3.10
-[0.3.11]: https://github.com/oozcitak/xmlbuilder-js/compare/v0.3.10...v0.3.11
 [0.3.2]: https://github.com/oozcitak/xmlbuilder-js/compare/v0.3.1...v0.3.2
 [0.3.3]: https://github.com/oozcitak/xmlbuilder-js/compare/v0.3.2...v0.3.3
+[0.3.10]: https://github.com/oozcitak/xmlbuilder-js/compare/v0.3.3...v0.3.10
+[0.3.11]: https://github.com/oozcitak/xmlbuilder-js/compare/v0.3.10...v0.3.11
 [0.4.0]: https://github.com/oozcitak/xmlbuilder-js/compare/v0.3.11...v0.4.0
 [0.4.1]: https://github.com/oozcitak/xmlbuilder-js/compare/v0.4.0...v0.4.1
 [0.4.2]: https://github.com/oozcitak/xmlbuilder-js/compare/v0.4.1...v0.4.2
@@ -505,14 +509,6 @@ root.ele({ number: [ "one", "two"  ]});
 [1.1.0]: https://github.com/oozcitak/xmlbuilder-js/compare/v1.0.2...v1.1.0
 [1.1.1]: https://github.com/oozcitak/xmlbuilder-js/compare/v1.1.0...v1.1.1
 [1.1.2]: https://github.com/oozcitak/xmlbuilder-js/compare/v1.1.1...v1.1.2
-[10.0.0]: https://github.com/oozcitak/xmlbuilder-js/compare/v9.0.7...v10.0.0
-[10.1.0]: https://github.com/oozcitak/xmlbuilder-js/compare/v10.0.0...v10.1.0
-[10.1.1]: https://github.com/oozcitak/xmlbuilder-js/compare/v10.1.0...v10.1.1
-[11.0.0]: https://github.com/oozcitak/xmlbuilder-js/compare/v10.1.1...v11.0.0
-[11.0.1]: https://github.com/oozcitak/xmlbuilder-js/compare/v11.0.0...v11.0.1
-[12.0.0]: https://github.com/oozcitak/xmlbuilder-js/compare/v11.0.1...v12.0.0
-[12.0.1]: https://github.com/oozcitak/xmlbuilder-js/compare/v12.0.0...v12.0.1
-[13.0.0]: https://github.com/oozcitak/xmlbuilder-js/compare/v12.0.1...v13.0.0
 [2.0.0]: https://github.com/oozcitak/xmlbuilder-js/compare/v1.1.2...v2.0.0
 [2.0.1]: https://github.com/oozcitak/xmlbuilder-js/compare/v2.0.0...v2.0.1
 [2.1.0]: https://github.com/oozcitak/xmlbuilder-js/compare/v2.0.1...v2.1.0
@@ -556,3 +552,12 @@ root.ele({ number: [ "one", "two"  ]});
 [9.0.3]: https://github.com/oozcitak/xmlbuilder-js/compare/v9.0.2...v9.0.3
 [9.0.4]: https://github.com/oozcitak/xmlbuilder-js/compare/v9.0.3...v9.0.4
 [9.0.7]: https://github.com/oozcitak/xmlbuilder-js/compare/v9.0.4...v9.0.7
+[10.0.0]: https://github.com/oozcitak/xmlbuilder-js/compare/v9.0.7...v10.0.0
+[10.1.0]: https://github.com/oozcitak/xmlbuilder-js/compare/v10.0.0...v10.1.0
+[10.1.1]: https://github.com/oozcitak/xmlbuilder-js/compare/v10.1.0...v10.1.1
+[11.0.0]: https://github.com/oozcitak/xmlbuilder-js/compare/v10.1.1...v11.0.0
+[11.0.1]: https://github.com/oozcitak/xmlbuilder-js/compare/v11.0.0...v11.0.1
+[12.0.0]: https://github.com/oozcitak/xmlbuilder-js/compare/v11.0.1...v12.0.0
+[12.0.1]: https://github.com/oozcitak/xmlbuilder-js/compare/v12.0.0...v12.0.1
+[13.0.0]: https://github.com/oozcitak/xmlbuilder-js/compare/v12.0.1...v13.0.0
+[13.0.1]: https://github.com/oozcitak/xmlbuilder-js/compare/v13.0.0...v13.0.1
