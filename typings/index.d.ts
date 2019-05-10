@@ -1,14 +1,15 @@
-// Type definitions for xmlbuilder
-// Project: https://github.com/oozcitak/xmlbuilder-js
-//
-// Original definitions (https://github.com/DefinitelyTyped/DefinitelyTyped) by:
-//   Wallymathieu <https://github.com/wallymathieu>
-//   GaikwadPratik <https://github.com/GaikwadPratik>
 
 import { Writable } from 'stream';
 
 export = xmlbuilder;
 
+/** 
+ * Type definitions for [xmlbuilder](https://github.com/oozcitak/xmlbuilder-js)
+ *
+ * Original definitions on [DefinitelyTyped](https://github.com/DefinitelyTyped/DefinitelyTyped) by:
+ *   - Wallymathieu <https://github.com/wallymathieu>
+ *   - GaikwadPratik <https://github.com/GaikwadPratik>
+ */
 declare namespace xmlbuilder {
     /**
      * Creates a new XML document and returns the root element node.
@@ -21,7 +22,7 @@ declare namespace xmlbuilder {
      */
     function create(nameOrObject: string | { [name: string]: Object },
         xmldecOrOptions?: CreateOptions, doctypeOrOptions?: CreateOptions,
-        options?: CreateOptions): XMLElement | XMLElement;
+        options?: CreateOptions): XMLElement;
 
     /**
      * Defines the options used while creating an XML document with the `create`
@@ -368,7 +369,8 @@ declare namespace xmlbuilder {
          * @param options - writer options and state information
          * @param level - current depth of the XML tree
          */
-        dtdNotation?: (node: XMLDTDNotation, options: WriterOptions, level: number) => any
+        dtdNotation?: (node: XMLDTDNotation, options: WriterOptions, 
+            level: number) => any
 
         /** 
          * Called right after starting writing a node. This function does not 
@@ -1530,7 +1532,8 @@ declare namespace xmlbuilder {
          * 
          * _Aliases:_ `ele` and `e`
          * 
-         * @param name - element node name or a JS object defining the nodes to insert
+         * @param name - element node name or a JS object defining the nodes 
+         * to insert
          * @param attributes - node attributes
          * @param text - node text
          * 
