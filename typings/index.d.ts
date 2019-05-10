@@ -1,10 +1,11 @@
-import { Writable } from 'stream';
 // Type definitions for xmlbuilder
 // Project: https://github.com/oozcitak/xmlbuilder-js
 //
 // Original definitions (https://github.com/DefinitelyTyped/DefinitelyTyped) by:
 //   Wallymathieu <https://github.com/wallymathieu>
 //   GaikwadPratik <https://github.com/GaikwadPratik>
+
+import { Writable } from 'stream';
 
 export = xmlbuilder;
 
@@ -731,9 +732,9 @@ declare namespace xmlbuilder {
          * @param value - node value
          * 
          * @returns the parent node
-         */        
+         */
         instructionBefore(target: string, value: any): XMLElement;
-      
+
         /**
          * Creates a processing instruction node after the current node.
          * 
@@ -741,7 +742,7 @@ declare namespace xmlbuilder {
          * @param value - node value
          * 
          * @returns the parent node
-         */        
+         */
         instructionAfter(target: string, value: any): XMLElement;
 
         /**
@@ -939,9 +940,13 @@ declare namespace xmlbuilder {
          */
         children: XMLNode[]
 
-        /** Public identifier of the DTD */
+        /** 
+         * Public identifier of the DTD 
+         */
         pubID: string;
-        /** System identifier of the DTD */
+        /** 
+         * System identifier of the DTD 
+         */
         sysID: string;
 
         /**
@@ -964,9 +969,9 @@ declare namespace xmlbuilder {
          * 
          * @param elementName - the name of the element containing this attribute
          * @param attributeName - attribute name
-         * @param attributeType - type of the attribute (defaults to `CDATA`)
+         * @param attributeType - type of the attribute
          * @param defaultValueType - default value type (either `#REQUIRED`,
-         * `#IMPLIED`, `#FIXED` or `#DEFAULT`) (defaults to `#IMPLIED`)
+         * `#IMPLIED`, `#FIXED` or `#DEFAULT`)
          * @param defaultValue - default value of the attribute (only used
          * for `#FIXED` or `#DEFAULT`)
          * 
@@ -1054,7 +1059,7 @@ declare namespace xmlbuilder {
         ins(target: string, value: any): XMLDocType;
         ins(array: Array<any>): XMLDocType;
         ins(obj: Object): XMLDocType;
-      
+
         /**
          * Returns the root element node.
          * 
