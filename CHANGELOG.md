@@ -2,6 +2,10 @@
 
 All notable changes to this project are documented in this file. This project adheres to [Semantic Versioning](http://semver.org/#semantic-versioning-200).
 
+## [13.0.2] - 2019-05-22
+
+- Fixed a bug where importing a document into an empty parent document did not set the root node. See [#213](https://github.com/oozcitak/xmlbuilder-js/issues/213).
+
 ## [13.0.1] - 2019-05-10
 
 - Corrected typings for doctype and character data nodes. See [#211](https://github.com/oozcitak/xmlbuilder-js/issues/211).
@@ -561,3 +565,4 @@ root.ele({ number: [ "one", "two"  ]});
 [12.0.1]: https://github.com/oozcitak/xmlbuilder-js/compare/v12.0.0...v12.0.1
 [13.0.0]: https://github.com/oozcitak/xmlbuilder-js/compare/v12.0.1...v13.0.0
 [13.0.1]: https://github.com/oozcitak/xmlbuilder-js/compare/v13.0.0...v13.0.1
+[13.0.2]: https://github.com/oozcitak/xmlbuilder-js/compare/v13.0.1...v13.0.2
