@@ -542,6 +542,19 @@ module.exports = class XMLNode
     clonedRoot.parent = @
     clonedRoot.isRoot = false
     @children.push clonedRoot
+
+    # set properties if imported element becomes the root node
+    if @type is NodeType.Document
+      clonedRoot.isRoot = true
+      clonedRoot.documentObject = @
+      @rootObject = clonedRoot
+      # set dtd name
+      if @children
+        for child in @children
+          if child.type is NodeType.DocType
+            child.name = clonedRoot.name
+            break
+
     return @
   
 
