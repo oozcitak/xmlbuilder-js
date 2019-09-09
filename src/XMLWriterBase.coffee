@@ -105,6 +105,7 @@ module.exports = class XMLWriterBase
     return r
 
   cdata: (node, options, level) ->
+    options.suppressPrettyCount++
     @openNode(node, options, level)
     options.state = WriterState.OpenTag
     r = @indent(node, options, level) + '<![CDATA['
@@ -114,6 +115,7 @@ module.exports = class XMLWriterBase
     r += ']]>' + @endline(node, options, level)
     options.state = WriterState.None
     @closeNode(node, options, level)
+    options.suppressPrettyCount--
 
     return r
 
@@ -217,7 +219,7 @@ module.exports = class XMLWriterBase
       else
         options.state = WriterState.CloseTag
         r += options.spaceBeforeSlash + '/>' + @endline(node, options, level)
-    else if options.pretty and childNodeCount == 1 and (firstChildNode.type is NodeType.Text or firstChildNode.type is NodeType.Raw) and firstChildNode.value?
+    else if options.pretty and childNodeCount == 1 and (firstChildNode.type is NodeType.Text or firstChildNode.type is NodeType.Raw or firstChildNode.type is NodeType.CData) and firstChildNode.value?
       # do not indent text-only nodes
       r += '>'
       options.state = WriterState.InsideTag

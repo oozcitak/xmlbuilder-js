@@ -114,8 +114,8 @@ module.exports = class XMLStreamWriter extends XMLWriterBase
       else
         options.state = WriterState.CloseTag
         @stream.write options.spaceBeforeSlash + '/>'
-    else if options.pretty and childNodeCount == 1 and (firstChildNode.type is NodeType.Text or firstChildNode.type is NodeType.Raw) and firstChildNode.value?
-      # do not indent text-only nodes
+    else if options.pretty and childNodeCount == 1 and (firstChildNode.type is NodeType.Text or firstChildNode.type is NodeType.Raw or firstChildNode.type is NodeType.CData) and firstChildNode.value?
+      # do not indent text-only or CDATA nodes
       @stream.write '>'
       options.state = WriterState.InsideTag
       options.suppressPrettyCount++
