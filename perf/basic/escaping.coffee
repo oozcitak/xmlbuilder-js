@@ -1,32 +1,32 @@
-perf 'Text escaping', 10000, () ->
+perf 'Text escaping', 100000, () ->
   obj =
     ele:
       '#text': '&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r'
 
   xml(obj)
 
-perf 'Text escaping (no replacement)', 10000, () ->
+perf 'Text escaping (no replacement)', 100000, () ->
   obj =
     ele:
       '#text': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque faucibus dui metus, quis mattis nibh sollicitudin ut.'
 
   xml(obj)
 
-perf 'Attribute value escaping', 10000, () ->
+perf 'Attribute value escaping', 100000, () ->
   obj =
     ele:
       '@att': '&<"\t\n\r&<"\t\n\r&<"\t\n\r&<"\t\n\r&<"\t\n\r&<"\t\n\r&<"\t\n\r&<"\t\n\r&<"\t\n\r&<"\t\n\r&<"\t\n\r&<"\t\n\r&<"\t\n\r'
 
   xml(obj)
 
-perf 'Attribute value escaping (no replacement)', 10000, () ->
+perf 'Attribute value escaping (no replacement)', 100000, () ->
   obj =
     ele:
       '@att': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque faucibus dui metus, quis mattis nibh sollicitudin ut.'
 
   xml(obj)
 
-perf 'Long text', 10000, () ->
+perf 'Long text', 100000, () ->
   text = """
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque faucibus dui metus, quis mattis nibh sollicitudin ut. Suspendisse efficitur vestibulum purus ut luctus. Maecenas mollis purus sit amet enim sollicitudin dapibus. Aenean eget enim maximus, semper lacus eget, posuere sapien. Maecenas iaculis ipsum in facilisis commodo. Integer tincidunt, mi ut interdum euismod, massa ligula tincidunt sem, in dapibus ipsum risus quis mauris. Nullam maximus mi quis mollis rhoncus. Donec sollicitudin, neque fringilla feugiat vulputate, risus elit luctus nisi, in varius magna enim sed lorem. Phasellus elementum lacus in nisi pharetra, nec semper arcu sodales. Suspendisse ac condimentum magna, vel pretium massa. Duis vehicula neque sapien, id cursus nulla vestibulum at. Sed vehicula consequat eros, in hendrerit risus dictum quis. Nunc nec sodales leo. Suspendisse ut lorem in ipsum bibendum imperdiet sit amet a orci. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
 
@@ -139,7 +139,7 @@ Donec a massa porta, vehicula diam et, pulvinar tortor. Duis tincidunt, nibh ut 
 
   xml('root').txt(text)
 
-perf 'Long attribute value', 10000, () ->
+perf 'Long attribute value', 100000, () ->
   text = """
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque faucibus dui metus, quis mattis nibh sollicitudin ut. Suspendisse efficitur vestibulum purus ut luctus. Maecenas mollis purus sit amet enim sollicitudin dapibus. Aenean eget enim maximus, semper lacus eget, posuere sapien. Maecenas iaculis ipsum in facilisis commodo. Integer tincidunt, mi ut interdum euismod, massa ligula tincidunt sem, in dapibus ipsum risus quis mauris. Nullam maximus mi quis mollis rhoncus. Donec sollicitudin, neque fringilla feugiat vulputate, risus elit luctus nisi, in varius magna enim sed lorem. Phasellus elementum lacus in nisi pharetra, nec semper arcu sodales. Suspendisse ac condimentum magna, vel pretium massa. Duis vehicula neque sapien, id cursus nulla vestibulum at. Sed vehicula consequat eros, in hendrerit risus dictum quis. Nunc nec sodales leo. Suspendisse ut lorem in ipsum bibendum imperdiet sit amet a orci. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
 
