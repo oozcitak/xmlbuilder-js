@@ -1,11 +1,11 @@
 {
   "13.0.2": {
-    "Text escaping": "0.0297",
-    "Long text": "0.0302",
-    "Long attribute value": "0.0474",
-    "Create simple object": "0.0567",
-    "Text escaping (no replacement)": "0.0083",
-    "Attribute value escaping": "0.0247",
-    "Attribute value escaping (no replacement)": "0.0077"
+    "Text escaping": "0.0161",
+    "Long text": "0.0280",
+    "Long attribute value": "0.0455",
+    "Create simple object": "0.0246",
+    "Text escaping (no replacement)": "0.0043",
+    "Attribute value escaping": "0.0126",
+    "Attribute value escaping (no replacement)": "0.0062"
   }
 }
