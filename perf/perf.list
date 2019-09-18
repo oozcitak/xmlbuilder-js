@@ -1,5 +1,6 @@
 {
   "13.0.2": {
-    "Create simple object": "0.0532"
+    "Create simple object": "0.0614",
+    "Character escaping ": "0.0176"
   }
 }
