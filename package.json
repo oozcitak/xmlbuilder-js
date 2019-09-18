@@ -29,10 +29,12 @@
     "coveralls": "*",
     "mocha": "*",
     "nyc": "*",
-    "xpath": "*"
+    "xpath": "*",
+    "git-state": "*"
   },
   "scripts": {
     "prepublishOnly": "coffee -co lib src",
-    "test": "nyc mocha \"test/**/*.coffee\""
+    "test": "nyc mocha \"test/**/*.coffee\"",
+    "perf": "coffee ./perf/index.coffee"
   }
 }
