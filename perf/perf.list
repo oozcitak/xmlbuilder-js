@@ -1,6 +1,8 @@
 {
   "13.0.2": {
-    "Create simple object": "0.0614",
-    "Character escaping ": "0.0176"
+    "Create simple object": "0.0576",
+    "Character escaping ": "0.0189",
+    "Character escaping": "0.0175",
+    "Long text": "0.0295"
   }
 }
