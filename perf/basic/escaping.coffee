@@ -1,9 +1,28 @@
 perf 'Text escaping', 1000, () ->
   obj =
-    node: "simple element"
     ele:
-      '#text': '&<>\r'
-      '@att': '&<"\t\n\r'
+      '#text': '&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r'
+
+  xml(obj)
+
+perf 'Text escaping (no replacement)', 1000, () ->
+  obj =
+    ele:
+      '#text': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque faucibus dui metus, quis mattis nibh sollicitudin ut.'
+
+  xml(obj)
+
+perf 'Attribute value escaping', 1000, () ->
+  obj =
+    ele:
+      '@att': '&<"\t\n\r&<"\t\n\r&<"\t\n\r&<"\t\n\r&<"\t\n\r&<"\t\n\r&<"\t\n\r&<"\t\n\r&<"\t\n\r&<"\t\n\r&<"\t\n\r&<"\t\n\r&<"\t\n\r'
+
+  xml(obj)
+
+perf 'Attribute value escaping (no replacement)', 1000, () ->
+  obj =
+    ele:
+      '@att': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque faucibus dui metus, quis mattis nibh sollicitudin ut.'
 
   xml(obj)
 
