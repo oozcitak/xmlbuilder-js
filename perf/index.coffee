@@ -44,12 +44,17 @@ walkDir = (dirPath) ->
 gitWorking = (dirPath) ->
   return git.isGitSync(dirPath) and git.dirtySync(dirPath)
 
-printPerf = (filename, perfObj) ->
+printPerf = (perfObj) ->
   sorted = sortByVersion(perfObj)
 
-  for version, items of perfObj
+  for sortedItems in sorted
+    version = sortedItems.version
+    items = sortedItems.item
+    sortedItem = sortByDesc(items)
     console.log "\x1b[4mv%s:\x1b[0m", version
-    for description, averageTime of items
+    for item in sortedItem
+      description = item.description
+      averageTime = item.averageTime
       prevItem = findPrevPerf(sorted, version, description)
       if prevItem
         if averageTime < prevItem.item[description]
@@ -61,6 +66,7 @@ printPerf = (filename, perfObj) ->
       else
         console.log "  - \x1b[36m%s\x1b[0m => \x1b[1m%s\x1b[0m ms", description, averageTime
 
+writePerf = (filename, perfObj) ->
   writePerf = { }
   for version, items of perfObj
     if not parseVersion(version)[3]
@@ -83,6 +89,15 @@ sortByVersion = (perfObj) ->
       item: items
   sorted.sort (item1, item2) ->
     compareVersion(item1.version, item2.version)
+
+sortByDesc = (item) ->
+  sorted = []
+  for description, averageTime of item
+    sorted.push
+      description: description
+      averageTime: averageTime
+  sorted.sort (item1, item2) ->
+    if item1.description < item2.description then -1 else 1
 
 parseVersion = (version) ->
   isDirty = version[version.length - 1] is "*"
@@ -123,4 +138,5 @@ gitDir = path.resolve(__dirname, '..')
 perfFile = path.join(perfDir, './perf.list')
 perfObj = readPerf(perfFile)
 runPerf(perfDir)
-printPerf(perfFile, perfObj)
+printPerf(perfObj)
+writePerf(perfFile, perfObj)
