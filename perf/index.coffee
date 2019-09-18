@@ -51,7 +51,12 @@ printPerf = (perfObj) ->
     version = sortedItems.version
     items = sortedItems.item
     sortedItem = sortByDesc(items)
-    console.log "\x1b[4mv%s:\x1b[0m", version
+
+    if parseVersion(version)[3]
+      console.log "\x1b[4mv%s (Working Tree):\x1b[0m", version
+    else
+      console.log "\x1b[4mv%s:\x1b[0m", version
+
     for item in sortedItem
       description = item.description
       averageTime = item.averageTime
