@@ -1,1 +1,8 @@
-{}
+{
+  "13.0.2": {
+    "Text escaping": "0.0366",
+    "Long text": "0.0334",
+    "Long attribute value": "0.0468",
+    "Create simple object": "0.0513"
+  }
+}
