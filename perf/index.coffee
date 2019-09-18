@@ -60,11 +60,11 @@ printPerf = (perfObj) ->
         if averageTime < prevItem.item[description]
           console.log "  - \x1b[36m%s\x1b[0m => \x1b[1m\x1b[32m%s\x1b[0m ms (v%s was \x1b[1m%s\x1b[0m ms) \x1b[1m%s\x1b[0m% better", description, averageTime, prevItem.version, prevItem.item[description], (-100*(averageTime - prevItem.item[description]) / prevItem.item[description]).toFixed(0)
         else if averageTime > prevItem.item[description]
-          console.log "  - \x1b[36m%s\x1b[0m => \x1b[1m\x1b[41m%s\x1b[0m ms (v%s was \x1b[1m%s\x1b[0m ms) \x1b[1m%s\x1b[0m% worse", description, averageTime, prevItem.version, prevItem.item[description], (100*(averageTime - prevItem.item[description]) / prevItem.item[description]).toFixed(0)
+          console.log "  - \x1b[36m%s\x1b[0m => \x1b[1m\x1b[31m%s\x1b[0m ms (v%s was \x1b[1m%s\x1b[0m ms) \x1b[1m%s\x1b[0m% worse", description, averageTime, prevItem.version, prevItem.item[description], (100*(averageTime - prevItem.item[description]) / prevItem.item[description]).toFixed(0)
         else
           console.log "  - \x1b[36m%s\x1b[0m => \x1b[1m%s\x1b[0m ms (v%s was \x1b[1m%s\x1b[0m ms)", description, averageTime, prevItem.version, prevItem.item[description]
       else
-        console.log "  - \x1b[36m%s\x1b[0m => \x1b[1m%s\x1b[0m ms", description, averageTime
+        console.log "  - \x1b[36m%s\x1b[0m => \x1b[1m%s\x1b[0m ms (no previous result)", description, averageTime
 
 writePerf = (filename, perfObj) ->
   writePerf = { }

@@ -1,4 +1,4 @@
-perf 'Create simple object', 1000, () ->
+perf 'Create simple object', 10000, () ->
   obj =
     ele: "simple element"
     person:
