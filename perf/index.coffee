@@ -45,8 +45,6 @@ gitWorking = (dirPath) ->
   return git.isGitSync(dirPath) and git.dirtySync(dirPath)
 
 printPerf = (filename, perfObj) ->
-  fs.writeFileSync(filename, JSON.stringify(perfObj, null, 2) , 'utf-8')
-
   sorted = sortByVersion(perfObj)
 
   for version, items of perfObj
@@ -62,6 +60,12 @@ printPerf = (filename, perfObj) ->
           console.log "  - \x1b[36m%s\x1b[0m => \x1b[1m%s\x1b[0m ms (v%s was \x1b[1m%s\x1b[0m ms)", description, averageTime, prevItem.version, prevItem.item[description]
       else
         console.log "  - \x1b[36m%s\x1b[0m => \x1b[1m%s\x1b[0m ms", description, averageTime
+
+  writePerf = { }
+  for version, items of perfObj
+    if not parseVersion(version)[3]
+      writePerf[version] = items
+  fs.writeFileSync(filename, JSON.stringify(writePerf, null, 2) , 'utf-8')
 
 findPrevPerf = (sorted, version, description) ->
   prev = undefined
