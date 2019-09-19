@@ -1,30 +1,21 @@
-perf 'Text escaping', 100000, () ->
-  obj =
-    ele:
-      '#text': '&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r'
+XMLStringifier = require('../../src/XMLStringifier')
+stringify = new XMLStringifier()
 
-  xml(obj)
+perf 'Text escaping', 100000, () ->
+  text = '&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r'
+  stringify.textEscape(text)
 
 perf 'Text escaping (no replacement)', 100000, () ->
-  obj =
-    ele:
-      '#text': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque faucibus dui metus, quis mattis nibh sollicitudin ut.'
-
-  xml(obj)
+  text = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque faucibus dui metus, quis mattis nibh sollicitudin ut.'
+  stringify.textEscape(text)
 
 perf 'Attribute value escaping', 100000, () ->
-  obj =
-    ele:
-      '@att': '&<"\t\n\r&<"\t\n\r&<"\t\n\r&<"\t\n\r&<"\t\n\r&<"\t\n\r&<"\t\n\r&<"\t\n\r&<"\t\n\r&<"\t\n\r&<"\t\n\r&<"\t\n\r&<"\t\n\r'
-
-  xml(obj)
+  att = '&<"\t\n\r&<"\t\n\r&<"\t\n\r&<"\t\n\r&<"\t\n\r&<"\t\n\r&<"\t\n\r&<"\t\n\r&<"\t\n\r&<"\t\n\r&<"\t\n\r&<"\t\n\r&<"\t\n\r'
+  stringify.attEscape(att)
 
 perf 'Attribute value escaping (no replacement)', 100000, () ->
-  obj =
-    ele:
-      '@att': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque faucibus dui metus, quis mattis nibh sollicitudin ut.'
-
-  xml(obj)
+  att = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque faucibus dui metus, quis mattis nibh sollicitudin ut.'
+  stringify.attEscape(att)
 
 perf 'Long text', 100000, () ->
   text = """
@@ -137,7 +128,7 @@ Curabitur non nisi lectus. Aliquam finibus lorem id dui molestie, sed ullamcorpe
 Donec a massa porta, vehicula diam et, pulvinar tortor. Duis tincidunt, nibh ut pharetra hendrerit, est orci egestas urna, et sollicitudin massa lacus aliquam ex. Curabitur in quam sed elit scelerisque pretium nec rhoncus nulla. In a ligula.  
   """
 
-  xml('root').txt(text)
+  stringify.textEscape(text)
 
 perf 'Long attribute value', 100000, () ->
   text = """
@@ -250,4 +241,4 @@ Curabitur non nisi lectus. Aliquam finibus lorem id dui molestie, sed ullamcorpe
 Donec a massa porta, vehicula diam et, pulvinar tortor. Duis tincidunt, nibh ut pharetra hendrerit, est orci egestas urna, et sollicitudin massa lacus aliquam ex. Curabitur in quam sed elit scelerisque pretium nec rhoncus nulla. In a ligula.  
   """
 
-  xml('root').att('att', text)
+  stringify.attEscape(text)
