@@ -77,11 +77,11 @@ printPerf = (perfObj) ->
         console.log "  - \x1b[36m%s\x1b[0m => \x1b[1m%s\x1b[0m ms (no previous result)", description, averageTime
 
 writePerf = (filename, perfObj) ->
-  writePerf = { }
+  writePerfObj = { }
   for version, items of perfObj
     if not parseVersion(version)[3]
-      writePerf[version] = items
-  fs.writeFileSync(filename, JSON.stringify(writePerf, null, 2) , 'utf-8')
+      writePerfObj[version] = items
+  fs.writeFileSync(filename, JSON.stringify(writePerfObj, null, 2) , 'utf-8')
 
 findPrevPerf = (sorted, version, description) ->
   prev = undefined
