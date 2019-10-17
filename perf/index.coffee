@@ -62,19 +62,28 @@ printPerf = (perfObj) ->
     else
       console.log "\x1b[4mv%s:\x1b[0m", version
 
+    longestDescription = 0
+    for item in sortedItem
+      descriptionLength = item.description.length
+      if descriptionLength > longestDescription 
+        longestDescription = descriptionLength
+
     for item in sortedItem
       description = item.description
       averageTime = item.averageTime
       prevItem = findPrevPerf(sorted, version, description)
       if prevItem
         if averageTime < prevItem.item[description]
-          console.log "  - \x1b[36m%s\x1b[0m => \x1b[1m\x1b[32m%s\x1b[0m ms (v%s was \x1b[1m%s\x1b[0m ms) \x1b[1m%s\x1b[0m% better", description, averageTime, prevItem.version, prevItem.item[description], (-100*(averageTime - prevItem.item[description]) / prevItem.item[description]).toFixed(0)
+          console.log "  - \x1b[36m%s\x1b[0m \x1b[1m\x1b[32m%s\x1b[0m ms (v%s was \x1b[1m%s\x1b[0m ms, -\x1b[1m%s\x1b[0m%)", padRight(description, longestDescription), averageTime, prevItem.version, prevItem.item[description], (-100*(averageTime - prevItem.item[description]) / prevItem.item[description]).toFixed(0)
         else if averageTime > prevItem.item[description]
-          console.log "  - \x1b[36m%s\x1b[0m => \x1b[1m\x1b[31m%s\x1b[0m ms (v%s was \x1b[1m%s\x1b[0m ms) \x1b[1m%s\x1b[0m% worse", description, averageTime, prevItem.version, prevItem.item[description], (100*(averageTime - prevItem.item[description]) / prevItem.item[description]).toFixed(0)
+          console.log "  - \x1b[36m%s\x1b[0m \x1b[1m\x1b[31m%s\x1b[0m ms (v%s was \x1b[1m%s\x1b[0m ms, +\x1b[1m%s\x1b[0m%)", padRight(description, longestDescription), averageTime, prevItem.version, prevItem.item[description], (100*(averageTime - prevItem.item[description]) / prevItem.item[description]).toFixed(0)
         else
-          console.log "  - \x1b[36m%s\x1b[0m => \x1b[1m%s\x1b[0m ms (v%s was \x1b[1m%s\x1b[0m ms)", description, averageTime, prevItem.version, prevItem.item[description]
+          console.log "  - \x1b[36m%s\x1b[0m \x1b[1m%s\x1b[0m ms (v%s was \x1b[1m%s\x1b[0m ms,  \x1b[1m%s\x1b[0m%)", padRight(description, longestDescription), averageTime, prevItem.version, prevItem.item[description], (100*(averageTime - prevItem.item[description]) / prevItem.item[description]).toFixed(0)
       else
-        console.log "  - \x1b[36m%s\x1b[0m => \x1b[1m%s\x1b[0m ms (no previous result)", description, averageTime
+        console.log "  - \x1b[36m%s\x1b[0m \x1b[1m%s\x1b[0m ms (no previous result)", padRight(description, longestDescription), averageTime
+
+padRight = (str, len) ->
+  str + " ".repeat(len - str.length)
 
 writePerf = (filename, perfObj) ->
   writePerfObj = { }
