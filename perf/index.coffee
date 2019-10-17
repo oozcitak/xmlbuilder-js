@@ -9,11 +9,16 @@ global.doc = builder.begin
 
 global.perf = (description, count, func) ->
 
-  startTime = performance.now()
-  for i in [1..count]
-    func()
-  endTime = performance.now()
-  totalTime = endTime - startTime
+  totalTime = 0
+
+  callback = (userFunction) ->
+    startTime = performance.now()
+    for i in [1..count]
+      userFunction()
+    endTime = performance.now()
+    totalTime += endTime - startTime
+  func(callback)
+
   averageTime = totalTime / count
 
   version = require('../package.json').version

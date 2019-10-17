@@ -1,4 +1,4 @@
-perf 'Create simple object', 100000, () ->
+perf 'Create simple object', 100000, (run) ->
   obj =
     ele: "simple element"
     person:
@@ -18,4 +18,4 @@ perf 'Create simple object', 100000, () ->
       details:
         '#text': 'classified'
 
-  xml(obj)
+  run () -> xml(obj)

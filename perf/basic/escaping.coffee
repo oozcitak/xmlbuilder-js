@@ -1,23 +1,23 @@
 XMLStringifier = require('../../src/XMLStringifier')
 stringify = new XMLStringifier()
 
-perf 'Text escaping', 100000, () ->
+perf 'Text escaping', 100000, (run) ->
   text = '&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r&<>\r'
-  stringify.textEscape(text)
+  run () -> stringify.textEscape(text)
 
-perf 'Text escaping (no replacement)', 100000, () ->
+perf 'Text escaping (no replacement)', 100000, (run) ->
   text = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque faucibus dui metus, quis mattis nibh sollicitudin ut.'
-  stringify.textEscape(text)
+  run () -> stringify.textEscape(text)
 
-perf 'Attribute value escaping', 100000, () ->
+perf 'Attribute value escaping', 100000, (run) ->
   att = '&<"\t\n\r&<"\t\n\r&<"\t\n\r&<"\t\n\r&<"\t\n\r&<"\t\n\r&<"\t\n\r&<"\t\n\r&<"\t\n\r&<"\t\n\r&<"\t\n\r&<"\t\n\r&<"\t\n\r'
-  stringify.attEscape(att)
+  run () -> stringify.attEscape(att)
 
-perf 'Attribute value escaping (no replacement)', 100000, () ->
+perf 'Attribute value escaping (no replacement)', 100000, (run) ->
   att = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque faucibus dui metus, quis mattis nibh sollicitudin ut.'
-  stringify.attEscape(att)
+  run () -> stringify.attEscape(att)
 
-perf 'Text escaping (long text)', 100000, () ->
+perf 'Text escaping (long text)', 100000, (run) ->
   text = """
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque faucibus dui metus, quis mattis nibh sollicitudin ut. Suspendisse efficitur vestibulum purus ut luctus. Maecenas mollis purus sit amet enim sollicitudin dapibus. Aenean eget enim maximus, semper lacus eget, posuere sapien. Maecenas iaculis ipsum in facilisis commodo. Integer tincidunt, mi ut interdum euismod, massa ligula tincidunt sem, in dapibus ipsum risus quis mauris. Nullam maximus mi quis mollis rhoncus. Donec sollicitudin, neque fringilla feugiat vulputate, risus elit luctus nisi, in varius magna enim sed lorem. Phasellus elementum lacus in nisi pharetra, nec semper arcu sodales. Suspendisse ac condimentum magna, vel pretium massa. Duis vehicula neque sapien, id cursus nulla vestibulum at. Sed vehicula consequat eros, in hendrerit risus dictum quis. Nunc nec sodales leo. Suspendisse ut lorem in ipsum bibendum imperdiet sit amet a orci. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
 
@@ -128,9 +128,9 @@ Curabitur non nisi lectus. Aliquam finibus lorem id dui molestie, sed ullamcorpe
 Donec a massa porta, vehicula diam et, pulvinar tortor. Duis tincidunt, nibh ut pharetra hendrerit, est orci egestas urna, et sollicitudin massa lacus aliquam ex. Curabitur in quam sed elit scelerisque pretium nec rhoncus nulla. In a ligula.  
   """
 
-  stringify.textEscape(text)
+  run () -> stringify.textEscape(text)
 
-perf 'Attribute value escaping (long value)', 100000, () ->
+perf 'Attribute value escaping (long value)', 100000, (run) ->
   text = """
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque faucibus dui metus, quis mattis nibh sollicitudin ut. Suspendisse efficitur vestibulum purus ut luctus. Maecenas mollis purus sit amet enim sollicitudin dapibus. Aenean eget enim maximus, semper lacus eget, posuere sapien. Maecenas iaculis ipsum in facilisis commodo. Integer tincidunt, mi ut interdum euismod, massa ligula tincidunt sem, in dapibus ipsum risus quis mauris. Nullam maximus mi quis mollis rhoncus. Donec sollicitudin, neque fringilla feugiat vulputate, risus elit luctus nisi, in varius magna enim sed lorem. Phasellus elementum lacus in nisi pharetra, nec semper arcu sodales. Suspendisse ac condimentum magna, vel pretium massa. Duis vehicula neque sapien, id cursus nulla vestibulum at. Sed vehicula consequat eros, in hendrerit risus dictum quis. Nunc nec sodales leo. Suspendisse ut lorem in ipsum bibendum imperdiet sit amet a orci. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
 
@@ -241,4 +241,4 @@ Curabitur non nisi lectus. Aliquam finibus lorem id dui molestie, sed ullamcorpe
 Donec a massa porta, vehicula diam et, pulvinar tortor. Duis tincidunt, nibh ut pharetra hendrerit, est orci egestas urna, et sollicitudin massa lacus aliquam ex. Curabitur in quam sed elit scelerisque pretium nec rhoncus nulla. In a ligula.  
   """
 
-  stringify.attEscape(text)
+  run () -> stringify.attEscape(text)
