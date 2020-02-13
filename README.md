@@ -12,6 +12,10 @@ An XML builder for [node.js](https://nodejs.org/) similar to
 [![Dev Dependency Status](http://img.shields.io/david/dev/oozcitak/xmlbuilder-js.svg?style=flat-square)](https://david-dm.org/oozcitak/xmlbuilder-js)
 [![Code Coverage](https://img.shields.io/coveralls/oozcitak/xmlbuilder-js.svg?style=flat-square)](https://coveralls.io/github/oozcitak/xmlbuilder-js)
 
+### Announcing `xmlbuilder2`:
+
+The new release of `xmlbuilder` is available at [`xmlbuilder2`](https://github.com/oozcitak/xmlbuilder2)! `xmlbuilder2` has been redesigned from the ground up to be fully conforming to the [modern DOM specification](https://dom.spec.whatwg.org). It supports XML namespaces, provides built-in converters for multiple formats, collection functions, and more. Please see [upgrading from xmlbuilder](https://github.com/oozcitak/xmlbuilder2/wiki/Upgrading-from-xmlbuilder) in the wiki and update to `xmlbuilder2`. New development will be focused towards `xmlbuilder2`, `xmlbuilder` will only receive critical bug fixes.
+
 ### Installation:
 
 ``` sh
