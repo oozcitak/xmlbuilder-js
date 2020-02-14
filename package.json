@@ -20,7 +20,7 @@
   "main": "./lib/index",
   "typings": "./typings/index.d.ts",
   "engines": {
-    "node": ">=6.0"
+    "node": ">=8.0"
   },
   "dependencies": {},
   "devDependencies": {
