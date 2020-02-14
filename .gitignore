@@ -2,5 +2,4 @@ lib/
 node_modules/
 coverage/
 .vs/
-package-lock.json
 .nyc_output

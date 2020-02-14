@@ -1,6 +1,0 @@
- --require coffeescript/register
- --require coffee-coverage/register-istanbul
- --require test/common.coffee
- --recursive
- --ui tdd
- --reporter dot

@@ -25,12 +25,23 @@
   "dependencies": {},
   "devDependencies": {
     "coffee-coverage": "*",
-    "coffeescript": "*",
+    "coffeescript": "2.4.1",
     "coveralls": "*",
+    "istanbul": "*",
     "mocha": "*",
     "nyc": "*",
     "xpath": "*",
     "git-state": "*"
+  },
+  "mocha": {
+    "require": [
+      "coffeescript/register",
+      "coffee-coverage/register-istanbul",
+      "test/common.coffee"
+    ],
+    "recursive": true,
+    "ui": "tdd",
+    "reporter": "dot"
   },
   "scripts": {
     "prepublishOnly": "coffee -co lib src",
