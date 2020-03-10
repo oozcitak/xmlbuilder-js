@@ -109,6 +109,13 @@ suite 'Creating XML with string writer:', ->
         .ele('cdata')
             .cdata('<test att="val">this is a test</test>\nSecond line')
         .up()
+        .ele('cdata')
+            .cdata('test')
+        .up()
+        .ele('cdata')
+            .cdata('test1')
+            .cdata('test2')
+        .up()
         .ele('raw')
             .raw('&<>&')
             .up()
@@ -147,9 +154,12 @@ suite 'Creating XML with string writer:', ->
               <!-- CoffeeScript is awesome. -->
               <repo type="git">git://github.com/oozcitak/xmlbuilder-js.git</repo>
           </xmlbuilder>
+          <cdata><![CDATA[<test att="val">this is a test</test>
+      Second line]]></cdata>
+          <cdata><![CDATA[test]]></cdata>
           <cdata>
-              <![CDATA[<test att="val">this is a test</test>
-      Second line]]>
+              <![CDATA[test1]]>
+              <![CDATA[test2]]>
           </cdata>
           <raw>&<>&</raw>
           <atttest att="val">text</atttest>
@@ -186,10 +196,8 @@ suite 'Creating XML with string writer:', ->
                     <!-- CoffeeScript is awesome. -->
                     <repo type="git">git://github.com/oozcitak/xmlbuilder-js.git</repo>
                 </xmlbuilder>
-                <cdata>
-                    <![CDATA[<test att="val">this is a test</test>
-        Second line]]>
-                </cdata>
+                <cdata><![CDATA[<test att="val">this is a test</test>
+        Second line]]></cdata>
                 <raw>&<>&</raw>
                 <atttest att="val">text</atttest>
                 <atttest att="val">text</atttest>
@@ -231,10 +239,8 @@ suite 'Creating XML with string writer:', ->
         <!-- CoffeeScript is awesome. -->
         <repo type="git">git://github.com/oozcitak/xmlbuilder-js.git</repo>
         </xmlbuilder>
-        <cdata>
-        <![CDATA[<test att="val">this is a test</test>
-        Second line]]>
-        </cdata>
+        <cdata><![CDATA[<test att="val">this is a test</test>
+        Second line]]></cdata>
         <raw>&<>&</raw>
         <atttest att="val">text</atttest>
         <atttest att="val">text</atttest>
@@ -274,10 +280,8 @@ suite 'Creating XML with string writer:', ->
       <!-- CoffeeScript is awesome. -->
       <repo type="git">git://github.com/oozcitak/xmlbuilder-js.git</repo>
       </xmlbuilder>
-      <cdata>
-      <![CDATA[<test att="val">this is a test</test>
-      Second line]]>
-      </cdata>
+      <cdata><![CDATA[<test att="val">this is a test</test>
+      Second line]]></cdata>
       <raw>&<>&</raw>
       <atttest att="val">text</atttest>
       <atttest att="val">text</atttest>
@@ -293,6 +297,9 @@ suite 'Creating XML with string writer:', ->
             .up()
         .ele('atttest', 'text')
             .att('att', 'val')
+            .up()
+        .ele('atttest', { 'att': 'val' }).dat('text')
+          .up()
         .end(builder.stringWriter( { pretty: true, indent: '    ', dontPrettyTextNodes: true } ))
 
       """
@@ -300,6 +307,7 @@ suite 'Creating XML with string writer:', ->
       <root>
           <atttest att="val">text</atttest>
           <atttest att="val">text</atttest>
+          <atttest att="val"><![CDATA[text]]></atttest>
       </root>
       """
     )

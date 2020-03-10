@@ -208,7 +208,7 @@ module.exports = class XMLWriterBase
 
     childNodeCount = node.children.length
     firstChildNode = if childNodeCount is 0 then null else node.children[0]
-    if childNodeCount == 0 or node.children.every((e) -> (e.type is NodeType.Text or e.type is NodeType.Raw) and e.value == '')
+    if childNodeCount == 0 or node.children.every((e) -> (e.type is NodeType.Text or e.type is NodeType.Raw or e.type is NodeType.CData) and e.value == '')
       # empty element
       if options.allowEmpty
         r += '>'
@@ -217,7 +217,7 @@ module.exports = class XMLWriterBase
       else
         options.state = WriterState.CloseTag
         r += options.spaceBeforeSlash + '/>' + @endline(node, options, level)
-    else if options.pretty and childNodeCount == 1 and (firstChildNode.type is NodeType.Text or firstChildNode.type is NodeType.Raw) and firstChildNode.value?
+    else if options.pretty and childNodeCount == 1 and (firstChildNode.type is NodeType.Text or firstChildNode.type is NodeType.Raw or firstChildNode.type is NodeType.CData) and firstChildNode.value?
       # do not indent text-only nodes
       r += '>'
       options.state = WriterState.InsideTag
@@ -232,7 +232,7 @@ module.exports = class XMLWriterBase
       # if ANY are a text node, then suppress pretty now
       if options.dontPrettyTextNodes
         for child in node.children
-          if (child.type is NodeType.Text or child.type is NodeType.Raw) and child.value?
+          if (child.type is NodeType.Text or child.type is NodeType.Raw or child.type is NodeType.CData) and child.value?
             options.suppressPrettyCount++
             prettySuppressed = true
             break
