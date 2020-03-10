@@ -2,6 +2,10 @@
 
 All notable changes to this project are documented in this file. This project adheres to [Semantic Versioning](http://semver.org/#semantic-versioning-200).
 
+## [15.0.1] - 2020-03-10
+
+- Pretty printing now keeps single CDATA nodes in-line with their parent elements also with the stream writer.
+
 ## [15.0.0] - 2020-03-10
 
 - Pretty printing now keeps single CDATA nodes in-line with their parent elements. See [#224](https://github.com/oozcitak/xmlbuilder-js/issues/224).
@@ -575,4 +579,5 @@ root.ele({ number: [ "one", "two"  ]});
 [13.0.1]: https://github.com/oozcitak/xmlbuilder-js/compare/v13.0.0...v13.0.1
 [13.0.2]: https://github.com/oozcitak/xmlbuilder-js/compare/v13.0.1...v13.0.2
 [14.0.0]: https://github.com/oozcitak/xmlbuilder-js/compare/v13.0.2...v14.0.0
-[54.0.0]: https://github.com/oozcitak/xmlbuilder-js/compare/v14.0.0...v15.0.0
+[15.0.0]: https://github.com/oozcitak/xmlbuilder-js/compare/v14.0.0...v15.0.0
+[15.0.1]: https://github.com/oozcitak/xmlbuilder-js/compare/v15.0.0...v15.0.1
