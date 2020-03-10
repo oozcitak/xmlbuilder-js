@@ -1,0 +1,602 @@
+{
+	"brl": {
+		"@xmlns": "http://schemas.microsoft.com/businessruleslanguage/2002",
+		"ruleset": {
+			"@name": "LGX.Coke.InterfaceLookup.Policies",
+			"version": [
+				{
+					"@major": "1",
+					"@minor": "3",
+					"@description": "",
+					"@modifiedby": "VISY\\bangged",
+					"@date": "2018-10-18T08:53:40.2064463+05:30",
+					"@status": "Published"
+				},
+				{
+					"@major": "1",
+					"@minor": "0",
+					"@description": "",
+					"@modifiedby": "VISY\\bangged",
+					"@date": "2018-10-18T08:53:54.5562732+05:30"
+				}
+			],
+			"configuration": null,
+			"bindings": {
+				"class": {
+					"@ref": "FactObject",
+					"@class": "FactObject",
+					"@instance": "0",
+					"@instances": "16",
+					"@selectivity": "1",
+					"assembly": "Visy.Middleware.RuleEngineComponents.InterfaceLookup, Version=1.0.0.0, Culture=neutral, PublicKeyToken=7e7bc6e5fd308d12",
+					"namespace": "Visy.Middleware.RuleEngineComponents.InterfaceLookup"
+				}
+			},
+			"rule": [
+				{
+					"@name": "9399999003095",
+					"@priority": "0",
+					"@active": "true",
+					"if": {
+						"element": {
+							"@name": "and",
+							"element": [
+								{
+									"@operator": "equal",
+									"@name": "compare",
+									"vocabularylink": {
+										"@uri": "3f0e9bcc-6212-4e6a-853c-e517f157a626",
+										"@element": "05703dd9-1111-40b8-890d-ad7bfc45a925"
+									},
+									"lhs": {
+										"function": {
+											"vocabularylink": {
+												"@uri": "91f769c3-c84f-4862-90ca-9cc71af4bd2b",
+												"@element": "b7ac680f-4483-4bf8-afab-0e44c7f2b633"
+											},
+											"classmember": {
+												"@member": "InterfaceName",
+												"@sideeffects": "true",
+												"classref": {
+													"@ref": "FactObject"
+												}
+											}
+										}
+									},
+									"rhs": {
+										"constant": {
+											"string": "LGX.Coke"
+										}
+									}
+								},
+								{
+									"@name": "or",
+									"element": [
+										{
+											"@operator": "equal",
+											"@name": "compare",
+											"vocabularylink": {
+												"@uri": "3f0e9bcc-6212-4e6a-853c-e517f157a626",
+												"@element": "05703dd9-1111-40b8-890d-ad7bfc45a925"
+											},
+											"lhs": {
+												"function": {
+													"vocabularylink": {
+														"@uri": "91f769c3-c84f-4862-90ca-9cc71af4bd2b",
+														"@element": "7ad04c79-639c-421a-9a4c-45100cb1e6cb"
+													},
+													"classmember": {
+														"@member": "LookupKey",
+														"@sideeffects": "true",
+														"classref": {
+															"@ref": "FactObject"
+														}
+													}
+												}
+											},
+											"rhs": {
+												"constant": {
+													"string": "111041     VISY BOARD PTY LTD|1070"
+												}
+											}
+										},
+										{
+											"@operator": "equal",
+											"@name": "compare",
+											"vocabularylink": {
+												"@uri": "3f0e9bcc-6212-4e6a-853c-e517f157a626",
+												"@element": "05703dd9-1111-40b8-890d-ad7bfc45a925"
+											},
+											"lhs": {
+												"function": {
+													"vocabularylink": {
+														"@uri": "91f769c3-c84f-4862-90ca-9cc71af4bd2b",
+														"@element": "7ad04c79-639c-421a-9a4c-45100cb1e6cb"
+													},
+													"classmember": {
+														"@member": "LookupKey",
+														"@sideeffects": "true",
+														"classref": {
+															"@ref": "FactObject"
+														}
+													}
+												}
+											},
+											"rhs": {
+												"constant": {
+													"string": "111041     VISY BOARD PTY LTD|1043"
+												}
+											}
+										},
+										{
+											"@operator": "equal",
+											"@name": "compare",
+											"vocabularylink": {
+												"@uri": "3f0e9bcc-6212-4e6a-853c-e517f157a626",
+												"@element": "05703dd9-1111-40b8-890d-ad7bfc45a925"
+											},
+											"lhs": {
+												"function": {
+													"vocabularylink": {
+														"@uri": "91f769c3-c84f-4862-90ca-9cc71af4bd2b",
+														"@element": "7ad04c79-639c-421a-9a4c-45100cb1e6cb"
+													},
+													"classmember": {
+														"@member": "LookupKey",
+														"@sideeffects": "true",
+														"classref": {
+															"@ref": "FactObject"
+														}
+													}
+												}
+											},
+											"rhs": {
+												"constant": {
+													"string": "111041     VISY BOARD PTY LTD|1005"
+												}
+											}
+										},
+										{
+											"@operator": "equal",
+											"@name": "compare",
+											"vocabularylink": {
+												"@uri": "3f0e9bcc-6212-4e6a-853c-e517f157a626",
+												"@element": "05703dd9-1111-40b8-890d-ad7bfc45a925"
+											},
+											"lhs": {
+												"function": {
+													"vocabularylink": {
+														"@uri": "91f769c3-c84f-4862-90ca-9cc71af4bd2b",
+														"@element": "7ad04c79-639c-421a-9a4c-45100cb1e6cb"
+													},
+													"classmember": {
+														"@member": "LookupKey",
+														"@sideeffects": "true",
+														"classref": {
+															"@ref": "FactObject"
+														}
+													}
+												}
+											},
+											"rhs": {
+												"constant": {
+													"string": "111041     VISY BOARD PTY LTD|1055"
+												}
+											}
+										},
+										{
+											"@operator": "equal",
+											"@name": "compare",
+											"vocabularylink": {
+												"@uri": "3f0e9bcc-6212-4e6a-853c-e517f157a626",
+												"@element": "05703dd9-1111-40b8-890d-ad7bfc45a925"
+											},
+											"lhs": {
+												"function": {
+													"vocabularylink": {
+														"@uri": "91f769c3-c84f-4862-90ca-9cc71af4bd2b",
+														"@element": "7ad04c79-639c-421a-9a4c-45100cb1e6cb"
+													},
+													"classmember": {
+														"@member": "LookupKey",
+														"@sideeffects": "true",
+														"classref": {
+															"@ref": "FactObject"
+														}
+													}
+												}
+											},
+											"rhs": {
+												"constant": {
+													"string": "111041     VISY BOARD PTY LTD|1075"
+												}
+											}
+										}
+									]
+								}
+							]
+						}
+					},
+					"then": {
+						"element": {
+							"@name": "function",
+							"vocabularylink": {
+								"@uri": "91f769c3-c84f-4862-90ca-9cc71af4bd2b",
+								"@element": "ac28e12e-189c-43ff-b76b-9f6e5a78660b"
+							},
+							"classmember": {
+								"@member": "LookupValue",
+								"@sideeffects": "true",
+								"classref": {
+									"@ref": "FactObject"
+								},
+								"argument": {
+									"constant": {
+										"string": "9399999003095"
+									}
+								}
+							}
+						}
+					},
+					"jsonRule": {
+						"$ref": "$"
+					},
+					"node": "ruleNode"
+				},
+				{
+					"@name": "9300675000000",
+					"@priority": "0",
+					"@active": "true",
+					"if": {
+						"element": {
+							"@name": "and",
+							"element": [
+								{
+									"@operator": "equal",
+									"@name": "compare",
+									"vocabularylink": {
+										"@uri": "3f0e9bcc-6212-4e6a-853c-e517f157a626",
+										"@element": "05703dd9-1111-40b8-890d-ad7bfc45a925"
+									},
+									"lhs": {
+										"function": {
+											"vocabularylink": {
+												"@uri": "91f769c3-c84f-4862-90ca-9cc71af4bd2b",
+												"@element": "b7ac680f-4483-4bf8-afab-0e44c7f2b633"
+											},
+											"classmember": {
+												"@member": "InterfaceName",
+												"@sideeffects": "true",
+												"classref": {
+													"@ref": "FactObject"
+												}
+											}
+										}
+									},
+									"rhs": {
+										"constant": {
+											"string": "LGX.Coke"
+										}
+									}
+								},
+								{
+									"@name": "or",
+									"element": [
+										{
+											"@operator": "equal",
+											"@name": "compare",
+											"vocabularylink": {
+												"@uri": "3f0e9bcc-6212-4e6a-853c-e517f157a626",
+												"@element": "05703dd9-1111-40b8-890d-ad7bfc45a925"
+											},
+											"lhs": {
+												"function": {
+													"vocabularylink": {
+														"@uri": "91f769c3-c84f-4862-90ca-9cc71af4bd2b",
+														"@element": "7ad04c79-639c-421a-9a4c-45100cb1e6cb"
+													},
+													"classmember": {
+														"@member": "LookupKey",
+														"@sideeffects": "true",
+														"classref": {
+															"@ref": "FactObject"
+														}
+													}
+												}
+											},
+											"rhs": {
+												"constant": {
+													"string": "111039     VISY BOARD PTY LTD|1010"
+												}
+											}
+										},
+										{
+											"@operator": "equal",
+											"@name": "compare",
+											"vocabularylink": {
+												"@uri": "3f0e9bcc-6212-4e6a-853c-e517f157a626",
+												"@element": "05703dd9-1111-40b8-890d-ad7bfc45a925"
+											},
+											"lhs": {
+												"function": {
+													"vocabularylink": {
+														"@uri": "91f769c3-c84f-4862-90ca-9cc71af4bd2b",
+														"@element": "7ad04c79-639c-421a-9a4c-45100cb1e6cb"
+													},
+													"classmember": {
+														"@member": "LookupKey",
+														"@sideeffects": "true",
+														"classref": {
+															"@ref": "FactObject"
+														}
+													}
+												}
+											},
+											"rhs": {
+												"constant": {
+													"string": "111031     VISY BOARD PTY LTD|1050"
+												}
+											}
+										},
+										{
+											"@operator": "equal",
+											"@name": "compare",
+											"vocabularylink": {
+												"@uri": "3f0e9bcc-6212-4e6a-853c-e517f157a626",
+												"@element": "05703dd9-1111-40b8-890d-ad7bfc45a925"
+											},
+											"lhs": {
+												"function": {
+													"vocabularylink": {
+														"@uri": "91f769c3-c84f-4862-90ca-9cc71af4bd2b",
+														"@element": "7ad04c79-639c-421a-9a4c-45100cb1e6cb"
+													},
+													"classmember": {
+														"@member": "LookupKey",
+														"@sideeffects": "true",
+														"classref": {
+															"@ref": "FactObject"
+														}
+													}
+												}
+											},
+											"rhs": {
+												"constant": {
+													"string": "111030     VISY BOARD PTY LTD|1070"
+												}
+											}
+										},
+										{
+											"@operator": "equal",
+											"@name": "compare",
+											"vocabularylink": {
+												"@uri": "3f0e9bcc-6212-4e6a-853c-e517f157a626",
+												"@element": "05703dd9-1111-40b8-890d-ad7bfc45a925"
+											},
+											"lhs": {
+												"function": {
+													"vocabularylink": {
+														"@uri": "91f769c3-c84f-4862-90ca-9cc71af4bd2b",
+														"@element": "7ad04c79-639c-421a-9a4c-45100cb1e6cb"
+													},
+													"classmember": {
+														"@member": "LookupKey",
+														"@sideeffects": "true",
+														"classref": {
+															"@ref": "FactObject"
+														}
+													}
+												}
+											},
+											"rhs": {
+												"constant": {
+													"string": "111031     VISY BOARD PTY LTD|1055"
+												}
+											}
+										},
+										{
+											"@operator": "equal",
+											"@name": "compare",
+											"vocabularylink": {
+												"@uri": "3f0e9bcc-6212-4e6a-853c-e517f157a626",
+												"@element": "05703dd9-1111-40b8-890d-ad7bfc45a925"
+											},
+											"lhs": {
+												"function": {
+													"vocabularylink": {
+														"@uri": "91f769c3-c84f-4862-90ca-9cc71af4bd2b",
+														"@element": "7ad04c79-639c-421a-9a4c-45100cb1e6cb"
+													},
+													"classmember": {
+														"@member": "LookupKey",
+														"@sideeffects": "true",
+														"classref": {
+															"@ref": "FactObject"
+														}
+													}
+												}
+											},
+											"rhs": {
+												"constant": {
+													"string": "111039     VISY BOARD PTY LTD|1020"
+												}
+											}
+										},
+										{
+											"@operator": "equal",
+											"@name": "compare",
+											"vocabularylink": {
+												"@uri": "3f0e9bcc-6212-4e6a-853c-e517f157a626",
+												"@element": "05703dd9-1111-40b8-890d-ad7bfc45a925"
+											},
+											"lhs": {
+												"function": {
+													"vocabularylink": {
+														"@uri": "91f769c3-c84f-4862-90ca-9cc71af4bd2b",
+														"@element": "7ad04c79-639c-421a-9a4c-45100cb1e6cb"
+													},
+													"classmember": {
+														"@member": "LookupKey",
+														"@sideeffects": "true",
+														"classref": {
+															"@ref": "FactObject"
+														}
+													}
+												}
+											},
+											"rhs": {
+												"constant": {
+													"string": "111039     VISY BOARD PTY LTD|1005"
+												}
+											}
+										},
+										{
+											"@operator": "equal",
+											"@name": "compare",
+											"vocabularylink": {
+												"@uri": "3f0e9bcc-6212-4e6a-853c-e517f157a626",
+												"@element": "05703dd9-1111-40b8-890d-ad7bfc45a925"
+											},
+											"lhs": {
+												"function": {
+													"vocabularylink": {
+														"@uri": "91f769c3-c84f-4862-90ca-9cc71af4bd2b",
+														"@element": "7ad04c79-639c-421a-9a4c-45100cb1e6cb"
+													},
+													"classmember": {
+														"@member": "LookupKey",
+														"@sideeffects": "true",
+														"classref": {
+															"@ref": "FactObject"
+														}
+													}
+												}
+											},
+											"rhs": {
+												"constant": {
+													"string": "111030     VISY BOARD PTY LTD|1080"
+												}
+											}
+										},
+										{
+											"@operator": "equal",
+											"@name": "compare",
+											"vocabularylink": {
+												"@uri": "3f0e9bcc-6212-4e6a-853c-e517f157a626",
+												"@element": "05703dd9-1111-40b8-890d-ad7bfc45a925"
+											},
+											"lhs": {
+												"function": {
+													"vocabularylink": {
+														"@uri": "91f769c3-c84f-4862-90ca-9cc71af4bd2b",
+														"@element": "7ad04c79-639c-421a-9a4c-45100cb1e6cb"
+													},
+													"classmember": {
+														"@member": "LookupKey",
+														"@sideeffects": "true",
+														"classref": {
+															"@ref": "FactObject"
+														}
+													}
+												}
+											},
+											"rhs": {
+												"constant": {
+													"string": "111029     VISY BOARD PTY LTD|1045"
+												}
+											}
+										},
+										{
+											"@operator": "equal",
+											"@name": "compare",
+											"vocabularylink": {
+												"@uri": "3f0e9bcc-6212-4e6a-853c-e517f157a626",
+												"@element": "05703dd9-1111-40b8-890d-ad7bfc45a925"
+											},
+											"lhs": {
+												"function": {
+													"vocabularylink": {
+														"@uri": "91f769c3-c84f-4862-90ca-9cc71af4bd2b",
+														"@element": "7ad04c79-639c-421a-9a4c-45100cb1e6cb"
+													},
+													"classmember": {
+														"@member": "LookupKey",
+														"@sideeffects": "true",
+														"classref": {
+															"@ref": "FactObject"
+														}
+													}
+												}
+											},
+											"rhs": {
+												"constant": {
+													"string": "111036     VISY BOARD PTY LTD|1075"
+												}
+											}
+										},
+										{
+											"@operator": "equal",
+											"@name": "compare",
+											"vocabularylink": {
+												"@uri": "3f0e9bcc-6212-4e6a-853c-e517f157a626",
+												"@element": "05703dd9-1111-40b8-890d-ad7bfc45a925"
+											},
+											"lhs": {
+												"function": {
+													"vocabularylink": {
+														"@uri": "91f769c3-c84f-4862-90ca-9cc71af4bd2b",
+														"@element": "7ad04c79-639c-421a-9a4c-45100cb1e6cb"
+													},
+													"classmember": {
+														"@member": "LookupKey",
+														"@sideeffects": "true",
+														"classref": {
+															"@ref": "FactObject"
+														}
+													}
+												}
+											},
+											"rhs": {
+												"constant": {
+													"string": "111029     VISY BOARD PTY LTD|1043"
+												}
+											}
+										}
+									]
+								}
+							]
+						}
+					},
+					"then": {
+						"element": {
+							"@name": "function",
+							"vocabularylink": {
+								"@uri": "91f769c3-c84f-4862-90ca-9cc71af4bd2b",
+								"@element": "ac28e12e-189c-43ff-b76b-9f6e5a78660b"
+							},
+							"classmember": {
+								"@member": "LookupValue",
+								"@sideeffects": "true",
+								"classref": {
+									"@ref": "FactObject"
+								},
+								"argument": {
+									"constant": {
+										"string": "9300675000000"
+									}
+								}
+							}
+						}
+					},
+					"jsonRule": {
+						"$ref": "$"
+					},
+					"node": "ruleNode"
+				}
+			],
+			"rules": {
+				"$ref": "$.brl.ruleset.rule"
+			}
+		}
+	}
+}
