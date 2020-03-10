@@ -165,10 +165,8 @@ suite 'Creating XML with stream writer:', ->
                   <?target val?>
               </repo>
           </xmlbuilder>
-          <cdata>
-              <![CDATA[<test att="val">this is a test</test>
-      Second line]]>
-          </cdata>
+          <cdata><![CDATA[<test att="val">this is a test</test>
+      Second line]]></cdata>
           <raw>&<>&</raw>
           <atttest att="val">text</atttest>
           <atttest att="val">text</atttest>
@@ -207,10 +205,8 @@ suite 'Creating XML with stream writer:', ->
                     <!-- CoffeeScript is awesome. -->
                     <repo type="git">git://github.com/oozcitak/xmlbuilder-js.git</repo>
                 </xmlbuilder>
-                <cdata>
-                    <![CDATA[<test att="val">this is a test</test>
-        Second line]]>
-                </cdata>
+                <cdata><![CDATA[<test att="val">this is a test</test>
+        Second line]]></cdata>
                 <raw>&<>&</raw>
                 <atttest att="val">text</atttest>
                 <atttest att="val">text</atttest>
@@ -257,10 +253,8 @@ suite 'Creating XML with stream writer:', ->
       <!-- CoffeeScript is awesome. -->
       <repo type="git">git://github.com/oozcitak/xmlbuilder-js.git</repo>
       </xmlbuilder>
-      <cdata>
-      <![CDATA[<test att="val">this is a test</test>
-      Second line]]>
-      </cdata>
+      <cdata><![CDATA[<test att="val">this is a test</test>
+      Second line]]></cdata>
       <raw>&<>&</raw>
       <atttest att="val">text</atttest>
       <atttest att="val">text</atttest>

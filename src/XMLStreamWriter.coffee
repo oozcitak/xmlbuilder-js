@@ -105,7 +105,7 @@ module.exports = class XMLStreamWriter extends XMLWriterBase
 
     childNodeCount = node.children.length
     firstChildNode = if childNodeCount is 0 then null else node.children[0]
-    if childNodeCount == 0 or node.children.every((e) -> (e.type is NodeType.Text or e.type is NodeType.Raw) and e.value == '')
+    if childNodeCount == 0 or node.children.every((e) -> (e.type is NodeType.Text or e.type is NodeType.Raw or e.type is NodeType.CData) and e.value == '')
       # empty element
       if options.allowEmpty
         @stream.write '>'
@@ -114,7 +114,7 @@ module.exports = class XMLStreamWriter extends XMLWriterBase
       else
         options.state = WriterState.CloseTag
         @stream.write options.spaceBeforeSlash + '/>'
-    else if options.pretty and childNodeCount == 1 and (firstChildNode.type is NodeType.Text or firstChildNode.type is NodeType.Raw) and firstChildNode.value?
+    else if options.pretty and childNodeCount == 1 and (firstChildNode.type is NodeType.Text or firstChildNode.type is NodeType.Raw or firstChildNode.type is NodeType.CData) and firstChildNode.value?
       # do not indent text-only nodes
       @stream.write '>'
       options.state = WriterState.InsideTag
