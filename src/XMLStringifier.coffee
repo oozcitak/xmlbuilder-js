@@ -8,6 +8,7 @@ module.exports = class XMLStringifier
   # `options.noDoubleEncoding` whether existing html entities are encoded: true or false
   # `options.stringify` a set of functions to use for converting values to strings
   # `options.noValidation` whether values will be validated and escaped or returned as is
+  # `options.invalidCharReplacement` a character to replace invalid characters and disable character validation
   constructor: (options) ->
     options or= {}
     @options = options
@@ -15,6 +16,7 @@ module.exports = class XMLStringifier
 
     for own key, value of options.stringify or {}
       @[key] = value
+
 
   # Defaults
   name: (val) ->
@@ -86,6 +88,7 @@ module.exports = class XMLStringifier
     if @options.noValidation then return val
     @assertLegalChar '' + val or ''
 
+
   # strings to match while converting from JS objects
   convertAttKey: '@'
   convertPIKey: '?'
@@ -102,7 +105,6 @@ module.exports = class XMLStringifier
   assertLegalChar: (str) =>
     if @options.noValidation then return str
 
-    regex = ''
     if @options.version is '1.0'
       # Valid characters from https://www.w3.org/TR/xml/#charsets
       # any Unicode character, excluding the surrogate blocks, FFFE, and FFFF.
@@ -114,8 +116,10 @@ module.exports = class XMLStringifier
       #     .addRange(0x000E, 0x001F)
       #     .addRange(0xD800, 0xDFFF)
       #     .addRange(0xFFFE, 0xFFFF)
-      regex = /[\0-\x08\x0B\f\x0E-\x1F\uFFFE\uFFFF]|[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?:[^\uD800-\uDBFF]|^)[\uDC00-\uDFFF]/
-      if res = str.match(regex)
+      regex = /[\0-\x08\x0B\f\x0E-\x1F\uFFFE\uFFFF]|[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?:[^\uD800-\uDBFF]|^)[\uDC00-\uDFFF]/g
+      if @options.invalidCharReplacement isnt undefined
+        str = str.replace regex, @options.invalidCharReplacement
+      else if res = str.match(regex)
         throw new Error "Invalid character in string: #{str} at index #{res.index}"
     else if @options.version is '1.1'
       # Valid characters from https://www.w3.org/TR/xml11/#charsets
@@ -126,8 +130,10 @@ module.exports = class XMLStringifier
       #     .add(0x0000)
       #     .addRange(0xD800, 0xDFFF)
       #     .addRange(0xFFFE, 0xFFFF)
-      regex = /[\0\uFFFE\uFFFF]|[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?:[^\uD800-\uDBFF]|^)[\uDC00-\uDFFF]/
-      if res = str.match(regex)
+      regex = /[\0\uFFFE\uFFFF]|[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?:[^\uD800-\uDBFF]|^)[\uDC00-\uDFFF]/g
+      if @options.invalidCharReplacement isnt undefined
+        str = str.replace regex, @options.invalidCharReplacement
+      else if res = str.match(regex)
         throw new Error "Invalid character in string: #{str} at index #{res.index}"
 
     return str
@@ -140,7 +146,7 @@ module.exports = class XMLStringifier
   assertLegalName: (str) =>
     if @options.noValidation then return str
 
-    @assertLegalChar str
+    str = @assertLegalChar str
 
     regex = /^([:A-Z_a-z\xC0-\xD6\xD8-\xF6\xF8-\u02FF\u0370-\u037D\u037F-\u1FFF\u200C\u200D\u2070-\u218F\u2C00-\u2FEF\u3001-\uD7FF\uF900-\uFDCF\uFDF0-\uFFFD]|[\uD800-\uDB7F][\uDC00-\uDFFF])([\x2D\.0-:A-Z_a-z\xB7\xC0-\xD6\xD8-\xF6\xF8-\u037D\u037F-\u1FFF\u200C\u200D\u203F\u2040\u2070-\u218F\u2C00-\u2FEF\u3001-\uD7FF\uF900-\uFDCF\uFDF0-\uFFFD]|[\uD800-\uDB7F][\uDC00-\uDFFF])*$/
     if not str.match(regex)

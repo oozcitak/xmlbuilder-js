@@ -82,6 +82,11 @@ declare namespace xmlbuilder {
          */
         noValidation?: boolean;
         /**
+         * A character to replace invalid characters in all values. This also
+         * disables character validation.
+         */
+        invalidCharReplacement?: string;
+        /**
          * A set of functions to use for converting values to strings
          */
         stringify?: XMLStringifier;
@@ -531,6 +536,11 @@ declare namespace xmlbuilder {
          * Whether values will be validated and escaped or returned as is
          */
         noValidation?: boolean;
+        /**
+         * A character to replace invalid characters in all values. This also
+         * disables character validation.
+         */
+        invalidCharReplacement?: string;        
         /**
          * A set of functions to use for converting values to strings
          */
