@@ -2,6 +2,10 @@
 
 All notable changes to this project are documented in this file. This project adheres to [Semantic Versioning](http://semver.org/#semantic-versioning-200).
 
+## [15.1.0] - 2020-03-20
+
+- Added the `invalidCharReplacement` option to replace invalid characters with a user supplied replacement character. See [#147](https://github.com/oozcitak/xmlbuilder-js/issues/147).
+
 ## [15.0.1] - 2020-03-10
 
 - Pretty printing now keeps single CDATA nodes in-line with their parent elements also with the stream writer.
@@ -581,3 +585,4 @@ root.ele({ number: [ "one", "two"  ]});
 [14.0.0]: https://github.com/oozcitak/xmlbuilder-js/compare/v13.0.2...v14.0.0
 [15.0.0]: https://github.com/oozcitak/xmlbuilder-js/compare/v14.0.0...v15.0.0
 [15.0.1]: https://github.com/oozcitak/xmlbuilder-js/compare/v15.0.0...v15.0.1
+[15.1.0]: https://github.com/oozcitak/xmlbuilder-js/compare/v15.0.1...v15.1.0
