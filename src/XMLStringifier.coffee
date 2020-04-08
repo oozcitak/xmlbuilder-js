@@ -162,7 +162,7 @@ module.exports = class XMLStringifier
   # `str` the string to escape
   textEscape: (str) ->
     if @options.noValidation then return str
-    ampregex = if @options.noDoubleEncoding then /(?!&\S+;)&/g else /&/g
+    ampregex = if @options.noDoubleEncoding then /(?!&(lt|gt|amp|apos|quot);)&/g else /&/g
     str.replace(ampregex, '&amp;')
        .replace(/</g, '&lt;')
        .replace(/>/g, '&gt;')
@@ -175,7 +175,7 @@ module.exports = class XMLStringifier
   # `str` the string to escape
   attEscape: (str) ->
     if @options.noValidation then return str
-    ampregex = if @options.noDoubleEncoding then /(?!&\S+;)&/g else /&/g
+    ampregex = if @options.noDoubleEncoding then /(?!&(lt|gt|amp|apos|quot);)&/g else /&/g
     str.replace(ampregex, '&amp;')
        .replace(/</g, '&lt;')
        .replace(/"/g, '&quot;')
