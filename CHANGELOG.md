@@ -2,6 +2,10 @@
 
 All notable changes to this project are documented in this file. This project adheres to [Semantic Versioning](http://semver.org/#semantic-versioning-200).
 
+## [15.1.1] - 2020-04-09
+
+- Fixed a bug where the `noDoubleEncoding` flag kept named entities other than [those specified in the spec](https://www.w3.org/TR/xml/#sec-predefined-ent) (see [#16](https://github.com/oozcitak/xmlbuilder2/issues/16) in `xmlbuilder2`).
+
 ## [15.1.0] - 2020-03-20
 
 - Added the `invalidCharReplacement` option to replace invalid characters with a user supplied replacement character. See [#147](https://github.com/oozcitak/xmlbuilder-js/issues/147).
@@ -586,3 +590,4 @@ root.ele({ number: [ "one", "two"  ]});
 [15.0.0]: https://github.com/oozcitak/xmlbuilder-js/compare/v14.0.0...v15.0.0
 [15.0.1]: https://github.com/oozcitak/xmlbuilder-js/compare/v15.0.0...v15.0.1
 [15.1.0]: https://github.com/oozcitak/xmlbuilder-js/compare/v15.0.1...v15.1.0
+[15.1.1]: https://github.com/oozcitak/xmlbuilder-js/compare/v15.1.0...v15.1.1
