@@ -102,3 +102,8 @@ This will result in:
 
 ### Documentation:
 See the [wiki](https://github.com/oozcitak/xmlbuilder-js/wiki) for details and [examples](https://github.com/oozcitak/xmlbuilder-js/wiki/Examples) for more complex examples.
+
+### Donations:
+Please consider becoming a [backer](https://opencollective.com/xmlbuilder/contribute/backer-19981/checkout) or [sponsor](https://opencollective.com/xmlbuilder/contribute/sponsor-19982/checkout) to help support development.
+
+[<img src="https://opencollective.com/webpack/donate/button@2x.png?color=blue" alt="Donate Button" width="300"/>](https://opencollective.com/xmlbuilder)
