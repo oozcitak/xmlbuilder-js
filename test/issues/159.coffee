@@ -123,3 +123,26 @@ suite 'Tests specific to issues:', ->
       </category>
       """
     )
+
+  test 'multiple paragraphs. Issue 159', ->
+    obj = {
+      'text': {
+        '#text': [
+          { 'paragraph': 'Symbolic text number 1' }
+          { 'table': '' }
+          { 'paragraph': '** Symbolic text number 2 **' }
+        ]
+      }
+    }
+
+    eq(
+      xml(obj, { headless: true }).end({ pretty: true })
+
+      """
+      <text>
+        <paragraph>Symbolic text number 1</paragraph>
+        <table/>
+        <paragraph>** Symbolic text number 2 **</paragraph>
+      </text>
+      """
+    )
