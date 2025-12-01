@@ -12,6 +12,8 @@ An XML builder for [node.js](https://nodejs.org/) similar to
 [![Dev Dependency Status](http://img.shields.io/david/dev/oozcitak/xmlbuilder-js.svg?style=flat-square)](https://david-dm.org/oozcitak/xmlbuilder-js)
 [![Code Coverage](https://img.shields.io/coveralls/oozcitak/xmlbuilder-js.svg?style=flat-square)](https://coveralls.io/github/oozcitak/xmlbuilder-js)
 
+[![GitHub Sponsors](https://img.shields.io/github/sponsors/oozcitak)](https://github.com/sponsors/oozcitak)
+
 ### Announcing `xmlbuilder2`:
 
 The new release of `xmlbuilder` is available at [`xmlbuilder2`](https://github.com/oozcitak/xmlbuilder2)! `xmlbuilder2` has been redesigned from the ground up to be fully conforming to the [modern DOM specification](https://dom.spec.whatwg.org). It supports XML namespaces, provides built-in converters for multiple formats, collection functions, and more. Please see [upgrading from xmlbuilder](https://oozcitak.github.io/xmlbuilder2/upgrading-from-xmlbuilder.html) in the wiki.
@@ -106,4 +108,4 @@ See the [wiki](https://github.com/oozcitak/xmlbuilder-js/wiki) for details and [
 ### Donations:
 Please consider becoming a backer or sponsor to help support development.
 
-[<img src="https://opencollective.com/webpack/donate/button@2x.png?color=blue" alt="Donate Button" width="300"/>](https://opencollective.com/xmlbuilder)
+[:heart: Github Sponsors](https://github.com/sponsors/oozcitak)
